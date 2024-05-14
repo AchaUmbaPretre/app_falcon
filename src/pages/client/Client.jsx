@@ -1,10 +1,63 @@
 import React, { useState } from 'react'
 import './client.scss'
-import { Breadcrumb } from 'antd'
+import { Breadcrumb, Table } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 
 const Client = () => {
   const [searchValue, setSearchValue] = useState('');
+
+  const dataSource = [
+    {
+      key: '1',
+      name: 'Mike',
+      age: 32,
+      address: '10 Downing Street',
+    },
+    {
+      key: '2',
+      name: 'John',
+      age: 42,
+      address: '10 Downing Street',
+    },
+  ];
+
+  const columns = [
+    {
+      title: 'Nom',
+      dataIndex: 'nom_client',
+      key: 'nom_client',
+    },
+    {
+      title: 'Nom principal',
+      dataIndex: 'nom_principal',
+      key: 'nom_principal',
+    },
+    {
+      title: 'Poste',
+      dataIndex: 'poste',
+      key: 'poste',
+    },
+    {
+      title: 'Poste',
+      dataIndex: 'poste',
+      key: 'poste',
+    },
+    {
+      title: 'Telephone',
+      dataIndex: 'telephone',
+      key: 'telephone',
+    },
+    {
+      title: 'Adresse',
+      dataIndex: 'adresse',
+      key: 'adresse',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+  ];
     
   return (
     <>
@@ -49,6 +102,8 @@ const Client = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
+
+                <Table dataSource={dataSource} columns={columns} />;
             </div>
           </div>
         </div>

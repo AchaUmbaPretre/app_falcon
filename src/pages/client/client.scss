@@ -5,7 +5,7 @@
         gap: 20px;
         .client_wrapper_top{
             background: #fff;
-            padding: 10px;
+            padding: 10px 20px;
             box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
             .client_text_row{
                 display: flex;
@@ -45,7 +45,7 @@
             flex-direction: column;
             gap: 20px;
             background: #fff;
-            padding: 10px;
+            padding: 20px;
             box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
             .client_wrapper_center_bottom{
                 .product-bottom-top{
@@ -88,15 +88,24 @@
                             color: red;
                             font-size: 22px;
                             cursor: pointer;
+                            border: 1px solid red;
+                            border-radius: 50%;
+                            overflow: hidden;
                         }
                         .product-icon-excel{
                             color: green;
                             font-size: 22px;
                             cursor: pointer;
+                            border: 1px solid green;
+                            border-radius: 50%;
+                            overflow: hidden;
                         }
                         .product-icon-printer{
                             font-size: 22px;
                             cursor: pointer;
+                            border: 1px solid black;
+                            border-radius: 50%;
+                            overflow: hidden;
                         }
                     }
                 }
