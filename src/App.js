@@ -3,6 +3,7 @@ import './App.css';
 import Sidebar from './components/sidebar/Sidebar';
 import Topbar from './components/topbar/Topbar';
 import config from './config';
+import './App.css';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Rightbar from './pages/rightbar/Rightbar';
@@ -23,12 +24,14 @@ function App() {
   const Layout = () => {
       
     return (
-      <div >
-        <Topbar/>
+      <div className='app_wrapper'>
         <div className="appContainer">
           <Sidebar/>
           <div className="appOutlet">
-            <Outlet />
+            <Topbar/>
+            <div className="outlet-wrapper">
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>
