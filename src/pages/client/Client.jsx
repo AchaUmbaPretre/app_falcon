@@ -35,8 +35,8 @@ const Client = () => {
                 ]}
             />
             <div className="client_wrapper_center_bottom">
-            aaaaaa
-          </div>
+                
+            </div>
           </div>
         </div>
       </div>
