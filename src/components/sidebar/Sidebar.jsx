@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import { Menu } from 'antd';
-import { UserOutlined, ProjectOutlined, SettingOutlined } from '@ant-design/icons';
+import { UserOutlined, ClusterOutlined, FileOutlined, ToolOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons'; // Ajoute les icônes appropriées
 import 'antd/dist/reset.css';
 import './sidebar.css';
 import logo from './../../assets/falcon.png';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const { SubMenu, Item } = Menu;
 
@@ -35,18 +35,18 @@ const Sidebar = () => {
           </Item>
           <Item key="2">Créer un nouveau client</Item>
         </SubMenu>
-        <SubMenu key="traceurs" icon={<ProjectOutlined />} title="Traceurs" style={{ fontSize: '15px'}}>
+        <SubMenu key="traceurs" icon={<ClusterOutlined />} title="Traceurs" style={{ fontSize: '15px'}}>
           <Item key="3">Liste des traceurs</Item>
           <Item key="4">Enregistrer un nouveau traceur</Item>
         </SubMenu>
-        <SubMenu key="operations" icon={<ProjectOutlined />} title="Opérations" style={{ fontSize: '15px'}}>
+        <SubMenu key="operations" icon={<FileOutlined />} title="Opérations" style={{ fontSize: '15px'}}>
           <Item key="5">
             <Link to={'/operations'}>Liste des opérations</Link>
           </Item>
           <Item key="6">Créer une opération</Item>
           <Item key="7">Type d'opérations</Item>
         </SubMenu>
-        <SubMenu key="affectations" icon={<ProjectOutlined />} title="Affectations" style={{ fontSize: '15px'}}>
+        <SubMenu key="affectations" icon={<ToolOutlined />} title="Affectations" style={{ fontSize: '15px'}}>
           <Item key="8">Liste des affectations</Item>
           <Item key="9">Créer une affectation</Item>
           <Item key="10">Liste des numéros</Item>
@@ -56,7 +56,7 @@ const Sidebar = () => {
           <Item key="12">Général</Item>
           <Item key="13">Sécurité</Item>
         </SubMenu>
-        <Item key="deconnecter" icon={<SettingOutlined />} style={{ fontSize: '15px'}}>
+        <Item key="deconnecter" icon={<LogoutOutlined />} style={{ fontSize: '15px'}}>
           Déconnecter
         </Item>
       </Menu>
