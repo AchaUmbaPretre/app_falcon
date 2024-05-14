@@ -13,7 +13,6 @@ function App() {
 
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
-
 /*   const SecuriteRoute = ({ children }) => {
     if (!user) {
       return <Navigate to="/login" />;
