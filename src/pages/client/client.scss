@@ -1,9 +1,55 @@
 .client{
     .client_wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
         .client_wrapper_top{
             background: #fff;
             padding: 10px;
-            box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75)
+            box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
+            .client_text_row{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .client_text_left{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    .client_h2{
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                        color: #13AED8;
+                    }
+                    .client_span{
+                        font-size: .8rem;
+                        color: #686868d8;
+                    }
+                }
+                .client_text_right{
+                    button{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: #13AED8;
+                        color: #fff;
+                        border: none;
+                        padding: 8px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        .client_wrapper_center{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
+            .client_wrapper_center_bottom{
+                
+            }
         }
     }
 }
