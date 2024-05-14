@@ -40,7 +40,9 @@ const Sidebar = () => {
           <Item key="4">Enregistrer un nouveau traceur</Item>
         </SubMenu>
         <SubMenu key="operations" icon={<ProjectOutlined />} title="Opérations" style={{ fontSize: '15px'}}>
-          <Item key="5">Liste des opérations</Item>
+          <Item key="5">
+            <Link to={'/operations'}>Liste des opérations</Link>
+          </Item>
           <Item key="6">Créer une opération</Item>
           <Item key="7">Type d'opérations</Item>
         </SubMenu>

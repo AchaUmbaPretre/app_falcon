@@ -8,6 +8,7 @@ import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Rightbar from './pages/rightbar/Rightbar';
 import Client from './pages/client/Client';
+import Operations from './pages/operations/Operations';
 
 function App() {
 
@@ -54,7 +55,11 @@ function App() {
         {
           path:'/client_form',
           element: <Client/>,
-        }
+        },
+        {
+          path:'/operations',
+          element: <Operations/>,
+        },
       ]
     },
     {
