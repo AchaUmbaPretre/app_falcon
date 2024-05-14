@@ -1,9 +1,10 @@
 import React from 'react'
+import './rightbar.scss'
 
-const Layout = () => {
+const Rightbar = () => {
   return (
-    <div>Layout</div>
+    <div>Rightbar</div>
   )
 }
 
-export default Layout
+export default Rightbar
