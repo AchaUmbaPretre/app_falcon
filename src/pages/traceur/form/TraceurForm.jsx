@@ -1,4 +1,5 @@
 import React from 'react'
+import './traceurForm.scss'
 
 const TraceurForm = () => {
   return (

@@ -1,4 +1,5 @@
 import React from 'react'
+import './traceur.scss'
 
 const Traceur = () => {
   return (
