@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './client.scss'
 import { Breadcrumb } from 'antd'
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 
 const Client = () => {
-
+  const [searchValue, setSearchValue] = useState('');
     
   return (
     <>
@@ -35,7 +35,20 @@ const Client = () => {
                 ]}
             />
             <div className="client_wrapper_center_bottom">
-                
+                <div className="product-bottom-top">
+                  <div className="product-bottom-left">
+                    <SisternodeOutlined className='product-icon' />
+                    <div className="product-row-search">
+                      <SearchOutlined className='product-icon-plus'/>
+                      <input type="search" name="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)}  placeholder='Recherche...' className='product-search' />
+                    </div>
+                  </div>
+                  <div className="product-bottom-right">
+                    <FilePdfOutlined className='product-icon-pdf' />
+                    <FileExcelOutlined className='product-icon-excel'/>
+                    <PrinterOutlined className='product-icon-printer'/>
+                  </div>
+                </div>
             </div>
           </div>
         </div>
