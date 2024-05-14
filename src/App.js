@@ -7,6 +7,7 @@ import './App.css';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Rightbar from './pages/rightbar/Rightbar';
+import Client from './pages/client/Client';
 
 function App() {
 
@@ -46,6 +47,14 @@ function App() {
         {
           path:'/',
           element: <Rightbar/>,
+        },
+        {
+          path:'/client',
+          element: <Client/>,
+        },
+        {
+          path:'/client_form',
+          element: <Client/>,
         }
       ]
     },
