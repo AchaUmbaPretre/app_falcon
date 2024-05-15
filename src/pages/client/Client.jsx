@@ -122,7 +122,7 @@ const Client = () => {
                   <ClientForm />
                 </Modal>
 
-                <Table dataSource={dataSource} columns={columns} />;
+                <Table dataSource={dataSource} columns={columns} />
             </div>
           </div>
         </div>

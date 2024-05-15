@@ -67,12 +67,12 @@ const Sidebar = () => {
             <Link to={'/vehicules'}>Liste des vehicules</Link>
           </Item>
           <Item key="13">
-            <Link to={'/vehicule_form'}>Enregistrer un vehicule</Link>
+            <Link to={'/vehicule_form'}>Enregistrer un véhicule</Link>
           </Item>
         </SubMenu>
         <SubMenu key="Personnel" icon={<UsergroupAddOutlined style={{ fontSize: '17px' }} />} title="Personnel" style={{ fontSize: '18px', letterSpacing: '1px'}}>
           <Item key="14">
-            <Link to={"/personnel"}>Liste des personels</Link>
+            <Link to={"/personnel"}>Liste du personel</Link>
           </Item>
         </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '18px', letterSpacing: '1px'}}>
