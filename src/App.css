@@ -1,12 +1,15 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Source+Sans+3:wght@700&display=swap');
  */
 
- @import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Teko:wght@300..700&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Exo:ital,wght@0,100..900;1,100..900&family=Teko:wght@300..700&display=swap');
+ 
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Exo", sans-serif;
+    font-family: "Teko", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 a{
     color: black;

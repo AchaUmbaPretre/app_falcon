@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import './client.scss'
-import { Breadcrumb, Table } from 'antd'
+import { Breadcrumb, Modal, Table } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import ClientForm from './form/ClientForm';
 
 const Client = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [open, setOpen] = useState(false);
 
   const dataSource = [
     {
@@ -58,6 +60,10 @@ const Client = () => {
       key: 'email',
     },
   ];
+
+  const showModal = (e) => {
+    setOpen(true);
+  };
     
   return (
     <>
@@ -70,7 +76,7 @@ const Client = () => {
                 <span className="client_span">Liste des clients</span>
               </div>
               <div className="client_text_right">
-                <button><PlusCircleOutlined /></button>
+                <button onClick={showModal}><PlusCircleOutlined /></button>
               </div>
             </div>
           </div>
@@ -102,6 +108,18 @@ const Client = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
+
+                <Modal
+                  title=""
+                  centered
+                  open={open}
+                  onCancel={() => setOpen(false)}
+                  width={1000}
+                  footer={[
+                            ]}
+                >
+                  <ClientForm />
+                </Modal>
 
                 <Table dataSource={dataSource} columns={columns} />;
             </div>
