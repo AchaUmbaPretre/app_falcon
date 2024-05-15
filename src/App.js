@@ -10,6 +10,8 @@ import Rightbar from './pages/rightbar/Rightbar';
 import Client from './pages/client/Client';
 import Operations from './pages/operations/Operations';
 import ClientForm from './pages/client/form/ClientForm';
+import Traceur from './pages/traceur/Traceur';
+import TraceurForm from './pages/traceur/form/TraceurForm';
 
 function App() {
 
@@ -56,6 +58,14 @@ function App() {
         {
           path:'/client_form',
           element: <ClientForm/>,
+        },
+        {
+          path:'/traceurs',
+          element: <Traceur/>,
+        },
+        {
+          path:'/traceurs_form',
+          element: <TraceurForm/>,
         },
         {
           path:'/operations',

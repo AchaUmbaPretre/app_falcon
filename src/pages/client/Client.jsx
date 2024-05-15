@@ -24,6 +24,7 @@ const Client = () => {
   ];
 
   const columns = [
+    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
       title: 'Nom',
       dataIndex: 'nom_client',
