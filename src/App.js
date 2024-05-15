@@ -12,6 +12,7 @@ import Operations from './pages/operations/Operations';
 import ClientForm from './pages/client/form/ClientForm';
 import Traceur from './pages/traceur/Traceur';
 import TraceurForm from './pages/traceur/form/TraceurForm';
+import OperationForm from './pages/operations/form/OperationForm';
 
 function App() {
 
@@ -70,6 +71,10 @@ function App() {
         {
           path:'/operations',
           element: <Operations/>,
+        },
+        {
+          path:'/operations_form',
+          element: <OperationForm/>,
         },
       ]
     },
