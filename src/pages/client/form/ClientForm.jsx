@@ -4,14 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const ClientForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
-  const [province, setProvince] = useState([]);
-  const [idProvince, setIdProvince] = useState([]);
-  const [commune, setCommune] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
@@ -31,60 +30,31 @@ const ClientForm = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    
-     if (!data.nom || !data.telephone || !data.id_province) {
+  
+    if (!data.nom_client || !data.telephone ) {
+      toast.error('Veuillez remplir tous les champs requis');
       return;
-    } 
-
-    try{
+    }
+  
+    try {
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/api/client/client`,{
-        ...data,
-        id_commune : data.commune
-      })
-      navigate('/clients')
+      await axios.post(`${DOMAIN}/client/client`, {
+        ...data
+      });
+      toast.success('Client créé avec succès!');
+      navigate('/client');
       window.location.reload();
-
-    }catch(err) {
+    } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
         const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
-        
+        toast.error(errorMessage);
       } else {
-        
+        toast.error(err.message);
       }
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
   }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/api/livreur/province`);
-        setProvince(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
-
-  useEffect(()=>{
-    setIdProvince(data?.id_province)
-  },[data?.id_province])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/api/livreur/commune/${idProvince}`);
-        setCommune(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN,idProvince]);
   
   return (
     <>

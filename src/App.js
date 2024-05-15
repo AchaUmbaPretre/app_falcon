@@ -14,6 +14,8 @@ import Traceur from './pages/traceur/Traceur';
 import TraceurForm from './pages/traceur/form/TraceurForm';
 import OperationForm from './pages/operations/form/OperationForm';
 import Affectations from './pages/affectations/Affectations';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -78,7 +80,7 @@ function App() {
           element: <OperationForm/>,
         },
         {
-          path:'/affectation',
+          path:'/affectations',
           element: <Affectations/>,
         },
       ]
@@ -95,6 +97,7 @@ function App() {
 
   return (
     <div className="App">
+     <ToastContainer />
       <div className="app-container">
         <RouterProvider router={router}/>
       </div>
