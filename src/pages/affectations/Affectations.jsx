@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { Breadcrumb, Table } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 
-const Operations = () => {
+const Affectations = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [open, setOpen] = useState(false);
 
   const dataSource = [
     {
@@ -23,26 +24,25 @@ const Operations = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
-      title: 'Client',
-      dataIndex: 'nom_client',
-      key: 'nom_client',
+      title: 'Numero',
+      dataIndex: 'numero',
+      key: 'numero',
     },
     {
-      title: 'Site',
-      dataIndex: 'site',
-      key: 'site',
+      title: 'Traceur',
+      dataIndex: 'traceur',
+      key: 'traceur',
     },
     {
-      title: 'Superviseur',
-      dataIndex: 'superviseur',
-      key: 'superviseur',
-    },
-    {
-      title: "Date d'opération",
-      dataIndex: 'created_at',
-      key: 'created_at'
+      title: 'Actions',
+      dataIndex: 'poste',
+      key: 'poste',
     }
   ];
+
+  const showModal = (e) => {
+    setOpen(true);
+  };
     
   return (
     <>
@@ -51,11 +51,11 @@ const Operations = () => {
           <div className="client_wrapper_top">
             <div className="client_text_row">
               <div className="client_text_left">
-                <h2 className="client_h2">Opérations</h2>
-                <span className="client_span">Liste des opérations</span>
+                <h2 className="client_h2">Affectations</h2>
+                <span className="client_span">Liste d'affectations</span>
               </div>
               <div className="client_text_right">
-                <button><PlusCircleOutlined /></button>
+                <button ><PlusCircleOutlined /></button>
               </div>
             </div>
           </div>
@@ -97,4 +97,4 @@ const Operations = () => {
   )
 }
 
-export default Operations
+export default Affectations

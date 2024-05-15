@@ -59,7 +59,11 @@ const Sidebar = () => {
           </Item>
         </SubMenu>
         <SubMenu key="affectations" icon={<ToolOutlined style={{ fontSize: '17px' }} />} title="Affectations" style={{ fontSize: '18px', letterSpacing: '1px'}}>
-          <Item key="8">Liste d'affectations</Item>
+          <Item key="8">
+            <Link to={'/affectation'}>
+              Liste d'affectations
+            </Link>
+          </Item>
           <Item key="9">Créer une affectation</Item>
           <Item key="10">Liste des numéros</Item>
           <Item key="11">Enregistrer un numéro</Item>
