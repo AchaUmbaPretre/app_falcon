@@ -66,8 +66,8 @@ const Traceur = () => {
           <div className="client_wrapper_top">
             <div className="client_text_row">
               <div className="client_text_left">
-                <h2 className="client_h2">Opérations</h2>
-                <span className="client_span">Liste des opérations</span>
+                <h2 className="client_h2">Traceur</h2>
+                <span className="client_span">Liste des traceurs</span>
               </div>
               <div className="client_text_right">
                 <button><PlusCircleOutlined /></button>
@@ -103,7 +103,7 @@ const Traceur = () => {
                   </div>
                 </div>
 
-                <Table dataSource={dataSource} columns={columns} />;
+                <Table dataSource={dataSource} columns={columns} />
             </div>
           </div>
         </div>
