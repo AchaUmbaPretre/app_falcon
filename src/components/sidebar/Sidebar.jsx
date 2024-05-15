@@ -28,7 +28,9 @@ const Sidebar = () => {
         theme="dark"
       >
         <Item key="accueil" icon={<HomeOutlined style={{ fontSize: '17px' }}  />} style={{ fontSize: '18px', letterSpacing: '1px'}}>
-          Accueil
+          <Link to={'/'}>
+            Accueil
+          </Link>
         </Item>
         <SubMenu key="clients" icon={<UserOutlined style={{ fontSize: '17px' }} />} title="Clients" style={{ fontSize: '18px', letterSpacing: '1px'}}>
           <Item key="1">
