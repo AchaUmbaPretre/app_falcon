@@ -53,9 +53,8 @@ const Sidebar = () => {
             <Link to={'/operations'}>Liste d'opérations</Link>
           </Item>
           <Item key="6">
-          <Link to={'/operations_form'}>Créer une opération</Link>
+            <Link to={'/operations_form'}>Créer une opération</Link>
           </Item>
-          <Item key="7">Type d'opérations</Item>
         </SubMenu>
         <SubMenu key="affectations" icon={<ToolOutlined style={{ fontSize: '17px' }} />} title="Affectations" style={{ fontSize: '18px', letterSpacing: '1px'}}>
           <Item key="8">Liste d'affectations</Item>
@@ -64,11 +63,17 @@ const Sidebar = () => {
           <Item key="11">Enregistrer un numéro</Item>
         </SubMenu>
         <SubMenu key="vehicules" icon={<CarOutlined style={{ fontSize: '17px' }} />} title="Vehicules" style={{ fontSize: '18px', letterSpacing: '1px'}}>
-          <Item key="12">Liste des vehicules</Item>
-          <Item key="13">Enregistrer un vehicule</Item>
+          <Item key="12">
+            <Link to={'/vehicules'}>Liste des vehicules</Link>
+          </Item>
+          <Item key="13">
+            <Link to={'/vehicule_form'}>Enregistrer un vehicule</Link>
+          </Item>
         </SubMenu>
         <SubMenu key="Personnel" icon={<UsergroupAddOutlined style={{ fontSize: '17px' }} />} title="Personnel" style={{ fontSize: '18px', letterSpacing: '1px'}}>
-          <Item key="14">Liste des personels</Item>
+          <Item key="14">
+            <Link to={"/personnel"}>Liste des personels</Link>
+          </Item>
         </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '18px', letterSpacing: '1px'}}>
           <Item key="15">Général</Item>
