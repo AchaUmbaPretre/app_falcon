@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,DeleteOutlined,EyeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined,UserOutlined, DeleteOutlined,EyeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import moment from 'moment';
@@ -40,6 +40,11 @@ const Operations = () => {
       title: 'Client',
       dataIndex: 'nom_client',
       key: 'nom_client',
+      render : (text,record)=>(
+        <div>
+          <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+        </div>
+      )
     },
     {
         title: 'Site',
