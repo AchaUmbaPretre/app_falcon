@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined,UserOutlined,CarOutlined,EyeOutlined,DeleteOutlined, PhoneOutlined,MailOutlined,EnvironmentOutlined,TeamOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { PlusCircleOutlined,CarOutlined,EyeOutlined,DeleteOutlined,SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -9,19 +9,8 @@ const Vehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
-  const [opens, setOpens] = useState(false);
-  const [idClient, setIdClient] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState('');
-  const [openDetail, setOpenDetail] = useState(false);
-
-  const showDrawer = () => {
-    setOpenDetail(true);
-  };
-
-  const onClose = () => {
-    setOpenDetail(false);
-  };
 
   const handleDelete = async (id) => {
     try {
@@ -35,7 +24,7 @@ const Vehicules = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/client`);
+        const { data } = await axios.get(`${DOMAIN}/vehicule`);
         setData(data);
         setLoading(false)
       } catch (error) {
@@ -71,7 +60,7 @@ const Vehicules = () => {
       render: (text, record) => (
         <Space size="middle">
           <Popover  title="Voir les détails" trigger="hover">
-            <Link onClick={showDrawer}>
+            <Link>
               <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
             </Link>
           </Popover>
@@ -94,10 +83,6 @@ const Vehicules = () => {
     setOpen(true);
   };
 
-  const showModalContact = (e) => {
-    setOpens(true);
-    setIdClient(e)
-  };
     
   return (
     <>
@@ -143,13 +128,7 @@ const Vehicules = () => {
                   </div>
                 </div>
 
-                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
-                  <p>Some contents...</p>
-                  <p>Some contents...</p>
-                  <p>Some contents...</p>
-                </Drawer>
-
-                <Table dataSource={data} columns={columns} rowClassName={rowClassName}  />
+                <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={loading}  />
             </div>
           </div>
         </div>
