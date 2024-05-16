@@ -68,7 +68,7 @@ const ClientContact = () => {
               <div className="product-container-bottom">
                 <div className="form-controle">
                   <label htmlFor="">Nom <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='nom_contact' className="form-input" onChange={handleInputChange}  required/>
+                  <input type="text" name='nom_contact' className="form-input" onChange={handleInputChange}  placeholder='Entrez le nom...'/>
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Poste <span style={{color:'red'}}>*</span></label>
@@ -76,11 +76,11 @@ const ClientContact = () => {
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Telephone <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='telephone_contact' className="form-input" onChange={handleInputChange} />
+                  <input type="tel" name='telephone_contact' className="form-input" onChange={handleInputChange} />
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Email <span style={{color:'red'}}>*</span></label>
-                  <input type="tel" name='email_contact' className="form-input" onChange={handleInputChange} required />
+                  <input type="tel" name='email_contact' className="form-input" onChange={handleInputChange} placeholder='xx@gmail.com' required />
                 </div>
               </div>
               <div className="form-submit">
