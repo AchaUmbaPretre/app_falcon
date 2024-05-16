@@ -6,11 +6,14 @@ import ClientForm from './form/ClientForm';
 import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import ClientContact from './clientContact/ClientContact';
 
 const Client = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
+  const [opens, setOpens] = useState(false);
+  const [idClient, setIdClient] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState('');
 
@@ -115,12 +118,12 @@ const Client = () => {
             </Link>
           </Popover>
           <Popover  title="Ajoutez les contacts" trigger="hover">
-            <Button icon={<PlusCircleOutlined />} style={{ color: 'blue' }} />
+            <Button icon={<PlusCircleOutlined />} onClick={()=>showModalContact(record.id_client)} style={{ color: 'blue' }} />
           </Popover>
           <Popover  title="Supprimer" trigger="hover">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer?"
-              onConfirm={() => handleDelete(record.id_commande)}
+              onConfirm={() => handleDelete(record.id_client)}
               okText="Oui"
               cancelText="Non"
             >
@@ -134,6 +137,11 @@ const Client = () => {
 
   const showModal = (e) => {
     setOpen(true);
+  };
+
+  const showModalContact = (e) => {
+    setOpens(true);
+    setIdClient(e)
   };
     
   return (
@@ -190,6 +198,17 @@ const Client = () => {
                             ]}
                 >
                   <ClientForm />
+                </Modal>
+
+                <Modal
+                  title=""
+                  centered
+                  open={opens}
+                  onCancel={() => setOpens(false)}
+                  width={1000}
+                  footer={[]}
+                >
+                  <ClientContact />
                 </Modal>
 
                 <Table dataSource={data} columns={columns} rowClassName={rowClassName}  />

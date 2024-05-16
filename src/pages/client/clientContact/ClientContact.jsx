@@ -1,8 +1,6 @@
 import React, { useEffect,useState } from 'react';
-import './clientForm.scss'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Select from 'react-select';
 import config from '../../../config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
