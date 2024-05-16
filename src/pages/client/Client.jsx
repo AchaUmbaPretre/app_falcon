@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './client.scss'
-import { Breadcrumb, Modal, Table, Tag } from 'antd'
-import { PlusCircleOutlined,UserOutlined,PhoneOutlined,MailOutlined,EnvironmentOutlined,TeamOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { PlusCircleOutlined,UserOutlined,EyeOutlined,DeleteOutlined, PhoneOutlined,MailOutlined,EnvironmentOutlined,TeamOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import ClientForm from './form/ClientForm';
 import config from '../../config';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Client = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -12,6 +13,15 @@ const Client = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState('');
+
+  const handleDelete = async (id) => {
+    try {
+        await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+          window.location.reload();
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,6 +104,32 @@ const Client = () => {
         </Tag>
       )
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Space size="middle">
+          <Popover  title="Voir les détails" trigger="hover">
+            <Link to={`/listeDetailView/${record.id_commande}`}>
+              <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
+            </Link>
+          </Popover>
+          <Popover  title="Ajoutez les contacts" trigger="hover">
+            <Button icon={<PlusCircleOutlined />} style={{ color: 'blue' }} />
+          </Popover>
+          <Popover  title="Supprimer" trigger="hover">
+            <Popconfirm
+              title="Êtes-vous sûr de vouloir supprimer?"
+              onConfirm={() => handleDelete(record.id_commande)}
+              okText="Oui"
+              cancelText="Non"
+            >
+              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+            </Popconfirm>
+          </Popover>
+        </Space>
+      )
+    }
   ];
 
   const showModal = (e) => {
