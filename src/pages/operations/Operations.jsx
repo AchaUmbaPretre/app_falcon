@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { PlusCircleOutlined, SisternodeOutlined,DeleteOutlined,EyeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const Operations = () => {
  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState('');
+
+  const handleDelete = async (id) => {
+    try {
+        await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+          window.location.reload();
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +68,33 @@ const Operations = () => {
                 {moment(text).format('DD-MM-yyyy')}
               </Tag>
             ),
-    }
+    },
+    {
+        title: 'Action',
+          key: 'action',
+          render: (text, record) => (
+            <Space size="middle">
+              <Popover  title="Voir les détails" trigger="hover">
+                <Link>
+                  <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
+                </Link>
+              </Popover>
+              <Popover  title="Ajoutez les contacts" trigger="hover">
+                    <Button icon={<PlusCircleOutlined />} style={{ color: 'blue' }} />
+              </Popover>
+              <Popover  title="Supprimer" trigger="hover">
+                <Popconfirm
+                  title="Êtes-vous sûr de vouloir supprimer?"
+                  onConfirm={() => handleDelete(record.id_client)}
+                  okText="Oui"
+                  cancelText="Non"
+                >
+                  <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+                </Popconfirm>
+              </Popover>
+            </Space>
+          )
+      }
   ];
     
   return (
