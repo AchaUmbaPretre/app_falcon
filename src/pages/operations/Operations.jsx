@@ -80,7 +80,7 @@ const Operations = () => {
                 </Link>
               </Popover>
               <Popover  title="Ajoutez les contacts" trigger="hover">
-                    <Button icon={<PlusCircleOutlined />} style={{ color: 'blue' }} />
+                <Button icon={<PlusCircleOutlined />} style={{ color: 'blue' }} />
               </Popover>
               <Popover  title="Supprimer" trigger="hover">
                 <Popconfirm
