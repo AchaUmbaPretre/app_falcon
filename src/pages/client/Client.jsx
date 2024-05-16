@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './client.scss'
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
 import { PlusCircleOutlined,UserOutlined,EyeOutlined,DeleteOutlined, PhoneOutlined,MailOutlined,EnvironmentOutlined,TeamOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import ClientForm from './form/ClientForm';
 import config from '../../config';
@@ -16,6 +16,15 @@ const Client = () => {
   const [idClient, setIdClient] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState('');
+  const [openDetail, setOpenDetail] = useState(false);
+
+  const showDrawer = () => {
+    setOpenDetail(true);
+  };
+
+  const onClose = () => {
+    setOpenDetail(false);
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -113,7 +122,7 @@ const Client = () => {
       render: (text, record) => (
         <Space size="middle">
           <Popover  title="Voir les détails" trigger="hover">
-            <Link to={`/listeDetailView/${record.id_commande}`}>
+            <Link onClick={showDrawer}>
               <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
             </Link>
           </Popover>
@@ -210,6 +219,12 @@ const Client = () => {
                 >
                   <ClientContact id_client={idClient} />
                 </Modal>
+
+                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
+                  <p>Some contents...</p>
+                  <p>Some contents...</p>
+                  <p>Some contents...</p>
+                </Drawer>
 
                 <Table dataSource={data} columns={columns} rowClassName={rowClassName}  />
             </div>

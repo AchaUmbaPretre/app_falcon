@@ -12,6 +12,7 @@ const TraceurForm = () => {
   const [idProvince, setIdProvince] = useState([]);
   const [commune, setCommune] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [etat, setEtat] = useState([]);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -27,6 +28,18 @@ const TraceurForm = () => {
   
   setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/traceur/traceur_etat`);
+        setEtat(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -56,34 +69,6 @@ const TraceurForm = () => {
       setIsLoading(false);
     }
   }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/api/livreur/province`);
-        setProvince(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
-
-  useEffect(()=>{
-    setIdProvince(data?.id_province)
-  },[data?.id_province])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/api/livreur/commune/${idProvince}`);
-        setCommune(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN,idProvince]);
   
   return (
     <>
@@ -107,6 +92,19 @@ const TraceurForm = () => {
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Etat du traceur <span style={{color:'red'}}>*</span></label>
+                  <Select
+                      name="id_livreur"
+                      options={etat?.map((item) => ({
+                        value: item.id_etat_traceur,
+                        label: item.nom_etat_traceur,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_etat_traceur', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un agent..."
+                    /> 
                   <input type="text" name='id_etat_traceur' className="form-input" onChange={handleInputChange} />
                 </div>
                 <div className="form-controle">
