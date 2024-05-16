@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Table } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Table, Tag } from 'antd'
+import { PlusCircleOutlined, SisternodeOutlined,InfoCircleOutlined,UserOutlined,CheckCircleOutlined,CloseCircleOutlined ,CarOutlined,BarcodeOutlined,CalendarOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
+import moment from 'moment';
 
 const Traceur = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
 
+
+  const rowClassName = () => {
+    return 'font-size-18'; // Nom de la classe CSS personnalisée
+  };
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/traceur/traceur_etat`);
+        const { data } = await axios.get(`${DOMAIN}/traceur`);
         setData(data);
       } catch (error) {
         console.log(error);
@@ -25,39 +32,98 @@ const Traceur = () => {
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
       title: 'Model',
-      dataIndex: 'model',
+      dataIndex: 'nom_model',
       key: 'model',
+      render: (text, record) => (
+        <div>
+          <Tag color={'blue'}>
+            <CarOutlined style={{ marginRight: "5px" }} />
+            {text}
+          </Tag>
+        </div>
+      )
     },
     {
-      title: 'Commentaire',
-      dataIndex: 'commentaire',
-      key: 'commentaire',
+      title: 'Numero série',
+      dataIndex: 'numero_serie',
+      key: 'numero_serie',
+      render: (text, record) => (
+        <div>
+          <Tag color={'blue'}>
+            <BarcodeOutlined style={{ marginRight: "5px" }} />
+            {text}
+          </Tag>
+        </div>
+      )
     },
     {
-      title: 'Superviseur',
-      dataIndex: 'superviseur',
-      key: 'superviseur',
+      title: 'Etat traceur',
+      dataIndex: 'nom_etat_traceur',
+      key: 'nom_etat_traceur',
+      render: (text, record) => (
+        <div>
+          {text === 'Neuf' ? (
+            <Tag color={'green'}>
+              <CheckCircleOutlined style={{ marginRight: "5px" }} />
+              {text}
+            </Tag>
+          ) : (
+            <Tag color={'red'}>
+              <CloseCircleOutlined style={{ marginRight: "5px" }} />
+              {text}
+            </Tag>
+          )}
+        </div>
+      )
     },
     {
       title: "Client",
       dataIndex: 'nom_client',
-      key: 'nom_client'
-    },
-    {
-      title: "Numero de serie",
-      dataIndex: 'numero_serie',
-      key: 'numero_serie'
+      key: 'nom_client',
+      render: (text, record) => (
+        <span>
+          {text ? (
+            <Tag color="blue">
+              {text}
+            </Tag>
+          ) : (
+            <Tag color="red">
+              <UserOutlined style={{ marginRight: '5px' }} />
+              Aucun
+            </Tag>
+          )}
+        </span>
+      ),
     },
     {
       title: "Date d'entrée",
-      dataIndex: 'numero_serie',
-      key: 'numero_serie'
+      dataIndex: 'date_entree',
+      key: 'date_entree',
+      sorter: (a, b) => moment(a.date_entree) - moment(b.date_entree),
+            sortDirections: ['descend', 'ascend'],
+            render: (text) => (
+              <Tag icon={<CalendarOutlined />} color="blue">
+                {moment(text).format('DD-MM-yyyy')}
+              </Tag>
+            ),
     },
     {
-      title: "Observation",
-      dataIndex: 'observation',
-      key: 'observation'
-    }
+    title: "Observation",
+    dataIndex: 'observation',
+    key: 'observation',
+    render: (text, record) => (
+      <span>
+        {text ? (
+          <Tag color='blue'><InfoCircleOutlined style={{ marginRight: '5px' }} /> {text}</Tag>
+        ) : (
+          <Tag color='red'>
+            <InfoCircleOutlined style={{ marginRight: '5px' }} />
+            Aucune
+          </Tag>
+        )}
+      </span>
+    ),
+  }
   ];
     
   return (
@@ -104,7 +170,7 @@ const Traceur = () => {
                   </div>
                 </div>
 
-                <Table dataSource={data} columns={columns} />
+                <Table dataSource={data} columns={columns} rowClassName={rowClassName} />
             </div>
           </div>
         </div>

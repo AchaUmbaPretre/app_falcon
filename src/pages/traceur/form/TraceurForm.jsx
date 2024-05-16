@@ -66,9 +66,9 @@ const TraceurForm = () => {
       await axios.post(`${DOMAIN}/traceur`,{
         ...data
       })
-      
+
       toast.success('Traceur créé avec succès!');
-      navigate('/traceur')
+      navigate('/traceurs')
       window.location.reload();
 
     }catch(err) {
