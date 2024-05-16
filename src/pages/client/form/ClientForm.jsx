@@ -6,6 +6,7 @@ import Select from 'react-select';
 import config from '../../../config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import { Spin } from 'antd';
 
 const ClientForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -96,9 +97,9 @@ const ClientForm = () => {
               <div className="form-submit">
                 <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
                 {isLoading && (
-                <div className="loader-container loader-container-center">
-{/*                   <CircularProgress size={28} /> */}
-                </div>
+                  <div className="loader-container loader-container-center">
+                    <Spin size="large" />
+                  </div>
             )}
               </div>
             </div>

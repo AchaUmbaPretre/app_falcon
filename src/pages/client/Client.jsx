@@ -208,7 +208,7 @@ const Client = () => {
                   width={1000}
                   footer={[]}
                 >
-                  <ClientContact />
+                  <ClientContact id_client={idClient} />
                 </Modal>
 
                 <Table dataSource={data} columns={columns} rowClassName={rowClassName}  />

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Spin } from 'antd';
 
-const ClientContact = () => {
+const ClientContact = ({id_client}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +27,9 @@ const ClientContact = () => {
 
     try {
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/client/clientContact`, { ...data });
+      await axios.post(`${DOMAIN}/client/clientContact`, { ...data,
+        id_client:id_client
+       });
       toast.success('Contact créé avec succès!');
       navigate('/client');
       window.location.reload();
