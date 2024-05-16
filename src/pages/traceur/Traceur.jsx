@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,InfoCircleOutlined,UserOutlined,CheckCircleOutlined,CloseCircleOutlined ,CarOutlined,BarcodeOutlined,CalendarOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { PlusCircleOutlined, SisternodeOutlined,EyeOutlined,DeleteOutlined,InfoCircleOutlined,UserOutlined,CheckCircleOutlined,CloseCircleOutlined ,CarOutlined,BarcodeOutlined,CalendarOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const Traceur = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -15,6 +16,14 @@ const Traceur = () => {
     return 'font-size-18'; // Nom de la classe CSS personnalisée
   };
 
+  const handleDelete = async (id) => {
+    try {
+        await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+          window.location.reload();
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,6 +132,28 @@ const Traceur = () => {
         )}
       </span>
     ),
+  },{
+    title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Space size="middle">
+          <Popover  title="Voir les détails" trigger="hover">
+            <Link>
+              <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
+            </Link>
+          </Popover>
+          <Popover  title="Supprimer" trigger="hover">
+            <Popconfirm
+              title="Êtes-vous sûr de vouloir supprimer?"
+              onConfirm={() => handleDelete(record.id_client)}
+              okText="Oui"
+              cancelText="Non"
+            >
+              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+            </Popconfirm>
+          </Popover>
+        </Space>
+      )
   }
   ];
     

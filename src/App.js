@@ -16,6 +16,7 @@ import OperationForm from './pages/operations/form/OperationForm';
 import Affectations from './pages/affectations/Affectations';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Vehicules from './pages/vehicules/Vehicules';
 
 function App() {
 
@@ -80,8 +81,12 @@ function App() {
           element: <OperationForm/>,
         },
         {
-          path:'/affectations',
+          path:'/affectation',
           element: <Affectations/>,
+        },
+        {
+          path:'/vehicules',
+          element: <Vehicules/>,
         },
       ]
     },
