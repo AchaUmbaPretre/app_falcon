@@ -12,6 +12,7 @@ const TraceurForm = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [etat, setEtat] = useState([]);
+  const [model, setModel] = useState([]);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -40,6 +41,18 @@ const TraceurForm = () => {
     fetchData();
   }, [DOMAIN]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/traceur/traceur_model`);
+        setModel(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
+
   const handleClick = async (e) => {
     e.preventDefault();
     
@@ -50,7 +63,7 @@ const TraceurForm = () => {
 
     try{
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/api/traceur`,{
+      await axios.post(`${DOMAIN}/traceur`,{
         ...data
       })
       toast.success('Traceur créé avec succès!');
@@ -84,7 +97,19 @@ const TraceurForm = () => {
               <div className="product-container-bottom">
                 <div className="form-controle">
                   <label htmlFor="">Model <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='model' className="form-input" onChange={handleInputChange}  required/>
+                  <Select
+                      name="model"
+                      options={model?.map((item) => ({
+                        value: item.id_model_traceur,
+                        label: item.nom_model,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'model', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un model..."
+                    />
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Numéro serie <span style={{color:'red'}}>*</span></label>
@@ -93,7 +118,7 @@ const TraceurForm = () => {
                 <div className="form-controle">
                   <label htmlFor="">Etat du traceur <span style={{color:'red'}}>*</span></label>
                   <Select
-                      name="id_livreur"
+                      name="id_etat_traceur"
                       options={etat?.map((item) => ({
                         value: item.id_etat_traceur,
                         label: item.nom_etat_traceur,
@@ -103,9 +128,8 @@ const TraceurForm = () => {
                           target: { name: 'id_etat_traceur', value: selectedOption.value },
                         })
                       }
-                      placeholder="Sélectionnez un agent..."
+                      placeholder="Sélectionnez un traceur..."
                     /> 
-                  <input type="text" name='id_etat_traceur' className="form-input" onChange={handleInputChange} />
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
