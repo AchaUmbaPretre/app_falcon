@@ -1,24 +1,28 @@
-import React, { useState } from 'react'
-import { Breadcrumb, Table } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react'
+import { Breadcrumb, Table, Tag } from 'antd'
+import { PlusCircleOutlined, SisternodeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import config from '../../config';
+import axios from 'axios';
+import moment from 'moment';
 
 const Operations = () => {
+ const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState('');
 
-  const dataSource = [
-    {
-      key: '1',
-      name: 'Mike',
-      age: 32,
-      address: '10 Downing Street',
-    },
-    {
-      key: '2',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/operation`);
+        setData(data);
+        setLoading(false)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
@@ -28,10 +32,16 @@ const Operations = () => {
       key: 'nom_client',
     },
     {
-      title: 'Site',
-      dataIndex: 'site',
-      key: 'site',
-    },
+        title: 'Site',
+        dataIndex: 'site',
+        key: 'site',
+        render: (text, record) => (
+          <Tag color={'blue'}>
+            <EnvironmentOutlined style={{ marginRight: "5px" }} />
+            {text}
+          </Tag>
+        )
+      },
     {
       title: 'Superviseur',
       dataIndex: 'superviseur',
@@ -40,7 +50,14 @@ const Operations = () => {
     {
       title: "Date d'opération",
       dataIndex: 'created_at',
-      key: 'created_at'
+      key: 'created_at',
+      sorter: (a, b) => moment(a.created_at) - moment(b.created_at),
+            sortDirections: ['descend', 'ascend'],
+            render: (text) => (
+              <Tag icon={<CalendarOutlined />} color="blue">
+                {moment(text).format('DD-MM-yyyy')}
+              </Tag>
+            ),
     }
   ];
     
@@ -88,7 +105,7 @@ const Operations = () => {
                   </div>
                 </div>
 
-                <Table dataSource={dataSource} columns={columns} />
+                <Table dataSource={data} columns={columns} />
             </div>
           </div>
         </div>

@@ -5,7 +5,6 @@ import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
 import { Spin } from 'antd';
 
 const ClientForm = () => {

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
+import { toast } from 'react-toastify';
+import { Spin } from 'antd';
 
 const OperationForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -11,6 +13,7 @@ const OperationForm = () => {
   const [province, setProvince] = useState([]);
   const [idProvince, setIdProvince] = useState([]);
   const [commune, setCommune] = useState([]);
+  const [client, setClient] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
@@ -30,29 +33,28 @@ const OperationForm = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    
-     if (!data.nom || !data.telephone || !data.id_province) {
+  
+    if (!data.id_client || !data.site ) {
+      toast.error('Veuillez remplir tous les champs requis');
       return;
-    } 
-
-    try{
+    }
+  
+    try {
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/api/client/client`,{
-        ...data,
-        id_commune : data.commune
-      })
-      navigate('/clients')
+      await axios.post(`${DOMAIN}/operation`, {
+        ...data
+      });
+      toast.success('Opératiion créée avec succès!');
+      navigate('/operations');
       window.location.reload();
-
-    }catch(err) {
+    } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
         const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
-        
+        toast.error(errorMessage);
       } else {
-        
+        toast.error(err.message);
       }
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
   }
@@ -60,18 +62,14 @@ const OperationForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/api/livreur/province`);
-        setProvince(data);
+        const { data } = await axios.get(`${DOMAIN}/client`);
+        setClient(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
   }, [DOMAIN]);
-
-  useEffect(()=>{
-    setIdProvince(data?.id_province)
-  },[data?.id_province])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -99,7 +97,19 @@ const OperationForm = () => {
               <div className="product-container-bottom">
                 <div className="form-controle">
                   <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='id_client' className="form-input" onChange={handleInputChange}  required/>
+                  <Select
+                      name="id_client"
+                      options={client?.map((item) => ({
+                        value: item.id_client,
+                        label: item.nom_client,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_client', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un client..."
+                    />
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Site <span style={{color:'red'}}>*</span></label>
@@ -114,7 +124,7 @@ const OperationForm = () => {
                 <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
                 {isLoading && (
                 <div className="loader-container loader-container-center">
-{/*                   <CircularProgress size={28} /> */}
+                   <Spin size="large" />
                 </div>
             )}
               </div>
