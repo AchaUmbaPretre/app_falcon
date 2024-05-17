@@ -15,7 +15,7 @@ const Client = () => {
   const [opens, setOpens] = useState(false);
   const [idClient, setIdClient] = useState('');
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState('');
+  const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
 
   const showDrawer = () => {

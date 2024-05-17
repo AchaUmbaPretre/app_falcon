@@ -1,11 +1,39 @@
-import React, { useState } from 'react'
-import { Breadcrumb, Table } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react'
+import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { PlusCircleOutlined, SisternodeOutlined,PhoneOutlined,EyeOutlined,DeleteOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import config from '../../config';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Numero = () => {
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const handleDelete = async (id) => {
+    try {
+        await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+          window.location.reload();
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/affectation/numero`);
+        setData(data);
+        setLoading(false)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
 
 
   const columns = [
@@ -14,12 +42,36 @@ const Numero = () => {
       title: 'Numero',
       dataIndex: 'numero',
       key: 'numero',
+      render : (text,record)=>(
+        <div>
+          <Tag color={'blue'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+        </div>
+      )
     },
     {
-      title: 'Actions',
-      dataIndex: 'poste',
-      key: 'poste',
-    }
+        title: 'Action',
+        key: 'action',
+        width: "160px",
+        render: (text, record) => (
+          <Space size="middle">
+            <Popover  title="Voir les détails" trigger="hover">
+              <Link>
+                <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
+              </Link>
+            </Popover>
+            <Popover  title="Supprimer" trigger="hover">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer?"
+                onConfirm={() => handleDelete(record.id_client)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+              </Popconfirm>
+            </Popover>
+          </Space>
+        )
+      }
   ];
 
   const showModal = (e) => {
@@ -49,7 +101,7 @@ const Numero = () => {
                     title: 'Accueil',
                   },
                   {
-                    title: 'Application Center',
+                    title: 'Rétournée',
                     href: '/',
                   }
                 ]}
@@ -70,7 +122,7 @@ const Numero = () => {
                   </div>
                 </div>
 
-                <Table dataSource={data} columns={columns} />
+                <Table dataSource={data} columns={columns} loading={loading} />
             </div>
           </div>
         </div>

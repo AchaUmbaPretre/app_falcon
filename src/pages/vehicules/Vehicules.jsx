@@ -56,7 +56,7 @@ const Vehicules = () => {
     {
       title: 'Action',
       key: 'action',
-      width: "150px",
+      width: "160px",
       render: (text, record) => (
         <Space size="middle">
           <Popover  title="Voir les détails" trigger="hover">
