@@ -14,6 +14,7 @@ const OperationForm = () => {
   const [idProvince, setIdProvince] = useState([]);
   const [commune, setCommune] = useState([]);
   const [client, setClient] = useState([]);
+  const [site, setSite] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
@@ -74,14 +75,14 @@ const OperationForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/api/livreur/commune/${idProvince}`);
-        setCommune(data);
+        const { data } = await axios.get(`${DOMAIN}/operation/site`);
+        setSite(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [DOMAIN,idProvince]);
+  }, [DOMAIN]);
   
   return (
     <>
@@ -113,7 +114,19 @@ const OperationForm = () => {
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Site <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='site' className="form-input" onChange={handleInputChange}  required/>
+                  <Select
+                      name="site"
+                      options={site?.map((item) => ({
+                        value: item.id_site,
+                        label: item.nom_site,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'site', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un client..."
+                    />
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
