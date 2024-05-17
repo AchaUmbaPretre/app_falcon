@@ -12,7 +12,7 @@ const AffectationForm = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [traceur, setTraceur] = useState([]);
-  const [model, setModel] = useState([]);
+  const [numero, setNumero] = useState([]);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -44,8 +44,8 @@ const AffectationForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/traceur/traceur_model`);
-        setModel(data);
+        const { data } = await axios.get(`${DOMAIN}/affectation/numero`);
+        setNumero(data);
       } catch (error) {
         console.log(error);
       }
@@ -56,19 +56,19 @@ const AffectationForm = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     
-     if (!data.model || !data.numero_serie) {
+     if (!data.id_numero || !data.id_traceur) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     } 
 
     try{
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/traceur`,{
+      await axios.post(`${DOMAIN}/affectation`,{
         ...data
       })
 
-      toast.success('Traceur créé avec succès!');
-      navigate('/traceurs')
+      toast.success('Affectation créée avec succès!');
+      navigate('/affectation')
       window.location.reload();
 
     }catch(err) {
@@ -100,7 +100,7 @@ const AffectationForm = () => {
                   <label htmlFor="">Numéro <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_numero"
-                      options={model?.map((item) => ({
+                      options={numero?.map((item) => ({
                         value: item.id_numero,
                         label: item.numero,
                       }))}
