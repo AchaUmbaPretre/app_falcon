@@ -16,9 +16,19 @@ const Personnel = () => {
       key: 'username',
     },
     {
-      title: 'role',
+      title: 'Role',
       dataIndex: 'role',
       key: 'role',
+    },
+    {
+        title: 'Telephone',
+        dataIndex: 'telephone',
+        key: 'telephone',
+    },
+    {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
     },
     {
       title: 'Actions',
