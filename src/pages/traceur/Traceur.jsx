@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,EyeOutlined,DeleteOutlined,InfoCircleOutlined,UserOutlined,CheckCircleOutlined,CloseCircleOutlined ,CarOutlined,BarcodeOutlined,CalendarOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import TraceurForm from './form/TraceurForm';
 
 const Traceur = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
+  const [open, setOpen] = useState(false);
 
 
   const rowClassName = () => {
     return 'font-size-18';
+  };
+
+  const showModal = (e) => {
+    setOpen(true);
   };
 
   const handleDelete = async (id) => {
@@ -168,7 +174,7 @@ const Traceur = () => {
                 <span className="client_span">Liste des traceurs</span>
               </div>
               <div className="client_text_right">
-                <button><PlusCircleOutlined /></button>
+                <button onClick={showModal}><PlusCircleOutlined /></button>
               </div>
             </div>
           </div>
@@ -180,7 +186,7 @@ const Traceur = () => {
                     title: 'Accueil',
                   },
                   {
-                    title: 'Application Center',
+                    title: 'Rétourné(e)',
                     href: '/',
                   }
                 ]}
@@ -200,6 +206,17 @@ const Traceur = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
+                <Modal
+                  title=""
+                  centered
+                  open={open}
+                  onCancel={() => setOpen(false)}
+                  width={1000}
+                  footer={[
+                            ]}
+                >
+                  <TraceurForm />
+                </Modal>
                 <Table dataSource={data} columns={columns} rowClassName={rowClassName} />
             </div>
           </div>
