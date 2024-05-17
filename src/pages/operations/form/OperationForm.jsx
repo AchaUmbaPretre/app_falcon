@@ -122,7 +122,7 @@ const OperationForm = () => {
                           target: { name: 'site', value: selectedOption.value },
                         })
                       }
-                      placeholder="Sélectionnez..."
+                      placeholder="Sélectionnez un site..."
                     />
                 </div>
                 <div className="form-controle">
