@@ -34,23 +34,22 @@ const NumeroForm = () => {
   const handleClick = async (e) => {
     e.preventDefault();
   
-    if (!data.id_client || !data.site ) {
+    if (!data.numero) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
   
     try {
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/operation`, {
+      await axios.post(`${DOMAIN}/affectation/numero_post`, {
         ...data
       });
-      toast.success('Opératiion créée avec succès!');
-      navigate('/operations');
+      toast.success('Numéro créé avec succès!');
+      navigate('/numero');
       window.location.reload();
     } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
-        toast.error(errorMessage);
+        toast.error(err.response);
       } else {
         toast.error(err.message);
       }
@@ -97,7 +96,7 @@ const NumeroForm = () => {
               <div className="product-container-bottom">
                 <div className="form-controle">
                   <label htmlFor="">Numéro <span style={{color:'red'}}>*</span></label>
-                  <input type="tel" name='numero' className="form-input" onChange={handleInputChange}  required/>
+                  <input type="tel" name='numero' className="form-input" onChange={handleInputChange} placeholder='+243' />
                 </div>
               </div>
               <div className="form-submit">
