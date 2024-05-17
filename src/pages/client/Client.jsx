@@ -166,7 +166,7 @@ const Client = () => {
                     title: 'Accueil',
                   },
                   {
-                    title: 'Application Center',
+                    title: 'Rétourné(e)',
                     href: '/',
                   }
                 ]}
