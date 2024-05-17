@@ -15,6 +15,7 @@ const OperationForm = ({id_type_operation}) => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [traceur, setTraceur] = useState([]);
+  const [vehicule, setVehicule] = useState([]);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -70,6 +71,20 @@ const OperationForm = ({id_type_operation}) => {
     };
     fetchData();
   }, [DOMAIN]);
+
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        setVehicule(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -148,6 +163,22 @@ const OperationForm = ({id_type_operation}) => {
                         })
                       }
                       placeholder="Sélectionnez un site..."
+                    />
+                </div>
+                <div className="form-controle">
+                  <label htmlFor="">Véhicule <span style={{color:'red'}}>*</span></label>
+                  <Select
+                      name="id_vehicule"
+                      options={vehicule?.map((item) => ({
+                        value: item.id_vehicule,
+                        label: item.nom_vehicule,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_vehicule', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un véhicule..."
                     />
                 </div>
                 <div className="form-controle">

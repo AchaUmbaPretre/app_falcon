@@ -15,6 +15,7 @@ const OperationControle = ({id_type_operation}) => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [traceur, setTraceur] = useState([]);
+  const [vehicule, setVehicule] = useState([]);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -64,6 +65,18 @@ const OperationControle = ({id_type_operation}) => {
       try {
         const { data } = await axios.get(`${DOMAIN}/client`);
         setClient(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        setVehicule(data);
       } catch (error) {
         console.log(error);
       }
@@ -151,6 +164,22 @@ const OperationControle = ({id_type_operation}) => {
                     />
                 </div>
                 <div className="form-controle">
+                  <label htmlFor="">Véhicule <span style={{color:'red'}}>*</span></label>
+                  <Select
+                      name="id_vehicule"
+                      options={vehicule?.map((item) => ({
+                        value: item.id_vehicule,
+                        label: item.nom_vehicule,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_vehicule', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un véhicule..."
+                    />
+                </div>
+                <div className="form-controle">
                   <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_traceur"
@@ -201,6 +230,22 @@ const OperationControle = ({id_type_operation}) => {
                       }
                       placeholder="Sélectionnez un technicien..."
                     />
+                </div>
+                <div className="form-controle">
+                    <label htmlFor="">Probleme <span style={{color:'red'}}>*</span></label>
+                    <input type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
+                </div>
+                <div className="form-controle">
+                    <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
+                    <input type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
+                </div>
+                <div className="form-controle">
+                    <label htmlFor="">Kilometre <span style={{color:'red'}}>*</span></label>
+                    <input type="text" name='kilometre' className="form-input" onChange={handleInputChange} />
+                </div>
+                <div className="form-controle">
+                    <label htmlFor="">Tension <span style={{color:'red'}}>*</span></label>
+                    <input type="text" name='tension' className="form-input" onChange={handleInputChange} />
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">photo plaque <span style={{color:'red'}}>*</span></label>

@@ -79,7 +79,7 @@ const OperationGen = () => {
                 </div>
               </div>
               <div className="form-submit">
-                <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
+                <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Ouvrir</button>
                 {isLoading && (
                 <div className="loader-container loader-container-center">
                    <Spin size="large" />
@@ -92,14 +92,13 @@ const OperationGen = () => {
                   centered
                   open={open}
                   onCancel={() => setOpen(false)}
-                  width={1000}
-                  footer={[
-                            ]}
+                  width={1100}
+                  footer={[]}
                 >
 
-                {data.id_type === 1 && <OperationForm id_type_operation={data?.id_type} />}
-                {data.id_type === 3 && <OperationDementeler id_type_operation={data?.id_type} />}
-                {data.id_type === 4 && <OperationControle id_type_operation={data?.id_type} />}
+                    {data.id_type === 1 && <OperationForm id_type_operation={data?.id_type} />}
+                    {data.id_type === 3 && <OperationDementeler id_type_operation={data?.id_type} />}
+                    {data.id_type === 4 && <OperationControle id_type_operation={data?.id_type} />}
                 </Modal>
             </div>
           </div>

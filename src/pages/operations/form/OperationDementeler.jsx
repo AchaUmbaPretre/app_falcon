@@ -15,6 +15,8 @@ const OperationDementeler = ({id_type_operation}) => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [traceur, setTraceur] = useState([]);
+  const [vehicule, setVehicule] = useState([]);
+  const [etat, setEtat] = useState([]);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -30,6 +32,18 @@ const OperationDementeler = ({id_type_operation}) => {
   
   setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        setVehicule(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -106,6 +120,18 @@ const OperationDementeler = ({id_type_operation}) => {
     };
     fetchData();
   }, [DOMAIN]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/traceur/traceur_etat`);
+        setEtat(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
   
   return (
     <>
@@ -118,20 +144,20 @@ const OperationDementeler = ({id_type_operation}) => {
             </div>
             <div className="product-wrapper">
               <div className="product-container-bottom">
-                <div className="form-controle">
-                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
+              <div className="form-controle">
+                  <label htmlFor="">Vehicule <span style={{color:'red'}}>*</span></label>
                   <Select
-                      name="id_client"
-                      options={client?.map((item) => ({
-                        value: item.id_client,
-                        label: item.nom_client,
+                      name="id_vehicule"
+                      options={vehicule?.map((item) => ({
+                        value: item.id_vehicule,
+                        label: item.nom_vehicule,
                       }))}
                       onChange={(selectedOption) =>
                         handleInputChange({
-                          target: { name: 'id_client', value: selectedOption.value },
+                          target: { name: 'id_vehicule', value: selectedOption.value },
                         })
                       }
-                      placeholder="Sélectionnez un client..."
+                      placeholder="Sélectionnez un vehicule..."
                     />
                 </div>
                 <div className="form-controle">
@@ -165,6 +191,22 @@ const OperationDementeler = ({id_type_operation}) => {
                       }
                       placeholder="Sélectionnez un traceur..."
                     />
+                </div>
+                <div className="form-controle">
+                  <label htmlFor="">Etat du traceur <span style={{color:'red'}}>*</span></label>
+                  <Select
+                      name="id_etat_traceur"
+                      options={etat?.map((item) => ({
+                        value: item.id_etat_traceur,
+                        label: item.nom_etat_traceur,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_etat_traceur', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un état..."
+                    /> 
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
