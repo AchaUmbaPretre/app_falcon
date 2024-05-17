@@ -29,31 +29,7 @@ const OperationGen = () => {
   };
 
   const handleClick = async (e) => {
-    e.preventDefault();
-  
-    if (!data.type) {
-      toast.error('Veuillez remplir tous les champs requis');
-      return;
-    }
-  
-    try {
-      setIsLoading(true);
-      await axios.post(`${DOMAIN}/operation`, {
-        ...data
-      });
-      toast.success('Opératiion créée avec succès!');
-      navigate('/operations');
-      window.location.reload();
-    } catch (err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
-        toast.error(errorMessage);
-      } else {
-        toast.error(err.message);
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    console.log(data)
   }
 
   useEffect(() => {
