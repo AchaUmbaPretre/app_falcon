@@ -78,18 +78,21 @@ const Sidebar = () => {
           <Item key="12">
             <Link to={'/vehicules'}>Liste des vehicules</Link>
           </Item>
-          <Item key="13">
+{/*           <Item key="13">
             <Link to={'/vehicule_form'}>Enregistrer un véhicule</Link>
-          </Item>
+          </Item> */}
         </SubMenu>
         <SubMenu key="Personnel" icon={<UsergroupAddOutlined style={{ fontSize: '17px' }} />} title="Personnel" style={{ fontSize: '18px', letterSpacing: '1px'}}>
           <Item key="14">
             <Link to={"/personnel"}>Liste du personel</Link>
           </Item>
+          <Item key="15">
+            <Link to={"/personnel_form"}>Enregistrer un nouveau personel</Link>
+          </Item>
         </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '18px', letterSpacing: '1px'}}>
-          <Item key="15">Général</Item>
-          <Item key="16">Sécurité</Item>
+          <Item key="16">Général</Item>
+          <Item key="17">Sécurité</Item>
         </SubMenu>
         <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '18px', letterSpacing: '1px'}}>
           Déconnecter

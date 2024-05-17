@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Breadcrumb, Table } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 
-const Numero = () => {
+const Personnel = () => {
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -11,14 +11,19 @@ const Numero = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
-      title: 'Numero',
-      dataIndex: 'numero',
-      key: 'numero',
+      title: 'Nom',
+      dataIndex: 'username',
+      key: 'username',
+    },
+    {
+      title: 'role',
+      dataIndex: 'role',
+      key: 'role',
     },
     {
       title: 'Actions',
-      dataIndex: 'poste',
-      key: 'poste',
+      dataIndex: 'actions',
+      key: 'actions',
     }
   ];
 
@@ -33,8 +38,8 @@ const Numero = () => {
           <div className="client_wrapper_top">
             <div className="client_text_row">
               <div className="client_text_left">
-                <h2 className="client_h2">Numéro</h2>
-                <span className="client_span">Liste des numéros</span>
+                <h2 className="client_h2">Personel</h2>
+                <span className="client_span">Liste du personnel</span>
               </div>
               <div className="client_text_right">
                 <button ><PlusCircleOutlined /></button>
@@ -49,7 +54,7 @@ const Numero = () => {
                     title: 'Accueil',
                   },
                   {
-                    title: 'Application Center',
+                    title: 'Retourné',
                     href: '/',
                   }
                 ]}
@@ -79,4 +84,4 @@ const Numero = () => {
   )
 }
 
-export default Numero
+export default Personnel

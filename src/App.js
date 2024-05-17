@@ -20,6 +20,8 @@ import Vehicules from './pages/vehicules/Vehicules';
 import AffectationForm from './pages/affectations/form/AffectationForm';
 import Numero from './pages/numero/Numero';
 import NumeroForm from './pages/numero/form/NumeroForm';
+import Personnel from './pages/personnel/Personnel';
+import PersonnelForm from './pages/personnel/form/PersonnelForm';
 
 function App() {
 
@@ -102,6 +104,14 @@ function App() {
         {
           path:'/vehicules',
           element: <Vehicules/>,
+        },
+        {
+          path:'/personnel',
+          element: <Personnel/>,
+        },
+        {
+          path:'/personnel_form',
+          element: <PersonnelForm/>,
         },
       ]
     },
