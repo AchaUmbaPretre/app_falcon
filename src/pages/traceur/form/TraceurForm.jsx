@@ -129,7 +129,7 @@ const TraceurForm = () => {
                           target: { name: 'id_etat_traceur', value: selectedOption.value },
                         })
                       }
-                      placeholder="Sélectionnez un traceur..."
+                      placeholder="Sélectionnez un état..."
                     /> 
                 </div>
                 <div className="form-controle">
