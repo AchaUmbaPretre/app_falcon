@@ -122,7 +122,7 @@ const Operations = () => {
                     title: 'Accueil',
                   },
                   {
-                    title: 'Application Center',
+                    title: 'Retourné(e)',
                     href: '/',
                   }
                 ]}

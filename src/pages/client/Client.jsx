@@ -221,9 +221,9 @@ const Client = () => {
                 </Modal>
 
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
-                  <p>Some contents...</p>
-                  <p>Some contents...</p>
-                  <p>Some contents...</p>
+                  <p>Titre1 ...</p>
+                  <p>Titre2 ...</p>
+                  <p>Titre3 ...</p>
                 </Drawer>
 
                 <Table dataSource={data} columns={columns} rowClassName={rowClassName}  />

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Table } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { PlusCircleOutlined, SisternodeOutlined,BarcodeOutlined,DeleteOutlined,EyeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Affectations = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -24,6 +25,15 @@ const Affectations = () => {
     fetchData();
   }, [DOMAIN]);
 
+  const handleDelete = async (id) => {
+    try {
+        await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+          window.location.reload();
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
@@ -34,14 +44,41 @@ const Affectations = () => {
     },
     {
       title: 'Traceur',
-      dataIndex: 'traceur',
-      key: 'traceur',
+      dataIndex: 'numero_serie',
+      key: 'numero_serie',
+      render: (text, record) => (
+        <div>
+          <Tag color={'blue'}>
+            <BarcodeOutlined style={{ marginRight: "5px" }} />
+            {text}
+          </Tag>
+        </div>
+      )
     },
     {
-      title: 'Actions',
-      dataIndex: 'poste',
-      key: 'poste',
-    }
+        title: 'Action',
+        key: 'action',
+        width: "160px",
+        render: (text, record) => (
+          <Space size="middle">
+            <Popover  title="Voir les détails" trigger="hover">
+              <Link>
+                <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
+              </Link>
+            </Popover>
+            <Popover  title="Supprimer" trigger="hover">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer?"
+                onConfirm={() => handleDelete(record.id_client)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+              </Popconfirm>
+            </Popover>
+          </Space>
+        )
+      }
   ];
 
   const showModal = (e) => {
