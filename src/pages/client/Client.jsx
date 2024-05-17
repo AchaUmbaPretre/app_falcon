@@ -215,8 +215,8 @@ const Client = () => {
                   <p>Titre2 ...</p>
                   <p>Titre3 ...</p>
                 </Drawer>
-
-                <Table dataSource={data} columns={columns} rowClassName={rowClassName}  />
+                
+                <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={loading}  />
             </div>
           </div>
         </div>

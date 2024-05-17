@@ -12,7 +12,9 @@ const OperationForm = () => {
   const navigate = useNavigate();
   const [client, setClient] = useState([]);
   const [site, setSite] = useState([]);
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [traceur, setTraceur] = useState([]);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -72,8 +74,32 @@ const OperationForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const { data } = await axios.get(`${DOMAIN}/traceur`);
+        setTraceur(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
         const { data } = await axios.get(`${DOMAIN}/operation/site`);
         setSite(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/users`);
+        setUsers(data);
       } catch (error) {
         console.log(error);
       }
@@ -126,8 +152,64 @@ const OperationForm = () => {
                     />
                 </div>
                 <div className="form-controle">
+                  <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
+                  <Select
+                      name="id_traceur"
+                      options={traceur?.map((item) => ({
+                        value: item.id_traceur,
+                        label: item.numero_serie,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_traceur', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un traceur..."
+                    />
+                </div>
+                <div className="form-controle">
                   <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='id_superviseur' className="form-input" onChange={handleInputChange} />
+                  <Select
+                      name="id_superviseur"
+                      options={users?.map((item) => ({
+                        value: item.id,
+                        label: item.username,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_superviseur', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un superviseur..."
+                    />
+                </div>
+                <div className="form-controle">
+                  <label htmlFor="">Date d'opération <span style={{color:'red'}}>*</span></label>
+                  <input type="date" name='date_operation' className="form-input" onChange={handleInputChange} />
+                </div>
+                <div className="form-controle">
+                  <label htmlFor="">Technicien <span style={{color:'red'}}>*</span></label>
+                  <Select
+                      name="id_technicien"
+                      options={users?.map((item) => ({
+                        value: item.id,
+                        label: item.username,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_technicien', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un technicien..."
+                    />
+                </div>
+                <div className="form-controle">
+                    <label htmlFor="">photo plaque <span style={{color:'red'}}>*</span></label>
+                    <input type="file" name='photo_plaque' className="form-input" onChange={handleInputChange} />
+                </div>
+                <div className="form-controle">
+                    <label htmlFor="">photo traceur <span style={{color:'red'}}>*</span></label>
+                    <input type="file" name='photo_traceur' className="form-input" onChange={handleInputChange} />
                 </div>
               </div>
               <div className="form-submit">

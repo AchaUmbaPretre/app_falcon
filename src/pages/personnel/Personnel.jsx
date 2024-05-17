@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Table } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Table, Tag } from 'antd'
+import { PlusCircleOutlined, SisternodeOutlined,UserOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 
@@ -32,6 +32,11 @@ const Personnel = () => {
       title: 'Nom',
       dataIndex: 'username',
       key: 'username',
+      render : (text,record)=>(
+        <div>
+          <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+        </div>
+      )
     },
     {
       title: 'Role',

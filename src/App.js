@@ -22,6 +22,7 @@ import Numero from './pages/numero/Numero';
 import NumeroForm from './pages/numero/form/NumeroForm';
 import Personnel from './pages/personnel/Personnel';
 import PersonnelForm from './pages/personnel/form/PersonnelForm';
+import OperationGen from './pages/operations/form/OperationGen';
 
 function App() {
 
@@ -83,7 +84,7 @@ function App() {
         },
         {
           path:'/operations_form',
-          element: <OperationForm/>,
+          element: <OperationGen/>,
         },
         {
           path:'/affectation',
