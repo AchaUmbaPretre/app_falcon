@@ -5,21 +5,8 @@ import { PlusCircleOutlined, SisternodeOutlined,FilePdfOutlined,FileExcelOutline
 const Affectations = () => {
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
+  const [data, setData] = useState([]);
 
-  const dataSource = [
-    {
-      key: '1',
-      name: 'Mike',
-      age: 32,
-      address: '10 Downing Street',
-    },
-    {
-      key: '2',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
-    },
-  ];
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
@@ -88,7 +75,7 @@ const Affectations = () => {
                   </div>
                 </div>
 
-                <Table dataSource={dataSource} columns={columns} />
+                <Table dataSource={data} columns={columns} />
             </div>
           </div>
         </div>

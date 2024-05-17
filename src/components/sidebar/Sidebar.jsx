@@ -64,7 +64,9 @@ const Sidebar = () => {
               Liste d'affectations
             </Link>
           </Item>
-          <Item key="9">Créer une affectation</Item>
+          <Item key="9">
+            <Link to={'/affectation_form'}>Nouvelle affectation</Link>
+          </Item>
           <Item key="10">Liste des numéros</Item>
           <Item key="11">Enregistrer un numéro</Item>
         </SubMenu>
