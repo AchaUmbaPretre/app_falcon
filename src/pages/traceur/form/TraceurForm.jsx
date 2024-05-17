@@ -147,7 +147,7 @@ const TraceurForm = () => {
                 <div className="loader-container loader-container-center">
                   <Spin size="large" />
                 </div>
-            )}
+                )}
               </div>
             </div>
           </div>
