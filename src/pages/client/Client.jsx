@@ -65,16 +65,6 @@ const Client = () => {
       )
     },
     {
-      title: 'Nom principal',
-      dataIndex: 'nom_principal',
-      key: 'nom_principal',
-      render : (text,record)=>(
-        <div>
-          <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
-        </div>
-      )
-    },
-    {
       title: 'Poste',
       dataIndex: 'poste',
       key: 'poste',
@@ -220,7 +210,7 @@ const Client = () => {
                   <ClientContact id_client={idClient} />
                 </Modal>
 
-                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
+                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
                   <p>Titre1 ...</p>
                   <p>Titre2 ...</p>
                   <p>Titre3 ...</p>
