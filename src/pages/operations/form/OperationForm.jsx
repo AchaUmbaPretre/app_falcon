@@ -10,9 +10,6 @@ const OperationForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
-  const [province, setProvince] = useState([]);
-  const [idProvince, setIdProvince] = useState([]);
-  const [commune, setCommune] = useState([]);
   const [client, setClient] = useState([]);
   const [site, setSite] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
