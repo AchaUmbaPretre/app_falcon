@@ -4,7 +4,10 @@ import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
 import { toast } from 'react-toastify';
-import { Spin } from 'antd';
+import { Modal, Spin } from 'antd';
+import OperationForm from './OperationForm';
+import OperationControle from './OperationControle';
+import OperationDementeler from './OperationDementeler';
 
 const OperationGen = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -12,6 +15,7 @@ const OperationGen = () => {
   const navigate = useNavigate();
   const [type, setType] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -29,7 +33,7 @@ const OperationGen = () => {
   };
 
   const handleClick = async (e) => {
-    console.log(data)
+    setOpen(true);
   }
 
   useEffect(() => {
@@ -82,6 +86,21 @@ const OperationGen = () => {
                 </div>
             )}
               </div>
+
+                <Modal
+                  title=""
+                  centered
+                  open={open}
+                  onCancel={() => setOpen(false)}
+                  width={1000}
+                  footer={[
+                            ]}
+                >
+
+                {data.id_type === 1 && <OperationForm id_type_operation={data?.id_type} />}
+                {data.id_type === 3 && <OperationDementeler id_type_operation={data?.id_type} />}
+                {data.id_type === 4 && <OperationControle id_type_operation={data?.id_type} />}
+                </Modal>
             </div>
           </div>
         </div>

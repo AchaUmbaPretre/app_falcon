@@ -6,7 +6,7 @@ import config from '../../../config';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
 
-const OperationControle = () => {
+const OperationControle = ({id_type_operation}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
@@ -113,8 +113,7 @@ const OperationControle = () => {
           <div className="product-container">
             <div className="product-container-top">
               <div className="product-left">
-                <h2 className="product-h2">Une nouvelle opération</h2>
-                <span>Créer une nouvelle opération</span>
+                <h2 className="product-h2">Operation Controle technique</h2>
               </div>
             </div>
             <div className="product-wrapper">

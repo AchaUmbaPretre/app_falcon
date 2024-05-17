@@ -6,7 +6,7 @@ import config from '../../../config';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
 
-const OperationDementeler = () => {
+const OperationDementeler = ({id_type_operation}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
