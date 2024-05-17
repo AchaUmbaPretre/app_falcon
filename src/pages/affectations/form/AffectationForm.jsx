@@ -11,7 +11,7 @@ const AffectationForm = () => {
   const [data, setData] = useState({})
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [etat, setEtat] = useState([]);
+  const [traceur, setTraceur] = useState([]);
   const [model, setModel] = useState([]);
 
   const handleInputChange = (e) => {
@@ -32,8 +32,8 @@ const AffectationForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/traceur/traceur_etat`);
-        setEtat(data);
+        const { data } = await axios.get(`${DOMAIN}/traceur`);
+        setTraceur(data);
       } catch (error) {
         console.log(error);
       }
@@ -91,38 +91,34 @@ const AffectationForm = () => {
             <div className="product-container-top">
               <div className="product-left">
                 <h2 className="product-h2">Une nouvelle affectation</h2>
-                <span>Enregistrer un nouveau traceur</span>
+                <span>Enregistrer une nouvelle affectation</span>
               </div>
             </div>
             <div className="product-wrapper">
               <div className="product-container-bottom">
                 <div className="form-controle">
-                  <label htmlFor="">Model <span style={{color:'red'}}>*</span></label>
+                  <label htmlFor="">Numéro <span style={{color:'red'}}>*</span></label>
                   <Select
-                      name="model"
+                      name="id_numero"
                       options={model?.map((item) => ({
                         value: item.id_model_traceur,
                         label: item.nom_model,
                       }))}
                       onChange={(selectedOption) =>
                         handleInputChange({
-                          target: { name: 'model', value: selectedOption.value },
+                          target: { name: 'id_numero', value: selectedOption.value },
                         })
                       }
                       placeholder="Sélectionnez un model..."
                     />
                 </div>
                 <div className="form-controle">
-                  <label htmlFor="">Numéro serie <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='numero_serie' className="form-input" onChange={handleInputChange}  required/>
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Etat du traceur <span style={{color:'red'}}>*</span></label>
+                  <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_etat_traceur"
-                      options={etat?.map((item) => ({
-                        value: item.id_etat_traceur,
-                        label: item.nom_etat_traceur,
+                      options={traceur?.map((item) => ({
+                        value: item.id_traceur,
+                        label: item.nom_traceur,
                       }))}
                       onChange={(selectedOption) =>
                         handleInputChange({
