@@ -101,40 +101,32 @@ const AffectationForm = () => {
                   <Select
                       name="id_numero"
                       options={model?.map((item) => ({
-                        value: item.id_model_traceur,
-                        label: item.nom_model,
+                        value: item.id_numero,
+                        label: item.numero,
                       }))}
                       onChange={(selectedOption) =>
                         handleInputChange({
                           target: { name: 'id_numero', value: selectedOption.value },
                         })
                       }
-                      placeholder="Sélectionnez un model..."
+                      placeholder="Sélectionnez un numéro..."
                     />
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
                   <Select
-                      name="id_etat_traceur"
+                      name="id_traceur"
                       options={traceur?.map((item) => ({
                         value: item.id_traceur,
-                        label: item.nom_traceur,
+                        label: item.numero_serie,
                       }))}
                       onChange={(selectedOption) =>
                         handleInputChange({
-                          target: { name: 'id_etat_traceur', value: selectedOption.value },
+                          target: { name: 'id_traceur', value: selectedOption.value },
                         })
                       }
                       placeholder="Sélectionnez un traceur..."
                     /> 
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
-                  <input type="tel" name='observation' className="form-input" onChange={handleInputChange} required />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Commentaires <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='commentaire' className="form-input" onChange={handleInputChange} required />
                 </div>
               </div>
               <div className="form-submit">

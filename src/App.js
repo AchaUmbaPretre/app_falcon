@@ -17,6 +17,9 @@ import Affectations from './pages/affectations/Affectations';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Vehicules from './pages/vehicules/Vehicules';
+import AffectationForm from './pages/affectations/form/AffectationForm';
+import Numero from './pages/numero/Numero';
+import NumeroForm from './pages/numero/form/NumeroForm';
 
 function App() {
 
@@ -83,6 +86,18 @@ function App() {
         {
           path:'/affectation',
           element: <Affectations/>,
+        },
+        {
+          path:'/affectation_form',
+          element: <AffectationForm/>,
+        },
+        {
+          path:'/numero',
+          element: <Numero/>,
+        },
+        {
+          path:'/numero_form',
+          element: <NumeroForm/>,
         },
         {
           path:'/vehicules',

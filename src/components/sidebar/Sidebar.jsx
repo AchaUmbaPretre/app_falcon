@@ -67,8 +67,12 @@ const Sidebar = () => {
           <Item key="9">
             <Link to={'/affectation_form'}>Nouvelle affectation</Link>
           </Item>
-          <Item key="10">Liste des numéros</Item>
-          <Item key="11">Enregistrer un numéro</Item>
+          <Item key="10">
+            <Link to={'/numero'}>Liste des numéros</Link>
+          </Item>
+          <Item key="11">
+            <Link to={'/numero_form'}>Enregistrer un numéro</Link>
+          </Item>
         </SubMenu>
         <SubMenu key="vehicules" icon={<CarOutlined style={{ fontSize: '17px' }} />} title="Vehicules" style={{ fontSize: '18px', letterSpacing: '1px'}}>
           <Item key="12">
