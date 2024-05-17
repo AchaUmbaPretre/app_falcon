@@ -13,7 +13,7 @@ const Traceur = () => {
 
 
   const rowClassName = () => {
-    return 'font-size-18'; // Nom de la classe CSS personnalisée
+    return 'font-size-18';
   };
 
   const handleDelete = async (id) => {
@@ -200,7 +200,6 @@ const Traceur = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
-
                 <Table dataSource={data} columns={columns} rowClassName={rowClassName} />
             </div>
           </div>
