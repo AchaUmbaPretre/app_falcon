@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,UserOutlined, DeleteOutlined,EyeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined,UserOutlined,ToolOutlined, DeleteOutlined,EyeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import moment from 'moment';
@@ -48,8 +48,8 @@ const Operations = () => {
     },
     {
         title: 'Site',
-        dataIndex: 'site',
-        key: 'site',
+        dataIndex: 'nom_site',
+        key: 'nom_site',
         render: (text, record) => (
           <Tag color={'blue'}>
             <EnvironmentOutlined style={{ marginRight: "5px" }} />
@@ -61,12 +61,27 @@ const Operations = () => {
       title: 'Superviseur',
       dataIndex: 'superviseur',
       key: 'superviseur',
+      render : (text,record)=>(
+        <div>
+          <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+        </div>
+      )
     },
     {
+        title: 'Technicien',
+        dataIndex: 'technicien',
+        key: 'technicien',
+        render : (text,record)=>(
+          <div>
+            <Tag color={'blue'}><ToolOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          </div>
+        )
+      },
+    {
       title: "Date d'opération",
-      dataIndex: 'created_at',
-      key: 'created_at',
-      sorter: (a, b) => moment(a.created_at) - moment(b.created_at),
+      dataIndex: 'date_operation',
+      key: 'date_operation',
+      sorter: (a, b) => moment(a.date_operation) - moment(b.date_operation),
             sortDirections: ['descend', 'ascend'],
             render: (text) => (
               <Tag icon={<CalendarOutlined />} color="blue">
@@ -142,7 +157,6 @@ const Operations = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
-
                 <Table dataSource={data} columns={columns} />
             </div>
           </div>
