@@ -43,7 +43,12 @@ const OperationControle = ({id_type_operation}) => {
     try {
       setIsLoading(true);
       await axios.post(`${DOMAIN}/operation`, {
-        ...data
+        ...data,
+        id_type_operations : id_type_operation
+      },{
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       toast.success('Opératiion créée avec succès!');
       navigate('/operations');

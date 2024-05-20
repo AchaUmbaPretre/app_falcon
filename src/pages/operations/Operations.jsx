@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button, Drawer, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,UserOutlined,ToolOutlined, DeleteOutlined,EyeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined,UserOutlined,ThunderboltOutlined,ToolOutlined, DeleteOutlined,EyeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import moment from 'moment';
@@ -45,6 +45,21 @@ const Operations = () => {
     fetchData();
   }, [DOMAIN]);
 
+  const getColorForOperationType = (type) => {
+    switch (type) {
+      case 'Installation':
+        return 'blue';
+      case 'Démantèlement':
+        return 'red';
+      case 'Contrôle technique':
+        return 'green';
+      case 'Remplacement':
+        return 'orange';
+      default:
+        return 'default'; // Couleur par défaut si aucun des cas précédents ne correspond
+    }
+  }
+
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
@@ -66,6 +81,19 @@ const Operations = () => {
             <EnvironmentOutlined style={{ marginRight: "5px" }} />
             {text}
           </Tag>
+        )
+      },
+      {
+        title: "Type d'opération",
+        dataIndex: 'type_operations',
+        key: 'type_operations',
+        render: (text, record) => (
+          <div>
+            <Tag color={getColorForOperationType(text)}>
+              <ThunderboltOutlined style={{ marginRight: "5px" }} />
+              {text}
+            </Tag>
+          </div>
         )
       },
     {

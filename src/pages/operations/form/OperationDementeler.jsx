@@ -48,7 +48,7 @@ const OperationDementeler = ({id_type_operation}) => {
   const handleClick = async (e) => {
     e.preventDefault();
   
-    if (!data.id_client || !data.site ) {
+    if (!data.id_vehicule || !data.id_traceur ) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
@@ -56,7 +56,12 @@ const OperationDementeler = ({id_type_operation}) => {
     try {
       setIsLoading(true);
       await axios.post(`${DOMAIN}/operation`, {
-        ...data
+        ...data,
+        id_type_operations : id_type_operation
+      },{
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       toast.success('Opératiion créée avec succès!');
       navigate('/operations');
