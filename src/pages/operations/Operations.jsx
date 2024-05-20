@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Drawer, Popconfirm, Popover, Space, Table, Tag } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,UserOutlined,ToolOutlined, DeleteOutlined,EyeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import OperationDetail from './operationDetail/OperationDetail';
 
 const Operations = () => {
  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState('');
+  const [openDetail, setOpenDetail] = useState(false);
+
+
+  const showDrawer = () => {
+    setOpenDetail(true);
+  };
+
+  const onClose = () => {
+    setOpenDetail(false);
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -95,7 +106,7 @@ const Operations = () => {
           render: (text, record) => (
             <Space size="middle">
               <Popover  title="Voir les détails" trigger="hover">
-                <Link>
+                <Link onClick={showDrawer}>
                   <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
                 </Link>
               </Popover>
@@ -158,6 +169,10 @@ const Operations = () => {
                   </div>
                 </div>
                 <Table dataSource={data} columns={columns} />
+
+                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
+                    <OperationDetail />
+                </Drawer>
             </div>
           </div>
         </div>

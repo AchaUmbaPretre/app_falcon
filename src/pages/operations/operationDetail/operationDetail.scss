@@ -1,0 +1,19 @@
+.operationDetail{
+    .operationDetail_wrapper{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        .operation_row{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            .operation_span{
+                font-size: 1.1rem;
+            }
+            .operation_desc{
+                color: #555;
+                font-size: 1rem;
+            }
+        }
+    }
+}
