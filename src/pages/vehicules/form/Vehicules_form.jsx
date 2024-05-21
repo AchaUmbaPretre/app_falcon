@@ -12,6 +12,7 @@ const Vehicules_form = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [marque, setMarque] = useState([]);
+  const [client, setClient] = useState([]);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -33,6 +34,18 @@ const Vehicules_form = () => {
       try {
         const { data } = await axios.get(`${DOMAIN}/vehicule/marque`);
         setMarque(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/client`);
+        setClient(data);
       } catch (error) {
         console.log(error);
       }
@@ -83,6 +96,22 @@ const Vehicules_form = () => {
             </div>
             <div className="product-wrapper">
               <div className="product-container-bottom">
+                <div className="form-controle">
+                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
+                  <Select
+                      name="id_client"
+                      options={client?.map((item) => ({
+                        value: item.id_client,
+                        label: item.nom_client,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_client', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un client..."
+                    />
+                </div>
                 <div className="form-controle">
                   <label htmlFor="">Marque <span style={{color:'red'}}>*</span></label>
                   <Select
