@@ -1,7 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Select from 'react-select';
 import config from '../../../config';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
@@ -10,10 +9,6 @@ const NumeroForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
-  const [province, setProvince] = useState([]);
-  const [idProvince, setIdProvince] = useState([]);
-  const [commune, setCommune] = useState([]);
-  const [client, setClient] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
@@ -58,29 +53,7 @@ const NumeroForm = () => {
     }
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/client`);
-        setClient(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/api/livreur/commune/${idProvince}`);
-        setCommune(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN,idProvince]);
   
   return (
     <>

@@ -1,30 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,PhoneOutlined,BarcodeOutlined,DeleteOutlined,EyeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
-import config from '../../config';
+import { PlusCircleOutlined,CarOutlined,EyeOutlined,DeleteOutlined,SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import AffectationForm from './form/AffectationForm';
+import config from '../../../config';
 
-const Affectations = () => {
+const Marques = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/affectation`);
-        setData(data);
-        setLoading(false)
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
+  const [loading, setLoading] = useState('');
 
   const handleDelete = async (id) => {
     try {
@@ -35,61 +21,68 @@ const Affectations = () => {
       }
     };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        setData(data);
+        setLoading(false)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
+
+  const rowClassName = () => {
+    return 'font-size-18'; // Nom de la classe CSS personnalisée
+  };
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
-      title: 'Numero',
-      dataIndex: 'numero',
-      key: 'numero',
-      render : (text,record)=>(
-        <div>
-          <Tag color={'blue'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
-        </div>
-      )
-    },
-    {
-      title: 'Traceur',
-      dataIndex: 'numero_serie',
-      key: 'numero_serie',
-      render: (text, record) => (
+      title: 'Marque',
+      dataIndex: 'nom_vehicule',
+      key: 'nom_vehicule',
+      render : (text, record) => (
         <div>
           <Tag color={'blue'}>
-            <BarcodeOutlined style={{ marginRight: "5px" }} />
+            <CarOutlined style={{ marginRight: "5px" }} />
             {text}
           </Tag>
         </div>
       )
     },
     {
-        title: 'Action',
-        key: 'action',
-        width: "160px",
-        render: (text, record) => (
-          <Space size="middle">
-            <Popover  title="Voir les détails" trigger="hover">
-              <Link>
-                <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
-              </Link>
-            </Popover>
-            <Popover  title="Supprimer" trigger="hover">
-              <Popconfirm
-                title="Êtes-vous sûr de vouloir supprimer?"
-                onConfirm={() => handleDelete(record.id_client)}
-                okText="Oui"
-                cancelText="Non"
-              >
-                <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
-              </Popconfirm>
-            </Popover>
-          </Space>
-        )
-      }
+      title: 'Action',
+      key: 'action',
+      width: "160px",
+      render: (text, record) => (
+        <Space size="middle">
+          <Popover  title="Voir les détails" trigger="hover">
+            <Link>
+              <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
+            </Link>
+          </Popover>
+          <Popover  title="Supprimer" trigger="hover">
+            <Popconfirm
+              title="Êtes-vous sûr de vouloir supprimer?"
+              onConfirm={() => handleDelete(record.id_client)}
+              okText="Oui"
+              cancelText="Non"
+            >
+              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+            </Popconfirm>
+          </Popover>
+        </Space>
+      )
+    }
   ];
 
   const showModal = (e) => {
     setOpen(true);
   };
+
     
   return (
     <>
@@ -98,11 +91,11 @@ const Affectations = () => {
           <div className="client_wrapper_top">
             <div className="client_text_row">
               <div className="client_text_left">
-                <h2 className="client_h2">Affectations</h2>
-                <span className="client_span">Liste d'affectations</span>
+                <h2 className="client_h2">Marque</h2>
+                <span className="client_span">Liste des marques</span>
               </div>
               <div className="client_text_right">
-                <button onClick={showModal} ><PlusCircleOutlined /></button>
+                <button onClick={showModal}><PlusCircleOutlined /></button>
               </div>
             </div>
           </div>
@@ -135,17 +128,7 @@ const Affectations = () => {
                   </div>
                 </div>
 
-                <Modal
-                  title=""
-                  centered
-                  open={open}
-                  onCancel={() => setOpen(false)}
-                  width={1000}
-                  footer={[]}
-                >
-                  <AffectationForm />
-                </Modal>
-                <Table dataSource={data} columns={columns} />
+                <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={loading}  />
             </div>
           </div>
         </div>
@@ -154,4 +137,4 @@ const Affectations = () => {
   )
 }
 
-export default Affectations
+export default Marques

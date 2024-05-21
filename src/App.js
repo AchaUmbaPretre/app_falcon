@@ -23,6 +23,8 @@ import NumeroForm from './pages/numero/form/NumeroForm';
 import Personnel from './pages/personnel/Personnel';
 import PersonnelForm from './pages/personnel/form/PersonnelForm';
 import OperationGen from './pages/operations/form/OperationGen';
+import Marques from './pages/vehicules/marques/Marques';
+import Vehicules_form from './pages/vehicules/form/Vehicules_form';
 
 function App() {
 
@@ -105,6 +107,14 @@ function App() {
         {
           path:'/vehicules',
           element: <Vehicules/>,
+        },
+        {
+          path:'/vehicule_form',
+          element: <Vehicules_form/>,
+        },
+        {
+          path:'/marques',
+          element: <Marques/>,
         },
         {
           path:'/personnel',

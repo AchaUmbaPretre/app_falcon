@@ -39,7 +39,7 @@ const Sidebar = () => {
             </Link>
           </Item>
           <Item key="2">
-            <Link to={'/client_form'}>Créer un nouveau client</Link>
+            <Link to={'/client_form'}>Enregistrer un nouveau client</Link>
           </Item>
         </SubMenu>
         <SubMenu key="traceurs" icon={<ClusterOutlined style={{ fontSize: '17px' }} />} title="Traceurs" style={{ fontSize: '18px', letterSpacing: '1px'}}>
@@ -55,7 +55,7 @@ const Sidebar = () => {
             <Link to={'/operations'}>Liste d'opérations</Link>
           </Item>
           <Item key="6">
-            <Link to={'/operations_form'}>Créer une opération</Link>
+            <Link to={'/operations_form'}>Enregistrer une opération</Link>
           </Item>
         </SubMenu>
         <SubMenu key="affectations" icon={<ToolOutlined style={{ fontSize: '17px' }} />} title="Affectations" style={{ fontSize: '18px', letterSpacing: '1px'}}>
@@ -78,21 +78,24 @@ const Sidebar = () => {
           <Item key="12">
             <Link to={'/vehicules'}>Liste des vehicules</Link>
           </Item>
-{/*           <Item key="13">
+          <Item key="13">
+            <Link to={'/marques'}>Liste des marques</Link>
+          </Item>
+          <Item key="14">
             <Link to={'/vehicule_form'}>Enregistrer un véhicule</Link>
-          </Item> */}
+          </Item>
         </SubMenu>
         <SubMenu key="Personnel" icon={<UsergroupAddOutlined style={{ fontSize: '17px' }} />} title="Personnel" style={{ fontSize: '18px', letterSpacing: '1px'}}>
-          <Item key="14">
+          <Item key="15">
             <Link to={"/personnel"}>Liste du personel</Link>
           </Item>
-          <Item key="15">
+          <Item key="16">
             <Link to={"/personnel_form"}>Enregistrer un nouveau personel</Link>
           </Item>
         </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '18px', letterSpacing: '1px'}}>
-          <Item key="16">Général</Item>
-          <Item key="17">Sécurité</Item>
+          <Item key="17">Général</Item>
+          <Item key="18">Sécurité</Item>
         </SubMenu>
         <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '18px', letterSpacing: '1px'}}>
           Déconnecter

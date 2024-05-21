@@ -54,6 +54,19 @@ const Vehicules = () => {
       )
     },
     {
+      title: 'Matricule',
+      dataIndex: 'matricule',
+      key: 'matricule',
+      render : (text, record) => (
+        <div>
+          <Tag color={'blue'}>
+            <CarOutlined style={{ marginRight: "5px" }} />
+            {text}
+          </Tag>
+        </div>
+      )
+    },
+    {
       title: 'Action',
       key: 'action',
       width: "160px",

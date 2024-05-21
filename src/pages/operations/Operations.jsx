@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Drawer, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,UserOutlined,ThunderboltOutlined,ToolOutlined, DeleteOutlined,EyeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import OperationDetail from './operationDetail/OperationDetail';
+import OperationGen from './form/OperationGen';
 
 const Operations = () => {
  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -13,7 +14,11 @@ const Operations = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState('');
   const [openDetail, setOpenDetail] = useState(false);
+  const [open, setOpen] = useState(false);
 
+  const showModal = (e) => {
+    setOpen(true);
+  };
 
   const showDrawer = () => {
     setOpenDetail(true);
@@ -164,7 +169,7 @@ const Operations = () => {
                 <span className="client_span">Liste des opérations</span>
               </div>
               <div className="client_text_right">
-                <button><PlusCircleOutlined /></button>
+                <button onClick={showModal}><PlusCircleOutlined /></button>
               </div>
             </div>
           </div>
@@ -197,6 +202,18 @@ const Operations = () => {
                   </div>
                 </div>
                 <Table dataSource={data} columns={columns} />
+
+                <Modal
+                  title=""
+                  centered
+                  open={open}
+                  onCancel={() => setOpen(false)}
+                  width={1000}
+                  footer={[
+                            ]}
+                >
+                  <OperationGen/>
+                </Modal>
 
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
                     <OperationDetail />

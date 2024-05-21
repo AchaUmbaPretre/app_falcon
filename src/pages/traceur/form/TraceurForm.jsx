@@ -132,14 +132,6 @@ const TraceurForm = () => {
                       placeholder="Sélectionnez un état..."
                     /> 
                 </div>
-                <div className="form-controle">
-                  <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
-                  <input type="tel" name='observation' className="form-input" onChange={handleInputChange} placeholder='écrire...' />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Commentaires <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='commentaire' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
-                </div>
               </div>
               <div className="form-submit">
                 <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
