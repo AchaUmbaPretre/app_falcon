@@ -27,6 +27,7 @@ import Marques from './pages/vehicules/marques/Marques';
 import Vehicules_form from './pages/vehicules/form/Vehicules_form';
 import Superviseur from './pages/superviseur/Superviseur';
 import { useDispatch, useSelector } from 'react-redux';
+import SuperviseurNavbar from './pages/superviseur/navbar/SuperviseurNavbar';
 
 function App() {
 
@@ -44,6 +45,17 @@ function App() {
     return children;
   };
 
+  const Layout2 = () => {
+
+    return (
+      <div>
+        <SuperviseurNavbar/>
+        <div className="pageNavbar">
+          <Outlet />
+        </div>
+      </div>
+    );
+  };
   const Layout = () => {
       
     return (
@@ -62,6 +74,7 @@ function App() {
   };
 
   const router = createBrowserRouter([
+    (user?.role === 'admin' || user?.role === 'secretaire') &&
     {
       path:'/',
       element: <SecuriteRoute><Layout /></SecuriteRoute>,
@@ -139,6 +152,15 @@ function App() {
     {
       path:'/register',
       element: <Register/>
+    },user?.role === 'superviseur' && {
+      path: '/',
+      element: <SecuriteRoute><Layout2 /></SecuriteRoute>,
+      children: [
+        {
+          path: '/',
+          element: <Superviseur />
+        }
+      ]
     },
     {
       path:'/login',

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { BellOutlined, PoweroffOutlined, MailOutlined } from '@ant-design/icons'
-import './pageLivreurNavbar.scss'
+import './superviseurNavbar.scss'
 import { Badge } from 'antd';
-import logoIcon from './../../../assets/logo doe.jpg'
+import logoIcon from './../../../assets/images.png'
 import { useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
 import axios from 'axios';
 import config from '../../../config';
 import { useNavigate } from 'react-router-dom';
@@ -22,11 +21,9 @@ const SuperviseurNavbar = () => {
         await axios.post(`${DOMAIN}/api/auth/logout`);
         setCurrentUser(null);
         localStorage.setItem('persist:root', JSON.stringify(currentUser));
-        Swal.fire('Déconnexion réussie !', '', 'success');
         navigate('/login')
         window.location.reload();
       } catch (error) {
-        Swal.fire('Erreur lors de la déconnexion.', '', 'error');
       }
     };
 
