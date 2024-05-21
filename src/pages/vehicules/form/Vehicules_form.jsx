@@ -97,7 +97,7 @@ const Vehicules_form = () => {
             <div className="product-wrapper">
               <div className="product-container-bottom">
                 <div className="form-controle">
-                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
+                  <label htmlFor="">Client ou société<span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_client"
                       options={client?.map((item) => ({
