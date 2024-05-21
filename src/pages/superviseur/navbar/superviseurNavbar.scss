@@ -1,0 +1,87 @@
+@import '../../../style.scss';
+
+.pageLivreurNavbar{
+    .pageLivreurNavbar-container{
+        nav{
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            @include mobileXR{
+                width: 100%;
+                position: sticky;
+                top: 0;
+                left: 0;
+                z-index: 111;
+                box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.151);
+                background:rgba(1, 35, 138, 0.952);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px 0;
+                transition: .5s;
+                @include mobileSE{
+                    position: relative;
+                    width: 100%;
+                    overflow: hidden;
+                }
+            }
+            .navbar-wrapper{
+                @include mobile12pro{
+                    position: relative;
+                    width: 300px;
+                    padding: 0 10px;
+                    overflow: hidden;
+                }
+                @include mobileXR{
+                    width: 380px;
+                    margin: 0 auto;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    overflow: hidden;
+                    @include mobileSE{
+                        width: 345px;
+                    }
+                }
+                .nav-logo{
+                    .nav-img{
+                        height: 50px;
+                        width: 50px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        @include mobileSE{
+                            height: 40px;
+                            width: 40px;
+                        }
+                    }
+                }
+                .navbar-right{
+                    @include mobileXR{
+                        display: flex;
+                        align-items: center;
+                        gap: 15px;
+                    }
+                    .navbar-icon{
+                        @include mobileXR{
+                            font-size: 1.3rem;
+                            color: #cccccc;
+                            @include mobileSE{
+                                font-size: 1.1rem;
+                            }
+                        }
+                    }
+                    .navbar_username{
+                        @include mobileXR{
+                            font-size: 1.2rem;
+                            color: #cccccc;
+                            @include mobileSE{
+                                font-size: 1rem;
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+    }
+}

@@ -25,6 +25,7 @@ import PersonnelForm from './pages/personnel/form/PersonnelForm';
 import OperationGen from './pages/operations/form/OperationGen';
 import Marques from './pages/vehicules/marques/Marques';
 import Vehicules_form from './pages/vehicules/form/Vehicules_form';
+import Superviseur from './pages/superviseur/Superviseur';
 
 function App() {
 
@@ -123,6 +124,10 @@ function App() {
         {
           path:'/personnel_form',
           element: <PersonnelForm/>,
+        },
+        {
+          path:'/superviseur',
+          element: <Superviseur/>,
         },
       ]
     },
