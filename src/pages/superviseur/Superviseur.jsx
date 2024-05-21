@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './superviseur.scss'
-import { ExclamationOutlined } from '@ant-design/icons'
-import { useNavigate } from 'react-router-dom';
 import config from '../../config';
-import axios from 'axios';
+import installation from './../../assets/installation.png'
+import controle from './../../assets/controle.png'
+import dementelement from './../../assets/démantèlement.png'
+import transfert from './../../assets/transfert.png'
+import remplacement from './../../assets/remplacement.png'
 
 const Superviseur = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -16,20 +18,26 @@ const Superviseur = () => {
 
   return (
     <>
-        <div className="pageLivreur">
-            <div className="pageLivreur-container">
-               <div className="pageLivreur-wrapper">
-                { data.length > 0 ?
-                    <div className="pageLivreur-message" onClick={handleClick}>
-                        Il ya une opération
-                        <ExclamationOutlined />
-                    </div> :
-                    <div className="pageLivreur-message-red">
-                        Il n'ya pas d'opération
-                        <ExclamationOutlined />
+        <div className="superviseur">
+            <div className="superviseur_wrapper">
+                <div className="superviseur_rows">
+                    <div className="superviseur_row">
+                        <img src={installation} alt="" className="superviseur_img" />
+                        <span className="superviseur_span">Installation</span>
                     </div>
-                }
-                </div> 
+                    <div className="superviseur_row">
+                        <img src={controle} alt="" className="superviseur_img" />
+                        <span className="superviseur_span">Controle technique</span>
+                    </div> 
+                    <div className="superviseur_row">
+                        <img src={dementelement} alt="" className="superviseur_img" />
+                        <span className="superviseur_span">Démentelement</span>
+                    </div> 
+                    <div className="superviseur_row">
+                        <img src={remplacement} alt="" className="superviseur_img" />
+                        <span className="superviseur_span">Remplacement</span>
+                    </div> 
+                </div>
             </div>
         </div>
     </>
