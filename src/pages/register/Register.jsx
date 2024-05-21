@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import './register.scss'
-import axios from 'axios'
+import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux'
 import { Spin } from 'antd'
+import { register } from '../../redux/apiCalls'
 
 const Register = () => {
 
@@ -16,7 +17,21 @@ const Register = () => {
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
-  const handSubmit = async (e) => {
+  const handleClick = async (e) => {
+    e.preventDefault();
+  
+    try {
+      setIsLoading(true);
+      await register(dispatch, { username, email, password });
+      toast.success('Enregistrement réussi !');
+      navigate('/login');
+      window.location.reload();
+    } catch (error) {
+      toast.error('Erreur lors de l\'enregistrement.');
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -38,12 +53,12 @@ const Register = () => {
                   <input type="text" placeholder='username' name='username' onChange={(e) => setUsername(e.target.value)} />
                   <input type="email" placeholder='email' name='email' onChange={(e) => setEmail(e.target.value)} />
                   <input type="password" placeholder='password' name='password'  onChange={(e) => setPassword(e.target.value)}/>
-                  <button onClick={handSubmit} >Envoyer</button>
+                  <button onClick={handleClick} >Envoyer</button>
                   {isLoading && (
-                <div className="loader-container loader-container-center">
-                  <Spin size="large"/>
-                </div>
-            )}
+                  <div className="loader-container loader-container-center">
+                    <Spin size="large"/>
+                  </div>
+              )}
                 </form>
               </div>
             </div>

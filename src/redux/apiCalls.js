@@ -1,7 +1,7 @@
 import { loginFailure, loginStart, loginSuccess } from "./userRedux";
 import axios from "axios";
 import { message } from "antd";
-import config from "../../config";
+import config from "../config";
 
 export const login = async (dispatch, user, navigate) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;

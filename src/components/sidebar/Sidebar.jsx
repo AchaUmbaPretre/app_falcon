@@ -1,19 +1,41 @@
 import { Menu } from 'antd';
 import { UserOutlined, ClusterOutlined, CarOutlined,UsergroupAddOutlined, FileOutlined,HomeOutlined, ToolOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons'; // Ajoute les icônes appropriées
 import 'antd/dist/reset.css';
+import { toast, ToastContainer } from 'react-toastify';
 import './sidebar.css';
 import logo from './../../assets/falcon.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import config from '../../config';
+import axios from 'axios';
 
 const { SubMenu, Item } = Menu;
 
 const Sidebar = () => {
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [openKeys, setOpenKeys] = useState([]);
+  const [currentUser, setCurrentUser] = useState('');
+  const navigate = useNavigate();
 
   const onOpenChange = (keys) => {
     setOpenKeys(keys);
   };
+
+  const Logout = async () => {
+  
+    try {
+      await axios.post(`${DOMAIN}/users/logout`);
+      setCurrentUser(null);
+      localStorage.setItem('persist:root', JSON.stringify(currentUser));
+      toast.success('Déconnexion réussie !');
+      navigate('/login');
+      window.location.reload();
+    } catch (error) {
+      toast.error('Erreur lors de la déconnexion.');
+    }
+  };
+
+
 
   return (
     <div className="sidebar">
@@ -97,7 +119,7 @@ const Sidebar = () => {
           <Item key="17">Général</Item>
           <Item key="18">Sécurité</Item>
         </SubMenu>
-        <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '18px', letterSpacing: '1px'}}>
+        <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '18px', letterSpacing: '1px'}} onClick={Logout}>
           Déconnecter
         </Item>
       </Menu>

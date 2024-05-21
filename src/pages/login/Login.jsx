@@ -1,11 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
-import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import './login.scss'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { login } from '../redux/apiCalls'
+import { login } from '../../redux/apiCalls'
 import { Spin } from 'antd'
 
 const Login = () => {

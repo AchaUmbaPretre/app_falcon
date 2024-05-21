@@ -1,9 +1,12 @@
 import React from 'react'
 import { MenuFoldOutlined, BellOutlined } from '@ant-design/icons';
 import './topbar.scss'
-import user from './../../assets/user.png'
+import users from './../../assets/user.png'
+import { useSelector } from 'react-redux';
 
 const Topbar = () => {
+  const user = useSelector((state) => state.user.currentUser.username);
+
   return (
     <>
       <div className="topbar">
@@ -19,8 +22,8 @@ const Topbar = () => {
               <BellOutlined className='topbar_icon' />
             </div>
             <div className="topbar_icons">
-              <img src={user} alt="" className='topbar_user'/>
-              <span className='topbar_username'>Admin</span>
+              <img src={users} alt="" className='topbar_user'/>
+              <span className='topbar_username'>{user}</span>
             </div>
           </div>
         </div>

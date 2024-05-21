@@ -26,18 +26,23 @@ import OperationGen from './pages/operations/form/OperationGen';
 import Marques from './pages/vehicules/marques/Marques';
 import Vehicules_form from './pages/vehicules/form/Vehicules_form';
 import Superviseur from './pages/superviseur/Superviseur';
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
 
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user?.currentUser);
+  const loading = useSelector((state) => state.user?.loading);
 
-/*   const SecuriteRoute = ({ children }) => {
+
+  const SecuriteRoute = ({ children }) => {
     if (!user) {
       return <Navigate to="/login" />;
     }
 
     return children;
-  }; */
+  };
 
   const Layout = () => {
       
@@ -59,7 +64,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path:'/',
-      element: <Layout/>,
+      element: <SecuriteRoute><Layout /></SecuriteRoute>,
       children:[
         {
           path:'/',
