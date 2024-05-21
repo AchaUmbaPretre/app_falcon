@@ -73,8 +73,7 @@ const TraceurForm = () => {
 
     }catch(err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le traceur ${data.nom} existe déjà avec ce numéro de téléphone`;
-        toast.error(errorMessage);
+        toast.error(err.response.data.message);
       } else {
         toast.error(err.message);
       }
@@ -115,22 +114,6 @@ const TraceurForm = () => {
                 <div className="form-controle">
                   <label htmlFor="">Numéro serie <span style={{color:'red'}}>*</span></label>
                   <input type="text" name='numero_serie' className="form-input" onChange={handleInputChange}  required/>
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Etat du traceur <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_etat_traceur"
-                      options={etat?.map((item) => ({
-                        value: item.id_etat_traceur,
-                        label: item.nom_etat_traceur,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_etat_traceur', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un état..."
-                    /> 
                 </div>
               </div>
               <div className="form-submit">

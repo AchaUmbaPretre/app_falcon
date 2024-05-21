@@ -121,24 +121,7 @@ const Traceur = () => {
                 {moment(text).format('DD-MM-yyyy')}
               </Tag>
             ),
-    },
-    {
-    title: "Observation",
-    dataIndex: 'observation',
-    key: 'observation',
-    render: (text, record) => (
-      <span>
-        {text ? (
-          <Tag color='blue'><InfoCircleOutlined style={{ marginRight: '5px' }} /> {text}</Tag>
-        ) : (
-          <Tag color='red'>
-            <InfoCircleOutlined style={{ marginRight: '5px' }} />
-            Aucune
-          </Tag>
-        )}
-      </span>
-    ),
-  },{
+    },{
     title: 'Action',
       key: 'action',
       render: (text, record) => (
