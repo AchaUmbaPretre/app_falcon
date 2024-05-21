@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import config from '../../../config';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 const SuperviseurNavbar = () => {
     const navigate = useNavigate();
@@ -17,13 +18,16 @@ const SuperviseurNavbar = () => {
     const userId = useSelector((state) => state.user.currentUser.id);
 
     const Logout = async () => {
+  
       try {
-        await axios.post(`${DOMAIN}/api/auth/logout`);
+        await axios.post(`${DOMAIN}/users/logout`);
         setCurrentUser(null);
         localStorage.setItem('persist:root', JSON.stringify(currentUser));
-        navigate('/login')
+        toast.success('Déconnexion réussie !');
+        navigate('/login');
         window.location.reload();
       } catch (error) {
+        toast.error('Erreur lors de la déconnexion.');
       }
     };
 
@@ -57,7 +61,7 @@ const SuperviseurNavbar = () => {
                             <Badge count={''}>
                                 <MailOutlined className='navbar-icon' />
                             </Badge>
-                            <Badge count={data.length} onClick={()=>navigate("/pageCommandeLivraison")}>
+                            <Badge count={data.length}>
                                 <BellOutlined className='navbar-icon'/>
                             </Badge>
                             <PoweroffOutlined className='navbar-icon' onClick={Logout}/>
