@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,PhoneOutlined,EyeOutlined,DeleteOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined,GlobalOutlined,PhoneOutlined,EyeOutlined,DeleteOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -72,6 +72,7 @@ const Numero = () => {
         const { name, color } = getNetworkName(text);
         return (
           <Tag color={color}>
+            <GlobalOutlined style={{ marginRight: "5px" }} />
             {name}
           </Tag>
         );

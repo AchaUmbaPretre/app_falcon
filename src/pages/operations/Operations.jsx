@@ -215,7 +215,7 @@ const Operations = () => {
                   <OperationGen/>
                 </Modal>
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
-                    <OperationDetail />
+                  <OperationDetail />
                 </Drawer>
             </div>
           </div>
