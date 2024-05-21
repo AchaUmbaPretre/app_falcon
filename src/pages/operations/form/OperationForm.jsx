@@ -197,7 +197,7 @@ const OperationForm = ({id_type_operation}) => {
                       name="id_vehicule"
                       options={vehicule?.map((item) => ({
                         value: item.id_vehicule,
-                        label: item.nom_vehicule,
+                        label: `Marque : ${item.nom_marque}/ Matricule : ${item.matricule}`,
                       }))}
                       onChange={(selectedOption) =>
                         handleInputChange({
