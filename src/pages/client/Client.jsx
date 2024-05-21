@@ -7,6 +7,7 @@ import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ClientContact from './clientContact/ClientContact';
+import ClientDetail from './clientDetail/ClientDetail';
 
 const Client = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -218,9 +219,7 @@ const Client = () => {
                 </Modal>
 
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
-                  <p>Titre1 ...</p>
-                  <p>Titre2 ...</p>
-                  <p>Titre3 ...</p>
+                  <ClientDetail />
                 </Drawer>
                 
                 <Table dataSource={filteredData} columns={columns} rowClassName={rowClassName} loading={loading}  />
