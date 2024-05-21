@@ -142,6 +142,13 @@ const Client = () => {
     setOpens(true);
     setIdClient(e)
   };
+
+  const filteredData = data?.filter((item) => 
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.poste?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.telephone?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.adresse?.toLowerCase().includes(searchValue.toLowerCase())
+  )
     
   return (
     <>
@@ -216,7 +223,7 @@ const Client = () => {
                   <p>Titre3 ...</p>
                 </Drawer>
                 
-                <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={loading}  />
+                <Table dataSource={filteredData} columns={columns} rowClassName={rowClassName} loading={loading}  />
             </div>
           </div>
         </div>
