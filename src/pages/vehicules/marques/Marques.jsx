@@ -24,7 +24,7 @@ const Marques = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        const { data } = await axios.get(`${DOMAIN}/vehicule/marque`);
         setData(data);
         setLoading(false)
       } catch (error) {
@@ -42,8 +42,8 @@ const Marques = () => {
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
       title: 'Marque',
-      dataIndex: 'nom_vehicule',
-      key: 'nom_vehicule',
+      dataIndex: 'nom_marque',
+      key: 'nom_marque',
       render : (text, record) => (
         <div>
           <Tag color={'blue'}>

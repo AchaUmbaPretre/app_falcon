@@ -37,6 +37,21 @@ const Numero = () => {
   }, [DOMAIN]);
 
 
+  const getNetworkName = (phoneNumber) => {
+    if (phoneNumber.startsWith('+24382') || phoneNumber.startsWith('+243 83')) {
+      return { name: 'Vodacom', color: 'green' };
+    } else if (phoneNumber.startsWith('+24399')) {
+      return { name: 'Airtel', color: 'red' };
+    } else if (phoneNumber.startsWith('+24384') || phoneNumber.startsWith('+24389')) {
+      return { name: 'Orange', color: 'orange' };
+    } else if (phoneNumber.startsWith('+24390')) {
+      return { name: 'Africell', color: 'blue' };
+    } else {
+      return { name: 'Unknown', color: 'grey' };
+    }
+  };
+
+
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
@@ -48,6 +63,19 @@ const Numero = () => {
           <Tag color={'blue'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
       )
+    },
+    {
+      title: 'Reseau',
+      dataIndex: 'numero',
+      key: 'reseau',
+      render: (text, record) => {
+        const { name, color } = getNetworkName(text);
+        return (
+          <Tag color={color}>
+            {name}
+          </Tag>
+        );
+      }
     },
     {
         title: 'Action',

@@ -42,8 +42,8 @@ const Vehicules = () => {
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
       title: 'Marque',
-      dataIndex: 'nom_vehicule',
-      key: 'nom_vehicule',
+      dataIndex: 'nom_marque',
+      key: 'nom_marque',
       render : (text, record) => (
         <div>
           <Tag color={'blue'}>

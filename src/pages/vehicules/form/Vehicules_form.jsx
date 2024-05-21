@@ -11,8 +11,7 @@ const Vehicules_form = () => {
   const [data, setData] = useState({})
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [etat, setEtat] = useState([]);
-  const [model, setModel] = useState([]);
+  const [marque, setMarque] = useState([]);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -32,20 +31,8 @@ const Vehicules_form = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}//vehicule`);
-        setEtat(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/traceur/traceur_model`);
-        setModel(data);
+        const { data } = await axios.get(`${DOMAIN}/vehicule/marque`);
+        setMarque(data);
       } catch (error) {
         console.log(error);
       }
@@ -56,7 +43,7 @@ const Vehicules_form = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     
-     if (!data.model || !data.numero_serie) {
+     if (!data.id_marque || !data.matricule) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     } 
@@ -100,13 +87,13 @@ const Vehicules_form = () => {
                   <label htmlFor="">Marque <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_marque"
-                      options={model?.map((item) => ({
-                        value: item.id_model_traceur,
-                        label: item.nom_model,
+                      options={marque?.map((item) => ({
+                        value: item.id_marque,
+                        label: item.nom_marque,
                       }))}
                       onChange={(selectedOption) =>
                         handleInputChange({
-                          target: { name: 'model', value: selectedOption.value },
+                          target: { name: 'id_marque', value: selectedOption.value },
                         })
                       }
                       placeholder="Sélectionnez une marque..."
