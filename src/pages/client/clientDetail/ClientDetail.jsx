@@ -28,7 +28,7 @@ const ClientDetail = () => {
   return (
     <>
       <div className="operationDetail">
-        <h1 style={{padding: '10px 0px', fontSize: "22px" }}>Contact de principal de {data?.nom_client}</h1>
+        <h1 style={{padding: '10px 0px', fontSize: "22px" }}>Contact principal : </h1>
         <div className="operationDetail_wrapper">
           <div className="operation_row">
             <span className="operation_span">Client : </span>
@@ -51,7 +51,7 @@ const ClientDetail = () => {
             <span className="operation_desc">{data?.email} </span>
           </div>
         </div>
-        <h1 style={{padding: '20px 0px', fontSize: "22px" }}>Autres contact de {data?.nom_client}</h1>
+        <h1 style={{padding: '20px 0px', fontSize: "22px" }}>Autres contact :</h1>
         <div className="operationDetail_wrapper">
         {dataAll.map((dd, index) => (
             <div key={index} className="operation_row">
