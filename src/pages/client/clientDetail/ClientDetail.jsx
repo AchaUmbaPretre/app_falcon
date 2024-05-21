@@ -3,7 +3,7 @@ import config from '../../../config';
 import axios from 'axios';
 import { Image } from 'antd';
 
-const ClientDetail = () => {
+const ClientDetail = ({id_client}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ const ClientDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/client/client_contact`);
+        const { data } = await axios.get(`${DOMAIN}/client/client_contact?id_client=${id_client}`);
         setData(data[0]);
         setDataAll(data)
         setLoading(false)
@@ -21,9 +21,9 @@ const ClientDetail = () => {
       }
     };
     fetchData();
-  }, [DOMAIN]);
+  }, [DOMAIN, id_client]);
 
-  console.log(dataAll)
+  const hasAdditionalContactInfo = dataAll.some((dd, index) => index !== 0 && (dd.nom_contact || dd.telephone_contact));
 
   return (
     <>
@@ -51,7 +51,8 @@ const ClientDetail = () => {
             <span className="operation_desc">{data?.email} </span>
           </div>
         </div>
-        <h1 style={{padding: '20px 0px', fontSize: "22px" }}>Autres contact :</h1>
+        { hasAdditionalContactInfo && <div>
+            <h1 style={{padding: '20px 0px', fontSize: "22px" }}>Autres contact :</h1>
         <div className="operationDetail_wrapper">
         {dataAll.map((dd, index) => (
             <div key={index} className="operation_row">
@@ -67,6 +68,9 @@ const ClientDetail = () => {
             </div>
           ))}
         </div>
+        </div>
+        
+        }
       </div>
     </>
   )

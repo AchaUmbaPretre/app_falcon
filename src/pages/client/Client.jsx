@@ -14,13 +14,14 @@ const Client = () => {
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const [opens, setOpens] = useState(false);
-  const [idClient, setIdClient] = useState('');
+  const [idClient, setIdClient] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
 
-  const showDrawer = () => {
+  const showDrawer = (e) => {
     setOpenDetail(true);
+    setIdClient(e)
   };
 
   const onClose = () => {
@@ -113,7 +114,7 @@ const Client = () => {
       render: (text, record) => (
         <Space size="middle">
           <Popover  title="Voir les détails" trigger="hover">
-            <Link onClick={showDrawer}>
+            <Link onClick={()=>showDrawer(record.id_client)}>
               <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
             </Link>
           </Popover>
@@ -219,7 +220,7 @@ const Client = () => {
                 </Modal>
 
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
-                  <ClientDetail />
+                  <ClientDetail id_client ={idClient} />
                 </Drawer>
                 
                 <Table dataSource={filteredData} columns={columns} rowClassName={rowClassName} loading={loading}  />

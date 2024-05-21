@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined,CarOutlined,EyeOutlined,DeleteOutlined,SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined,CarOutlined,EyeOutlined,UserOutlined,DeleteOutlined,SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -40,6 +40,16 @@ const Vehicules = () => {
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
+    {
+      title: 'Nom',
+      dataIndex: 'nom_client',
+      key: 'nom_client',
+      render : (text,record)=>(
+        <div>
+          <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+        </div>
+      )
+    },
     {
       title: 'Marque',
       dataIndex: 'nom_marque',
