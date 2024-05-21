@@ -25,10 +25,9 @@ const Login = () => {
               <h1 className="login-h1"></h1>
               <p className="login-desc">
               </p>
-              <Link to={'/register'}>
+              <Link to={'/register'} style={{color:'#000'}}>
                 <span>Tu n'as pas de compte ?</span>
-              </Link>
-              <Link to={'/register'} className="login-btn">Register</Link>
+              </Link> 
             </div>
             <div className="login-right">
               <h1>Login</h1>

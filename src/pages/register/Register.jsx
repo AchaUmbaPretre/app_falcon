@@ -24,10 +24,9 @@ const Register = () => {
                 <h1 className="register-h1"></h1>
                 <p className="register-desc">
                 </p>
-                <Link to={'/login'}>
+                <Link to={'/login'} style={{color:'#000'}}>
                   <span>Avez-vous un compte ?</span>
                 </Link>
-                <Link href="" className="register-btn">Register</Link>
               </div>
               <div className="register-right">
                 <h1>Register</h1>
