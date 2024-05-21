@@ -7,12 +7,14 @@ const ClientDetail = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [dataAll, setDataAll] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`${DOMAIN}/client/client_contact`);
         setData(data[0]);
+        setDataAll(data)
         setLoading(false)
       } catch (error) {
         console.log(error);
@@ -21,68 +23,49 @@ const ClientDetail = () => {
     fetchData();
   }, [DOMAIN]);
 
-  console.log(data)
+  console.log(dataAll)
 
   return (
     <>
       <div className="operationDetail">
+        <h1 style={{padding: '10px 0px', fontSize: "22px" }}>Contact de principal de {data?.nom_client}</h1>
         <div className="operationDetail_wrapper">
           <div className="operation_row">
             <span className="operation_span">Client : </span>
             <span className="operation_desc">{data?.nom_client} </span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Superviseur : </span>
-            <span className="operation_desc">{data?.superviseur} </span>
+            <span className="operation_span">Poste : </span>
+            <span className="operation_desc">{data?.poste} </span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Ingenieur : </span>
-            <span className="operation_desc">{data?.technicien} </span>
+            <span className="operation_span">Telephone : </span>
+            <span className="operation_desc">{data?.telephone} </span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Type d'opération : </span>
-            <span className="operation_desc">{data?.type_operations} </span>
+            <span className="operation_span">Adresse : </span>
+            <span className="operation_desc">{data?.adresse} </span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Traceur : </span>
-            <span className="operation_desc">{data?.numero_serie} </span>
+            <span className="operation_span">Email : </span>
+            <span className="operation_desc">{data?.email} </span>
           </div>
-          <div className="operation_row">
-            <span className="operation_span">Kilometre : </span>
-            <span className="operation_desc">{data?.kilometre} </span>
-          </div>
-          <div className="operation_row">
-            <span className="operation_span">Tension : </span>
-            <span className="operation_desc">{data?.tension} </span>
-          </div>
-          <div className="operation_row">
-            <span className="operation_span">Probleme : </span>
-            <span className="operation_desc">{data?.probleme} </span>
-          </div>
-          <div className="operation_row">
-            <span className="operation_span">Observation : </span>
-            <span className="operation_desc">{data?.observations} </span>
-          </div>
-          <div className="operation_row">
-            <span className="operation_span">Photo plaque : </span>
-            <Image
-              className="product-img"
-              width={200}
-              height={200}
-              src="error"
-              fallback={`${DOMAIN}${data?.photo_plaque}`}
-            />
-          </div>
-          <div className="operation_row">
-            <span className="operation_span">Photo traceur : </span>
-            <Image
-              className="product-img"
-              width={200}
-              height={200}
-              src="error"
-              fallback={`${DOMAIN}${data?.photo_traceur}`}
-            />
-          </div>
+        </div>
+        <h1 style={{padding: '20px 0px', fontSize: "22px" }}>Autres contact de {data?.nom_client}</h1>
+        <div className="operationDetail_wrapper">
+        {dataAll.map((dd, index) => (
+            <div key={index} className="operation_row">
+            
+              <span className="operation_span">Nom : </span>
+              <span className="operation_desc">{dd.nom_contact}</span>
+              <span className="operation_span">Téléphone : </span>
+              <span className="operation_desc">{dd.telephone_contact}</span>
+              <span className="operation_span">Poste : </span>
+              <span className="operation_desc">{dd.poste_contact}</span>
+              <span className="operation_span">Email : </span>
+              <span className="operation_desc">{dd.email_contact}</span>
+            </div>
+          ))}
         </div>
       </div>
     </>
