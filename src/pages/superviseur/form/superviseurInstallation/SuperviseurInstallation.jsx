@@ -72,7 +72,7 @@ const SuperviseurInstallation = ({id_type_operation}) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      toast.success('Opératiion créée avec succès!');
+      toast.success("Opération d'installation effectuée avec succès !");
       navigate('/operations');
       window.location.reload();
     } catch (err) {
