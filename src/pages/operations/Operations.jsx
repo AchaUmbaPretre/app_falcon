@@ -12,7 +12,7 @@ const Operations = () => {
  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState('');
+  const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -211,7 +211,7 @@ const Operations = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
-                <Table dataSource={data} columns={columns} />
+                <Table dataSource={data} columns={columns} loading={loading} />
 
                 <Modal
                   title=""

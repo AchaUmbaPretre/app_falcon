@@ -12,6 +12,7 @@ const Traceur = () => {
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
 
   const rowClassName = () => {
@@ -35,6 +36,7 @@ const Traceur = () => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`${DOMAIN}/traceur`);
+        setIsLoading(false)
         setData(data);
       } catch (error) {
         console.log(error);
@@ -82,6 +84,11 @@ const Traceur = () => {
               <CheckCircleOutlined style={{ marginRight: "5px" }} />
               {text}
             </Tag>
+          ) : text === 'Actif' ? (
+            <Tag color={'blue'}>
+              <CheckCircleOutlined style={{ marginRight: "5px" }} />
+              {text}
+            </Tag>
           ) : (
             <Tag color={'red'}>
               <CloseCircleOutlined style={{ marginRight: "5px" }} />
@@ -89,7 +96,7 @@ const Traceur = () => {
             </Tag>
           )}
         </div>
-      )
+      ),
     },
     {
       title: "Client",
@@ -99,6 +106,7 @@ const Traceur = () => {
         <span>
           {text ? (
             <Tag color="blue">
+              <CarOutlined style={{ marginRight: "5px" }} />
               {text}
             </Tag>
           ) : (
@@ -200,7 +208,7 @@ const Traceur = () => {
                 >
                   <TraceurForm />
                 </Modal>
-                <Table dataSource={data} columns={columns} rowClassName={rowClassName} />
+                <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={isLoading} />
             </div>
           </div>
         </div>
