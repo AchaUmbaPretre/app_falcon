@@ -134,6 +134,16 @@ const Operations = () => {
             ),
     },
     {
+      title: 'Crée(e) par',
+      dataIndex: 'install',
+      key: 'install',
+      render : (text,record)=>(
+        <div>
+          <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+        </div>
+      )
+    },
+    {
         title: 'Action',
           key: 'action',
           render: (text, record) => (

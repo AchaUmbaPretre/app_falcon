@@ -2,12 +2,11 @@ import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
-import config from '../../../../config';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
-import { useSelector } from 'react-redux';
+import config from '../../../../config';
 
-const SuperviseurDemantelement = ({id_type_operation}) => {
+const SuperviseurDement = ({id_type_operation}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
@@ -17,27 +16,69 @@ const SuperviseurDemantelement = ({id_type_operation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [traceur, setTraceur] = useState([]);
   const [vehicule, setVehicule] = useState([]);
-  const userId = useSelector((state) => state.user.currentUser.id);
+  const [etat, setEtat] = useState([]);
+  const [imagePreview, setImagePreview] = useState('');
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
   
-    let updatedValue = fieldValue;
-  
-    if (fieldName === "email") {
-      updatedValue = fieldValue.toLowerCase();
-    } else if (Number.isNaN(Number(fieldValue))) {
-      updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+    // Vérifier si le champ est un champ de fichier
+    if (e.target.type === 'file') {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+        setData((prev) => ({ ...prev, [fieldName]: file }));
+      } else {
+        setImagePreview('');
+        setData((prev) => ({ ...prev, [fieldName]: null }));
+      }
+    } else {
+      // Traitement pour les autres types de champs
+      let updatedValue = fieldValue;
+      if (fieldName === "contact_email") {
+        updatedValue = fieldValue.toLowerCase();
+      } else if (Number.isNaN(Number(fieldValue))) {
+        if (typeof fieldValue === "string" && fieldValue.length > 0) {
+          updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+        }
+      }
+      setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
     }
-  
-  setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/client`);
+        setClient(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        setVehicule(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
 
   const handleClick = async (e) => {
     e.preventDefault();
   
-    if (!data.id_client || !data.site ) {
+    if (!data.id_vehicule || !data.id_traceur ) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
@@ -46,8 +87,7 @@ const SuperviseurDemantelement = ({id_type_operation}) => {
       setIsLoading(true);
       await axios.post(`${DOMAIN}/operation`, {
         ...data,
-        id_type_operations : id_type_operation,
-        user_cr : userId
+        id_type_operations : id_type_operation
       },{
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -73,18 +113,6 @@ const SuperviseurDemantelement = ({id_type_operation}) => {
       try {
         const { data } = await axios.get(`${DOMAIN}/client`);
         setClient(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule`);
-        setVehicule(data);
       } catch (error) {
         console.log(error);
       }
@@ -127,19 +155,31 @@ const SuperviseurDemantelement = ({id_type_operation}) => {
     };
     fetchData();
   }, [DOMAIN]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/traceur/traceur_etat`);
+        setEtat(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
   
   return (
     <>
-        <div className="superviseurInstall">
+        <div className="clientForm">
           <div className="product-container">
             <div className="product-container-top">
               <div className="product-left">
-                <h2 className="product-h2">Opération : Controle technique</h2>
+                <h2 className="product-h2">Opération : Démentèlement</h2>
               </div>
             </div>
             <div className="product-wrapper">
               <div className="product-container-bottom">
-                <div className="form-controle">
+              <div className="form-controle">
                   <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_client"
@@ -153,6 +193,22 @@ const SuperviseurDemantelement = ({id_type_operation}) => {
                         })
                       }
                       placeholder="Sélectionnez un client..."
+                    />
+                </div>
+                <div className="form-controle">
+                  <label htmlFor="">Vehicule <span style={{color:'red'}}>*</span></label>
+                  <Select
+                      name="id_vehicule"
+                      options={vehicule?.map((item) => ({
+                        value: item.id_vehicule,
+                        label: item.nom_vehicule,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_vehicule', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un vehicule..."
                     />
                 </div>
                 <div className="form-controle">
@@ -172,22 +228,6 @@ const SuperviseurDemantelement = ({id_type_operation}) => {
                     />
                 </div>
                 <div className="form-controle">
-                  <label htmlFor="">Véhicule <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_vehicule"
-                      options={vehicule?.map((item) => ({
-                        value: item.id_vehicule,
-                        label: item.nom_vehicule,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_vehicule', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un véhicule..."
-                    />
-                </div>
-                <div className="form-controle">
                   <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_traceur"
@@ -202,6 +242,22 @@ const SuperviseurDemantelement = ({id_type_operation}) => {
                       }
                       placeholder="Sélectionnez un traceur..."
                     />
+                </div>
+                <div className="form-controle">
+                  <label htmlFor="">Etat du traceur <span style={{color:'red'}}>*</span></label>
+                  <Select
+                      name="id_etat_traceur"
+                      options={etat?.map((item) => ({
+                        value: item.id_etat_traceur,
+                        label: item.nom_etat_traceur,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_etat_traceur', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un état..."
+                    /> 
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
@@ -240,28 +296,12 @@ const SuperviseurDemantelement = ({id_type_operation}) => {
                     />
                 </div>
                 <div className="form-controle">
-                    <label htmlFor="">Probleme <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
-                </div>
-                <div className="form-controle">
-                    <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
-                </div>
-                <div className="form-controle">
-                    <label htmlFor="">Kilometre <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='kilometre' className="form-input" onChange={handleInputChange} />
-                </div>
-                <div className="form-controle">
-                    <label htmlFor="">Tension <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='tension' className="form-input" onChange={handleInputChange} />
-                </div>
-                <div className="form-controle">
                     <label htmlFor="">photo plaque <span style={{color:'red'}}>*</span></label>
-                    <input type="file" name='photo_plaque' className="form-input" onChange={handleInputChange} />
+                    <input type="file" accept=".jpeg, .png, .jpg" name='photo_plaque' className="form-input" onChange={handleInputChange} />
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">photo traceur <span style={{color:'red'}}>*</span></label>
-                    <input type="file" name='photo_traceur' className="form-input" onChange={handleInputChange} />
+                    <input type="file" accept=".jpeg, .png, .jpg" name='photo_traceur' className="form-input" onChange={handleInputChange} />
                 </div>
               </div>
               <div className="form-submit">
@@ -279,4 +319,4 @@ const SuperviseurDemantelement = ({id_type_operation}) => {
   )
 }
 
-export default SuperviseurDemantelement
+export default SuperviseurDement
