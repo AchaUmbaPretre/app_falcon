@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,UserOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined,SettingOutlined,PhoneOutlined,MailOutlined,UserOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 
@@ -27,37 +27,69 @@ const Personnel = () => {
 
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
+    { 
+      title: '#', 
+      dataIndex: 'id', 
+      key: 'id', 
+      render: (text, record, index) => index + 1, 
+      width: "5%" 
+    },
     {
       title: 'Nom',
       dataIndex: 'username',
       key: 'username',
-      render : (text,record)=>(
-        <div>
-          <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
-        </div>
-      )
+      render: (text, record) => (
+        <Tag color={'blue'}>
+          <UserOutlined style={{ marginRight: "5px" }} />
+          {text}
+        </Tag>
+      ),
     },
     {
       title: 'Role',
       dataIndex: 'role',
       key: 'role',
+      render: (text) => (
+        <Tag color={'geekblue'}>
+          <SettingOutlined style={{ marginRight: "5px" }} />
+          {text}
+        </Tag>
+      ),
     },
     {
-        title: 'Telephone',
-        dataIndex: 'telephone',
-        key: 'telephone',
+      title: 'Téléphone',
+      dataIndex: 'telephone',
+      key: 'telephone',
+      render: (text) => (
+        <Tag color={'green'}>
+          <PhoneOutlined style={{ marginRight: "5px" }} />
+          {text}
+        </Tag>
+      ),
     },
     {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      render: (text) => (
+        <Tag color={'volcano'}>
+          <MailOutlined style={{ marginRight: "5px" }} />
+          {text}
+        </Tag>
+      ),
     },
     {
       title: 'Actions',
       dataIndex: 'actions',
       key: 'actions',
-    }
+      render: (text, record) => (
+        <div>
+          {/* Exemple d'actions possibles */}
+          <Tag color={'purple'}>Edit</Tag>
+          <Tag color={'red'}>Delete</Tag>
+        </div>
+      ),
+    },
   ];
 
   const showModal = (e) => {
