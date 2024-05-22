@@ -29,6 +29,8 @@ import Superviseur from './pages/superviseur/Superviseur';
 import { useDispatch, useSelector } from 'react-redux';
 import SuperviseurNavbar from './pages/superviseur/navbar/SuperviseurNavbar';
 import SuperviseurInstallation from './pages/superviseur/form/superviseurInstallation/SuperviseurInstallation';
+import SuperviseurControle from './pages/superviseur/form/superviseurControle/SuperviseurControle';
+import SuperviseurDemantelement from './pages/superviseur/form/superviseurDemantelement/SuperviseurDement';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -88,6 +90,9 @@ function App() {
   const superviseurRoutes = [
     { path: '/', element: <Superviseur /> },
     { path: '/installation', element: <SuperviseurInstallation /> },
+    { path: '/controle_technique', element: <SuperviseurControle /> },
+    { path: '/demantelement', element: <SuperviseurDemantelement /> },
+    { path: '/demantelement', element: <SuperviseurDemantelement /> },
   ];
 
   const router = createBrowserRouter([
