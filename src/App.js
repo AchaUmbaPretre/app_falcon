@@ -67,48 +67,41 @@ function App() {
     </div>
   );
 
-  const adminRoutes = [
-    { path: '/', element: <Rightbar /> },
-    { path: '/client', element: <Client /> },
-    { path: '/client_form', element: <ClientForm /> },
-    { path: '/traceurs', element: <Traceur /> },
-    { path: '/traceurs_form', element: <TraceurForm /> },
-    { path: '/operations', element: <Operations /> },
-    { path: '/operations_form', element: <OperationGen /> },
-    { path: '/affectation', element: <Affectations /> },
-    { path: '/affectation_form', element: <AffectationForm /> },
-    { path: '/numero', element: <Numero /> },
-    { path: '/numero_form', element: <NumeroForm /> },
-    { path: '/vehicules', element: <Vehicules /> },
-    { path: '/vehicule_form', element: <Vehicules_form /> },
-    { path: '/marques', element: <Marques /> },
-    { path: '/personnel', element: <Personnel /> },
-    { path: '/personnel_form', element: <PersonnelForm /> },
-    { path: '/superviseur', element: <Superviseur /> },
-  ];
-
-  const superviseurRoutes = [
-    { path: '/', element: <Superviseur /> },
-    { path: '/installation', element: <SuperviseurInstallation /> },
-    { path: '/controle_technique', element: <SuperviseurControle /> },
-    { path: '/demantelement', element: <SuperviseurDement /> },
-    { path: '/Remplacement', element: <SuperviseurDement /> },
-  ];
-
-  const router = createBrowserRouter([
-    user?.role === 'admin' || user?.role === 'secretaire' ? {
+  const routes = [
+    {
       path: '/',
       element: <SecuriteRoute><Layout /></SecuriteRoute>,
-      children: adminRoutes,
-    } : {},
-    user?.role === 'superviseur' ? {
-      path: '/',
-      element: <SecuriteRoute><Layout2 /></SecuriteRoute>,
-      children: superviseurRoutes,
-    } : {},
+      children: user?.role === 'admin' || user?.role === 'secretaire' ? [
+        { path: '/', element: <Rightbar /> },
+        { path: '/client', element: <Client /> },
+        { path: '/client_form', element: <ClientForm /> },
+        { path: '/traceurs', element: <Traceur /> },
+        { path: '/traceurs_form', element: <TraceurForm /> },
+        { path: '/operations', element: <Operations /> },
+        { path: '/operations_form', element: <OperationGen /> },
+        { path: '/affectation', element: <Affectations /> },
+        { path: '/affectation_form', element: <AffectationForm /> },
+        { path: '/numero', element: <Numero /> },
+        { path: '/numero_form', element: <NumeroForm /> },
+        { path: '/vehicules', element: <Vehicules /> },
+        { path: '/vehicule_form', element: <Vehicules_form /> },
+        { path: '/marques', element: <Marques /> },
+        { path: '/personnel', element: <Personnel /> },
+        { path: '/personnel_form', element: <PersonnelForm /> },
+        { path: '/superviseur', element: <Superviseur /> },
+      ] : user?.role === 'superviseur' ? [
+        { path: '/', element: <Superviseur /> },
+        { path: '/installation', element: <SuperviseurInstallation /> },
+        { path: '/controle_technique', element: <SuperviseurControle /> },
+        { path: '/demantelement', element: <SuperviseurDement /> },
+        { path: '/Remplacement', element: <SuperviseurDement /> },
+      ] : [],
+    },
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
-  ]);
+  ];
+
+  const router = createBrowserRouter(routes);
 
   return (
     <div className="App">
