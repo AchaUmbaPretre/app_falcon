@@ -2,11 +2,12 @@ import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
-import config from '../../../config';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
+import config from '../../../../config';
+import './superviseurInstallation.scss'
 
-const OperationForm = ({id_type_operation}) => {
+const SuperviseurInstallation = ({id_type_operation}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
@@ -49,9 +50,6 @@ const OperationForm = ({id_type_operation}) => {
       setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
     }
   };
-  
-  
-  console.log(data)
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -150,7 +148,7 @@ const OperationForm = ({id_type_operation}) => {
   
   return (
     <>
-        <div className="clientForm">
+        <div className="superviseurInstall">
           <div className="product-container">
             <div className="product-container-top">
               <div className="product-left">
@@ -283,4 +281,4 @@ const OperationForm = ({id_type_operation}) => {
   )
 }
 
-export default OperationForm
+export default SuperviseurInstallation

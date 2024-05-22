@@ -6,10 +6,12 @@ import controle from './../../assets/controle.png'
 import dementelement from './../../assets/démantèlement.png'
 import transfert from './../../assets/transfert.png'
 import remplacement from './../../assets/remplacement.png'
+import { useNavigate } from 'react-router-dom';
 
 const Superviseur = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [data, setData] = useState([]);
+    const navigate = useNavigate();
 
 
       const handleClick = async (e) => {
@@ -21,7 +23,7 @@ const Superviseur = () => {
         <div className="superviseur">
             <div className="superviseur_wrapper">
                 <div className="superviseur_rows">
-                    <div className="superviseur_row">
+                    <div className="superviseur_row" onClick={()=>navigate('/installation')}>
                         <img src={installation} alt="" className="superviseur_img" />
                         <span className="superviseur_span">Installation</span>
                     </div>
