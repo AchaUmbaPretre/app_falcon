@@ -27,11 +27,11 @@ const Superviseur = () => {
                         <img src={installation} alt="" className="superviseur_img" />
                         <span className="superviseur_span">Installation</span>
                     </div>
-                    <div className="superviseur_row">
+                    <div className="superviseur_row" onClick={()=>navigate('/controle_technique')}>
                         <img src={controle} alt="" className="superviseur_img" />
                         <span className="superviseur_span">Controle technique</span>
                     </div> 
-                    <div className="superviseur_row">
+                    <div className="superviseur_row" onClick={()=>navigate('/demantelement')}>
                         <img src={dementelement} alt="" className="superviseur_img" />
                         <span className="superviseur_span">Démentelement</span>
                     </div> 

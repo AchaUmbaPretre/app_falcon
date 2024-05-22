@@ -92,7 +92,7 @@ function App() {
     { path: '/installation', element: <SuperviseurInstallation /> },
     { path: '/controle_technique', element: <SuperviseurControle /> },
     { path: '/demantelement', element: <SuperviseurDemantelement /> },
-    { path: '/demantelement', element: <SuperviseurDemantelement /> },
+    { path: '/Remplacement', element: <SuperviseurDemantelement /> },
   ];
 
   const router = createBrowserRouter([
