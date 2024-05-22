@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { Spin } from 'antd';
 import config from '../../../../config';
 
-const SuperviseurDement = ({id_type_operation}) => {
+const SuperviseurDement = ({id_type_operation = 3}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
@@ -201,14 +201,14 @@ const SuperviseurDement = ({id_type_operation}) => {
                       name="id_vehicule"
                       options={vehicule?.map((item) => ({
                         value: item.id_vehicule,
-                        label: item.nom_vehicule,
+                        label: `Marque : ${item.nom_marque} / Matricule : ${item.matricule}`,
                       }))}
                       onChange={(selectedOption) =>
                         handleInputChange({
                           target: { name: 'id_vehicule', value: selectedOption.value },
                         })
                       }
-                      placeholder="Sélectionnez un vehicule..."
+                      placeholder="Sélectionnez un véhicule..."
                     />
                 </div>
                 <div className="form-controle">

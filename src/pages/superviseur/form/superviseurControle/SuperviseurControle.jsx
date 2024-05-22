@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { Spin } from 'antd';
 import { useSelector } from 'react-redux';
 
-const SuperviseurControle = ({id_type_operation}) => {
+const SuperviseurControle = ({id_type_operation = 4}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
@@ -17,21 +17,39 @@ const SuperviseurControle = ({id_type_operation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [traceur, setTraceur] = useState([]);
   const [vehicule, setVehicule] = useState([]);
+  const [imagePreview, setImagePreview] = useState('');
   const userId = useSelector((state) => state.user.currentUser.id);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
   
-    let updatedValue = fieldValue;
-  
-    if (fieldName === "email") {
-      updatedValue = fieldValue.toLowerCase();
-    } else if (Number.isNaN(Number(fieldValue))) {
-      updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+    // Vérifier si le champ est un champ de fichier
+    if (e.target.type === 'file') {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+        setData((prev) => ({ ...prev, [fieldName]: file }));
+      } else {
+        setImagePreview('');
+        setData((prev) => ({ ...prev, [fieldName]: null }));
+      }
+    } else {
+      // Traitement pour les autres types de champs
+      let updatedValue = fieldValue;
+      if (fieldName === "contact_email") {
+        updatedValue = fieldValue.toLowerCase();
+      } else if (Number.isNaN(Number(fieldValue))) {
+        if (typeof fieldValue === "string" && fieldValue.length > 0) {
+          updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+        }
+      }
+      setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
     }
-  
-  setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
   };
 
   const handleClick = async (e) => {
@@ -54,7 +72,7 @@ const SuperviseurControle = ({id_type_operation}) => {
         },
       });
       toast.success('Opératiion créée avec succès!');
-      navigate('/operations');
+      navigate('controle_technique');
       window.location.reload();
     } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
@@ -177,7 +195,7 @@ const SuperviseurControle = ({id_type_operation}) => {
                       name="id_vehicule"
                       options={vehicule?.map((item) => ({
                         value: item.id_vehicule,
-                        label: item.nom_vehicule,
+                        label: `Marque : ${item.nom_marque} / Matricule : ${item.matricule}`,
                       }))}
                       onChange={(selectedOption) =>
                         handleInputChange({

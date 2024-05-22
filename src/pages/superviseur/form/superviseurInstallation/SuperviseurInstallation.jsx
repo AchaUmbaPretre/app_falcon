@@ -8,7 +8,7 @@ import config from '../../../../config';
 import './superviseurInstallation.scss'
 import { useSelector } from 'react-redux';
 
-const SuperviseurInstallation = ({id_type_operation}) => {
+const SuperviseurInstallation = ({id_type_operation = 1}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
