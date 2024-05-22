@@ -57,6 +57,11 @@
                     margin: 10px 0;
                     color: #fff;
 
+                    @include mobileXR{
+                        color: red;
+                        font-size: 1.2rem;
+                    }
+
                     &:hover{
                         color:rgba(255, 0, 0, 0.705);
                     }
@@ -69,6 +74,7 @@
                     color: #fff;
                     border-radius: .5rem;
                     font-weight: 500;
+                    
         
                     &:hover{
                         color: rgb(60, 138, 241);
