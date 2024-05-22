@@ -1,14 +1,14 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import { Spin } from 'antd';
+import { Modal, Spin } from 'antd';
 import config from '../../../../config';
 
-const SuperviseurDement = ({id_type_operation = 3}) => {
+const SuperviseurDement = ({ id_type_operation = 3 }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
   const navigate = useNavigate();
   const [client, setClient] = useState([]);
   const [site, setSite] = useState([]);
@@ -18,11 +18,12 @@ const SuperviseurDement = ({id_type_operation = 3}) => {
   const [vehicule, setVehicule] = useState([]);
   const [etat, setEtat] = useState([]);
   const [imagePreview, setImagePreview] = useState('');
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
-  
+
     // Vérifier si le champ est un champ de fichier
     if (e.target.type === 'file') {
       const file = e.target.files[0];
@@ -75,26 +76,34 @@ const SuperviseurDement = ({id_type_operation = 3}) => {
     fetchData();
   }, [DOMAIN]);
 
+  const handleConfirm = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowConfirmModal(false);
+  }
+
   const handleClick = async (e) => {
     e.preventDefault();
-  
-    if (!data.id_vehicule || !data.id_traceur ) {
+
+    if (!data.id_vehicule || !data.id_traceur) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
-  
+
     try {
       setIsLoading(true);
       await axios.post(`${DOMAIN}/operation`, {
         ...data,
-        id_type_operations : id_type_operation
-      },{
+        id_type_operations: id_type_operation
+      }, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      toast.success('Opératiion créée avec succès!');
-      navigate('/operations');
+      toast.success('Opération créée avec succès!');
+      navigate('/demantelement');
       window.location.reload();
     } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
@@ -167,156 +176,170 @@ const SuperviseurDement = ({id_type_operation = 3}) => {
     };
     fetchData();
   }, [DOMAIN]);
-  
+
   return (
     <>
-        <div className="clientForm">
-          <div className="product-container">
-            <div className="product-container-top">
-              <div className="product-left">
-                <h2 className="product-h2">Opération : Démentèlement</h2>
-              </div>
-            </div>
-            <div className="product-wrapper">
-              <div className="product-container-bottom">
-              <div className="form-controle">
-                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_client"
-                      options={client?.map((item) => ({
-                        value: item.id_client,
-                        label: item.nom_client,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_client', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un client..."
-                    />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Vehicule <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_vehicule"
-                      options={vehicule?.map((item) => ({
-                        value: item.id_vehicule,
-                        label: `Marque : ${item.nom_marque} / Matricule : ${item.matricule}`,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_vehicule', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un véhicule..."
-                    />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Site <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="site"
-                      options={site?.map((item) => ({
-                        value: item.id_site,
-                        label: item.nom_site,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'site', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un site..."
-                    />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_traceur"
-                      options={traceur?.map((item) => ({
-                        value: item.id_traceur,
-                        label: item.numero_serie,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_traceur', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un traceur..."
-                    />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Etat du traceur <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_etat_traceur"
-                      options={etat?.map((item) => ({
-                        value: item.id_etat_traceur,
-                        label: item.nom_etat_traceur,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_etat_traceur', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un état..."
-                    /> 
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_superviseur"
-                      options={users?.map((item) => ({
-                        value: item.id,
-                        label: item.username,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_superviseur', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un superviseur..."
-                    />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Date d'opération <span style={{color:'red'}}>*</span></label>
-                  <input type="date" name='date_operation' className="form-input" onChange={handleInputChange} />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Technicien <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_technicien"
-                      options={users?.map((item) => ({
-                        value: item.id,
-                        label: item.username,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_technicien', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un technicien..."
-                    />
-                </div>
-                <div className="form-controle">
-                    <label htmlFor="">photo plaque <span style={{color:'red'}}>*</span></label>
-                    <input type="file" accept=".jpeg, .png, .jpg" name='photo_plaque' className="form-input" onChange={handleInputChange} />
-                </div>
-                <div className="form-controle">
-                    <label htmlFor="">photo traceur <span style={{color:'red'}}>*</span></label>
-                    <input type="file" accept=".jpeg, .png, .jpg" name='photo_traceur' className="form-input" onChange={handleInputChange} />
-                </div>
-              </div>
-              <div className="form-submit">
-                <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
-                {isLoading && (
-                <div className="loader-container loader-container-center">
-                   <Spin size="large" />
-                </div>
-            )}
-              </div>
+      <div className="clientForm">
+        <div className="product-container">
+          <div className="product-container-top">
+            <div className="product-left">
+              <h2 className="product-h2">Opération : Démentèlement</h2>
             </div>
           </div>
+          <div className="product-wrapper">
+            <div className="product-container-bottom">
+              <div className="form-controle">
+                <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
+                <Select
+                  name="id_client"
+                  options={client?.map((item) => ({
+                    value: item.id_client,
+                    label: item.nom_client,
+                  }))}
+                  onChange={(selectedOption) =>
+                    handleInputChange({
+                      target: { name: 'id_client', value: selectedOption.value },
+                    })
+                  }
+                  placeholder="Sélectionnez un client..."
+                />
+              </div>
+              <div className="form-controle">
+                <label htmlFor="">Véhicule <span style={{color:'red'}}>*</span></label>
+                <Select
+                  name="id_vehicule"
+                  options={vehicule?.map((item) => ({
+                    value: item.id_vehicule,
+                    label: `Marque : ${item.nom_marque} / Matricule : ${item.matricule}`,
+                  }))}
+                  onChange={(selectedOption) =>
+                    handleInputChange({
+                      target: { name: 'id_vehicule', value: selectedOption.value },
+                    })
+                  }
+                  placeholder="Sélectionnez un véhicule..."
+                />
+              </div>
+              <div className="form-controle">
+                <label htmlFor="">Site <span style={{color:'red'}}>*</span></label>
+                <Select
+                  name="site"
+                  options={site?.map((item) => ({
+                    value: item.id_site,
+                    label: item.nom_site,
+                  }))}
+                  onChange={(selectedOption) =>
+                    handleInputChange({
+                      target: { name: 'site', value: selectedOption.value },
+                    })
+                  }
+                  placeholder="Sélectionnez un site..."
+                />
+              </div>
+              <div className="form-controle">
+                <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
+                <Select
+                  name="id_traceur"
+                  options={traceur?.map((item) => ({
+                    value: item.id_traceur,
+                    label: item.numero_serie,
+                  }))}
+                  onChange={(selectedOption) =>
+                    handleInputChange({
+                      target: { name: 'id_traceur', value: selectedOption.value },
+                    })
+                  }
+                  placeholder="Sélectionnez un traceur..."
+                />
+              </div>
+              <div className="form-controle">
+                <label htmlFor="">Etat du traceur <span style={{color:'red'}}>*</span></label>
+                <Select
+                  name="id_etat_traceur"
+                  options={etat?.map((item) => ({
+                    value: item.id_etat_traceur,
+                    label: item.nom_etat_traceur,
+                  }))}
+                  onChange={(selectedOption) =>
+                    handleInputChange({
+                      target: { name: 'id_etat_traceur', value: selectedOption.value },
+                    })
+                  }
+                  placeholder="Sélectionnez un état..."
+                />
+              </div>
+              <div className="form-controle">
+                <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
+                <Select
+                  name="id_superviseur"
+                  options={users?.map((item) => ({
+                    value: item.id,
+                    label: item.username,
+                  }))}
+                  onChange={(selectedOption) =>
+                    handleInputChange({
+                      target: { name: 'id_superviseur', value: selectedOption.value },
+                    })
+                  }
+                  placeholder="Sélectionnez un superviseur..."
+                />
+              </div>
+              <div className="form-controle">
+                <label htmlFor="">Date d'opération <span style={{color:'red'}}>*</span></label>
+                <input type="date" name='date_operation' className="form-input" onChange={handleInputChange} />
+              </div>
+              <div className="form-controle">
+                <label htmlFor="">Technicien <span style={{color:'red'}}>*</span></label>
+                <Select
+                  name="id_technicien"
+                  options={users?.map((item) => ({
+                    value: item.id,
+                    label: item.username,
+                  }))}
+                  onChange={(selectedOption) =>
+                    handleInputChange({
+                      target: { name: 'id_technicien', value: selectedOption.value },
+                    })
+                  }
+                  placeholder="Sélectionnez un technicien..."
+                />
+              </div>
+              <div className="form-controle">
+                <label htmlFor="">Photo plaque <span style={{color:'red'}}>*</span></label>
+                <input type="file" accept=".jpeg, .png, .jpg" name='photo_plaque' className="form-input" onChange={handleInputChange} />
+              </div>
+              <div className="form-controle">
+                <label htmlFor="">Photo traceur <span style={{color:'red'}}>*</span></label>
+                <input type="file" accept=".jpeg, .png, .jpg" name='photo_traceur' className="form-input" onChange={handleInputChange} />
+              </div>
+            </div>
+            <div className="form-submit">
+              <button className="btn-submit" onClick={handleConfirm} disabled={isLoading}>Envoyer</button>
+              {isLoading && (
+                <div className="loader-container loader-container-center">
+                  <Spin size="large" />
+                </div>
+              )}
+            </div>
+
+            <Modal
+              title="Confirmation de l'opération"
+              visible={showConfirmModal}
+              onOk={handleClick}
+              onCancel={handleCancel}
+              centered
+              cancelText={<span style={{ color: '#fff' }}>Non</span>}
+              okText={<span style={{ color: '#fff' }}>Oui</span>}
+              cancelButtonProps={{ style: { background: 'red', border: 'none', borderRadius: '5px', fontWeight: 'bold' } }}
+              okButtonProps={{ style: { background: 'blue', border: 'none', borderRadius: '5px', fontWeight: 'bold' } }}
+            >
+              <p>Êtes-vous sûr de vouloir démonter ce traceur ? Cette action est irréversible.</p>
+            </Modal>
+          </div>
         </div>
+      </div>
     </>
   )
 }
 
-export default SuperviseurDement
+export default SuperviseurDement;

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import { Spin } from 'antd';
+import { Modal, Spin } from 'antd';
 import config from '../../../../config';
 import './superviseurInstallation.scss'
 import { useSelector } from 'react-redux';
@@ -20,6 +20,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
   const [vehicule, setVehicule] = useState([]);
   const [imagePreview, setImagePreview] = useState('');
   const userId = useSelector((state) => state.user.currentUser.id);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -53,6 +54,14 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
     }
   };
 
+  const handleConfirm = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowConfirmModal(false);
+  }
+
   const handleClick = async (e) => {
     e.preventDefault();
   
@@ -73,7 +82,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
         },
       });
       toast.success("Opération d'installation effectuée avec succès !");
-      navigate('/operations');
+      navigate('/installation');
       window.location.reload();
     } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
@@ -261,6 +270,14 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
                     />
                 </div>
                 <div className="form-controle">
+                    <label htmlFor="">Kilometre <span style={{color:'red'}}>*</span></label>
+                    <input type="text" name='kilometre' className="form-input" onChange={handleInputChange} />
+                </div>
+                <div className="form-controle">
+                    <label htmlFor="">Tension <span style={{color:'red'}}>*</span></label>
+                    <input type="text" name='tension' className="form-input" onChange={handleInputChange} />
+                </div>
+                <div className="form-controle">
                     <label htmlFor="">photo plaque <span style={{color:'red'}}>*</span></label>
                     <input type="file" accept=".jpeg, .png, .jpg" name='photo_plaque' className="form-input" onChange={handleInputChange} />
                 </div>
@@ -270,7 +287,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
                 </div>
               </div>
               <div className="form-submit">
-                <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
+                <button className="btn-submit" onClick={handleConfirm} disabled={isLoading}>Envoyer</button>
                 {isLoading && (
                 <div className="loader-container loader-container-center">
                    <Spin size="large" />
@@ -278,6 +295,20 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
             )}
               </div>
             </div>
+
+            <Modal
+              title="Confirmation"
+              visible={showConfirmModal}
+              onOk={handleClick}
+              onCancel={handleCancel}
+              centered
+              cancelText={<span style={{ color: '#fff' }}>Non</span>}
+              okText={<span style={{ color: '#fff' }}>Oui</span>}
+              cancelButtonProps={{ style: { background: 'red' } }}
+              okButtonProps={{ style: { background: 'blue' } }}
+            >
+              <p>Est- ce que vous installe un traceur a ete deja configuré ?</p>
+            </Modal>
           </div>
         </div>
     </>
