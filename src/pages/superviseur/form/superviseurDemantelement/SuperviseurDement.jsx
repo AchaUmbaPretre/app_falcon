@@ -5,6 +5,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { Modal, Spin } from 'antd';
 import config from '../../../../config';
+import { useSelector } from 'react-redux';
 
 const SuperviseurDement = ({ id_type_operation = 3 }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -19,6 +20,8 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
   const [etat, setEtat] = useState([]);
   const [imagePreview, setImagePreview] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const userId = useSelector((state) => state.user.currentUser.id);
+
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;

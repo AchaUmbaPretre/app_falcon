@@ -260,6 +260,14 @@ const OperationForm = ({id_type_operation}) => {
                     />
                 </div>
                 <div className="form-controle">
+                    <label htmlFor="">Kilometre <span style={{color:'red'}}>*</span></label>
+                    <input type="text" name='kilometre' className="form-input" onChange={handleInputChange} />
+                </div>
+                <div className="form-controle">
+                    <label htmlFor="">Tension <span style={{color:'red'}}>*</span></label>
+                    <input type="text" name='tension' className="form-input" onChange={handleInputChange} />
+                </div>
+                <div className="form-controle">
                     <label htmlFor="">photo plaque <span style={{color:'red'}}>*</span></label>
                     <input type="file" accept=".jpeg, .png, .jpg" name='photo_plaque' className="form-input" onChange={handleInputChange} />
                 </div>
