@@ -5,6 +5,7 @@ import Select from 'react-select';
 import config from '../../../config';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
+import { useSelector } from 'react-redux';
 
 const OperationDementeler = ({id_type_operation}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -18,6 +19,8 @@ const OperationDementeler = ({id_type_operation}) => {
   const [vehicule, setVehicule] = useState([]);
   const [etat, setEtat] = useState([]);
   const [imagePreview, setImagePreview] = useState('');
+  const userId = useSelector((state) => state.user.currentUser.id);
+
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -87,7 +90,8 @@ const OperationDementeler = ({id_type_operation}) => {
       setIsLoading(true);
       await axios.post(`${DOMAIN}/operation`, {
         ...data,
-        id_type_operations : id_type_operation
+        id_type_operations : id_type_operation,
+        user_cr : userId
       },{
         headers: {
           'Content-Type': 'multipart/form-data',

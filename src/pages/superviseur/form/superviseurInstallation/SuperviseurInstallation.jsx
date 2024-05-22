@@ -308,7 +308,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
               cancelButtonProps={{ style: { background: 'red' } }}
               okButtonProps={{ style: { background: 'blue' } }}
             >
-              <p>Est- ce que vous installe un traceur a ete deja configuré ?</p>
+              <p>Est-ce que le traceur installé a déjà été configuré ?</p>
             </Modal>
           </div>
         </div>

@@ -4,7 +4,8 @@ import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
 import { toast } from 'react-toastify';
-import { Spin } from 'antd';
+import { Modal, Spin } from 'antd';
+import { useSelector } from 'react-redux';
 
 const OperationForm = ({id_type_operation}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -17,6 +18,8 @@ const OperationForm = ({id_type_operation}) => {
   const [traceur, setTraceur] = useState([]);
   const [vehicule, setVehicule] = useState([]);
   const [imagePreview, setImagePreview] = useState('');
+  const userId = useSelector((state) => state.user.currentUser.id);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -49,9 +52,14 @@ const OperationForm = ({id_type_operation}) => {
       setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
     }
   };
-  
-  
-  console.log(data)
+
+  const handleConfirm = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowConfirmModal(false);
+  }
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -65,7 +73,8 @@ const OperationForm = ({id_type_operation}) => {
       setIsLoading(true);
       await axios.post(`${DOMAIN}/operation`,{
         ...data,
-        id_type_operations : id_type_operation
+        id_type_operations : id_type_operation,
+        user_cr : userId
       },{
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -277,7 +286,7 @@ const OperationForm = ({id_type_operation}) => {
                 </div>
               </div>
               <div className="form-submit">
-                <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
+                <button className="btn-submit" onClick={handleConfirm} disabled={isLoading}>Envoyer</button>
                 {isLoading && (
                 <div className="loader-container loader-container-center">
                    <Spin size="large" />
@@ -285,6 +294,19 @@ const OperationForm = ({id_type_operation}) => {
             )}
               </div>
             </div>
+            <Modal
+              title="Confirmation"
+              visible={showConfirmModal}
+              onOk={handleClick}
+              onCancel={handleCancel}
+              centered
+              cancelText={<span style={{ color: '#fff' }}>Non</span>}
+              okText={<span style={{ color: '#fff' }}>Oui</span>}
+              cancelButtonProps={{ style: { background: 'red' } }}
+              okButtonProps={{ style: { background: 'blue' } }}
+            >
+              <p>Est-ce que le traceur installé a déjà été configuré ?</p>
+            </Modal>
           </div>
         </div>
     </>
