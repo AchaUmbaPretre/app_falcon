@@ -99,7 +99,8 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
       setIsLoading(true);
       await axios.post(`${DOMAIN}/operation`, {
         ...data,
-        id_type_operations: id_type_operation
+        id_type_operations: id_type_operation,
+        user_cr: userId
       }, {
         headers: {
           'Content-Type': 'multipart/form-data',

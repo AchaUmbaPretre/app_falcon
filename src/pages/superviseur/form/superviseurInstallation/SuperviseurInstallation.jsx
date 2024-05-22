@@ -54,48 +54,6 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
     }
   };
 
-  const handleConfirm = () => {
-    setShowConfirmModal(true);
-  };
-
-  const handleCancel = () => {
-    setShowConfirmModal(false);
-  }
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-  
-    if (!data.id_client || !data.site ) {
-      toast.error('Veuillez remplir tous les champs requis');
-      return;
-    }
-  
-    try {
-      setIsLoading(true);
-      await axios.post(`${DOMAIN}/operation`,{
-        ...data,
-        id_type_operations : id_type_operation,
-        user_cr : userId
-      },{
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      toast.success("Opération d'installation effectuée avec succès !");
-      navigate('/installation');
-      window.location.reload();
-    } catch (err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
-        toast.error(errorMessage);
-      } else {
-        toast.error(err.message);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -157,6 +115,49 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
     };
     fetchData();
   }, [DOMAIN]);
+
+
+  const handleConfirm = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowConfirmModal(false);
+  }
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+  
+    if (!data.id_client || !data.site ) {
+      toast.error('Veuillez remplir tous les champs requis');
+      return;
+    }
+  
+    try {
+      setIsLoading(true);
+      await axios.post(`${DOMAIN}/operation`,{
+        ...data,
+        id_type_operations : id_type_operation,
+        user_cr : userId
+      },{
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      toast.success("Opération d'installation effectuée avec succès !");
+      navigate('/installation');
+      window.location.reload();
+    } catch (err) {
+      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
+        const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
+        toast.error(errorMessage);
+      } else {
+        toast.error(err.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
   
   return (
     <>
