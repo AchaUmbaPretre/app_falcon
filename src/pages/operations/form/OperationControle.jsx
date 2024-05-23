@@ -12,6 +12,7 @@ const OperationControle = ({id_type_operation}) => {
   const [data, setData] = useState({})
   const navigate = useNavigate();
   const [client, setClient] = useState([]);
+  const [idClient, setIdClient] = useState('');
   const [site, setSite] = useState([]);
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,6 +44,10 @@ const OperationControle = ({id_type_operation}) => {
   
   setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
   };
+
+  useEffect(()=>{
+    setIdClient(data?.id_client)
+  },[data?.id_client])
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -93,14 +98,14 @@ const OperationControle = ({id_type_operation}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        const { data } = await axios.get(`${DOMAIN}/vehicule?id_client=${idClient}`);
         setVehicule(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [DOMAIN]);
+  }, [DOMAIN,idClient]);
 
   useEffect(() => {
     const fetchData = async () => {

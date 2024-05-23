@@ -12,6 +12,7 @@ const OperationDementeler = ({id_type_operation}) => {
   const [data, setData] = useState({})
   const navigate = useNavigate();
   const [client, setClient] = useState([]);
+  const [idClient, setIdClient] = useState('');
   const [site, setSite] = useState([]);
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,6 @@ const OperationDementeler = ({id_type_operation}) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
   
-    // Vérifier si le champ est un champ de fichier
     if (e.target.type === 'file') {
       const file = e.target.files[0];
       if (file) {
@@ -69,14 +69,19 @@ const OperationDementeler = ({id_type_operation}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        const { data } = await axios.get(`${DOMAIN}/vehicule?id_client=${idClient}`);
         setVehicule(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [DOMAIN]);
+  }, [DOMAIN,idClient]);
+
+
+  useEffect(()=>{
+    setIdClient(data?.id_client)
+  },[data?.id_client])
 
   const handleClick = async (e) => {
     e.preventDefault();
