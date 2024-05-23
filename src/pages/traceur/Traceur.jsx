@@ -153,6 +153,13 @@ const Traceur = () => {
       )
   }
   ];
+
+  const filteredData = data?.filter((item) => 
+    item.nom_model?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.numero_serie?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_etat_traceur?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase())
+  )
     
   return (
     <>
@@ -208,7 +215,7 @@ const Traceur = () => {
                 >
                   <TraceurForm />
                 </Modal>
-                <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={isLoading} />
+                <Table dataSource={filteredData} columns={columns} rowClassName={rowClassName} loading={isLoading} />
             </div>
           </div>
         </div>

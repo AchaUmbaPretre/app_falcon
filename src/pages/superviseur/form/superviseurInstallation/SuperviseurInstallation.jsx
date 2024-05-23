@@ -13,6 +13,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
   const [data, setData] = useState({})
   const navigate = useNavigate();
   const [client, setClient] = useState([]);
+  const [idClient, setIdClient] = useState('');
   const [site, setSite] = useState([]);
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -70,14 +71,15 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        const { data } = await axios.get(`${DOMAIN}/vehicule?id_client=${idClient}`);
         setVehicule(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [DOMAIN]);
+  }, [DOMAIN,idClient]);
+
 
 
   useEffect(() => {
@@ -125,6 +127,10 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
     setShowConfirmModal(false);
   }
 
+  useEffect(()=>{
+    setIdClient(data?.id_client)
+  },[data?.id_client])
+
   const handleClick = async (e) => {
     e.preventDefault();
   
@@ -158,6 +164,20 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
       setIsLoading(false);
     }
   }
+
+  const supervisorOptions = users
+  .filter((user) => user.role === 'superviseur')
+  .map((supervisor) => ({
+    value: supervisor.id,
+    label: supervisor.username,
+  }));
+
+  const ingenieurOptions = users
+  .filter((user) => user.role === 'technicien')
+  .map((technicien) => ({
+    value: technicien.id,
+    label: technicien.username,
+  }));
   
   return (
     <>
@@ -238,10 +258,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
                   <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_superviseur"
-                      options={users?.map((item) => ({
-                        value: item.id,
-                        label: item.username,
-                      }))}
+                      options={supervisorOptions}
                       onChange={(selectedOption) =>
                         handleInputChange({
                           target: { name: 'id_superviseur', value: selectedOption.value },
@@ -258,10 +275,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
                   <label htmlFor="">Technicien <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_technicien"
-                      options={users?.map((item) => ({
-                        value: item.id,
-                        label: item.username,
-                      }))}
+                      options={ingenieurOptions}
                       onChange={(selectedOption) =>
                         handleInputChange({
                           target: { name: 'id_technicien', value: selectedOption.value },

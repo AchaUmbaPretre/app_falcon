@@ -12,6 +12,7 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
   const [client, setClient] = useState([]);
+  const [idClient, setIdClient] = useState('');
   const [site, setSite] = useState([]);
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -100,17 +101,21 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
     fetchClient();
   }, [DOMAIN]);
 
+  useEffect(()=>{
+    setIdClient(data?.id_client)
+  },[data?.id_client])
+
   useEffect(() => {
-    const fetchVehicule = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        const { data } = await axios.get(`${DOMAIN}/vehicule?id_client=${idClient}`);
         setVehicule(data);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchVehicule();
-  }, [DOMAIN]);
+    fetchData();
+  }, [DOMAIN,idClient]);
 
   useEffect(() => {
     const fetchTraceur = async () => {
@@ -155,6 +160,20 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
   const handleCancel = () => {
     setShowConfirmModal(false);
   }
+
+  const supervisorOptions = users
+  .filter((user) => user.role === 'superviseur')
+  .map((supervisor) => ({
+    value: supervisor.id,
+    label: supervisor.username,
+  }));
+
+  const ingenieurOptions = users
+  .filter((user) => user.role === 'technicien')
+  .map((technicien) => ({
+    value: technicien.id,
+    label: technicien.username,
+  }));
 
   return (
     <>
@@ -235,10 +254,7 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
                 <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
                 <Select
                   name="id_superviseur"
-                  options={users?.map((item) => ({
-                    value: item.id,
-                    label: item.username,
-                  }))}
+                  options={supervisorOptions}
                   onChange={(selectedOption) =>
                     handleInputChange({
                       target: { name: 'id_superviseur', value: selectedOption.value },
@@ -255,10 +271,7 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
                 <label htmlFor="">Technicien <span style={{color:'red'}}>*</span></label>
                 <Select
                   name="id_technicien"
-                  options={users?.map((item) => ({
-                    value: item.id,
-                    label: item.username,
-                  }))}
+                  options={ingenieurOptions}
                   onChange={(selectedOption) =>
                     handleInputChange({
                       target: { name: 'id_technicien', value: selectedOption.value },

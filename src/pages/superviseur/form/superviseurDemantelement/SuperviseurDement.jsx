@@ -12,6 +12,7 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
   const [client, setClient] = useState([]);
+  const [idClient, setIdClient] = useState('');
   const [site, setSite] = useState([]);
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -70,14 +71,14 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule`);
+        const { data } = await axios.get(`${DOMAIN}/vehicule?id_client=${idClient}`);
         setVehicule(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [DOMAIN]);
+  }, [DOMAIN,idClient]);
 
   const handleConfirm = () => {
     setShowConfirmModal(true);
@@ -87,39 +88,6 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
     setShowConfirmModal(false);
   }
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-
-    if (!data.id_vehicule || !data.id_traceur) {
-      toast.error('Veuillez remplir tous les champs requis');
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      await axios.post(`${DOMAIN}/operation`, {
-        ...data,
-        id_type_operations: id_type_operation,
-        user_cr: userId
-      }, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      toast.success('Opération créée avec succès!');
-      navigate('/demantelement');
-      window.location.reload();
-    } catch (err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
-        toast.error(errorMessage);
-      } else {
-        toast.error(err.message);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -180,6 +148,59 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
     };
     fetchData();
   }, [DOMAIN]);
+
+
+  useEffect(()=>{
+    setIdClient(data?.id_client)
+  },[data?.id_client])
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+
+    if (!data.id_vehicule || !data.id_traceur) {
+      toast.error('Veuillez remplir tous les champs requis');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      await axios.post(`${DOMAIN}/operation`, {
+        ...data,
+        id_type_operations: id_type_operation,
+        user_cr: userId
+      }, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      toast.success('Opération créée avec succès!');
+      navigate('/demantelement');
+      window.location.reload();
+    } catch (err) {
+      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
+        const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
+        toast.error(errorMessage);
+      } else {
+        toast.error(err.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const supervisorOptions = users
+  .filter((user) => user.role === 'superviseur')
+  .map((supervisor) => ({
+    value: supervisor.id,
+    label: supervisor.username,
+  }));
+
+  const ingenieurOptions = users
+  .filter((user) => user.role === 'technicien')
+  .map((technicien) => ({
+    value: technicien.id,
+    label: technicien.username,
+  }));
 
   return (
     <>
@@ -276,10 +297,7 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
                 <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
                 <Select
                   name="id_superviseur"
-                  options={users?.map((item) => ({
-                    value: item.id,
-                    label: item.username,
-                  }))}
+                  options={supervisorOptions}
                   onChange={(selectedOption) =>
                     handleInputChange({
                       target: { name: 'id_superviseur', value: selectedOption.value },
@@ -296,10 +314,7 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
                 <label htmlFor="">Technicien <span style={{color:'red'}}>*</span></label>
                 <Select
                   name="id_technicien"
-                  options={users?.map((item) => ({
-                    value: item.id,
-                    label: item.username,
-                  }))}
+                  options={ingenieurOptions}
                   onChange={(selectedOption) =>
                     handleInputChange({
                       target: { name: 'id_technicien', value: selectedOption.value },
