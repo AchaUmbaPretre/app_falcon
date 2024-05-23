@@ -73,14 +73,6 @@ const Sidebar = () => {
             <Link to={'/traceurs_form'}>Enregistrer un nouveau traceur</Link>
           </Item>
         </SubMenu>
-        <SubMenu key="operations" icon={<FileOutlined style={{ fontSize: '17px' }} />} title="Opérations" style={{ fontSize: '18px', letterSpacing: '1px'}}>
-          <Item key="5">
-            <Link to={'/operations'}>Liste d'opérations</Link>
-          </Item>
-          <Item key="6">
-            <Link to={'/operations_form'}>Enregistrer une opération</Link>
-          </Item>
-        </SubMenu>
         <SubMenu key="affectations" icon={<ToolOutlined style={{ fontSize: '17px' }} />} title="Affectations" style={{ fontSize: '18px', letterSpacing: '1px'}}>
           <Item key="8">
             <Link to={'/affectation'}>
@@ -95,6 +87,14 @@ const Sidebar = () => {
           </Item>
           <Item key="11">
             <Link to={'/numero_form'}>Enregistrer un numéro</Link>
+          </Item>
+        </SubMenu>
+        <SubMenu key="operations" icon={<FileOutlined style={{ fontSize: '17px' }} />} title="Opérations" style={{ fontSize: '18px', letterSpacing: '1px'}}>
+          <Item key="5">
+            <Link to={'/operations'}>Liste d'opérations</Link>
+          </Item>
+          <Item key="6">
+            <Link to={'/operations_form'}>Enregistrer une opération</Link>
           </Item>
         </SubMenu>
         <SubMenu key="vehicules" icon={<CarOutlined style={{ fontSize: '17px' }} />} title="Vehicules" style={{ fontSize: '18px', letterSpacing: '1px'}}>

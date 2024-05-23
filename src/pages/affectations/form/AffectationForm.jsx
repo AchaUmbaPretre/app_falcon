@@ -56,33 +56,31 @@ const AffectationForm = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     
-     if (!data.id_numero || !data.id_traceur) {
-      toast.error('Veuillez remplir tous les champs requis');
-      return;
+    if (!data.id_numero || !data.id_traceur) {
+        toast.error('Veuillez remplir tous les champs requis');
+        return;
     } 
 
-    try{
-      setIsLoading(true);
-      await axios.post(`${DOMAIN}/affectation`,{
-        ...data
-      })
+    try {
+        setIsLoading(true);
+        await axios.post(`${DOMAIN}/affectation`, {
+            ...data
+        });
 
-      toast.success('Affectation créée avec succès!');
-      navigate('/affectation')
-      window.location.reload();
+        toast.success('Affectation créée avec succès!');
+        navigate('/affectation');
+        window.location.reload();
+    } catch (err) {
+        if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
+            toast.error(err.response.data.message);
+        } else {
+            toast.error("Une erreur s'est produite. Veuillez réessayer.");
+        }
+    } finally {
+        setIsLoading(false);
+    }
+};
 
-    }catch(err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le traceur ${data.nom} existe déjà avec ce numéro de téléphone`;
-        toast.error(errorMessage);
-      } else {
-        toast.error(err.message);
-      }
-    }
-    finally {
-      setIsLoading(false);
-    }
-  }
   
   return (
     <>
