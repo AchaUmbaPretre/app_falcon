@@ -8,6 +8,8 @@ import { Modal, Spin } from 'antd';
 import OperationForm from './OperationForm';
 import OperationControle from './OperationControle';
 import OperationDementeler from './OperationDementeler';
+import OperationTransfert from './OperationTransfert';
+import OperationRemplacement from './OperationRemplacement';
 
 const OperationGen = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -96,8 +98,10 @@ const OperationGen = () => {
                   footer={[]}
                 >
                     {data.id_type === 1 && <OperationForm id_type_operation={data?.id_type} />}
+                    {data.id_type === 2 && <OperationTransfert id_type_operation={data?.id_type} />}
                     {data.id_type === 3 && <OperationDementeler id_type_operation={data?.id_type} />}
                     {data.id_type === 4 && <OperationControle id_type_operation={data?.id_type} />}
+                    {data.id_type === 5 && <OperationRemplacement id_type_operation={data?.id_type} />}
                 </Modal>
             </div>
           </div>
