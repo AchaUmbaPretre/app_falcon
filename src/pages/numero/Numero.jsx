@@ -84,11 +84,6 @@ const Numero = () => {
         width: "160px",
         render: (text, record) => (
           <Space size="middle">
-            <Popover  title="Voir les détails" trigger="hover">
-              <Link>
-                <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
-              </Link>
-            </Popover>
             <Popover  title="Supprimer" trigger="hover">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer?"

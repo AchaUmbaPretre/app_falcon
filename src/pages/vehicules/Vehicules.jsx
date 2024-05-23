@@ -159,8 +159,7 @@ const Vehicules = () => {
                   open={open}
                   onCancel={() => setOpen(false)}
                   width={1000}
-                  footer={[
-                            ]}
+                  footer={[]}
                 >
                   <Vehicules_form/>
                 </Modal>
