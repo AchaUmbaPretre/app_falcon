@@ -46,7 +46,8 @@ const Sidebar = () => {
         mode="inline"
         openKeys={openKeys}
         onOpenChange={onOpenChange}
-        style={{ width: '100%', backgroundColor: '#0D1B2A', color: '#13AED8' }}
+        className="menu-custom"
+        style={{ width: '100%', backgroundColor: 'background: linear-gradient(180deg, #0D1B2A, #13AED8);', color: '#13AED8' }}
         theme="dark"
       >
         <Item key="accueil" icon={<HomeOutlined style={{ fontSize: '17px' }}  />} style={{ fontSize: '18px', letterSpacing: '1px'}}>
