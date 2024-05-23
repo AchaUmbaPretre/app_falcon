@@ -1,0 +1,11 @@
+.PaiementChart{
+    background: #fff;
+    box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
+    border-radius: 5px;
+    padding: 20px;
+    .paiement_h2{
+        background: linear-gradient(90deg, #13add8bd, #000000c2);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+}

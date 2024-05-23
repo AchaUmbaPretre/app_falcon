@@ -1,6 +1,7 @@
 import React from 'react'
 import './rightbar.scss'
 import PageViews from '../../components/pageViews/PageViews'
+import PaiementChart from '../../components/chartjs/PaiementChart'
 
 const Rightbar = () => {
 
@@ -9,6 +10,9 @@ const Rightbar = () => {
       <div className="rightbar">
         <div className="rightbar_wrapper">
           <PageViews/>
+          <div>
+            <PaiementChart/>
+          </div>
         </div>
       </div>
     </>
