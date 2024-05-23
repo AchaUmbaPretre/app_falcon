@@ -49,6 +49,10 @@ const OperationDetail = () => {
             <span className="operation_desc">{data?.numero_serie} </span>
           </div>
           <div className="operation_row">
+            <span className="operation_span">Numéro : </span>
+            <span className="operation_desc">{data?.numero} </span>
+          </div>
+          <div className="operation_row">
             <span className="operation_span">Kilometre : </span>
             <span className="operation_desc">{data?.kilometre} </span>
           </div>

@@ -163,7 +163,7 @@ const OperationTransfert = ({id_type_operation}) => {
           <div className="product-container">
             <div className="product-container-top">
               <div className="product-left">
-                <h2 className="product-h2">Opération : Controle technique</h2>
+                <h2 className="product-h2">Opération : Transfert</h2>
               </div>
             </div>
             <div className="product-wrapper">
@@ -264,11 +264,11 @@ const OperationTransfert = ({id_type_operation}) => {
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">Probleme <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
+                    <textarea type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px", resize: 'none'}} />
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
+                    <textarea type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px", resize: 'none'}} />
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">Kilometre <span style={{color:'red'}}>*</span></label>

@@ -162,7 +162,7 @@ const OperationRemplacement = ({id_type_operation}) => {
           <div className="product-container">
             <div className="product-container-top">
               <div className="product-left">
-                <h2 className="product-h2">Opération : Controle technique</h2>
+                <h2 className="product-h2">Opération : Remplacement</h2>
               </div>
             </div>
             <div className="product-wrapper">
