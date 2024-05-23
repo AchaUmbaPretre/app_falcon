@@ -22,8 +22,10 @@ const ClientDetail = ({id_client}) => {
     };
     fetchData();
   }, [DOMAIN, id_client]);
-
-  const hasAdditionalContactInfo = dataAll.some((dd, index) => index !== 0 && (dd.nom_contact || dd.telephone_contact));
+  
+  const hasAdditionalContactInfo = dataAll.some((dd) => {
+    return dd.nom_contact || dd.telephone_contact;
+  })
 
   return (
     <>
