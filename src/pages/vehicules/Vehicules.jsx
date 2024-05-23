@@ -4,6 +4,7 @@ import { PlusCircleOutlined,CarOutlined,EyeOutlined,UserOutlined,DeleteOutlined,
 import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Vehicules_form from './form/Vehicules_form';
 
 const Vehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -130,7 +131,7 @@ const Vehicules = () => {
                     title: 'Accueil',
                   },
                   {
-                    title: 'Application Center',
+                    title: 'Retourné(e)',
                     href: '/',
                   }
                 ]}
@@ -150,8 +151,19 @@ const Vehicules = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
-
                 <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={loading}  />
+
+                <Modal
+                  title=""
+                  centered
+                  open={open}
+                  onCancel={() => setOpen(false)}
+                  width={1000}
+                  footer={[
+                            ]}
+                >
+                  <Vehicules_form/>
+                </Modal>
             </div>
           </div>
         </div>

@@ -38,3 +38,11 @@
 .sidebar_img{
     width: 200px
 }
+.custom-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #13AED8;
+    border-radius: 50%;
+    margin-right: 8px;
+  }

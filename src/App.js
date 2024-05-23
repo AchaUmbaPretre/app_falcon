@@ -31,6 +31,7 @@ import SuperviseurNavbar from './pages/superviseur/navbar/SuperviseurNavbar';
 import SuperviseurInstallation from './pages/superviseur/form/superviseurInstallation/SuperviseurInstallation';
 import SuperviseurControle from './pages/superviseur/form/superviseurControle/SuperviseurControle';
 import SuperviseurDement from './pages/superviseur/form/superviseurDemantelement/SuperviseurDement';
+import Marque_form from './pages/vehicules/marques/form/Marque_form';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -86,6 +87,7 @@ function App() {
         { path: '/vehicules', element: <Vehicules /> },
         { path: '/vehicule_form', element: <Vehicules_form /> },
         { path: '/marques', element: <Marques /> },
+        { path: '/marque_form', element: <Marque_form /> },
         { path: '/personnel', element: <Personnel /> },
         { path: '/personnel_form', element: <PersonnelForm /> },
         { path: '/superviseur', element: <Superviseur /> },
