@@ -176,6 +176,20 @@ const OperationDementeler = ({id_type_operation}) => {
     };
     fetchData();
   }, [DOMAIN]);
+
+  const supervisorOptions = users
+  .filter((user) => user.role === 'superviseur')
+  .map((supervisor) => ({
+    value: supervisor.id,
+    label: supervisor.username,
+  }));
+
+  const ingenieurOptions = users
+  .filter((user) => user.role === 'technicien')
+  .map((technicien) => ({
+    value: technicien.id,
+    label: technicien.username,
+  }));
   
   return (
     <>
@@ -272,10 +286,7 @@ const OperationDementeler = ({id_type_operation}) => {
                   <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_superviseur"
-                      options={users?.map((item) => ({
-                        value: item.id,
-                        label: item.username,
-                      }))}
+                      options={supervisorOptions}
                       onChange={(selectedOption) =>
                         handleInputChange({
                           target: { name: 'id_superviseur', value: selectedOption.value },
@@ -292,10 +303,7 @@ const OperationDementeler = ({id_type_operation}) => {
                   <label htmlFor="">Technicien <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_technicien"
-                      options={users?.map((item) => ({
-                        value: item.id,
-                        label: item.username,
-                      }))}
+                      options={ingenieurOptions}
                       onChange={(selectedOption) =>
                         handleInputChange({
                           target: { name: 'id_technicien', value: selectedOption.value },
