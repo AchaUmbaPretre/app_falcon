@@ -20,7 +20,7 @@ const OperationTransfert = ({id_type_operation}) => {
   const [vehicule, setVehicule] = useState([]);
   const userId = useSelector((state) => state.user.currentUser.id);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
+  const [imagePreview, setImagePreview] = useState('');
 
   const handleConfirm = () => {
     setShowConfirmModal(true);
@@ -34,25 +34,44 @@ const OperationTransfert = ({id_type_operation}) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
   
-    let updatedValue = fieldValue;
-  
-    if (fieldName === "email") {
-      updatedValue = fieldValue.toLowerCase();
-    } else if (Number.isNaN(Number(fieldValue))) {
-      updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+    // Vérifier si le champ est un champ de fichier
+    if (e.target.type === 'file') {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+        setData((prev) => ({ ...prev, [fieldName]: file }));
+      } else {
+        setImagePreview('');
+        setData((prev) => ({ ...prev, [fieldName]: null }));
+      }
+    } else {
+      // Traitement pour les autres types de champs
+      let updatedValue = fieldValue;
+      if (fieldName === "contact_email") {
+        updatedValue = fieldValue.toLowerCase();
+      } else if (Number.isNaN(Number(fieldValue))) {
+        if (typeof fieldValue === "string" && fieldValue.length > 0) {
+          updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+        }
+      }
+      setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
     }
-  
-  setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
   };
 
   useEffect(()=>{
     setIdClient(data?.id_client)
   },[data?.id_client])
 
+  console.log(data)
+
   const handleClick = async (e) => {
     e.preventDefault();
   
-    if (!data.id_client || !data.site ) {
+    if (!data.id_client || !data.site || !data.photo_plaque || !data.photo_traceur ) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
@@ -156,6 +175,13 @@ const OperationTransfert = ({id_type_operation}) => {
     value: technicien.id,
     label: technicien.username,
   }));
+
+  const traceurOptions = traceur
+  .filter((t) => t.id_etat_traceur  === 2)
+  .map((id_traceur) => ({
+    value: id_traceur.id_etat_traceur ,
+    label: id_traceur.numero_serie,
+  }));
   
   return (
     <>
@@ -220,10 +246,7 @@ const OperationTransfert = ({id_type_operation}) => {
                   <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_traceur"
-                      options={traceur?.map((item) => ({
-                        value: item.id_traceur,
-                        label: item.numero_serie,
-                      }))}
+                      options={traceurOptions}
                       onChange={(selectedOption) =>
                         handleInputChange({
                           target: { name: 'id_traceur', value: selectedOption.value },
@@ -263,14 +286,6 @@ const OperationTransfert = ({id_type_operation}) => {
                     />
                 </div>
                 <div className="form-controle">
-                    <label htmlFor="">Probleme <span style={{color:'red'}}>*</span></label>
-                    <textarea type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px", resize: 'none'}} />
-                </div>
-                <div className="form-controle">
-                    <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
-                    <textarea type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px", resize: 'none'}} />
-                </div>
-                <div className="form-controle">
                     <label htmlFor="">Kilometre <span style={{color:'red'}}>*</span></label>
                     <input type="text" name='kilometre' className="form-input" onChange={handleInputChange} />
                 </div>
@@ -280,11 +295,11 @@ const OperationTransfert = ({id_type_operation}) => {
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">photo plaque <span style={{color:'red'}}>*</span></label>
-                    <input type="file" name='photo_plaque' className="form-input" onChange={handleInputChange} />
+                    <input type="file" accept=".jpeg, .png, .jpg" name='photo_plaque' className="form-input" onChange={handleInputChange} />
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">photo traceur <span style={{color:'red'}}>*</span></label>
-                    <input type="file" name='photo_traceur' className="form-input" onChange={handleInputChange} />
+                    <input type="file" accept=".jpeg, .png, .jpg" name='photo_traceur' className="form-input" onChange={handleInputChange} />
                 </div>
               </div>
               <div className="form-submit">
