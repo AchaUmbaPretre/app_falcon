@@ -21,6 +21,7 @@ const OperationRemplacement = ({ id_type_operation }) => {
   const userId = useSelector((state) => state.user.currentUser.id);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
+  const [imagePreview, setImagePreview] = useState('');
 
   const handleConfirm = () => {
     setShowConfirmModal(true);
@@ -33,16 +34,33 @@ const OperationRemplacement = ({ id_type_operation }) => {
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
-
-    let updatedValue = fieldValue;
-
-    if (fieldName === "email") {
-      updatedValue = fieldValue.toLowerCase();
-    } else if (Number.isNaN(Number(fieldValue))) {
-      updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+  
+    // Vérifier si le champ est un champ de fichier
+    if (e.target.type === 'file') {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+        setData((prev) => ({ ...prev, [fieldName]: file }));
+      } else {
+        setImagePreview('');
+        setData((prev) => ({ ...prev, [fieldName]: null }));
+      }
+    } else {
+      // Traitement pour les autres types de champs
+      let updatedValue = fieldValue;
+      if (fieldName === "contact_email") {
+        updatedValue = fieldValue.toLowerCase();
+      } else if (Number.isNaN(Number(fieldValue))) {
+        if (typeof fieldValue === "string" && fieldValue.length > 0) {
+          updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+        }
+      }
+      setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
     }
-
-    setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
   };
 
   useEffect(() => {
@@ -317,11 +335,11 @@ const OperationRemplacement = ({ id_type_operation }) => {
               </div>
               <div className="form-controle">
                 <label htmlFor="">Photo plaque <span style={{ color: 'red' }}>*</span></label>
-                <input type="file" name='photo_plaque' className="form-input" onChange={handleInputChange} />
+                <input type="file" accept=".jpeg, .png, .jpg" name='photo_plaque' className="form-input" onChange={handleInputChange} />
               </div>
               <div className="form-controle">
                 <label htmlFor="">Photo traceur <span style={{ color: 'red' }}>*</span></label>
-                <input type="file" name='photo_traceur' className="form-input" onChange={handleInputChange} />
+                <input type="file" accept=".jpeg, .png, .jpg" name='photo_traceur' className="form-input" onChange={handleInputChange} />
               </div>
             </div>
             <div className="form-submit">

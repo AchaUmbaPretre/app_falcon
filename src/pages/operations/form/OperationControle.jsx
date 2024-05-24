@@ -294,11 +294,11 @@ const OperationControle = ({id_type_operation}) => {
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">photo plaque <span style={{color:'red'}}>*</span></label>
-                    <input type="file" name='photo_plaque' className="form-input" onChange={handleInputChange} />
+                    <input type="file" accept=".jpeg, .png, .jpg" name='photo_plaque' className="form-input" onChange={handleInputChange} />
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">photo traceur <span style={{color:'red'}}>*</span></label>
-                    <input type="file" name='photo_traceur' className="form-input" onChange={handleInputChange} />
+                    <input type="file" accept=".jpeg, .png, .jpg" name='photo_traceur' className="form-input" onChange={handleInputChange} />
                 </div>
               </div>
               <div className="form-submit">
