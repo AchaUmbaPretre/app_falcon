@@ -176,6 +176,13 @@ const OperationForm = ({id_type_operation}) => {
       value: technicien.id,
       label: technicien.username,
     }));
+
+    const traceurOptions = traceur
+    .filter((t) => t.id_etat_traceur === 1)
+    .map((tc) => ({
+      value: tc.id_traceur,
+      label: tc.numero_serie
+    }));
   
   return (
     <>
@@ -240,10 +247,7 @@ const OperationForm = ({id_type_operation}) => {
                   <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
                   <Select
                       name="id_traceur"
-                      options={traceur?.map((item) => ({
-                        value: item.id_traceur,
-                        label: item.numero_serie,
-                      }))}
+                      options={traceurOptions}
                       onChange={(selectedOption) =>
                         handleInputChange({
                           target: { name: 'id_traceur', value: selectedOption.value },

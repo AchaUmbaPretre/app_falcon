@@ -16,7 +16,6 @@ import { useSelector } from 'react-redux';
 
 const Superviseur = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-    const [data, setData] = useState([]);
     const [currentUser, setCurrentUser] = useState('')
     const navigate = useNavigate();
     const user = useSelector((state) => state.user.currentUser.username);

@@ -179,7 +179,7 @@ const OperationTransfert = ({id_type_operation}) => {
   const traceurOptions = traceur
   .filter((t) => t.id_etat_traceur  === 2)
   .map((id_traceur) => ({
-    value: id_traceur.id_etat_traceur ,
+    value: id_traceur.id_traceur ,
     label: id_traceur.numero_serie,
   }));
   

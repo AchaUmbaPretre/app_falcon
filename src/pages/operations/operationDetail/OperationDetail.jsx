@@ -4,7 +4,7 @@ import config from '../../../config';
 import axios from 'axios';
 import { Image } from 'antd';
 
-const OperationDetail = () => {
+const OperationDetail = ({idClient}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ const OperationDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/operation`);
+        const { data } = await axios.get(`${DOMAIN}/operation?id_client=${idClient}`);
         setData(data[0]);
         setLoading(false)
       } catch (error) {
@@ -20,7 +20,7 @@ const OperationDetail = () => {
       }
     };
     fetchData();
-  }, [DOMAIN]);
+  }, [DOMAIN,idClient]);
 
   console.log(data)
 

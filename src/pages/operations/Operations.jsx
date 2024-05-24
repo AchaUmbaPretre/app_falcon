@@ -15,13 +15,15 @@ const Operations = () => {
   const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
   const [open, setOpen] = useState(false);
+  const [idClient, setIdClient] = useState('');
 
   const showModal = (e) => {
     setOpen(true);
   };
 
-  const showDrawer = () => {
+  const showDrawer = (e) => {
     setOpenDetail(true);
+    setIdClient(e)
   };
 
   const onClose = () => {
@@ -149,7 +151,7 @@ const Operations = () => {
           render: (text, record) => (
             <Space size="middle">
               <Popover  title="Voir les détails" trigger="hover">
-                <Link onClick={showDrawer}>
+                <Link onClick={()=>showDrawer(record.id_operations)}>
                   <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
                 </Link>
               </Popover>
@@ -225,7 +227,7 @@ const Operations = () => {
                   <OperationGen/>
                 </Modal>
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
-                  <OperationDetail />
+                  <OperationDetail idClient={idClient} />
                 </Drawer>
             </div>
           </div>
