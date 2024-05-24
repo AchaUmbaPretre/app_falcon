@@ -73,6 +73,10 @@ const OperationDetail = ({idClient}) => {
             <span className="operation_desc">{data?.observations} </span>
           </div>
           <div className="operation_row">
+            <span className="operation_span">Crée(e) par : </span>
+            <span className="operation_desc">{data?.user_cr} </span>
+          </div>
+          <div className="operation_row">
             <span className="operation_span">Photo plaque : </span>
             <Image
               className="product-img"
