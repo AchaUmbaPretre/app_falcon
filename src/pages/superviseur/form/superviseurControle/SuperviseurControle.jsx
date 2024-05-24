@@ -175,6 +175,14 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
     label: technicien.username,
   }));
 
+  const traceurOptions = traceur
+  .filter((t) => t.id_etat_traceur  === 7)
+  .map((id_traceur) => ({
+    value: id_traceur.id_traceur ,
+    label: id_traceur.numero_serie,
+  }));
+  
+
   return (
     <>
       <div className="superviseurInstall">
@@ -238,10 +246,7 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
                 <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
                 <Select
                   name="id_traceur"
-                  options={traceur?.map((item) => ({
-                    value: item.id_traceur,
-                    label: item.numero_serie,
-                  }))}
+                  options={traceurOptions}
                   onChange={(selectedOption) =>
                     handleInputChange({
                       target: { name: 'id_traceur', value: selectedOption.value },
@@ -281,20 +286,12 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
                 />
               </div>
               <div className="form-controle">
-                <label htmlFor="">Probleme <span style={{color:'red'}}>*</span></label>
-                <input type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
+                    <label htmlFor="">Probleme <span style={{color:'red'}}>*</span></label>
+                    <textarea type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px", resize:'none'}} />
               </div>
               <div className="form-controle">
-                <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
-                <input type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Kilometre <span style={{color:'red'}}>*</span></label>
-                <input type="text" name='kilometre' className="form-input" onChange={handleInputChange} />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Tension <span style={{color:'red'}}>*</span></label>
-                <input type="text" name='tension' className="form-input" onChange={handleInputChange} />
+                    <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
+                    <textarea type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px", resize:'none', resize:'none'}} />
               </div>
               <div className="form-controle">
                 <label htmlFor="">Photo plaque <span style={{color:'red'}}>*</span></label>

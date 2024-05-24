@@ -68,6 +68,10 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
     fetchData();
   }, [DOMAIN]);
 
+  useEffect(()=>{
+    setIdClient(data?.id_client)
+  },[data?.id_client])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -149,11 +153,6 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
     fetchData();
   }, [DOMAIN]);
 
-
-  useEffect(()=>{
-    setIdClient(data?.id_client)
-  },[data?.id_client])
-
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -200,6 +199,13 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
   .map((technicien) => ({
     value: technicien.id,
     label: technicien.username,
+  }));
+
+  const traceurOptions = traceur
+  .filter((t) => t.id_etat_traceur  === 7)
+  .map((id_traceur) => ({
+    value: id_traceur.id_traceur ,
+    label: id_traceur.numero_serie,
   }));
 
   return (
@@ -265,10 +271,7 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
                 <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
                 <Select
                   name="id_traceur"
-                  options={traceur?.map((item) => ({
-                    value: item.id_traceur,
-                    label: item.numero_serie,
-                  }))}
+                  options={traceurOptions}
                   onChange={(selectedOption) =>
                     handleInputChange({
                       target: { name: 'id_traceur', value: selectedOption.value },

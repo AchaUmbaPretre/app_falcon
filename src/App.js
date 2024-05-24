@@ -34,6 +34,8 @@ import SuperviseurControle from './pages/superviseur/form/superviseurControle/Su
 import SuperviseurDement from './pages/superviseur/form/superviseurDemantelement/SuperviseurDement';
 import Marque_form from './pages/vehicules/marques/form/Marque_form';
 import axios from 'axios';
+import SuperviseurTransfert from './pages/superviseur/form/superviseurTransfert/SuperviseurTransfert';
+import SuperviseurRemplace from './pages/superviseur/form/superviseurRemplacement/SuperviseurRemplace';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -129,7 +131,8 @@ function App() {
         { path: '/installation', element: <SuperviseurInstallation /> },
         { path: '/controle_technique', element: <SuperviseurControle /> },
         { path: '/demantelement', element: <SuperviseurDement /> },
-        { path: '/Remplacement', element: <SuperviseurDement /> },
+        { path: '/transfert', element: <SuperviseurTransfert /> },
+        { path: '/remplacement', element: <SuperviseurRemplace /> },
       ]
     }
   ] : [];

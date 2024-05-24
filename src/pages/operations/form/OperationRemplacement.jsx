@@ -22,6 +22,7 @@ const OperationRemplacement = ({ id_type_operation }) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
   const [imagePreview, setImagePreview] = useState('');
+  const [etat, setEtat] = useState([]);
 
   const handleConfirm = () => {
     setShowConfirmModal(true);
@@ -66,6 +67,18 @@ const OperationRemplacement = ({ id_type_operation }) => {
   useEffect(() => {
     setIdClient(data?.id_client);
   }, [data?.id_client]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/traceur/traceur_etat`);
+        setEtat(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -250,6 +263,22 @@ const OperationRemplacement = ({ id_type_operation }) => {
                   placeholder="Sélectionnez un traceur..."
                 />
               </div>
+              <div className="form-controle">
+                  <label htmlFor="">Etat du traceur <span style={{color:'red'}}>*</span></label>
+                  <Select
+                      name="id_etat_traceur"
+                      options={etat?.map((item) => ({
+                        value: item.id_etat_traceur,
+                        label: item.nom_etat_traceur,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_etat_traceur', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un état..."
+                    /> 
+                </div>
               <div className="form-controle">
                 <label htmlFor="">Superviseur <span style={{ color: 'red' }}>*</span></label>
                 <Select

@@ -60,11 +60,11 @@ const Superviseur = () => {
                         <span className="superviseur_span">Démentelement</span>
                     </div> 
                     <div className="superviseur_row">
-                        <img src={remplacement} alt="" className="superviseur_img" />
+                        <img src={remplacement} alt="" className="superviseur_img" onClick={()=>navigate('/remplacement')} />
                         <span className="superviseur_span">Remplacement</span>
                     </div> 
                     <div className="superviseur_row">
-                        <img src={transfert} alt="" className="superviseur_img" />
+                        <img src={transfert} alt="" className="superviseur_img" onClick={()=>navigate('/transfert')} />
                         <span className="superviseur_span">Transfert</span>
                     </div> 
                     <div className="superviseur_row" onClick={Logout}>
