@@ -3,7 +3,8 @@ import './superviseur.scss'
 import config from '../../config';
 import installation from './../../assets/installation.png'
 import controle from './../../assets/controle.png'
-import dementelement from './../../assets/démantèlement.png'
+/* import dementelement from './../../assets/démantèlement.png' */
+import dementelement from './../../assets/dement.png'
 import transfert from './../../assets/transfert.png'
 import remplacement from './../../assets/remplacement.png'
 import power from './../../assets/power.png'
