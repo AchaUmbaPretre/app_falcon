@@ -69,36 +69,45 @@ function App() {
   );
 
   const routes = [
-    {
-      path: '/',
-      element: <SecuriteRoute><Layout /></SecuriteRoute>,
-      children: user?.role === 'admin' || user?.role === 'secretaire' ? [
-        { path: '/', element: <Rightbar /> },
-        { path: '/client', element: <Client /> },
-        { path: '/client_form', element: <ClientForm /> },
-        { path: '/traceurs', element: <Traceur /> },
-        { path: '/traceurs_form', element: <TraceurForm /> },
-        { path: '/operations', element: <Operations /> },
-        { path: '/operations_form', element: <OperationGen /> },
-        { path: '/affectation', element: <Affectations /> },
-        { path: '/affectation_form', element: <AffectationForm /> },
-        { path: '/numero', element: <Numero /> },
-        { path: '/numero_form', element: <NumeroForm /> },
-        { path: '/vehicules', element: <Vehicules /> },
-        { path: '/vehicule_form', element: <Vehicules_form /> },
-        { path: '/marques', element: <Marques /> },
-        { path: '/marque_form', element: <Marque_form /> },
-        { path: '/personnel', element: <Personnel /> },
-        { path: '/personnel_form', element: <PersonnelForm /> },
-        { path: '/superviseur', element: <Superviseur /> },
-      ] : user?.role === 'superviseur' ? [
-        { path: '/', element: <Superviseur /> },
-        { path: '/installation', element: <SuperviseurInstallation /> },
-        { path: '/controle_technique', element: <SuperviseurControle /> },
-        { path: '/demantelement', element: <SuperviseurDement /> },
-        { path: '/Remplacement', element: <SuperviseurDement /> },
-      ] : [],
-    },
+    ...(user?.role === 'admin' || user?.role === 'secretaire' ? [
+      {
+        path: '/',
+        element: <SecuriteRoute><Layout /></SecuriteRoute>,
+        children: [
+          { path: '/', element: <Rightbar /> },
+          { path: '/client', element: <Client /> },
+          { path: '/client_form', element: <ClientForm /> },
+          { path: '/traceurs', element: <Traceur /> },
+          { path: '/traceurs_form', element: <TraceurForm /> },
+          { path: '/operations', element: <Operations /> },
+          { path: '/operations_form', element: <OperationGen /> },
+          { path: '/affectation', element: <Affectations /> },
+          { path: '/affectation_form', element: <AffectationForm /> },
+          { path: '/numero', element: <Numero /> },
+          { path: '/numero_form', element: <NumeroForm /> },
+          { path: '/vehicules', element: <Vehicules /> },
+          { path: '/vehicule_form', element: <Vehicules_form /> },
+          { path: '/marques', element: <Marques /> },
+          { path: '/marque_form', element: <Marque_form /> },
+          { path: '/personnel', element: <Personnel /> },
+          { path: '/personnel_form', element: <PersonnelForm /> },
+          { path: '/superviseur', element: <Superviseur /> },
+        ]
+      }
+    ] : []),
+    ...(user?.role === 'superviseur' ? [
+      {
+        path: '/',
+        element: <SecuriteRoute><Layout2 /></SecuriteRoute>,
+        children: [
+          { path: '/', element: <Superviseur /> },
+          { path: '/installation', element: <SuperviseurInstallation /> },
+          { path: '/controle_technique', element: <SuperviseurControle /> },
+          { path: '/demantelement', element: <SuperviseurDement /> },
+          { path: '/Remplacement', element: <SuperviseurDement /> },
+        ]
+      }
+    ] : []),
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
   ];
