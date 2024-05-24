@@ -17,6 +17,10 @@
             width: 100%;
             overflow: hidden;
         }
+        .scroll-row{
+            margin-top: 20px;
+            width: 90%;
+        }
         .superviseur_rows{
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -34,6 +38,9 @@
                 border: 1px solid rgba(3, 3, 109, 0.171);
                 border-radius: 5px;
                 cursor: pointer;
+                &:hover{
+                    transform: scale(1.1);
+                }
                 .superviseur_img{
                     width: 35%;
                     height: auto;

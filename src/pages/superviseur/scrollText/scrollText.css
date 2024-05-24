@@ -1,0 +1,30 @@
+/* ScrollingText.css */
+.scrolling-container {
+    width: 100%;
+    overflow: hidden;
+    background-color: #ebf2f8; /* Primary color of Ant Design */
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 2px solid #1890ff; /* Secondary color for accent */
+  }
+  
+  .scrolling-text {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scroll 15s linear infinite;
+  }
+  
+  .scrolling-text-content {
+    font-size: 14px;
+    color: rgb(3, 3, 109);
+  }
+  
+  @keyframes scroll {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  

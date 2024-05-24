@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { BellOutlined, PoweroffOutlined, MailOutlined } from '@ant-design/icons'
 import './superviseurNavbar.scss'
 import { Badge } from 'antd';
-import logoIcon from './../../../assets/images.png'
+import logoIcon from './../../../assets/falcon.png'
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import config from '../../../config';
 import { useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const SuperviseurNavbar = () => {
     const navigate = useNavigate();
@@ -30,23 +30,6 @@ const SuperviseurNavbar = () => {
         toast.error('Erreur lors de la déconnexion.');
       }
     };
-
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const { data } = await axios.get(`${DOMAIN}/api/livraison/livraison-user/${userId}`);
-          setData(data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-    
-      fetchData();
-    
-      const intervalId = setInterval(fetchData, 4000);
-    
-      return () => clearInterval(intervalId);
-    }, [DOMAIN, userId]);
 
   return (
     <>

@@ -6,13 +6,34 @@ import controle from './../../assets/controle.png'
 import dementelement from './../../assets/démantèlement.png'
 import transfert from './../../assets/transfert.png'
 import remplacement from './../../assets/remplacement.png'
+import power from './../../assets/power.png'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import ScrollText from './scrollText/ScrollText';
+import { useSelector } from 'react-redux';
 
 const Superviseur = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [data, setData] = useState([]);
+    const [currentUser, setCurrentUser] = useState('')
     const navigate = useNavigate();
+    const user = useSelector((state) => state.user.currentUser.username);
 
+
+    const Logout = async () => {
+  
+        try {
+          await axios.post(`${DOMAIN}/users/logout`);
+          setCurrentUser(null);
+          localStorage.setItem('persist:root', JSON.stringify(currentUser));
+          toast.success('Déconnexion réussie !');
+          navigate('/login');
+          window.location.reload();
+        } catch (error) {
+          toast.error('Erreur lors de la déconnexion.');
+        }
+      };
 
       const handleClick = async (e) => {
         e.preventDefault();
@@ -22,6 +43,9 @@ const Superviseur = () => {
     <>
         <div className="superviseur">
             <div className="superviseur_wrapper">
+                <div className="scroll-row">
+                    <ScrollText username={user} />
+                </div>
                 <div className="superviseur_rows">
                     <div className="superviseur_row" onClick={()=>navigate('/installation')}>
                         <img src={installation} alt="" className="superviseur_img" />
@@ -38,6 +62,14 @@ const Superviseur = () => {
                     <div className="superviseur_row">
                         <img src={remplacement} alt="" className="superviseur_img" />
                         <span className="superviseur_span">Remplacement</span>
+                    </div> 
+                    <div className="superviseur_row">
+                        <img src={transfert} alt="" className="superviseur_img" />
+                        <span className="superviseur_span">Transfert</span>
+                    </div> 
+                    <div className="superviseur_row" onClick={Logout}>
+                        <img src={power} alt="" className="superviseur_img" />
+                        <span className="superviseur_span">Déconnecter</span>
                     </div> 
                 </div>
             </div>
