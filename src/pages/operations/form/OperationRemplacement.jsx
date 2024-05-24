@@ -261,21 +261,22 @@ const OperationRemplacement = ({id_type_operation}) => {
                       placeholder="Sélectionnez un technicien..."
                     />
                 </div>
+                Qu'est ce que tu veux changer Numero ou Traceur
+                <div className="form-controle">
+                  <label htmlFor="">Numero <span style={{color:'red'}}>*</span></label>
+                  <input type="text" name='numero' className="form-input" onChange={handleInputChange} />
+                </div>
+                <div className="form-controle">
+                  <label htmlFor="">Traceur d'échange <span style={{color:'red'}}>*</span></label>
+                  <input type="date" name='traceur_echange' className="form-input" onChange={handleInputChange} />
+                </div>
                 <div className="form-controle">
                     <label htmlFor="">Probleme <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
+                    <textarea type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px", resize:'none'}} />
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
-                </div>
-                <div className="form-controle">
-                    <label htmlFor="">Kilometre <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='kilometre' className="form-input" onChange={handleInputChange} />
-                </div>
-                <div className="form-controle">
-                    <label htmlFor="">Tension <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='tension' className="form-input" onChange={handleInputChange} />
+                    <textarea type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px", resize:'none', resize:'none'}} />
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">photo plaque <span style={{color:'red'}}>*</span></label>

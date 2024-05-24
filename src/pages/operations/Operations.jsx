@@ -220,7 +220,7 @@ const Operations = () => {
                   centered
                   open={open}
                   onCancel={() => setOpen(false)}
-                  width={800}
+                  width={700}
                   footer={[
                             ]}
                 >
