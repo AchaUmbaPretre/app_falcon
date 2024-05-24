@@ -20,7 +20,7 @@ const OperationControle = ({id_type_operation}) => {
   const [vehicule, setVehicule] = useState([]);
   const userId = useSelector((state) => state.user.currentUser.id);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
+  const [imagePreview, setImagePreview] = useState('');
 
   const handleConfirm = () => {
     setShowConfirmModal(true);
@@ -34,16 +34,34 @@ const OperationControle = ({id_type_operation}) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
   
-    let updatedValue = fieldValue;
-  
-    if (fieldName === "email") {
-      updatedValue = fieldValue.toLowerCase();
-    } else if (Number.isNaN(Number(fieldValue))) {
-      updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+    // Vérifier si le champ est un champ de fichier
+    if (e.target.type === 'file') {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+        setData((prev) => ({ ...prev, [fieldName]: file }));
+      } else {
+        setImagePreview('');
+        setData((prev) => ({ ...prev, [fieldName]: null }));
+      }
+    } else {
+      // Traitement pour les autres types de champs
+      let updatedValue = fieldValue;
+      if (fieldName === "contact_email") {
+        updatedValue = fieldValue.toLowerCase();
+      } else if (Number.isNaN(Number(fieldValue))) {
+        if (typeof fieldValue === "string" && fieldValue.length > 0) {
+          updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+        }
+      }
+      setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
     }
-  
-  setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
   };
+
 
   useEffect(()=>{
     setIdClient(data?.id_client)
@@ -268,19 +286,11 @@ const OperationControle = ({id_type_operation}) => {
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">Probleme <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
+                    <textarea type="text" name='probleme' className="form-input" onChange={handleInputChange} style={{height:"100px", resize:'none'}} />
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">Observation <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px"}} />
-                </div>
-                <div className="form-controle">
-                    <label htmlFor="">Kilometre <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='kilometre' className="form-input" onChange={handleInputChange} />
-                </div>
-                <div className="form-controle">
-                    <label htmlFor="">Tension <span style={{color:'red'}}>*</span></label>
-                    <input type="text" name='tension' className="form-input" onChange={handleInputChange} />
+                    <textarea type="text" name='observation' className="form-input" onChange={handleInputChange} style={{height:"100px", resize:'none', resize:'none'}} />
                 </div>
                 <div className="form-controle">
                     <label htmlFor="">photo plaque <span style={{color:'red'}}>*</span></label>
