@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Spin } from 'antd';
 import './App.css';
 import Sidebar from './components/sidebar/Sidebar';
 import Topbar from './components/topbar/Topbar';
@@ -26,19 +28,42 @@ import OperationGen from './pages/operations/form/OperationGen';
 import Marques from './pages/vehicules/marques/Marques';
 import Vehicules_form from './pages/vehicules/form/Vehicules_form';
 import Superviseur from './pages/superviseur/Superviseur';
-import { useDispatch, useSelector } from 'react-redux';
 import SuperviseurNavbar from './pages/superviseur/navbar/SuperviseurNavbar';
 import SuperviseurInstallation from './pages/superviseur/form/superviseurInstallation/SuperviseurInstallation';
 import SuperviseurControle from './pages/superviseur/form/superviseurControle/SuperviseurControle';
 import SuperviseurDement from './pages/superviseur/form/superviseurDemantelement/SuperviseurDement';
 import Marque_form from './pages/vehicules/marques/form/Marque_form';
+import axios from 'axios';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user?.currentUser);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/users`);
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false); // Ensure loading is false in case of error
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
 
   const SecuriteRoute = ({ children }) => {
+    if (loading) {
+      return (
+        <div className="loading-container">
+          <Spin size="large" />
+        </div>
+      );
+    }
     if (!user) {
       return <Navigate to="/login" />;
     }
@@ -68,46 +93,50 @@ function App() {
     </div>
   );
 
+  const adminOrSecretaireRoutes = (user?.role === 'admin' || user?.role === 'secretaire') ? [
+    {
+      path: '/',
+      element: <SecuriteRoute><Layout /></SecuriteRoute>,
+      children: [
+        { path: '/', element: <Rightbar /> },
+        { path: '/client', element: <Client /> },
+        { path: '/client_form', element: <ClientForm /> },
+        { path: '/traceurs', element: <Traceur /> },
+        { path: '/traceurs_form', element: <TraceurForm /> },
+        { path: '/operations', element: <Operations /> },
+        { path: '/operations_form', element: <OperationGen /> },
+        { path: '/affectation', element: <Affectations /> },
+        { path: '/affectation_form', element: <AffectationForm /> },
+        { path: '/numero', element: <Numero /> },
+        { path: '/numero_form', element: <NumeroForm /> },
+        { path: '/vehicules', element: <Vehicules /> },
+        { path: '/vehicule_form', element: <Vehicules_form /> },
+        { path: '/marques', element: <Marques /> },
+        { path: '/marque_form', element: <Marque_form /> },
+        { path: '/personnel', element: <Personnel /> },
+        { path: '/personnel_form', element: <PersonnelForm /> },
+        { path: '/superviseur', element: <Superviseur /> },
+      ]
+    }
+  ] : [];
+
+  const superviseurRoutes = (user?.role === 'superviseur') ? [
+    {
+      path: '/',
+      element: <SecuriteRoute><Layout2 /></SecuriteRoute>,
+      children: [
+        { path: '/', element: <Superviseur /> },
+        { path: '/installation', element: <SuperviseurInstallation /> },
+        { path: '/controle_technique', element: <SuperviseurControle /> },
+        { path: '/demantelement', element: <SuperviseurDement /> },
+        { path: '/Remplacement', element: <SuperviseurDement /> },
+      ]
+    }
+  ] : [];
+
   const routes = [
-    ...(user?.role === 'admin' || user?.role === 'secretaire' ? [
-      {
-        path: '/',
-        element: <SecuriteRoute><Layout /></SecuriteRoute>,
-        children: [
-          { path: '/', element: <Rightbar /> },
-          { path: '/client', element: <Client /> },
-          { path: '/client_form', element: <ClientForm /> },
-          { path: '/traceurs', element: <Traceur /> },
-          { path: '/traceurs_form', element: <TraceurForm /> },
-          { path: '/operations', element: <Operations /> },
-          { path: '/operations_form', element: <OperationGen /> },
-          { path: '/affectation', element: <Affectations /> },
-          { path: '/affectation_form', element: <AffectationForm /> },
-          { path: '/numero', element: <Numero /> },
-          { path: '/numero_form', element: <NumeroForm /> },
-          { path: '/vehicules', element: <Vehicules /> },
-          { path: '/vehicule_form', element: <Vehicules_form /> },
-          { path: '/marques', element: <Marques /> },
-          { path: '/marque_form', element: <Marque_form /> },
-          { path: '/personnel', element: <Personnel /> },
-          { path: '/personnel_form', element: <PersonnelForm /> },
-          { path: '/superviseur', element: <Superviseur /> },
-        ]
-      }
-    ] : []),
-    ...(user?.role === 'superviseur' ? [
-      {
-        path: '/',
-        element: <SecuriteRoute><Layout2 /></SecuriteRoute>,
-        children: [
-          { path: '/', element: <Superviseur /> },
-          { path: '/installation', element: <SuperviseurInstallation /> },
-          { path: '/controle_technique', element: <SuperviseurControle /> },
-          { path: '/demantelement', element: <SuperviseurDement /> },
-          { path: '/Remplacement', element: <SuperviseurDement /> },
-        ]
-      }
-    ] : []),
+    ...adminOrSecretaireRoutes,
+    ...superviseurRoutes,
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
   ];
