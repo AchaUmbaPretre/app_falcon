@@ -45,12 +45,16 @@ const OperationDetail = ({idClient}) => {
             <span className="operation_desc">{data?.type_operations} </span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Traceur : </span>
-            <span className="operation_desc">{data?.numero_serie} </span>
+            <span className="operation_span">Marque : </span>
+            <span className="operation_desc">{data?.nom_marque} </span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Numéro : </span>
-            <span className="operation_desc">{data?.numero} </span>
+            <span className="operation_span">Matricule: </span>
+            <span className="operation_desc">{data?.matricule} </span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Traceur : </span>
+            <span className="operation_desc">{data?.numero_serie} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Kilometre : </span>
