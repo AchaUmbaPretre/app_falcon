@@ -2,6 +2,7 @@ import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import { toast } from 'react-toastify';
 import { Modal, Spin } from 'antd';
@@ -196,7 +197,7 @@ const OperationForm = ({id_type_operation}) => {
             <div className="product-wrapper">
               <div className="product-container-bottom">
                 <div className="form-controle">
-                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
+                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span><PlusCircleOutlined className='icon_plus' /></label>
                   <Select
                       name="id_client"
                       options={client?.map((item) => ({
@@ -212,7 +213,7 @@ const OperationForm = ({id_type_operation}) => {
                     />
                 </div>
                 <div className="form-controle">
-                  <label htmlFor="">Site <span style={{color:'red'}}>*</span></label>
+                  <label htmlFor="">Site <span style={{color:'red'}}>*</span><PlusCircleOutlined className='icon_plus' /></label>
                   <Select
                       name="site"
                       options={site?.map((item) => ({
