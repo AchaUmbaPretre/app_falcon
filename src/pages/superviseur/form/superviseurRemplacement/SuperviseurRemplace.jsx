@@ -23,6 +23,7 @@ const SuperviseurRemplace = ({ id_type_operation = 5 }) => {
   const [selectedOption, setSelectedOption] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [etat, setEtat] = useState([]);
+  const [numero, setNumero] = useState([]);
 
   const handleConfirm = () => {
     setShowConfirmModal(true);
@@ -167,6 +168,18 @@ const SuperviseurRemplace = ({ id_type_operation = 5 }) => {
       try {
         const { data } = await axios.get(`${DOMAIN}/users`);
         setUsers(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/affectation/numero`);
+        setNumero(data);
       } catch (error) {
         console.log(error);
       }
@@ -333,14 +346,26 @@ const SuperviseurRemplace = ({ id_type_operation = 5 }) => {
               {selectedOption === "numero" && (
                 <div className="form-controle">
                   <label htmlFor="">Numéro <span style={{ color: 'red' }}>*</span></label>
-                  <input type="text" name='numero' className="form-input" onChange={handleInputChange} />
+                  <Select
+                      name="id_numero_nouveau"
+                      options={numero?.map((item) => ({
+                        value: item.id_numero,
+                        label: item.numero,
+                      }))}
+                      onChange={(selectedOption) =>
+                        handleInputChange({
+                          target: { name: 'id_numero_nouveau', value: selectedOption.value },
+                        })
+                      }
+                      placeholder="Sélectionnez un numéro..."
+                    />
                 </div>
               )}
               {selectedOption === "traceur_echange" && (
                 <div className="form-controle">
                   <label htmlFor="">Traceur d'échange <span style={{ color: 'red' }}>*</span></label>
                   <Select
-                    name="traceur_echange"
+                    name="traceur_nouveau"
                     options={traceur?.map((item) => ({
                       value: item.id_traceur,
                       label: item.numero_serie,
