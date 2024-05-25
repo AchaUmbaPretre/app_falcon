@@ -90,12 +90,16 @@ const Vehicules_form = () => {
           <div className="product-container">
             <div className="product-container-top">
               <div className="product-left">
-                <h2 className="product-h2">Un nouveau vehicule</h2>
-                <span>Enregistrer un nouveau vehicule</span>
+                <h2 className="product-h2">Un nouveau site</h2>
+                <span>Enregistrer un nouveau site</span>
               </div>
             </div>
             <div className="product-wrapper">
               <div className="product-container-bottom">
+                <div className="form-controle">
+                  <label htmlFor="">Site <span style={{color:'red'}}>*</span></label>
+                  <input type="text" name='nom_site' className="form-input" onChange={handleInputChange}  required/>
+                </div>
                 <div className="form-controle">
                   <label htmlFor="">Client ou société<span style={{color:'red'}}>*</span></label>
                   <Select
@@ -111,26 +115,6 @@ const Vehicules_form = () => {
                       }
                       placeholder="Sélectionnez un client..."
                     />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Marque <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_marque"
-                      options={marque?.map((item) => ({
-                        value: item.id_marque,
-                        label: item.nom_marque,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_marque', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez une marque..."
-                    />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Matricule <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='matricule' className="form-input" onChange={handleInputChange}  required/>
                 </div>
               </div>
               <div className="form-submit">
