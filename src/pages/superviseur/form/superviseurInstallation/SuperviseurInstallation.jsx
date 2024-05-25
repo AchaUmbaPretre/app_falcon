@@ -9,6 +9,7 @@ import config from '../../../../config';
 import './superviseurInstallation.scss'
 import { useSelector } from 'react-redux';
 import AddModalClient from '../../../operations/addModalClient/AddModalClient';
+import AddSites from '../../../sites/addSites/AddSites';
 
 const SuperviseurInstallation = ({id_type_operation = 1}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -25,6 +26,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
   const userId = useSelector((state) => state.user.currentUser.id);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openSite, setOpenSite] = useState(false);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -72,6 +74,10 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
 
   const showModal = (e) => {
     setOpen(true);
+  };
+
+  const showModalSite = (e) => {
+    setOpenSite(true);
   };
 
   
@@ -221,7 +227,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
                     />
                 </div>
                 <div className="form-controle">
-                  <label htmlFor="">Site <span style={{color:'red'}}>*</span></label>
+                  <label htmlFor="">Site <span style={{color:'red'}}>*</span><PlusCircleOutlined className='icon_plus' onClick={showModalSite} /></label>
                   <Select
                       name="site"
                       options={site?.map((item) => ({
@@ -345,6 +351,17 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
               footer={[]}
             >
               <AddModalClient />
+            </Modal>
+
+            <Modal
+              title=""
+              centered
+              open={openSite}
+              onCancel={() => setOpenSite(false)}
+              width={1000}
+              footer={[]}
+            >
+              <AddSites />
             </Modal>
           </div>
         </div>
