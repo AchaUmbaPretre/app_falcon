@@ -7,6 +7,7 @@ import config from '../../../config';
 import { toast } from 'react-toastify';
 import { Modal, Spin } from 'antd';
 import { useSelector } from 'react-redux';
+import AddModalClient from '../addModalClient/AddModalClient';
 
 const OperationForm = ({id_type_operation}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -22,6 +23,7 @@ const OperationForm = ({id_type_operation}) => {
   const [imagePreview, setImagePreview] = useState('');
   const userId = useSelector((state) => state.user.currentUser.id);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -53,6 +55,10 @@ const OperationForm = ({id_type_operation}) => {
       }
       setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
     }
+  };
+
+  const showModal = (e) => {
+    setOpen(true);
   };
 
   useEffect(()=>{
@@ -197,7 +203,7 @@ const OperationForm = ({id_type_operation}) => {
             <div className="product-wrapper">
               <div className="product-container-bottom">
                 <div className="form-controle">
-                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span><PlusCircleOutlined className='icon_plus' /></label>
+                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span><PlusCircleOutlined onClick={showModal} className='icon_plus' /></label>
                   <Select
                       name="id_client"
                       options={client?.map((item) => ({
@@ -326,6 +332,17 @@ const OperationForm = ({id_type_operation}) => {
             >
               <p>Est-ce que le traceur installé a déjà été configuré ?</p>
             </Modal>
+
+            <Modal
+                  title=""
+                  centered
+                  open={open}
+                  onCancel={() => setOpen(false)}
+                  width={1100}
+                  footer={[]}
+                >
+                  <AddModalClient />
+                </Modal>
           </div>
         </div>
     </>
