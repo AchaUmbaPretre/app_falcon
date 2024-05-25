@@ -82,7 +82,7 @@ const Client = () => {
       key: 'telephone',
       render : (text,record)=>(
         <div>
-          <Tag color={'blue'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          <Tag color={'green'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
       )
     },
@@ -91,7 +91,7 @@ const Client = () => {
       dataIndex: 'adresse',
       key: 'adresse',
       render: (text, record) => (
-        <Tag color={'blue'}>
+        <Tag color={'volcano'}>
           <EnvironmentOutlined style={{ marginRight: "5px" }} />
           {text}
         </Tag>

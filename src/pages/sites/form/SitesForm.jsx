@@ -3,15 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { Spin } from 'antd';
 
-const Vehicules_form = () => {
+const SitesForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [marque, setMarque] = useState([]);
   const [client, setClient] = useState([]);
 
   const handleInputChange = (e) => {
@@ -32,18 +31,6 @@ const Vehicules_form = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule/marque`);
-        setMarque(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
         const { data } = await axios.get(`${DOMAIN}/client`);
         setClient(data);
       } catch (error) {
@@ -56,19 +43,19 @@ const Vehicules_form = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     
-     if (!data.id_marque || !data.matricule) {
+     if (!data.nom_site || !data.id_client) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     } 
 
     try{
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/vehicule`,{
+      await axios.post(`${DOMAIN}/operation/site`,{
         ...data
       })
 
-      toast.success('Vehicule créé avec succès!');
-      navigate('/vehicules')
+      toast.success('Site créé avec succès!');
+      navigate('/sites')
       window.location.reload();
 
     }catch(err) {
@@ -87,6 +74,7 @@ const Vehicules_form = () => {
   return (
     <>
         <div className="clientForm">
+        <ToastContainer />
           <div className="product-container">
             <div className="product-container-top">
               <div className="product-left">
@@ -132,4 +120,4 @@ const Vehicules_form = () => {
   )
 }
 
-export default Vehicules_form
+export default SitesForm

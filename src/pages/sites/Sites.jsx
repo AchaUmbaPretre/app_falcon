@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined,EnvironmentOutlined, DeleteOutlined,SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined,EnvironmentOutlined,UserOutlined, DeleteOutlined,SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
+import SitesForm from './form/SitesForm';
 
 const Sites = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -40,12 +41,22 @@ const Sites = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
+        title: 'Nom',
+        dataIndex: 'nom_client',
+        key: 'nom_client',
+        render : (text,record)=>(
+          <div>
+            <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          </div>
+        )
+      },
+    {
       title: 'Site',
       dataIndex: 'nom_site',
       key: 'nom_site',
       render : (text, record) => (
         <div>
-          <Tag color={'blue'}>
+          <Tag color={'volcano'}>
             <EnvironmentOutlined style={{ marginRight: "5px" }} />
             {text}
           </Tag>
@@ -106,7 +117,7 @@ const Sites = () => {
                     title: 'Accueil',
                   },
                   {
-                    title: 'Application Center',
+                    title: 'Rétourné(e)',
                     href: '/',
                   }
                 ]}
@@ -128,6 +139,18 @@ const Sites = () => {
                 </div>
 
                 <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={loading}  />
+
+                <Modal
+                  title=""
+                  centered
+                  open={open}
+                  onCancel={() => setOpen(false)}
+                  width={1000}
+                  footer={[
+                            ]}
+                >
+                  <SitesForm />
+                </Modal>
             </div>
           </div>
         </div>

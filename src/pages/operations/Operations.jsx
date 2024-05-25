@@ -84,7 +84,7 @@ const Operations = () => {
         dataIndex: 'nom_site',
         key: 'nom_site',
         render: (text, record) => (
-          <Tag color={'blue'}>
+          <Tag color={'volcano'}>
             <EnvironmentOutlined style={{ marginRight: "5px" }} />
             {text}
           </Tag>
