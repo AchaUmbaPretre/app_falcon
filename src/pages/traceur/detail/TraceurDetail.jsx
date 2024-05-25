@@ -44,19 +44,20 @@ const TraceurDetail = ({id_traceur}) => {
           </div>
           <div className="operation_row">
             <span className="operation_span">Client : </span>
-            <span className="operation_desc">{data?.nom_client} </span>
+            <span className="operation_desc">{data?.nom_client ? data?.nom_client : "Aucun"}</span>
           </div>
+
           <div className="operation_row">
             <span className="operation_span">Marque : </span>
-            <span className="operation_desc">{data?.nom_marque} </span>
+            <span className="operation_desc">{data?.nom_marque ? data?.nom_marque : "Aucune" } </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Matricule : </span>
-            <span className="operation_desc">{data?.matricule} </span>
+            <span className="operation_desc">{data?.matricule ? data?.matricule : 'Aucune'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Numero attribué : </span>
-            <span className="operation_desc">{data?.numero} </span>
+            <span className="operation_desc">{data?.numero ? data?.numero : 'Aucun'} </span>
           </div>
         </div>
         </div>

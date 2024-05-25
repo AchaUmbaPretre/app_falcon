@@ -22,10 +22,14 @@ li{
     min-height: 100vh;
 }
 .appContainer{
+    position: relative;
     display: flex;
+    width: 100%;
 }
 .appOutlet{
+    position: relative;
     flex: 8;
+    width: 100%;
     display: flex;
     flex-direction: column;
     min-height: 100vh;

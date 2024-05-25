@@ -119,10 +119,8 @@ const PageViews = () => {
                         <img src={vehiculeImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-
             </div>
         </div>
-
     </>
   )
 }

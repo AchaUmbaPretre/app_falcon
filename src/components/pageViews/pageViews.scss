@@ -1,4 +1,6 @@
 .pageViews{
+    width: 100%;
+    overflow: hidden;
     .pageViews_rows{
         display: grid;
         grid-template-columns: repeat(4,1fr);
