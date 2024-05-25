@@ -53,7 +53,6 @@ const AddSites = () => {
       await axios.post(`${DOMAIN}/operation/site`,{
         ...data
       })
-
       toast.success('Site créé avec succès!');
       window.location.reload();
 
