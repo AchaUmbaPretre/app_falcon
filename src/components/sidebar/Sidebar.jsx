@@ -65,15 +65,21 @@ const Sidebar = () => {
               Enregistrer un nouveau client
             </Link>
           </Item>
+          <Item key="3">
+            <Link to={'/sites'} style={{display:'flex', alignItems:'center'}}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Sites
+            </Link>
+          </Item>
         </SubMenu>
         <SubMenu key="traceurs" icon={<ClusterOutlined style={{ fontSize: '17px' }} />} title="Traceurs" style={{ fontSize: '18px', letterSpacing: '1px' }}>
-          <Item key="3">
+          <Item key="4">
             <Link to={'/traceurs'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des traceurs
             </Link>
           </Item>
-          <Item key="4">
+          <Item key="5">
             <Link to={'/traceurs_form'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Enregistrer un nouveau traceur
@@ -81,25 +87,25 @@ const Sidebar = () => {
           </Item>
         </SubMenu>
         <SubMenu key="affectations" icon={<ToolOutlined style={{ fontSize: '17px' }} />} title="Affectations" style={{ fontSize: '18px', letterSpacing: '1px' }}>
-          <Item key="5">
+          <Item key="6">
             <Link to={'/affectation'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste d'affectations
             </Link>
           </Item>
-          <Item key="6">
+          <Item key="7">
             <Link to={'/affectation_form'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Nouvelle affectation
             </Link>
           </Item>
-          <Item key="7">
+          <Item key="8">
             <Link to={'/numero'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des numéros
             </Link>
           </Item>
-          <Item key="8">
+          <Item key="9">
             <Link to={'/numero_form'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Enregistrer un numéro
@@ -107,25 +113,25 @@ const Sidebar = () => {
           </Item>
         </SubMenu>
         <SubMenu key="vehicules" icon={<CarOutlined style={{ fontSize: '17px' }} />} title="Vehicules" style={{ fontSize: '18px', letterSpacing: '1px' }}>
-          <Item key="9">
+          <Item key="10">
             <Link to={'/vehicules'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des vehicules
             </Link>
           </Item>
-          <Item key="10">
+          <Item key="11">
             <Link to={'/vehicule_form'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Enregistrer un véhicule
             </Link>
           </Item>
-          <Item key="11">
+          <Item key="12">
             <Link to={'/marques'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des marques
             </Link>
           </Item>
-          <Item key="12">
+          <Item key="13">
             <Link to={'/marque_form'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Enregistrer une marque
@@ -133,13 +139,13 @@ const Sidebar = () => {
           </Item>
         </SubMenu>
         <SubMenu key="operations" icon={<FileOutlined style={{ fontSize: '17px' }} />} title="Opérations" style={{ fontSize: '18px', letterSpacing: '1px' }}>
-          <Item key="13">
+          <Item key="14">
             <Link to={'/operations'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste d'opérations
             </Link>
           </Item>
-          <Item key="14">
+          <Item key="15">
             <Link to={'/operations_form'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Enregistrer une opération
@@ -147,13 +153,13 @@ const Sidebar = () => {
           </Item>
         </SubMenu>
         <SubMenu key="Personnel" icon={<UsergroupAddOutlined style={{ fontSize: '17px' }} />} title="Personnel" style={{ fontSize: '18px', letterSpacing: '1px' }}>
-          <Item key="15">
+          <Item key="16">
             <Link to={"/personnel"} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste du personnel
             </Link>
           </Item>
-          <Item key="16">
+          <Item key="17">
             <Link to={"/personnel_form"} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Enregistrer un nouveau personnel
@@ -166,8 +172,8 @@ const Sidebar = () => {
           </Link>
         </Item> */}
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '18px', letterSpacing: '1px' }}>
-          <Item key="17">Général</Item>
-          <Item key="18">Sécurité</Item>
+          <Item key="18">Général</Item>
+          <Item key="19">Sécurité</Item>
         </SubMenu>
         <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '18px', letterSpacing: '1px' }} onClick={Logout}>
           Déconnecter

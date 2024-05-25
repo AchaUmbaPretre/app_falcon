@@ -38,6 +38,7 @@ import SuperviseurTransfert from './pages/superviseur/form/superviseurTransfert/
 import SuperviseurRemplace from './pages/superviseur/form/superviseurRemplacement/SuperviseurRemplace';
 import Page405 from './pages/page404/page405';
 import Page404 from './pages/page404/Page404';
+import Sites from './pages/sites/Sites';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -105,6 +106,7 @@ function App() {
         { path: '/', element: <Rightbar /> },
         { path: '/client', element: <Client /> },
         { path: '/client_form', element: <ClientForm /> },
+        { path: '/sites', element: <Sites /> },
         { path: '/traceurs', element: <Traceur /> },
         { path: '/traceurs_form', element: <TraceurForm /> },
         { path: '/operations', element: <Operations /> },
