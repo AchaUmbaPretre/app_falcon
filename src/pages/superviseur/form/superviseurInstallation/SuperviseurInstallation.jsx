@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { Modal, Spin } from 'antd';
 import config from '../../../../config';
 import './superviseurInstallation.scss'
 import { useSelector } from 'react-redux';
+import AddModalClient from '../../../operations/addModalClient/AddModalClient';
 
 const SuperviseurInstallation = ({id_type_operation = 1}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -22,6 +24,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
   const [imagePreview, setImagePreview] = useState('');
   const userId = useSelector((state) => state.user.currentUser.id);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -66,6 +69,10 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
     };
     fetchData();
   }, [DOMAIN]);
+
+  const showModal = (e) => {
+    setOpen(true);
+  };
 
   
   useEffect(() => {
@@ -198,7 +205,7 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
             <div className="product-wrapper">
               <div className="product-container-bottom">
                 <div className="form-controle">
-                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
+                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span><PlusCircleOutlined onClick={showModal} className='icon_plus' /></label>
                   <Select
                       name="id_client"
                       options={client?.map((item) => ({
@@ -327,6 +334,17 @@ const SuperviseurInstallation = ({id_type_operation = 1}) => {
               okButtonProps={{ style: { background: 'blue' } }}
             >
               <p>Est-ce que le traceur installé a déjà été configuré ?</p>
+            </Modal>
+
+            <Modal
+              title=""
+              centered
+              open={open}
+              onCancel={() => setOpen(false)}
+              width={1100}
+              footer={[]}
+            >
+              <AddModalClient />
             </Modal>
           </div>
         </div>

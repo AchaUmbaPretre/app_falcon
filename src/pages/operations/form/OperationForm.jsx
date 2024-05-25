@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { Modal, Spin } from 'antd';
 import { useSelector } from 'react-redux';
 import AddModalClient from '../addModalClient/AddModalClient';
+import AddSites from '../../sites/addSites/AddSites';
 
 const OperationForm = ({id_type_operation}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -24,6 +25,7 @@ const OperationForm = ({id_type_operation}) => {
   const userId = useSelector((state) => state.user.currentUser.id);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openSite, setOpenSite] = useState(false);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -59,6 +61,10 @@ const OperationForm = ({id_type_operation}) => {
 
   const showModal = (e) => {
     setOpen(true);
+  };
+
+  const showModalSite = (e) => {
+    setOpenSite(true);
   };
 
   useEffect(()=>{
@@ -219,7 +225,7 @@ const OperationForm = ({id_type_operation}) => {
                     />
                 </div>
                 <div className="form-controle">
-                  <label htmlFor="">Site <span style={{color:'red'}}>*</span><PlusCircleOutlined className='icon_plus' /></label>
+                  <label htmlFor="">Site <span style={{color:'red'}}>*</span><PlusCircleOutlined className='icon_plus' onClick={showModalSite} /></label>
                   <Select
                       name="site"
                       options={site?.map((item) => ({
@@ -334,15 +340,26 @@ const OperationForm = ({id_type_operation}) => {
             </Modal>
 
             <Modal
-                  title=""
-                  centered
-                  open={open}
-                  onCancel={() => setOpen(false)}
-                  width={1100}
-                  footer={[]}
-                >
-                  <AddModalClient />
-                </Modal>
+              title=""
+              centered
+              open={open}
+              onCancel={() => setOpen(false)}
+              width={1100}
+              footer={[]}
+            >
+              <AddModalClient />
+            </Modal>
+
+            <Modal
+              title=""
+              centered
+              open={openSite}
+              onCancel={() => setOpenSite(false)}
+              width={1000}
+              footer={[]}
+            >
+              <AddSites />
+            </Modal>
           </div>
         </div>
     </>
