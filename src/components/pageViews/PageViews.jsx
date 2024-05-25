@@ -6,6 +6,7 @@ import vehiculeImg from './../../assets/vehicule.png'
 import { useEffect, useState } from 'react'
 import config from '../../config'
 import axios from 'axios'
+import CountUp from 'react-countup';
 
 const PageViews = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -73,7 +74,7 @@ const PageViews = () => {
                             <span className="page_rond"></span>
                             <h5 className='pageViews_h5'>CLIENT</h5>
                         </div>
-                        <h1 className="pageViews_h1">{client}</h1>
+                        <h1 className="pageViews_h1"><CountUp end={client}/></h1>
                         <span className='pageViews_span'>Nombre de client</span>
                     </div>
                     <div className="pageViews_right">
@@ -86,7 +87,7 @@ const PageViews = () => {
                             <span className="page_rond"></span>
                             <h5 className='pageViews_h5'>OPERATION</h5>
                         </div>
-                        <h1 className="pageViews_h1">{operation}</h1>
+                        <h1 className="pageViews_h1"><CountUp end={operation}/></h1>
                         <span className='pageViews_span'>Nombre d'opération</span>
                     </div>
                     <div className="pageViews_right">
@@ -99,7 +100,7 @@ const PageViews = () => {
                             <span className="page_rond"></span>
                             <h5 className='pageViews_h5'>TRACEUR</h5>
                         </div>
-                        <h1 className="pageViews_h1">{traceur}</h1>
+                        <h1 className="pageViews_h1"><CountUp end={traceur}/></h1>
                         <span className='pageViews_span'>Nombre de traceur</span>
                     </div>
                     <div className="pageViews_right">
@@ -112,7 +113,7 @@ const PageViews = () => {
                             <span className="page_rond"></span>
                             <h5 className='pageViews_h5'>VEHICULE</h5>
                         </div>
-                        <h1 className="pageViews_h1">{vehicule}</h1>
+                        <h1 className="pageViews_h1"><CountUp end={vehicule}/></h1>
                         <span className='pageViews_span'>Nombre de vehicule</span>
                     </div>
                     <div className="pageViews_right">
