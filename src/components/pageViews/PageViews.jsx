@@ -117,7 +117,7 @@ const PageViews = () => {
                         <span className='pageViews_span'>Nombre de vehicule</span>
                     </div>
                     <div className="pageViews_right">
-                        <img src={vehiculeImg} alt="" className="pageViews_right_img" />
+                      <img src={vehiculeImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
             </div>
