@@ -36,6 +36,8 @@ import Marque_form from './pages/vehicules/marques/form/Marque_form';
 import axios from 'axios';
 import SuperviseurTransfert from './pages/superviseur/form/superviseurTransfert/SuperviseurTransfert';
 import SuperviseurRemplace from './pages/superviseur/form/superviseurRemplacement/SuperviseurRemplace';
+import Page405 from './pages/page404/page405';
+import Page404 from './pages/page404/Page404';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -142,6 +144,14 @@ function App() {
     ...superviseurRoutes,
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
+    user?.role === null && {
+      path: '/*',
+      element: <Page405 />
+    },
+    {
+      path: '/*',
+      element:<SecuriteRoute><Page404 /></SecuriteRoute>
+    },
   ];
 
   const router = createBrowserRouter(routes);

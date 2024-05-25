@@ -58,7 +58,6 @@ const ClientDetail = ({id_client}) => {
         <div className="operationDetail_wrapper">
         {dataAll.map((dd, index) => (
             <div key={index} className="operation_row">
-            
               <span className="operation_span">Nom : </span>
               <span className="operation_desc">{dd.nom_contact}</span>
               <span className="operation_span">Téléphone : </span>
@@ -71,7 +70,6 @@ const ClientDetail = ({id_client}) => {
           ))}
         </div>
         </div>
-        
         }
       </div>
     </>

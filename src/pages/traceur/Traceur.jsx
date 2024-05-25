@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,EyeOutlined,DeleteOutlined,InfoCircleOutlined,UserOutlined,CheckCircleOutlined,CloseCircleOutlined ,CarOutlined,BarcodeOutlined,CalendarOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import TraceurForm from './form/TraceurForm';
+import TraceurDetail from './detail/TraceurDetail';
 
 const Traceur = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -13,10 +14,21 @@ const Traceur = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [idTraceur, setIdTraceur] = useState('')
 
 
   const rowClassName = () => {
     return 'font-size-18';
+  };
+
+  const showDrawer = (e) => {
+    setOpenDetail(true);
+    setIdTraceur(e)
+  };
+
+  const onClose = () => {
+    setOpenDetail(false);
   };
 
   const showModal = (e) => {
@@ -134,11 +146,11 @@ const Traceur = () => {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-{/*           <Popover  title="Voir les détails" trigger="hover">
-            <Link>
+           <Popover  title="Voir les détails" trigger="hover">
+            <Link onClick={()=>showDrawer(record.id_traceur)}>
               <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
             </Link>
-          </Popover> */}
+          </Popover>
           <Popover  title="Supprimer" trigger="hover">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer?"
@@ -215,6 +227,10 @@ const Traceur = () => {
                 >
                   <TraceurForm />
                 </Modal>
+
+                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
+                  <TraceurDetail id_traceur ={idTraceur} />
+                </Drawer>
                 <Table dataSource={filteredData} columns={columns} rowClassName={rowClassName} loading={isLoading} />
             </div>
           </div>
