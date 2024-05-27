@@ -103,7 +103,7 @@ const Personnel = () => {
           <div className="client_wrapper_top">
             <div className="client_text_row">
               <div className="client_text_left">
-                <h2 className="client_h2">Personel</h2>
+                <h2 className="client_h2">Personnel</h2>
                 <span className="client_span">Liste du personnel</span>
               </div>
               <div className="client_text_right">
