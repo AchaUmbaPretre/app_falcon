@@ -23,8 +23,6 @@ const Operations = () => {
     setSelectedOperationIds(selectedRowKeys)
   };
 
-  console.log(selectedOperationIds)
-
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,

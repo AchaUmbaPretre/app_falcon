@@ -4,7 +4,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import config from '../../../config';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-toastify';
 import { Modal, Spin } from 'antd';
 import { useSelector } from 'react-redux';
 import AddModalClient from '../addModalClient/AddModalClient';
@@ -199,6 +199,7 @@ const OperationForm = ({id_type_operation}) => {
   
   return (
     <>
+        <ToastContainer />
         <div className="clientForm">
           <div className="product-container">
             <div className="product-container-top">

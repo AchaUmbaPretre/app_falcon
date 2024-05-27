@@ -42,6 +42,7 @@ import Sites from './pages/sites/Sites';
 import Permissions from './permissions/Permissions';
 import Recharge from './pages/recharge/Recharge';
 import Recharge_form from './pages/recharge/form/Recharge_form';
+import RechargeOne from './pages/recharge/rechargeOne/RechargeOne';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -124,6 +125,7 @@ function App() {
         { path: '/marque_form', element: <Marque_form /> },
         { path: '/recharge', element: <Recharge /> },
         { path: '/recharge_form', element: <Recharge_form /> },
+        { path: '/rechargeOne', element: <RechargeOne /> },
         { path: '/personnel', element: <Personnel /> },
         { path: '/personnel_form', element: <PersonnelForm /> },
         { path: '/superviseur', element: <Superviseur /> },

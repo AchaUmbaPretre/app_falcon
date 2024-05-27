@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer} from 'react-toastify';
 import { Spin } from 'antd';
 
 const Vehicules_form = () => {
@@ -86,6 +86,7 @@ const Vehicules_form = () => {
   
   return (
     <>
+        <ToastContainer />
         <div className="clientForm">
           <div className="product-container">
             <div className="product-container-top">
