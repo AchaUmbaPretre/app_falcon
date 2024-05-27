@@ -1,80 +1,95 @@
-import React, { useEffect, useState } from 'react'
-import './operationDetail.scss'
+import React, { useEffect, useState } from 'react';
+import './operationDetail.scss';
 import config from '../../../config';
 import axios from 'axios';
 import { Image } from 'antd';
 
-const OperationDetail = ({idClient}) => {
+const OperationDetail = ({ selectedOperations }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState([]);
+  const [operationsDetails, setOperationsDetails] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDetails = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/operation?id_client=${idClient}`);
-        setData(data[0]);
-        setLoading(false)
+        const details = await Promise.all(
+          selectedOperations.map(id =>
+            axios.get(`${DOMAIN}/operation?id_client=${id}`).then(response => response.data)
+          )
+        );
+        const flattenedDetails = details.flat();
+        setOperationsDetails(flattenedDetails);
+        setLoading(false);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchData();
-  }, [DOMAIN,idClient]);
 
-  console.log(data)
+    if (selectedOperations.length > 0) {
+      fetchDetails();
+    }
+  }, [selectedOperations, DOMAIN]);
+
+  if (loading) {
+    return <p>Chargement...</p>;
+  }
+
+  if (operationsDetails.length === 0) {
+    return <p>Aucune opération sélectionnée.</p>;
+  }
 
   return (
-    <>
-      <div className="operationDetail">
-        <div className="operationDetail_wrapper">
+    <div className="operationDetail">
+      {operationsDetails?.map(detail => (
+        <div key={detail.id_operations} className="operationDetail_wrapper">
           <div className="operation_row">
             <span className="operation_span">Client : </span>
-            <span className="operation_desc">{data?.nom_client} </span>
+            <span className="operation_desc">{detail.nom_client ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Superviseur : </span>
-            <span className="operation_desc">{data?.superviseur} </span>
+            <span className="operation_desc">{detail.superviseur ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Ingenieur : </span>
-            <span className="operation_desc">{data?.technicien} </span>
+            <span className="operation_desc">{detail.technicien ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Type d'opération : </span>
-            <span className="operation_desc">{data?.type_operations} </span>
+            <span className="operation_desc">{detail.type_operations ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Marque : </span>
-            <span className="operation_desc">{data?.nom_marque} </span>
+            <span className="operation_desc">{detail.nom_marque ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Matricule: </span>
-            <span className="operation_desc">{data?.matricule} </span>
+            <span className="operation_desc">{detail.matricule ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Traceur : </span>
-            <span className="operation_desc">{data?.numero_serie} </span>
+            <span className="operation_desc">{detail.numero_serie ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Kilometre : </span>
-            <span className="operation_desc">{data?.kilometre} </span>
+            <span className="operation_desc">{detail.kilometre ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Tension : </span>
-            <span className="operation_desc">{data?.tension} </span>
+            <span className="operation_desc">{detail.tension ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Probleme : </span>
-            <span className="operation_desc">{data?.probleme} </span>
+            <span className="operation_desc">{detail.probleme ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Observation : </span>
-            <span className="operation_desc">{data?.observations} </span>
+            <span className="operation_desc">{detail.observation ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Crée(e) par : </span>
-            <span className="operation_desc">{data?.user_cr} </span>
+            <span className="operation_desc">{detail.user_cr ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Photo plaque : </span>
@@ -83,7 +98,7 @@ const OperationDetail = ({idClient}) => {
               width={200}
               height={200}
               src="error"
-              fallback={`${DOMAIN}${data?.photo_plaque}`}
+              fallback={`${DOMAIN}${detail.photo_plaque}`}
             />
           </div>
           <div className="operation_row">
@@ -93,13 +108,14 @@ const OperationDetail = ({idClient}) => {
               width={200}
               height={200}
               src="error"
-              fallback={`${DOMAIN}${data?.photo_traceur}`}
+              fallback={`${DOMAIN}${detail.photo_traceur}`}
             />
           </div>
+          <hr />
         </div>
-      </div>
-    </>
-  )
-}
+      ))}
+    </div>
+  );
+};
 
-export default OperationDetail
+export default OperationDetail;

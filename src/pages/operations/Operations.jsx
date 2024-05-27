@@ -15,12 +15,15 @@ const Operations = () => {
   const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
   const [open, setOpen] = useState(false);
-  const [idClient, setIdClient] = useState('');
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedOperationIds, setSelectedOperationIds] = useState([]);
 
   const onSelectChange = (selectedRowKeys) => {
     setSelectedRowKeys(selectedRowKeys);
+    setSelectedOperationIds(selectedRowKeys)
   };
+
+  console.log(selectedOperationIds)
 
   const rowSelection = {
     selectedRowKeys,
@@ -31,9 +34,8 @@ const Operations = () => {
     setOpen(true);
   };
 
-  const showDrawer = (id) => {
+  const showDrawer = () => {
     setOpenDetail(true);
-    setIdClient(id);
   };
 
   const onClose = () => {
@@ -73,7 +75,7 @@ const Operations = () => {
       case 'Remplacement':
         return 'orange';
       default:
-        return 'default'; // Couleur par défaut si aucun des cas précédents ne correspond
+        return 'default';
     }
   };
 
@@ -161,9 +163,7 @@ const Operations = () => {
       render: (text, record) => (
         <Space size="middle">
           <Popover title="Voir les détails" trigger="hover">
-            <Link onClick={() => showDrawer(record.id_operations)}>
-              <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
-            </Link>
+            <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={showDrawer} />
           </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
@@ -241,7 +241,7 @@ const Operations = () => {
                 <OperationGen />
               </Modal>
               <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
-                <OperationDetail idClient={idClient} />
+                <OperationDetail selectedOperations={selectedOperationIds} />
               </Drawer>
             </div>
           </div>
