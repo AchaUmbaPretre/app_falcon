@@ -127,11 +127,13 @@
                 padding: 15px 20px;
                 border: none;
                 color: #fff;
-                background:rgb(1, 35, 138);
+                background-color: #007bff;
+                border-color: #007bff;
                 border-radius: 5px;
                 cursor: pointer;
                 &:hover{
-                    background:rgb(3, 58, 223);
+                    background-color: #0056b3;
+                    border-color: #0056b3;
                 }
             }
             .btn-annuler{

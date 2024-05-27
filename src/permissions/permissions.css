@@ -1,0 +1,15 @@
+.permission-page {
+    padding: 20px;
+    background: #fff;
+  }
+  
+  .permission-page h1 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    text-transform: uppercase;
+  }
+  
+  .permission-page .ant-table {
+    margin-bottom: 20px;
+  }
+  

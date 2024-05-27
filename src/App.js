@@ -39,6 +39,7 @@ import SuperviseurRemplace from './pages/superviseur/form/superviseurRemplacemen
 import Page405 from './pages/page404/page405';
 import Page404 from './pages/page404/Page404';
 import Sites from './pages/sites/Sites';
+import Permissions from './permissions/Permissions';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -122,6 +123,7 @@ function App() {
         { path: '/personnel', element: <Personnel /> },
         { path: '/personnel_form', element: <PersonnelForm /> },
         { path: '/superviseur', element: <Superviseur /> },
+        { path: '/permissions', element: <Permissions /> },
       ]
     }
   ] : [];

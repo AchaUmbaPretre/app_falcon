@@ -1,5 +1,5 @@
 import { Menu, Timeline } from 'antd';
-import { UserOutlined, ClusterOutlined, CarOutlined, UsergroupAddOutlined,DollarOutlined , FileOutlined, HomeOutlined, ToolOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import { UserOutlined, ClusterOutlined, CarOutlined, SolutionOutlined, UsergroupAddOutlined,DollarOutlined , FileOutlined, HomeOutlined, ToolOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { toast, ToastContainer } from 'react-toastify';
 import './sidebar.css';
@@ -47,12 +47,12 @@ const Sidebar = () => {
         style={{ width: '100%', backgroundColor: 'linear-gradient(180deg, #0D1B2A, #13AED8)', color: '#13AED8' }}
         theme="dark"
       >
-        <Item key="accueil" icon={<HomeOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '18px', letterSpacing: '1px' }}>
+        <Item key="accueil" icon={<HomeOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Link to={'/'}>
             Accueil
           </Link>
         </Item>
-        <SubMenu key="clients" icon={<UserOutlined style={{ fontSize: '17px' }} />} title="Clients" style={{ fontSize: '18px', letterSpacing: '1px' }}>
+        <SubMenu key="clients" icon={<UserOutlined style={{ fontSize: '17px' }} />} title="Clients" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="1">
             <Link to={'/client'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
@@ -72,7 +72,7 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-        <SubMenu key="traceurs" icon={<ClusterOutlined style={{ fontSize: '17px' }} />} title="Traceurs" style={{ fontSize: '18px', letterSpacing: '1px' }}>
+        <SubMenu key="traceurs" icon={<ClusterOutlined style={{ fontSize: '17px' }} />} title="Traceurs" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="4">
             <Link to={'/traceurs'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
@@ -86,7 +86,7 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-        <SubMenu key="affectations" icon={<ToolOutlined style={{ fontSize: '17px' }} />} title="Affectations" style={{ fontSize: '18px', letterSpacing: '1px' }}>
+        <SubMenu key="affectations" icon={<ToolOutlined style={{ fontSize: '17px' }} />} title="Affectations" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="6">
             <Link to={'/affectation'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
@@ -112,7 +112,7 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-        <SubMenu key="vehicules" icon={<CarOutlined style={{ fontSize: '17px' }} />} title="Vehicules" style={{ fontSize: '18px', letterSpacing: '1px' }}>
+        <SubMenu key="vehicules" icon={<CarOutlined style={{ fontSize: '17px' }} />} title="Vehicules" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="10">
             <Link to={'/vehicules'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
@@ -138,7 +138,7 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-        <SubMenu key="operations" icon={<FileOutlined style={{ fontSize: '17px' }} />} title="Opérations" style={{ fontSize: '18px', letterSpacing: '1px' }}>
+        <SubMenu key="operations" icon={<FileOutlined style={{ fontSize: '17px' }} />} title="Opérations" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="14">
             <Link to={'/operations'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
@@ -152,7 +152,7 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-        <SubMenu key="Personnel" icon={<UsergroupAddOutlined style={{ fontSize: '17px' }} />} title="Personnel" style={{ fontSize: '18px', letterSpacing: '1px' }}>
+        <SubMenu key="Personnel" icon={<UsergroupAddOutlined style={{ fontSize: '17px' }} />} title="Personnel" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="16">
             <Link to={"/personnel"} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
@@ -171,11 +171,16 @@ const Sidebar = () => {
             Paiement
           </Link>
         </Item> */}
-        <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '18px', letterSpacing: '1px' }}>
+        <Item key="accueil" icon={<SolutionOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <Link to={'/permissions'}>
+            Permissions
+          </Link>
+        </Item>
+        <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="18">Général</Item>
           <Item key="19">Sécurité</Item>
         </SubMenu>
-        <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '18px', letterSpacing: '1px' }} onClick={Logout}>
+        <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }} onClick={Logout}>
           Déconnecter
         </Item>
       </Menu>
