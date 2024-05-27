@@ -1,5 +1,5 @@
 import { Menu, Timeline } from 'antd';
-import { UserOutlined, ClusterOutlined, CarOutlined, SolutionOutlined, UsergroupAddOutlined,DollarOutlined , FileOutlined, HomeOutlined, ToolOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import { UserOutlined, ClusterOutlined, CarOutlined,InteractionOutlined, SolutionOutlined, UsergroupAddOutlined,DollarOutlined , FileOutlined, HomeOutlined, ToolOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { toast, ToastContainer } from 'react-toastify';
 import './sidebar.css';
@@ -152,14 +152,28 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-        <SubMenu key="Personnel" icon={<UsergroupAddOutlined style={{ fontSize: '17px' }} />} title="Personnel" style={{ fontSize: '14px', letterSpacing: '1px' }}>
+        <SubMenu key="Recharge" icon={<InteractionOutlined style={{ fontSize: '17px' }} />} title="Recharge" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="16">
+            <Link to={'/recharge'} style={{display:'flex', alignItems:'center'}}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Recharge
+            </Link>
+          </Item>
+          <Item key="17">
+            <Link to={'/Liste_recharge'} style={{display:'flex', alignItems:'center'}}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Liste de Recharges
+            </Link>
+          </Item>
+        </SubMenu>
+        <SubMenu key="Personnel" icon={<UsergroupAddOutlined style={{ fontSize: '17px' }} />} title="Personnel" style={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <Item key="18">
             <Link to={"/personnel"} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste du personnel
             </Link>
           </Item>
-          <Item key="17">
+          <Item key="19">
             <Link to={"/personnel_form"} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Enregistrer un nouveau personnel
@@ -171,14 +185,14 @@ const Sidebar = () => {
             Paiement
           </Link>
         </Item> */}
-        <Item key="accueil" icon={<SolutionOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }}>
+        <Item key="permissions" icon={<SolutionOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Link to={'/permissions'}>
             Permissions
           </Link>
         </Item>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
-          <Item key="18">Général</Item>
-          <Item key="19">Sécurité</Item>
+          <Item key="20">Général</Item>
+          <Item key="21">Sécurité</Item>
         </SubMenu>
         <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }} onClick={Logout}>
           Déconnecter

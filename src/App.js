@@ -40,6 +40,8 @@ import Page405 from './pages/page404/page405';
 import Page404 from './pages/page404/Page404';
 import Sites from './pages/sites/Sites';
 import Permissions from './permissions/Permissions';
+import Recharge from './pages/recharge/Recharge';
+import Recharge_form from './pages/recharge/form/Recharge_form';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -120,6 +122,8 @@ function App() {
         { path: '/vehicule_form', element: <Vehicules_form /> },
         { path: '/marques', element: <Marques /> },
         { path: '/marque_form', element: <Marque_form /> },
+        { path: '/recharge', element: <Recharge /> },
+        { path: '/recharge_form', element: <Recharge_form /> },
         { path: '/personnel', element: <Personnel /> },
         { path: '/personnel_form', element: <PersonnelForm /> },
         { path: '/superviseur', element: <Superviseur /> },
