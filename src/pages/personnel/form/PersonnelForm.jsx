@@ -4,52 +4,32 @@ import axios from 'axios';
 import config from '../../../config';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../../../redux/apiCalls';
 
 const PersonnelForm = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState({})
-  const navigate = useNavigate();
+  const [inputs, setInputs] = useState({});
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleInputChange = (e) => {
-    const fieldName = e.target.name;
-    const fieldValue = e.target.value;
-  
-    let updatedValue = fieldValue;
-  
-    if (fieldName === "email") {
-      updatedValue = fieldValue.toLowerCase();
-    } else if (Number.isNaN(Number(fieldValue))) {
-      updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
-    }
-  
-  setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
 
 
   const handleClick = async (e) => {
     e.preventDefault();
   
-    if (!data.nom_client || !data.telephone ) {
-      toast.error('Veuillez remplir tous les champs requis');
-      return;
-    }
-  
     try {
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/client/client`, {
-        ...data
-      });
-      toast.success('Client créé avec succès!');
-      navigate('/client');
+      await register(dispatch, { username, email, password });
+      toast.success('Enregistrement réussi !');
+      navigate('/login');
       window.location.reload();
-    } catch (err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
-        toast.error(errorMessage);
-      } else {
-        toast.error(err.message);
-      }
+    } catch (error) {
+      toast.error('Erreur lors de l\'enregistrement.');
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -69,19 +49,19 @@ const PersonnelForm = () => {
               <div className="product-container-bottom">
                 <div className="form-controle">
                   <label htmlFor="">Nom <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='username' className="form-input" onChange={handleInputChange}  required/>
+                  <input type="text" name='username' className="form-input"  required/>
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Role <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='role' className="form-input" onChange={handleInputChange} />
+                  <input type="text" name='role' className="form-input" />
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Telephone <span style={{color:'red'}}>*</span></label>
-                  <input type="tel" name='telephone' className="form-input" onChange={handleInputChange} required />
+                  <input type="tel" name='telephone' className="form-input" required />
                 </div>
                 <div className="form-controle">
                   <label htmlFor="">Email <span style={{color:'red'}}>*</span></label>
-                  <input type="email" name="email" className="form-input" onChange={handleInputChange} />
+                  <input type="email" name="email" className="form-input" />
                 </div>
               </div>
               <div className="form-submit">
