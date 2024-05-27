@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Table, Tag } from 'antd';
-import { UserOutlined, PhoneOutlined, SisternodeOutlined, SearchOutlined } from '@ant-design/icons';
+import { UserOutlined, PhoneOutlined, SisternodeOutlined,BarcodeOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import config from '../../../config';
@@ -12,20 +12,17 @@ const RechargeOne = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const id_client = new URLSearchParams(location.search).get('id_client');
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const onSelectChange = (selectedRowKeys, selectedRows) => {
-    setSelectedRows(selectedRows);
+  const onSelectChange = (selectedRowKeys) => {
+    setSelectedRowKeys(selectedRowKeys);
   };
 
   const rowSelection = {
+    selectedRowKeys,
     onChange: onSelectChange,
-    getCheckboxProps: (record) => ({
-      disabled: record.disabled,
-    }),
   };
 
-  console.log(selectedRows)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +37,8 @@ const RechargeOne = () => {
     fetchData();
   }, [DOMAIN, id_client]);
 
+  
+
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
@@ -52,6 +51,19 @@ const RechargeOne = () => {
         </div>
       )
     },
+    {
+        title: 'Numero série',
+        dataIndex: 'numero_serie',
+        key: 'numero_serie',
+        render: (text, record) => (
+          <div>
+            <Tag color={'blue'}>
+              <BarcodeOutlined style={{ marginRight: "5px" }} />
+              {text}
+            </Tag>
+          </div>
+        )
+      },
     {
       title: 'Numero',
       dataIndex: 'numero',
@@ -106,13 +118,11 @@ const RechargeOne = () => {
                 </div>
               </div>
               <Table
-                dataSource={filteredData}
+                dataSource={data}
                 columns={columns}
+                rowSelection={rowSelection}
                 loading={loading}
-                rowSelection={{
-                  type: 'checkbox',
-                  ...rowSelection,
-                }}
+                rowKey="id_numero"
               />
             </div>
           </div>
