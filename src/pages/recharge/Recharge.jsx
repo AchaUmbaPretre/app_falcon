@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button,Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,PhoneOutlined,BarcodeOutlined,DeleteOutlined,EyeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined,UserOutlined,CalendarOutlined,PhoneOutlined,BarcodeOutlined,DeleteOutlined,EyeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
+import moment from 'moment';
 
 const Recharge = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -14,7 +15,7 @@ const Recharge = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/affectation`);
+        const { data } = await axios.get(`${DOMAIN}/recharge`);
         setData(data);
         setLoading(false)
       } catch (error) {
@@ -36,6 +37,16 @@ const Recharge = () => {
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
+    {
+        title: 'Client',
+        dataIndex: 'nom_client',
+        key: 'nom_client',
+        render : (text,record)=>(
+          <div>
+            <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          </div>
+        )
+      },
     {
       title: 'Numero',
       dataIndex: 'numero',
@@ -59,6 +70,18 @@ const Recharge = () => {
         </div>
       )
     },
+    {
+        title: "Date de recharge",
+        dataIndex: 'date_recharge',
+        key: 'date_recharge',
+        sorter: (a, b) => moment(a.date_recharge) - moment(b.date_recharge),
+              sortDirections: ['descend', 'ascend'],
+              render: (text) => (
+                <Tag icon={<CalendarOutlined />} color="blue">
+                  {moment(text).format('DD-MM-yyyy')}
+                </Tag>
+              ),
+      },
     {
         title: 'Action',
         key: 'action',
@@ -91,8 +114,8 @@ const Recharge = () => {
           <div className="client_wrapper_top">
             <div className="client_text_row">
               <div className="client_text_left">
-                <h2 className="client_h2">Affectations</h2>
-                <span className="client_span">Liste d'affectations</span>
+                <h2 className="client_h2">Recharge</h2>
+                <span className="client_span">Liste des recharges</span>
               </div>
               <div className="client_text_right">
                 <button onClick={showModal} ><PlusCircleOutlined /></button>
@@ -127,7 +150,7 @@ const Recharge = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
-                <Table dataSource={data} columns={columns} />
+                <Table dataSource={data} columns={columns} loading={loading} />
             </div>
           </div>
         </div>

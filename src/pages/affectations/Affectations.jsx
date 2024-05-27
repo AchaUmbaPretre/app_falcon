@@ -109,7 +109,7 @@ const Affectations = () => {
                     title: 'Accueil',
                   },
                   {
-                    title: 'Application Center',
+                    title: 'Rétourné(e)',
                     href: '/',
                   }
                 ]}

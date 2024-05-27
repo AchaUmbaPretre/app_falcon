@@ -154,13 +154,13 @@ const Sidebar = () => {
         </SubMenu>
         <SubMenu key="Recharge" icon={<InteractionOutlined style={{ fontSize: '17px' }} />} title="Recharge" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="16">
-            <Link to={'/recharge'} style={{display:'flex', alignItems:'center'}}>
+            <Link to={'/recharge_form'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Recharge
             </Link>
           </Item>
           <Item key="17">
-            <Link to={'/Liste_recharge'} style={{display:'flex', alignItems:'center'}}>
+            <Link to={'/recharge'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste de Recharges
             </Link>
