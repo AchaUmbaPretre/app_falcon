@@ -27,7 +27,7 @@ const Recharge = () => {
 
   const handleDelete = async (id) => {
     try {
-        await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+        await axios.delete(`${DOMAIN}/recharge/${id}`);
           window.location.reload();
       } catch (err) {
         console.log(err);
@@ -91,7 +91,7 @@ const Recharge = () => {
             <Popover  title="Supprimer" trigger="hover">
               <Popconfirm
                 title="Êtes-vous sûr de vouloir supprimer?"
-                onConfirm={() => handleDelete(record.id_client)}
+                onConfirm={() => handleDelete(record.id_recharge)}
                 okText="Oui"
                 cancelText="Non"
               >

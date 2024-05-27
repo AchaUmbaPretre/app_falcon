@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,UserOutlined,ThunderboltOutlined,ToolOutlined, DeleteOutlined,EyeOutlined,EnvironmentOutlined,CalendarOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd';
+import { PlusCircleOutlined, SisternodeOutlined, UserOutlined, ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined, EnvironmentOutlined, CalendarOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import moment from 'moment';
@@ -9,21 +9,31 @@ import OperationDetail from './operationDetail/OperationDetail';
 import OperationGen from './form/OperationGen';
 
 const Operations = () => {
- const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
   const [open, setOpen] = useState(false);
   const [idClient, setIdClient] = useState('');
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const showModal = (e) => {
+  const onSelectChange = (selectedRowKeys) => {
+    setSelectedRowKeys(selectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  const showModal = () => {
     setOpen(true);
   };
 
-  const showDrawer = (e) => {
+  const showDrawer = (id) => {
     setOpenDetail(true);
-    setIdClient(e)
+    setIdClient(id);
   };
 
   const onClose = () => {
@@ -32,19 +42,19 @@ const Operations = () => {
 
   const handleDelete = async (id) => {
     try {
-        await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
-          window.location.reload();
-      } catch (err) {
-        console.log(err);
-      }
-    };
+      await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`${DOMAIN}/operation`);
         setData(data);
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -65,111 +75,111 @@ const Operations = () => {
       default:
         return 'default'; // Couleur par défaut si aucun des cas précédents ne correspond
     }
-  }
+  };
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
+    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
       title: 'Client',
       dataIndex: 'nom_client',
       key: 'nom_client',
-      render : (text,record)=>(
+      render: (text, record) => (
         <div>
           <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
       )
     },
     {
-        title: 'Site',
-        dataIndex: 'nom_site',
-        key: 'nom_site',
-        render: (text, record) => (
-          <Tag color={'volcano'}>
-            <EnvironmentOutlined style={{ marginRight: "5px" }} />
+      title: 'Site',
+      dataIndex: 'nom_site',
+      key: 'nom_site',
+      render: (text, record) => (
+        <Tag color={'volcano'}>
+          <EnvironmentOutlined style={{ marginRight: "5px" }} />
+          {text}
+        </Tag>
+      )
+    },
+    {
+      title: "Type d'opération",
+      dataIndex: 'type_operations',
+      key: 'type_operations',
+      render: (text, record) => (
+        <div>
+          <Tag color={getColorForOperationType(text)}>
+            <ThunderboltOutlined style={{ marginRight: "5px" }} />
             {text}
           </Tag>
-        )
-      },
-      {
-        title: "Type d'opération",
-        dataIndex: 'type_operations',
-        key: 'type_operations',
-        render: (text, record) => (
-          <div>
-            <Tag color={getColorForOperationType(text)}>
-              <ThunderboltOutlined style={{ marginRight: "5px" }} />
-              {text}
-            </Tag>
-          </div>
-        )
-      },
+        </div>
+      )
+    },
     {
       title: 'Superviseur',
       dataIndex: 'superviseur',
       key: 'superviseur',
-      render : (text,record)=>(
+      render: (text, record) => (
         <div>
           <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
       )
     },
     {
-        title: 'Technicien',
-        dataIndex: 'technicien',
-        key: 'technicien',
-        render : (text,record)=>(
-          <div>
-            <Tag color={'blue'}><ToolOutlined style={{ marginRight: "5px" }} />{text}</Tag>
-          </div>
-        )
-      },
+      title: 'Technicien',
+      dataIndex: 'technicien',
+      key: 'technicien',
+      render: (text, record) => (
+        <div>
+          <Tag color={'blue'}><ToolOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+        </div>
+      )
+    },
     {
       title: "Date d'opération",
       dataIndex: 'date_operation',
       key: 'date_operation',
       sorter: (a, b) => moment(a.date_operation) - moment(b.date_operation),
-            sortDirections: ['descend', 'ascend'],
-            render: (text) => (
-              <Tag icon={<CalendarOutlined />} color="blue">
-                {moment(text).format('DD-MM-yyyy')}
-              </Tag>
-            ),
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => (
+        <Tag icon={<CalendarOutlined />} color="blue">
+          {moment(text).format('DD-MM-yyyy')}
+        </Tag>
+      ),
     },
     {
       title: 'Crée(e) par',
       dataIndex: 'user_cr',
       key: 'user_cr',
-      render : (text,record)=>(
+      render: (text, record) => (
         <div>
           <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
       )
     },
     {
-        title: 'Action',
-          key: 'action',
-          render: (text, record) => (
-            <Space size="middle">
-              <Popover  title="Voir les détails" trigger="hover">
-                <Link onClick={()=>showDrawer(record.id_operations)}>
-                  <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
-                </Link>
-              </Popover>
-              <Popover  title="Supprimer" trigger="hover">
-                <Popconfirm
-                  title="Êtes-vous sûr de vouloir supprimer?"
-                  onConfirm={() => handleDelete(record.id_client)}
-                  okText="Oui"
-                  cancelText="Non"
-                >
-                  <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
-                </Popconfirm>
-              </Popover>
-            </Space>
-          )
-      }
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Space size="middle">
+          <Popover title="Voir les détails" trigger="hover">
+            <Link onClick={() => showDrawer(record.id_operations)}>
+              <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
+            </Link>
+          </Popover>
+          <Popover title="Supprimer" trigger="hover">
+            <Popconfirm
+              title="Êtes-vous sûr de vouloir supprimer?"
+              onConfirm={() => handleDelete(record.id_client)}
+              okText="Oui"
+              cancelText="Non"
+            >
+              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+            </Popconfirm>
+          </Popover>
+        </Space>
+      )
+    }
   ];
-    
+
   return (
     <>
       <div className="client">
@@ -187,54 +197,58 @@ const Operations = () => {
           </div>
           <div className="client_wrapper_center">
             <Breadcrumb
-                separator=">"
-                items={[
-                  {
-                    title: 'Accueil',
-                  },
-                  {
-                    title: 'Retourné(e)',
-                    href: '/',
-                  }
-                ]}
+              separator=">"
+              items={[
+                {
+                  title: 'Accueil',
+                },
+                {
+                  title: 'Retourné(e)',
+                  href: '/',
+                }
+              ]}
             />
             <div className="client_wrapper_center_bottom">
-                <div className="product-bottom-top">
-                  <div className="product-bottom-left">
-                    <SisternodeOutlined className='product-icon' />
-                    <div className="product-row-search">
-                      <SearchOutlined className='product-icon-plus'/>
-                      <input type="search" name="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)}  placeholder='Recherche...' className='product-search' />
-                    </div>
-                  </div>
-                  <div className="product-bottom-right">
-                    <FilePdfOutlined className='product-icon-pdf' />
-                    <FileExcelOutlined className='product-icon-excel'/>
-                    <PrinterOutlined className='product-icon-printer'/>
+              <div className="product-bottom-top">
+                <div className="product-bottom-left">
+                  <SisternodeOutlined className='product-icon' />
+                  <div className="product-row-search">
+                    <SearchOutlined className='product-icon-plus' />
+                    <input type="search" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder='Recherche...' className='product-search' />
                   </div>
                 </div>
-                <Table dataSource={data} columns={columns} loading={loading} />
-
-                <Modal
-                  title=""
-                  centered
-                  open={open}
-                  onCancel={() => setOpen(false)}
-                  width={700}
-                  footer={[
-                            ]}
-                >
-                  <OperationGen/>
-                </Modal>
-                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
-                  <OperationDetail idClient={idClient} />
-                </Drawer>
+                <div className="product-bottom-right">
+                  <FilePdfOutlined className='product-icon-pdf' />
+                  <FileExcelOutlined className='product-icon-excel' />
+                  <PrinterOutlined className='product-icon-printer' />
+                </div>
+              </div>
+              <Table
+                dataSource={data}
+                columns={columns}
+                rowSelection={rowSelection}
+                loading={loading}
+                rowKey="id_operations"
+              />
+              <Modal
+                title=""
+                centered
+                open={open}
+                onCancel={() => setOpen(false)}
+                width={700}
+                footer={null}
+              >
+                <OperationGen />
+              </Modal>
+              <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
+                <OperationDetail idClient={idClient} />
+              </Drawer>
             </div>
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Operations
+export default Operations;
