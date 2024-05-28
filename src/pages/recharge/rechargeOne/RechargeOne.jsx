@@ -36,7 +36,6 @@ const RechargeOne = () => {
     fetchData();
   }, [DOMAIN, id_client]);
 
-
   const onSelectChange = (selectedKeys) => {
     setSelectedRowKeys(selectedKeys);
   };
@@ -45,49 +44,6 @@ const RechargeOne = () => {
     selectedRowKeys,
     onChange: onSelectChange,
   };
-
-  const columns = [
-    {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%"
-    },
-    {
-      title: 'Nom',
-      dataIndex: 'nom_client',
-      key: 'nom_client',
-      render: (text) => (
-        <Tag color='blue'>
-          <UserOutlined style={{ marginRight: 5 }} />
-          {text}
-        </Tag>
-      )
-    },
-    {
-      title: 'Numero série',
-      dataIndex: 'numero_serie',
-      key: 'numero_serie',
-      render: (text) => (
-        <Tag color='blue'>
-          <BarcodeOutlined style={{ marginRight: 5 }} />
-          {text}
-        </Tag>
-      )
-    },
-    {
-      title: 'Numero',
-      dataIndex: 'numero',
-      key: 'numero',
-      render: (text) => (
-        <Tag color='green'>
-          <PhoneOutlined style={{ marginRight: 5 }} />
-          {text}
-        </Tag>
-      )
-    }
-  ];
 
   const handleRecharge = async () => {
     if (selectedRowKeys.length === 0) {
@@ -136,9 +92,61 @@ const RechargeOne = () => {
     setIsModalVisible(false);
   };
 
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      message.success('Numéro copié dans le presse-papiers');
+    }).catch((err) => {
+      message.error('Échec de la copie');
+      console.error('Could not copy text: ', err);
+    });
+  };
+
   const filteredData = data.filter((item) =>
     item.numero?.toLowerCase().includes(searchValue.toLowerCase())
   );
+
+  const columns = [
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => index + 1,
+      width: "3%"
+    },
+    {
+      title: 'Nom',
+      dataIndex: 'nom_client',
+      key: 'nom_client',
+      render: (text) => (
+        <Tag color='blue'>
+          <UserOutlined style={{ marginRight: 5 }} />
+          {text}
+        </Tag>
+      )
+    },
+    {
+      title: 'Numero série',
+      dataIndex: 'numero_serie',
+      key: 'numero_serie',
+      render: (text) => (
+        <Tag color='blue'>
+          <BarcodeOutlined style={{ marginRight: 5 }} />
+          {text}
+        </Tag>
+      )
+    },
+    {
+      title: 'Numero',
+      dataIndex: 'numero',
+      key: 'numero',
+      render: (text) => (
+        <Tag color='green' onClick={() => handleCopy(text)} style={{ cursor: 'pointer' }}>
+          <PhoneOutlined style={{ marginRight: 5 }} />
+          {text}
+        </Tag>
+      )
+    }
+  ];
 
   return (
     <div className="client">

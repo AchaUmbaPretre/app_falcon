@@ -227,6 +227,7 @@ const Operations = () => {
                 rowSelection={rowSelection}
                 loading={loading}
                 rowKey="id_operations"
+                className='table_client'
               />
               <Modal
                 title=""

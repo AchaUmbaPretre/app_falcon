@@ -12,6 +12,8 @@
             background: #fff;
             padding: 10px 20px;
             box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
+            width: 100%;
+            overflow: auto;
             .client_text_row{
                 display: flex;
                 align-items: center;
@@ -19,16 +21,16 @@
                 .client_text_left{
                     display: flex;
                     flex-direction: column;
-                    gap: 5px;
+                    gap: 3px;
                     .client_h2{
-                        font-size: 1.5rem;
-                        font-weight: 600;
+                        font-size: 1.2rem;
+                        font-weight: 800;
                         background: linear-gradient(90deg, #13add8bd, #000000ee);
                         -webkit-background-clip: text;
                         color: transparent;
                     }
                     .client_span{
-                        font-size: .8rem;
+                        font-size: .7rem;
                         color: #686868d8;
                     }
                 }
@@ -69,7 +71,7 @@
                             background: linear-gradient(90deg, #13add8bd, #000000c2);
                             padding: 10px;
                             border-radius: 5px;
-                            font-size: 18px;
+                            font-size: 14px;
                             cursor: pointer;
                             transition: .5s;
                             &:hover{
@@ -79,11 +81,14 @@
                         .product-row-search{
                             border: 1px solid #c7c7c7;
                             border-radius: 5px;
-                            padding: 7px 10px;
+                            padding: 6px 8px;
                             .product-search{
                                 border: none;
                                 outline: none;
                                 padding-left: 10px;
+                                &::-webkit-input-placeholder { /* Chrome, Safari, Opera */
+                                    font-size: 12px;
+                                }
                             }
                         }
                     }
@@ -116,9 +121,13 @@
                         }
                     }
                 }
+                .table_client{
+                    width: 100%;
+                    overflow: auto;
+                }
                 .font-size-18 td,
                 .font-size-18 th {
-                font-size: 15px;
+                font-size: 14px;
                 }
             }
         }

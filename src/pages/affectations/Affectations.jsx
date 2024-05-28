@@ -140,7 +140,7 @@ const Affectations = () => {
                 >
                   <AffectationForm />
                 </Modal>
-                <Table dataSource={data} columns={columns} />
+                <Table dataSource={data} columns={columns} className='table_client' />
             </div>
           </div>
         </div>

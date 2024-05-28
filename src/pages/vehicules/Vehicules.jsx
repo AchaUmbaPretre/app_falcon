@@ -151,7 +151,7 @@ const Vehicules = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
-                <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={loading}  />
+                <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={loading} className='table_client' />
 
                 <Modal
                   title=""

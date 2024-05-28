@@ -50,10 +50,6 @@ const Client = () => {
     fetchData();
   }, [DOMAIN]);
 
-  const rowClassName = () => {
-    return 'font-size-18'; // Nom de la classe CSS personnalisée
-  };
-
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
@@ -102,7 +98,7 @@ const Client = () => {
       dataIndex: 'email',
       key: 'email',
       render: (text, record) => (
-        <Tag color={'blue'}>
+        <Tag color={'gold'}>
            <MailOutlined style={{ marginRight: "5px" }} />
            {text}
         </Tag>
@@ -222,8 +218,7 @@ const Client = () => {
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
                   <ClientDetail id_client ={idClient} />
                 </Drawer>
-                
-                <Table dataSource={filteredData} columns={columns} rowClassName={rowClassName} loading={loading}  />
+                <Table dataSource={filteredData} columns={columns}  loading={loading} className='table_client'  />
             </div>
           </div>
         </div>

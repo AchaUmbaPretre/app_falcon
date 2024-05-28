@@ -34,9 +34,6 @@ const Sites = () => {
     fetchData();
   }, [DOMAIN]);
 
-  const rowClassName = () => {
-    return 'font-size-18'; // Nom de la classe CSS personnalisée
-  };
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
@@ -66,14 +63,9 @@ const Sites = () => {
     {
       title: 'Action',
       key: 'action',
-      width: "160px",
+      width: "10%",
       render: (text, record) => (
         <Space size="middle">
-{/*           <Popover  title="Voir les détails" trigger="hover">
-            <Link>
-              <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
-            </Link>
-          </Popover> */}
           <Popover  title="Supprimer" trigger="hover">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer?"
@@ -138,16 +130,15 @@ const Sites = () => {
                   </div>
                 </div>
 
-                <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={loading}  />
+                <Table dataSource={data} columns={columns} loading={loading} className='table_client'  />
 
                 <Modal
                   title=""
                   centered
                   open={open}
                   onCancel={() => setOpen(false)}
-                  width={1000}
-                  footer={[
-                            ]}
+                  width={900}
+                  footer={[]}
                 >
                   <SitesForm />
                 </Modal>

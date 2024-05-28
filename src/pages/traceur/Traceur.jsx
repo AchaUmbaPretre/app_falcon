@@ -231,7 +231,7 @@ const Traceur = () => {
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
                   <TraceurDetail id_traceur ={idTraceur} />
                 </Drawer>
-                <Table dataSource={filteredData} columns={columns} rowClassName={rowClassName} loading={isLoading} />
+                <Table dataSource={filteredData} columns={columns} rowClassName={rowClassName} loading={isLoading} className='table_client' />
             </div>
           </div>
         </div>

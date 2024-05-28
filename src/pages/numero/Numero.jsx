@@ -3,7 +3,6 @@ import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } fro
 import { PlusCircleOutlined, SisternodeOutlined,GlobalOutlined,PhoneOutlined,EyeOutlined,DeleteOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import NumeroForm from './form/NumeroForm';
 
 const Numero = () => {
@@ -159,7 +158,7 @@ const Numero = () => {
                   <NumeroForm />
                 </Modal>
 
-                <Table dataSource={data} columns={columns} loading={loading} />
+                <Table dataSource={data} columns={columns} loading={loading} className='table_client' />
             </div>
           </div>
         </div>
