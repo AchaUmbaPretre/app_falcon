@@ -1,145 +1,201 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
-import { toast } from 'react-toastify';
-import { Spin } from 'antd';
+import { toast, ToastContainer } from 'react-toastify';
+import { Spin, Button, Table, Modal } from 'antd';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const AffectationForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState({})
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [traceur, setTraceur] = useState([]);
-  const [numero, setNumero] = useState([]);
-
-  const handleInputChange = (e) => {
-    const fieldName = e.target.name;
-    const fieldValue = e.target.value;
-  
-    let updatedValue = fieldValue;
-  
-    if (fieldName === "email") {
-      updatedValue = fieldValue.toLowerCase();
-    } else if (Number.isNaN(Number(fieldValue))) {
-      updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
-    }
-  
-  setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
-  };
+  const [traceurOptions, setTraceurOptions] = useState([]);
+  const [numeroOptions, setNumeroOptions] = useState([]);
+  const [pairs, setPairs] = useState([{ id_numero: null, id_traceur: null }]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchTraceurs = async () => {
       try {
         const { data } = await axios.get(`${DOMAIN}/traceur`);
-        setTraceur(data);
+        setTraceurOptions(data.map((item) => ({
+          value: item.id_traceur,
+          label: item.numero_serie,
+        })));
       } catch (error) {
         console.log(error);
       }
     };
-    fetchData();
+    fetchTraceurs();
   }, [DOMAIN]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchNumeros = async () => {
       try {
         const { data } = await axios.get(`${DOMAIN}/affectation/numero`);
-        setNumero(data);
+        setNumeroOptions(data.map((item) => ({
+          value: item.id_numero,
+          label: item.numero,
+        })));
       } catch (error) {
         console.log(error);
       }
     };
-    fetchData();
+    fetchNumeros();
   }, [DOMAIN]);
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-    
-    if (!data.id_numero || !data.id_traceur) {
-        toast.error('Veuillez remplir tous les champs requis');
-        return;
-    } 
+  const handleAddPair = () => {
+    setPairs([...pairs, { id_numero: null, id_traceur: null }]);
+  };
 
+  const handleRemovePair = (index) => {
+    const updatedPairs = pairs.filter((_, i) => i !== index);
+    setPairs(updatedPairs);
+  };
+
+  const handleChangePair = (index, field, value) => {
+    const updatedPairs = pairs.map((pair, i) =>
+      i === index ? { ...pair, [field]: value } : pair
+    );
+    setPairs(updatedPairs);
+  };
+
+  const handleSubmit = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleConfirm = async () => {
     try {
-        setIsLoading(true);
-        await axios.post(`${DOMAIN}/affectation`, {
-            ...data
-        });
-
-        toast.success('Affectation créée avec succès!');
-        navigate('/affectation');
-        window.location.reload();
+      setIsLoading(true);
+      const response = await axios.post(`${DOMAIN}/affectation`, { affectations: pairs });
+      toast.success('Affectations créées avec succès!');
+      navigate('/affectation');
+      window.location.reload();
     } catch (err) {
-        if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-            toast.error(err.response.data.message);
-        } else {
-            toast.error("Une erreur s'est produite. Veuillez réessayer.");
-        }
+      if (err.response && err.response.status === 400 && err.response.data && err.response.data.errors) {
+        err.response.data.errors.forEach(error => toast.error(error));
+      } else if (err.response && err.response.data && err.response.data.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error("Une erreur s'est produite. Veuillez réessayer.");
+      }
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
+      setIsModalVisible(false);
     }
-};
+  };
 
-  
+  const columns = [
+    {
+      title: 'Numéro',
+      dataIndex: 'id_numero',
+      key: 'id_numero',
+      render: (value, record, index) => (
+        <Select
+          value={numeroOptions.find(option => option.value === value)}
+          options={numeroOptions}
+          onChange={(selectedOption) =>
+            handleChangePair(index, 'id_numero', selectedOption.value)
+          }
+          placeholder="Sélectionnez un numéro..."
+        />
+      )
+    },
+    {
+      title: 'Traceur',
+      dataIndex: 'id_traceur',
+      key: 'id_traceur',
+      render: (value, record, index) => (
+        <Select
+          value={traceurOptions.find(option => option.value === value)}
+          options={traceurOptions}
+          onChange={(selectedOption) =>
+            handleChangePair(index, 'id_traceur', selectedOption.value)
+          }
+          placeholder="Sélectionnez un traceur..."
+        />
+      )
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record, index) => (
+        <>
+          <Button
+            icon={<DeleteOutlined />}
+            type="danger"
+            onClick={() => handleRemovePair(index)}
+          />
+          <Button
+            type="dashed"
+            onClick={handleAddPair}
+            style={{ width: '40%' }}
+          >
+            <PlusOutlined />
+          </Button>
+        </>
+      )
+    }
+  ];
+
   return (
     <>
-        <div className="clientForm">
-          <div className="product-container">
-            <div className="product-container-top">
-              <div className="product-left">
-                <h2 className="product-h2">Une nouvelle affectation</h2>
-                <span>Enregistrer une nouvelle affectation</span>
-              </div>
-            </div>
-            <div className="product-wrapper">
-              <div className="product-container-bottom">
-                <div className="form-controle">
-                  <label htmlFor="">Numéro <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_numero"
-                      options={numero?.map((item) => ({
-                        value: item.id_numero,
-                        label: item.numero,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_numero', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un numéro..."
-                    />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_traceur"
-                      options={traceur?.map((item) => ({
-                        value: item.id_traceur,
-                        label: item.numero_serie,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_traceur', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un traceur..."
-                    /> 
-                </div>
-              </div>
-              <div className="form-submit">
-                <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
-                {isLoading && (
-                <div className="loader-container loader-container-center">
-                  <Spin size="large" />
-                </div>
-            )}
-              </div>
+    <ToastContainer />
+      <div className="client">
+      <div className="client_wrapper">
+        <div className="client_wrapper_top">
+          <div className="client_text_row">
+            <div className="client_text_left">
+              <h2 className="client_h2">Une nouvelle affectation</h2>
+              <span className="client_span">Enregistrer une nouvelle affectation</span>
             </div>
           </div>
         </div>
-    </>
-  )
-}
+        <div className="client_wrapper_center">
+          <div className="client_wrapper_center_bottom">
+            <div className="product-bottom-top">
+              <div className="product-bottom-right">
+              </div>
+            </div>
 
-export default AffectationForm
+            <Table
+              dataSource={pairs}
+              columns={columns}
+              pagination={false}
+              rowKey={(record, index) => index}
+            />
+            <div className="form-submit">
+              <Button
+                type="primary"
+                onClick={handleSubmit}
+                disabled={isLoading}
+                style={{ width: '100%', marginTop: '16px' }}
+              >
+                Envoyer
+              </Button>
+              {isLoading && (
+                <div className="loader-container loader-container-center">
+                  <Spin size="large" />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Modal
+        title="Confirmation"
+        visible={isModalVisible}
+        onOk={handleConfirm}
+        onCancel={() => setIsModalVisible(false)}
+      >
+        <p>Voulez-vous vraiment affecter {pairs.length} paires ?</p>
+      </Modal>
+    </div>
+    </>
+  );
+};
+
+export default AffectationForm;

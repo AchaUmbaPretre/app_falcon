@@ -16,6 +16,7 @@ const RechargeOne = () => {
   const [loading, setLoading] = useState(true);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [clientName, setClientName] = useState('');
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,6 +29,7 @@ const RechargeOne = () => {
       try {
         const response = await axios.get(`${DOMAIN}/recharge/rechargerClientOne?id_client=${id_client}`);
         setData(response.data);
+        setClientName(response.data[0].nom_client)
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -36,6 +38,7 @@ const RechargeOne = () => {
     };
     fetchData();
   }, [DOMAIN, id_client]);
+
 
   const onSelectChange = (selectedKeys) => {
     setSelectedRowKeys(selectedKeys);
@@ -155,7 +158,7 @@ const RechargeOne = () => {
         <div className="client_wrapper_top">
           <div className="client_text_row">
             <div className="client_text_left">
-              <h2 className="client_h2">Recharge</h2>
+              <h2 className="client_h2">Recharge {clientName}</h2>
               <span className="client_span"></span>
             </div>
           </div>

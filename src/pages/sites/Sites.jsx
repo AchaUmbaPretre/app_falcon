@@ -38,7 +38,7 @@ const Sites = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
-        title: 'Nom',
+        title: 'Client',
         dataIndex: 'nom_client',
         key: 'nom_client',
         render : (text,record)=>(

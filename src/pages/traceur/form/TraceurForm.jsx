@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { Spin } from 'antd';
 
 const TraceurForm = () => {
@@ -85,6 +85,7 @@ const TraceurForm = () => {
   
   return (
     <>
+    <ToastContainer />
         <div className="clientForm">
           <div className="product-container">
             <div className="product-container-top">
@@ -114,6 +115,11 @@ const TraceurForm = () => {
                 <div className="form-controle">
                   <label htmlFor="">Numéro serie <span style={{color:'red'}}>*</span></label>
                   <input type="text" name='numero_serie' className="form-input" onChange={handleInputChange}  required/>
+                </div>
+
+                <div className="form-controle">
+                  <label htmlFor="">Code <span style={{color:'red'}}>*</span></label>
+                  <input type="text" name='code' className="form-input" onChange={handleInputChange}  required/>
                 </div>
               </div>
               <div className="form-submit">
