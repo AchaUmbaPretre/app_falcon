@@ -61,11 +61,11 @@ const TraceurHistorique = ({ id_traceur }) => {
           </div>
 
           <div className="operation_row">
-            <span className="operation_span">Telephone: </span>
+            <span className="operation_span">Numero attribué: </span>
             <span className="operation_desc">{detail.numero ?? 'N/A'} </span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Date : </span>
+            <span className="operation_span">Date d'opération : </span>
             <span className="operation_desc">{detail.date_operation ? moment(detail.date_operation).format('DD-MM-YYYY') : 'N/A'} </span>
           </div>
 
