@@ -95,11 +95,13 @@ const RechargeOne = () => {
     }
   ];
 
+  console.log(selectedRowKeys)
+
   // Handle recharge button click
   const handleRecharge = async (e) => {
     e.preventDefault();
 
-    if (selectedRowKeys.length === 0 || !days) {
+    if (selectedRowKeys.length === 0) {
       message.error('Veuillez sélectionner au moins une ligne.');
       return;
     }
