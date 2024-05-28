@@ -47,7 +47,8 @@ const Permissions = () => {
     fetchUsers();
     fetchPermissions();
     fetchUserPermissions();
-  }, []);
+    
+  }, [DOMAIN]);
 
   const handlePermissionChange = (userId, title, permission, checked) => {
     setUserPermissions(prev => {

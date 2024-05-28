@@ -26,7 +26,7 @@ function Recharge_form() {
     <>
         <div className="recharge_form">
             <div className="recharge_form_wrapper">
-                <h2 className="recharge_client">Liste de clients</h2>
+                <h2 className="recharge_client">LISTE DES CLIENTS A RECHARGER</h2>
                 <div className="recharge_form_rows">
                 {client.map(dd => (
                     <div className="recharge_form_row" onClick={()=> navigate(`/rechargeOne?id_client=${dd.id_client}`)}>
