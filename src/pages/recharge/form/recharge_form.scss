@@ -7,6 +7,32 @@
         -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
         box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
         border-radius: 5px;
+        .recharge_title_rows{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            background: #e7e7e769;
+            padding: 20px 10px;
+            margin-bottom: 20px;
+            .recharge_client_title{
+                font-size: 1rem;
+            }
+            .recharge_row_search{
+                border: 1px solid #c7c7c7;
+                border-radius: 5px;
+                padding: 6px 8px;
+                background: #fff;
+                .product-search{
+                    border: none;
+                    outline: none;
+                    padding-left: 10px;
+                    &::-webkit-input-placeholder { /* Chrome, Safari, Opera */
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
         .recharge_client{
             font-size: 1rem;
             color: rgb(59, 59, 59);
@@ -43,6 +69,10 @@
                     flex-direction: column;
                     gap: 10px;
                     padding-top: 10px;
+                    .recharge_span{
+                        font-size: .9rem;
+                        color: #757575;
+                    }
                 }
             }
         }
