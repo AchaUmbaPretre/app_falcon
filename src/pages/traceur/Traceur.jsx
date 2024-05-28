@@ -18,10 +18,6 @@ const Traceur = () => {
   const [idTraceur, setIdTraceur] = useState('')
 
 
-  const rowClassName = () => {
-    return 'font-size-18';
-  };
-
   const showDrawer = (e) => {
     setOpenDetail(true);
     setIdTraceur(e)
@@ -37,7 +33,7 @@ const Traceur = () => {
 
   const handleDelete = async (id) => {
     try {
-        await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+        await axios.delete(`${DOMAIN}/commande/commande/${id}`);
           window.location.reload();
       } catch (err) {
         console.log(err);
@@ -231,7 +227,7 @@ const Traceur = () => {
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
                   <TraceurDetail id_traceur ={idTraceur} />
                 </Drawer>
-                <Table dataSource={filteredData} columns={columns} rowClassName={rowClassName} loading={isLoading} className='table_client' />
+                <Table dataSource={filteredData} columns={columns} loading={isLoading} className='table_client' />
             </div>
           </div>
         </div>
