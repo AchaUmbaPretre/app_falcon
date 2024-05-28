@@ -9,6 +9,7 @@ import { Modal, Spin } from 'antd';
 import { useSelector } from 'react-redux';
 import AddModalClient from '../addModalClient/AddModalClient';
 import AddSites from '../../sites/addSites/AddSites';
+import AddVehicules from '../../vehicules/addVehicules/AddVehicules';
 
 const OperationForm = ({id_type_operation}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -26,6 +27,7 @@ const OperationForm = ({id_type_operation}) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSite, setOpenSite] = useState(false);
+  const [openVehicule, setOpenVehicule] = useState(false);
 
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
@@ -66,6 +68,11 @@ const OperationForm = ({id_type_operation}) => {
   const showModalSite = (e) => {
     setOpenSite(true);
   };
+
+  const showModalVehicule = (e) => {
+    setOpenVehicule(true);
+  };
+
 
   useEffect(()=>{
     setIdClient(data?.id_client)
@@ -242,7 +249,7 @@ const OperationForm = ({id_type_operation}) => {
                     />
                 </div>
                 <div className="form-controle">
-                  <label htmlFor="">Véhicule <span style={{color:'red'}}>*</span></label>
+                  <label htmlFor="">Véhicule <span style={{color:'red'}}>*</span><PlusCircleOutlined className='icon_plus' onClick={showModalVehicule} /></label>
                   <Select
                       name="id_vehicule"
                       options={vehicule?.map((item) => ({
@@ -360,6 +367,17 @@ const OperationForm = ({id_type_operation}) => {
               footer={[]}
             >
               <AddSites />
+            </Modal>
+
+            <Modal
+              title=""
+              centered
+              open={openVehicule}
+              onCancel={() => setOpenVehicule(false)}
+              width={1000}
+              footer={[]}
+            >
+              <AddVehicules />
             </Modal>
           </div>
         </div>
