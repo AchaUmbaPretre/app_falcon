@@ -23,6 +23,10 @@ const TraceurHistorique = ({ id_traceur }) => {
     fetchData();
   }, [DOMAIN, id_traceur]);
 
+  if (data?.length === 0) {
+    return <p>Ce traceur n'a pas d'historique</p>;
+  }
+
   if (loading) {
     return <p>Chargement...</p>;
   }
