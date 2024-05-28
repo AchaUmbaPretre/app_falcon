@@ -1,0 +1,35 @@
+.custom-modal .ant-modal-content {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .custom-modal .ant-modal-header {
+    background-color: #4A90E2;
+    color: white;
+    text-align: center;
+  }
+  
+  .custom-modal .ant-modal-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .custom-modal .ant-modal-body {
+    padding: 20px;
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .custom-modal .ant-modal-footer {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .custom-modal .ant-btn-primary {
+    background-color: #4A90E2;
+    border: none;
+  }
+  
+  .custom-modal .ant-btn {
+    border-radius: 5px;
+  }

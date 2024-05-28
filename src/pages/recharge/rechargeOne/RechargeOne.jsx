@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import config from '../../../config';
+import './rechargeOne.css'; // Assurez-vous d'importer le fichier CSS
 
 const RechargeOne = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -210,6 +211,8 @@ const RechargeOne = () => {
               visible={isModalVisible}
               onOk={handleOk}
               onCancel={handleCancel}
+              className="custom-modal"
+              centered
             >
               <p>Voulez-vous vraiment recharger pour {days} jours ?</p>
             </Modal>
