@@ -1,6 +1,7 @@
 .client{
     position: relative;
     width: 100%;
+    overflow: hidden;
     .client_wrapper{
         display: flex;
         flex-direction: column;

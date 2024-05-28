@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Table, Tag, message, Input, Button } from 'antd';
+import { Breadcrumb, Table, Tag, message, Input, Button, Modal } from 'antd';
 import { UserOutlined, PhoneOutlined, SisternodeOutlined, BarcodeOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,25 +7,21 @@ import { useSelector } from 'react-redux';
 import config from '../../../config';
 
 const RechargeOne = () => {
-  // Constants
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const INITIAL_DAYS = 0;
 
-  // State variables
   const [searchValue, setSearchValue] = useState('');
-  const [days, setDays] = useState(INITIAL_DAYS);
+  const [days, setDays] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // Hooks
   const navigate = useNavigate();
   const location = useLocation();
   const userId = useSelector((state) => state.user.currentUser.id);
 
   const id_client = new URLSearchParams(location.search).get('id_client');
 
-  // Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,18 +36,16 @@ const RechargeOne = () => {
     fetchData();
   }, [DOMAIN, id_client]);
 
-  // Handle row selection change
+
   const onSelectChange = (selectedKeys) => {
     setSelectedRowKeys(selectedKeys);
   };
 
-  // Table row selection config
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
   };
 
-  // Table columns definition
   const columns = [
     {
       title: '#',
@@ -95,12 +89,7 @@ const RechargeOne = () => {
     }
   ];
 
-  console.log(selectedRowKeys)
-
-  // Handle recharge button click
-  const handleRecharge = async (e) => {
-    e.preventDefault();
-
+  const handleRecharge = async () => {
     if (selectedRowKeys.length === 0) {
       message.error('Veuillez sélectionner au moins une ligne.');
       return;
@@ -125,6 +114,7 @@ const RechargeOne = () => {
       );
 
       message.success('Produit rechargé avec succès !');
+      setIsModalVisible(false);
       navigate('/recharge');
       window.location.reload();
     } catch (err) {
@@ -132,6 +122,18 @@ const RechargeOne = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    handleRecharge();
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   const filteredData = data.filter((item) =>
@@ -153,13 +155,8 @@ const RechargeOne = () => {
           <Breadcrumb
             separator=">"
             items={[
-              {
-                title: 'Accueil',
-              },
-              {
-                title: 'Rétourné(e)',
-                href: '/',
-              }
+              { title: 'Accueil' },
+              { title: 'Rétourné(e)', href: '/' },
             ]}
           />
           <div className="client_wrapper_center_bottom">
@@ -178,7 +175,7 @@ const RechargeOne = () => {
                 </div>
               </div>
               <div className="product-bottom-right">
-                <label htmlFor="" style={{fontSize:'13px', color: "#555"}}>Nbre de jour : </label>
+                <label htmlFor="" style={{ fontSize: '13px', color: "#555" }}>Nbre de jour : </label>
                 <Input
                   type="number"
                   min="1"
@@ -186,7 +183,7 @@ const RechargeOne = () => {
                   onChange={(e) => setDays(Number(e.target.value))}
                   placeholder="Nombre de jours"
                   className='days-input'
-                  style={{width:"100px"}}
+                  style={{ width: "100px" }}
                 />
               </div>
             </div>
@@ -197,9 +194,17 @@ const RechargeOne = () => {
               loading={loading}
               rowKey="id_numero"
             />
-            <Button type="primary" onClick={handleRecharge} disabled={loading}>
+            <Button type="primary" onClick={showModal} disabled={loading}>
               Recharger
             </Button>
+            <Modal
+              title="Confirmation de Recharge"
+              visible={isModalVisible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <p>Voulez-vous vraiment recharger pour {days} jours ?</p>
+            </Modal>
           </div>
         </div>
       </div>
