@@ -160,7 +160,7 @@ const Recharge = () => {
       { 
         title: '#', 
         dataIndex: 'id', 
-        key: 'id', 
+        key: 'index', 
         render: (text, record, index) => index + 1, 
         width: "3%" 
       },
@@ -200,7 +200,7 @@ const Recharge = () => {
       {
         title: 'Marque',
         dataIndex: 'nom_marque',
-        key: 'nom_marque',
+        key: '',
         render: (text) => (
           <Tag color='blue'>
             <CarOutlined style={{ marginRight: "5px" }} />
