@@ -7,6 +7,7 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import TraceurForm from './form/TraceurForm';
 import TraceurDetail from './detail/TraceurDetail';
+import TraceurHistorique from './historique/TraceurHistorique';
 
 const Traceur = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -16,6 +17,14 @@ const Traceur = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
   const [idTraceur, setIdTraceur] = useState('')
+  const [historiqueDetail, setHistoriqueDetail] = useState(false)
+  const [historique, setHistorique] = useState('')
+
+
+  const historiqueTraceur = (e) => {
+    setHistoriqueDetail(true)
+    setHistorique(e)
+  }
 
 
   const showDrawer = (e) => {
@@ -25,6 +34,7 @@ const Traceur = () => {
 
   const onClose = () => {
     setOpenDetail(false);
+    setHistoriqueDetail(false);
   };
 
   const showModal = (e) => {
@@ -39,6 +49,19 @@ const Traceur = () => {
         console.log(err);
       }
     };
+
+
+/*     useEffect(() => {
+      const fetchHistorique = async () => {
+        try {
+          const { data } = await axios.get(`${DOMAIN}/traceur`);
+          setData(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }, [DOMAIN]); */
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,12 +96,14 @@ const Traceur = () => {
       dataIndex: 'numero_serie',
       key: 'numero_serie',
       render: (text, record) => (
-        <div>
-          <Tag color={'blue'}>
-            <BarcodeOutlined style={{ marginRight: "5px" }} />
-            {text}
-          </Tag>
+        <Popover content={`Voir les historiques du traceur ${record.numero_serie}`} placement="top">
+          <div onClick={()=>historiqueTraceur(record.id_traceur)}>
+            <Tag color={'blue'}>
+              <BarcodeOutlined style={{ marginRight: "5px" }} />
+              {text}
+            </Tag>
         </div>
+        </Popover>
       )
     },
     {
@@ -226,6 +251,10 @@ const Traceur = () => {
 
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
                   <TraceurDetail id_traceur ={idTraceur} />
+                </Drawer>
+
+                <Drawer title="Historique" onClose={onClose} visible={historiqueDetail} width={700}>
+                  <TraceurHistorique id_traceur={historique} />
                 </Drawer>
                 <Table dataSource={filteredData} columns={columns} loading={isLoading} className='table_client' />
             </div>
