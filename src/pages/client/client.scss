@@ -1,11 +1,13 @@
 .client{
     position: relative;
     width: 100%;
-    overflow: hidden;
+    overflow: auto; 
     .client_wrapper{
         display: flex;
         flex-direction: column;
         gap: 20px;
+        width: 100%;
+        overflow: auto;
         .client_wrapper_top{
             background: #fff;
             padding: 10px 20px;

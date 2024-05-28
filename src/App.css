@@ -28,12 +28,13 @@ li{
     width: 100%;
 }
 .appOutlet{
-    position: relative;
     flex: 8;
     width: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: auto;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
     background: #fafafa;
 }
 .outlet-wrapper{

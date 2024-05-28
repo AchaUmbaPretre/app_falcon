@@ -11,7 +11,8 @@ import {
   SearchOutlined, 
   FilePdfOutlined, 
   FileExcelOutlined, 
-  PrinterOutlined 
+  PrinterOutlined,
+  CarOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
@@ -100,6 +101,17 @@ const Recharge = () => {
         ),
       },
       {
+        title: 'Matricule',
+        dataIndex: 'matricule',
+        key: 'matricule',
+        render: (text) => (
+          <Tag color='blue'>
+            <CarOutlined style={{ marginRight: "5px" }} />
+            {text}
+          </Tag>
+        ),
+      },
+      {
         title: 'Status',
         dataIndex: 'recharge_status',
         key: 'recharge_status',
@@ -175,11 +187,33 @@ const Recharge = () => {
         ),
       },
       {
+        title: 'Matricule',
+        dataIndex: 'matricule',
+        key: 'matricule',
+        render: (text) => (
+          <Tag color='blue'>
+            <CarOutlined style={{ marginRight: "5px" }} />
+            {text}
+          </Tag>
+        ),
+      },
+      {
+        title: 'Marque',
+        dataIndex: 'nom_marque',
+        key: 'nom_marque',
+        render: (text) => (
+          <Tag color='blue'>
+            <CarOutlined style={{ marginRight: "5px" }} />
+            {text}
+          </Tag>
+        ),
+      },
+      {
         title: 'Traceur',
         dataIndex: 'numero_serie',
         key: 'numero_serie',
         render: (text) => (
-          <Tag color='blue'>
+          <Tag color='cyan'>
             <BarcodeOutlined style={{ marginRight: 5 }} />
             {text}
           </Tag>

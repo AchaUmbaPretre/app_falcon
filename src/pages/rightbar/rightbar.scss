@@ -1,6 +1,7 @@
 .rightbar{
     position: relative;
     width: 100%;
+    overflow: auto; 
     .rightbar_wrapper{
         display: flex;
         flex-direction: column;
