@@ -192,7 +192,7 @@ const Paiement = () => {
                 <PaiementForm />
               </Modal>
               <Drawer
-                title="Détails du traceur"
+                title="Détails"
                 placement="right"
                 onClose={onClose}
                 open={openDetail}

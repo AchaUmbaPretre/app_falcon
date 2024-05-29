@@ -180,11 +180,20 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-         <Item key="paiement" icon={<DollarOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }}>
-          <Link to={'/paiement'}>
-            Paiement
-          </Link>
-        </Item>
+        <SubMenu key="Paiement" icon={<DollarOutlined style={{ fontSize: '17px' }} />} title="Recharge" style={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <Item key="16">
+            <Link to={'/paiement'} style={{display:'flex', alignItems:'center'}}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Liste des paiements
+            </Link>
+          </Item>
+          <Item key="17">
+            <Link to={'/dette'} style={{display:'flex', alignItems:'center'}}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Liste des dettes
+            </Link>
+          </Item>
+        </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="20">
             <Link to={'/permissions'}>
