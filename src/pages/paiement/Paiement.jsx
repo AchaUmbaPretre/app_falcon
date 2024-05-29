@@ -35,8 +35,8 @@ const Paiement = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${DOMAIN}/commande/commande/${id}`);
-      fetchPaiements(); // Re-fetch data after deletion
+      await axios.delete(`${DOMAIN}/paiement/${id}`);
+      fetchPaiements();
     } catch (err) {
       console.error(err);
     }
@@ -78,7 +78,7 @@ const Paiement = () => {
         </Tag>
       )
     },
-    {
+/*     {
       title: 'Device',
       dataIndex: 'device',
       key: 'device',
@@ -88,7 +88,7 @@ const Paiement = () => {
           {text}
         </Tag>
       )
-    },
+    }, */
     {
       title: "Date",
       dataIndex: 'date_paiement',
@@ -103,8 +103,8 @@ const Paiement = () => {
     },
     {
       title: "Methode",
-      dataIndex: 'methode',
-      key: 'methode',
+      dataIndex: 'nom_methode',
+      key: 'nom_methode',
       render: (text) => (
         <Tag color="orange">
           <CreditCardOutlined style={{ marginRight: "5px" }} />
