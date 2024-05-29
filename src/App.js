@@ -39,10 +39,11 @@ import SuperviseurRemplace from './pages/superviseur/form/superviseurRemplacemen
 import Page405 from './pages/page404/page405';
 import Page404 from './pages/page404/Page404';
 import Sites from './pages/sites/Sites';
-import Permissions from './permissions/Permissions';
+import Permissions from './pages/permissions/Permissions';
 import Recharge from './pages/recharge/Recharge';
 import Recharge_form from './pages/recharge/form/Recharge_form';
 import RechargeOne from './pages/recharge/rechargeOne/RechargeOne';
+import Paiement from './pages/paiement/Paiement';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -128,7 +129,7 @@ function App() {
         { path: '/rechargeOne', element: <RechargeOne /> },
         { path: '/personnel', element: <Personnel /> },
         { path: '/personnel_form', element: <PersonnelForm /> },
-        { path: '/superviseur', element: <Superviseur /> },
+        { path: '/paiement', element: <Paiement /> },
         { path: '/permissions', element: <Permissions /> },
       ]
     }

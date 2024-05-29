@@ -180,11 +180,11 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-         <Item key="paiement" icon={<DollarOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '18px', letterSpacing: '1px' }}>
+         <Item key="paiement" icon={<DollarOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Link to={'/paiement'}>
             Paiement
           </Link>
-        </Item> */
+        </Item>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="20">
             <Link to={'/permissions'}>

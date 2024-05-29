@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Checkbox, Button, message } from 'antd';
 import axios from 'axios';
 import './permissions.css';
-import config from '../config';
+import config from '../../config';
 
 const Permissions = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
