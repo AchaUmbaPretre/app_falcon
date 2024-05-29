@@ -13,7 +13,7 @@ const Marques = () => {
 
   const handleDelete = async (id) => {
     try {
-        await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+        await axios.delete(`${DOMAIN}/vehicule/marque/${id}`);
           window.location.reload();
       } catch (err) {
         console.log(err);
@@ -58,15 +58,10 @@ const Marques = () => {
       width: "160px",
       render: (text, record) => (
         <Space size="middle">
-{/*           <Popover  title="Voir les détails" trigger="hover">
-            <Link>
-              <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
-            </Link>
-          </Popover> */}
           <Popover  title="Supprimer" trigger="hover">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer?"
-              onConfirm={() => handleDelete(record.id_client)}
+              onConfirm={() => handleDelete(record.id_marque)}
               okText="Oui"
               cancelText="Non"
             >

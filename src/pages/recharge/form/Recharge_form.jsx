@@ -1,16 +1,18 @@
-import './recharge_form.scss'
-import iconClient from './../../../assets/custome.png'
+import './recharge_form.scss';
+import iconClient from './../../../assets/custome.png';
 import config from '../../../config';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
+import { Spin } from 'antd'; // Import Spin from Ant Design
 
 function Recharge_form() {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [client, setClient] = useState([]);
     const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
+    const [loading, setLoading] = useState(true); // State to manage loading
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,6 +21,8 @@ function Recharge_form() {
             setClient(data);
           } catch (error) {
             console.log(error);
+          } finally {
+            setLoading(false); // Set loading to false after data is fetched
           }
         };
         fetchData();
@@ -26,7 +30,7 @@ function Recharge_form() {
 
       const filteredData = client?.filter((item) => 
         item.nom_client?.toLowerCase().includes(searchValue.toLowerCase())
-      )
+      );
 
   return (
     <>
@@ -39,21 +43,31 @@ function Recharge_form() {
                         <input type="search" name="" id=""  value={searchValue} onChange={(e) => setSearchValue(e.target.value)}  placeholder='Recherche...' className='product-search' />
                     </div>
                 </div>
-                <div className="recharge_form_rows">
-                {filteredData.map(dd => (
-                    <div className="recharge_form_row" onClick={()=> navigate(`/rechargeOne?id_client=${dd.id_client}`)}>
-                        <img src={iconClient} alt="" className="recharge_img" />
-                        <div className="recharge_form_bottom">
-                            <span className="recharge_span">Nom : {dd.nom_client}</span>
-                            <span className="recharge_span">Actif : {dd.nbre_actif}</span>
-                        </div>
+                {loading ? (
+                    <div className="spin-container">
+                        <Spin size="large" />
                     </div>
-                ))}
-                </div>
+                ) : (
+                    filteredData.length > 0 ? (
+                        <div className="recharge_form_rows">
+                            {filteredData.map(dd => (
+                                <div className="recharge_form_row" key={dd.id_client} onClick={() => navigate(`/rechargeOne?id_client=${dd.id_client}`)}>
+                                    <img src={iconClient} alt="" className="recharge_img" />
+                                    <div className="recharge_form_bottom">
+                                        <span className="recharge_span">Nom : {dd.nom_client}</span>
+                                        <span className="recharge_span">Actif : {dd.nbre_actif}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div>Aucun client trouvé</div> // Message when no data found
+                    )
+                )}
             </div>
         </div>
     </>
-  )
+  );
 }
 
-export default Recharge_form
+export default Recharge_form;
