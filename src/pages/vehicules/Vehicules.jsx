@@ -129,7 +129,7 @@ const Vehicules = () => {
                 <SisternodeOutlined className='product-icon' />
                 <div className="product-row-search">
                   <SearchOutlined className='product-icon-plus' />
-                  <Input 
+                  <input 
                     type="search" 
                     value={searchValue} 
                     onChange={(e) => setSearchValue(e.target.value)} 

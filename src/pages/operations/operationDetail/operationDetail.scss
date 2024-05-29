@@ -1,19 +1,40 @@
+@import '../../../style.scss';
+
+
 .operationDetail{
     .operationDetail_wrapper{
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 25px;
         border-bottom: 1px solid #dddddd;
+        @include miniTablette{
+            grid-template-columns: repeat(2,1fr);
+            gap: 5px;
+        }
+        .h2_detail{
+            @include miniTablette{
+                font-size: 1rem;
+            }
+        }
         .operation_row{
+            position: relative;
+            width: 100%;
             display: flex;
             flex-direction: column;
             gap: 10px;
             padding: 10px;
             .operation_span{
                 font-size: .9rem;
+                @include miniTablette{
+                    font-size: .7rem;
+                }
             }
             .product-img{
                 object-fit: cover;
+                @include miniTablette{
+                    width: 80%;
+                    height: auto;
+                }
             }
             .operation_desc{
                 color: #555;

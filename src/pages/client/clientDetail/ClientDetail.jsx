@@ -30,7 +30,7 @@ const ClientDetail = ({id_client}) => {
   return (
     <>
       <div className="operationDetail">
-        <h1 style={{padding: '10px 0px', fontSize: "22px" }}>Contact principal : </h1>
+        <h1 style={{padding: '10px 0px', fontSize: "22px" }} className='h2_detail'>Contact principal : </h1>
         <div className="operationDetail_wrapper">
           <div className="operation_row">
             <span className="operation_span">Client : </span>
