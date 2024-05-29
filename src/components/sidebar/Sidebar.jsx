@@ -121,7 +121,7 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-        <SubMenu key="vehicules" icon={<CarOutlined style={{ fontSize: '17px' }} />} title="Vehicules" style={{ fontSize: '14px', letterSpacing: '1px' }} onClick={handleLinkClick}>
+        <SubMenu key="vehicules" icon={<CarOutlined style={{ fontSize: '17px' }} />} title="Vehicules" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="10">
             <Link to={'/vehicules'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
@@ -197,13 +197,13 @@ const Sidebar = () => {
             </Link>
           </Item>
           <Item key="21">
-            <Link to={'/'} style={{display:'flex', alignItems:'center'}} >
+            <Link to={'/'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des dettes
             </Link>
           </Item>
           <Item key="22">
-            <Link to={'/'} style={{display:'flex', alignItems:'center'}}>
+            <Link to={'/'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des depenses
             </Link>
@@ -211,7 +211,7 @@ const Sidebar = () => {
         </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="23">
-            <Link to={'/permissions'}>
+            <Link to={'/permissions'} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Permissions
             </Link>
