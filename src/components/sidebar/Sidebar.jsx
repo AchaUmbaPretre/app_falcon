@@ -180,29 +180,35 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-        <SubMenu key="Paiement" icon={<DollarOutlined style={{ fontSize: '17px' }} />} title="Recharge" style={{ fontSize: '14px', letterSpacing: '1px' }}>
-          <Item key="16">
+        <SubMenu key="Paiement" icon={<DollarOutlined style={{ fontSize: '17px' }} />} title="Paiement" style={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <Item key="20">
             <Link to={'/paiement'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des paiements
             </Link>
           </Item>
-          <Item key="17">
-            <Link to={'/dette'} style={{display:'flex', alignItems:'center'}}>
+          <Item key="21">
+            <Link to={'/'} style={{display:'flex', alignItems:'center'}}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des dettes
             </Link>
           </Item>
+          <Item key="22">
+            <Link to={'/'} style={{display:'flex', alignItems:'center'}}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Liste des depenses
+            </Link>
+          </Item>
         </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
-          <Item key="20">
+          <Item key="23">
             <Link to={'/permissions'}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Permissions
             </Link>
           </Item>
-          <Item key="20">Général</Item>
-          <Item key="21">Sécurité</Item>
+          <Item key="24">Général</Item>
+          <Item key="25">Sécurité</Item>
         </SubMenu>
         <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }} onClick={Logout}>
           Déconnecter
