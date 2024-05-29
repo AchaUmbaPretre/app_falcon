@@ -180,17 +180,18 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-{/*         <Item key="accueil" icon={<DollarOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '18px', letterSpacing: '1px' }}>
-          <Link to={'/'}>
+         <Item key="paiement" icon={<DollarOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '18px', letterSpacing: '1px' }}>
+          <Link to={'/paiement'}>
             Paiement
           </Link>
-        </Item> */}
-        <Item key="permissions" icon={<SolutionOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }}>
-          <Link to={'/permissions'}>
-            Permissions
-          </Link>
-        </Item>
+        </Item> */
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <Item key="20">
+            <Link to={'/permissions'}>
+            <Timeline.Item dot={<span className="custom-dot" />} />
+              Permissions
+            </Link>
+          </Item>
           <Item key="20">Général</Item>
           <Item key="21">Sécurité</Item>
         </SubMenu>
