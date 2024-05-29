@@ -1,3 +1,5 @@
+@import '../../style.scss';
+
 .client{
     position: relative;
     width: 100%;
@@ -14,6 +16,9 @@
             box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
             width: 100%;
             overflow: auto;
+            @include miniTablette{
+                padding: 10px;
+            }
             .client_text_row{
                 display: flex;
                 align-items: center;
@@ -28,10 +33,16 @@
                         background: linear-gradient(90deg, #13add8bd, #000000ee);
                         -webkit-background-clip: text;
                         color: transparent;
+                        @include miniTablette{
+                            font-size: 1rem;
+                        }
                     }
                     .client_span{
                         font-size: .7rem;
                         color: #686868d8;
+                        @include miniTablette{
+                            font-size: .6rem;
+                        }
                     }
                 }
                 .client_text_right{
@@ -56,6 +67,9 @@
             background: #fff;
             padding: 20px;
             box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
+            @include miniTablette{
+                padding: 10px;
+            }
             .client_wrapper_center_bottom{
                 .product-bottom-top{
                     display: flex;
@@ -77,11 +91,23 @@
                             &:hover{
                                 background:rgb(6, 60, 223);
                             }
+                            @include miniTablette{
+                                font-size: 12px;
+                            }
                         }
                         .product-row-search{
                             border: 1px solid #c7c7c7;
                             border-radius: 5px;
                             padding: 6px 8px;
+                            @include miniTablette{
+                                padding: 5px 7px;
+                                width: 85%;
+                            }
+                            .product-icon-plus{
+                                @include miniTablette{
+                                    font-size: .8rem;
+                                }
+                            }
                             .product-search{
                                 border: none;
                                 outline: none;
@@ -89,6 +115,13 @@
                                 &::-webkit-input-placeholder { /* Chrome, Safari, Opera */
                                     font-size: 12px;
                                 }
+                                @include miniTablette{
+                                    padding-left: 8px;
+                                    &::-webkit-input-placeholder { /* Chrome, Safari, Opera */
+                                        font-size: 11px;
+                                    }
+                                }
+                                
                             }
                         }
                     }
@@ -96,6 +129,9 @@
                         display: flex;
                         align-items: center;
                         gap: 20px;
+                        @include miniTablette{
+                            display: none;
+                        }
                         .product-icon-pdf{
                             color: red;
                             font-size: 22px;
@@ -127,7 +163,7 @@
                 }
                 .font-size-18 td,
                 .font-size-18 th {
-                font-size: 14px;
+                font-size: 13px;
                 }
             }
         }

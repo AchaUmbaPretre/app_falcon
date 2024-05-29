@@ -2,17 +2,24 @@ import React from 'react'
 import { MenuFoldOutlined, BellOutlined } from '@ant-design/icons';
 import './topbar.scss'
 import users from './../../assets/user.png'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleSidebar } from '../../redux/userRedux';
 
 const Topbar = () => {
   const user = useSelector((state) => state.user.currentUser.username);
+  const dispatch = useDispatch();
+  const isSidebarOpen = useSelector((state) => state.user.isSidebarOpen);
+
+  const handleClick = () => {
+    dispatch(toggleSidebar());
+  };
 
   return (
     <>
       <div className="topbar">
         <div className="topbar-wrapper">
           <div className="topbar_left">
-            <MenuFoldOutlined />
+            <MenuFoldOutlined onClick={handleClick} />
           </div>
           <div className="topbar_right">
             <div className="topbar_icons">

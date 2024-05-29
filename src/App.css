@@ -70,3 +70,9 @@ li{
     align-items: center;
     height: 100vh;
   }
+
+  @media screen and (max-width: 568px){
+    .outlet-wrapper{
+        padding: 15px;
+    }
+  }

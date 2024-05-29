@@ -1,3 +1,5 @@
+@import '../../style.scss';
+
 .PaiementChart{
     background: #fff;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
@@ -6,9 +8,20 @@
     border-radius: 5px;
     border-radius: 5px;
     padding: 20px;
+    @include mobileXR{
+        width: 100%;
+        padding: 8px;
+        height: auto;
+    }
+    @include mobile12pro{
+        height: auto;
+    }
     .paiement_h2{
         background: linear-gradient(90deg, #13add8bd, #000000c2);
         -webkit-background-clip: text;
         color: transparent;
+        @include mobileXR{
+           font-size: .9rem;
+       }
     }
 }
