@@ -135,7 +135,7 @@ const Affectations = () => {
                   centered
                   open={open}
                   onCancel={() => setOpen(false)}
-                  width={1000}
+                  width={1100}
                   footer={[]}
                 >
                   <AffectationForm />

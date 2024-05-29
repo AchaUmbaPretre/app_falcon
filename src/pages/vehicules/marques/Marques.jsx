@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag } from 'antd';
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd';
 import { PlusCircleOutlined, CarOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../../config';
+import Marque_form from './form/Marque_form';
+import '../../client/form/clientForm.scss'
 
 const Marques = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -116,6 +118,17 @@ const Marques = () => {
               </div>
             </div>
             <Table dataSource={data} columns={columns} loading={loading} />
+
+            <Modal
+                  title=""
+                  centered
+                  open={open}
+                  onCancel={() => setOpen(false)}
+                  width={1000}
+                  footer={[]}
+                >
+                  <Marque_form/>
+            </Modal>
           </div>
         </div>
       </div>
