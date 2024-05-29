@@ -62,7 +62,7 @@ const Recharge = () => {
   const groupedData = Object.entries(groupByClient(data)).map(([id_client, records]) => ({
     id_client,
     key: id_client,
-    ...records[0],  // Use the first record's data for the parent row
+    ...records[0],
     records,
   }))
 
@@ -286,7 +286,8 @@ const Recharge = () => {
   };
 
   const filteredData = groupedData.filter((item) =>
-    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.numero?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
-import { Spin } from 'antd'; // Import Spin from Ant Design
+import { Skeleton } from 'antd'; // Import Skeleton from Ant Design
 
 function Recharge_form() {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -44,8 +44,10 @@ function Recharge_form() {
                     </div>
                 </div>
                 {loading ? (
-                    <div className="spin-container">
-                        <Spin size="large" />
+                    <div className="skeleton-container">
+                        {[...Array(5)].map((_, index) => (
+                            <Skeleton key={index} active avatar paragraph={{ rows: 1 }} />
+                        ))}
                     </div>
                 ) : (
                     filteredData.length > 0 ? (
@@ -61,7 +63,7 @@ function Recharge_form() {
                             ))}
                         </div>
                     ) : (
-                        <div>Aucun client trouvé</div> // Message when no data found
+                        <div>Aucun client trouvé</div>
                     )
                 )}
             </div>

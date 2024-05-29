@@ -1,6 +1,7 @@
 .recharge_form{
     position: relative;
     width: 100%;
+    overflow: auto;
     .recharge_form_wrapper{
         padding: 20px;
         background: #fff;
@@ -33,11 +34,13 @@
                 }
             }
         }
-        .spin-container {
+        .skeleton-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh; // Full viewport height
+            gap: 20px; // Spacing between skeleton items
         }
         .recharge_client{
             font-size: 1rem;
