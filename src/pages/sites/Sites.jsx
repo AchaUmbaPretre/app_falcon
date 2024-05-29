@@ -10,7 +10,7 @@ const Sites = () => {
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const handleDelete = async (id) => {
     try {
