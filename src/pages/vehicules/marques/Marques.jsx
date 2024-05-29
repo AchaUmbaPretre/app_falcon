@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button,Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined,CarOutlined,DeleteOutlined,SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag } from 'antd';
+import { PlusCircleOutlined, CarOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../../config';
 
@@ -9,44 +9,43 @@ const Marques = () => {
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const handleDelete = async (id) => {
+  const handleDelete = useCallback(async (id) => {
     try {
-        await axios.delete(`${DOMAIN}/vehicule/marque/${id}`);
-          window.location.reload();
-      } catch (err) {
-        console.log(err);
-      }
-    };
+      await axios.delete(`${DOMAIN}/vehicule/marque/${id}`);
+      setData((prevData) => prevData.filter(item => item.id_marque !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  }, [DOMAIN]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule/marque`);
-        setData(data);
-        setLoading(false)
+        const response = await axios.get(`${DOMAIN}/vehicule/marque`);
+        setData(response.data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, [DOMAIN]);
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
+    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
       title: 'Marque',
       dataIndex: 'nom_marque',
       key: 'nom_marque',
-      render : (text, record) => (
-        <div>
-          <Tag color={'blue'}>
-            <CarOutlined style={{ marginRight: "5px" }} />
-            {text}
-          </Tag>
-        </div>
-      )
+      render: (text) => (
+        <Tag color="blue">
+          <CarOutlined style={{ marginRight: 5 }} />
+          {text}
+        </Tag>
+      ),
     },
     {
       title: 'Action',
@@ -54,7 +53,7 @@ const Marques = () => {
       width: "160px",
       render: (text, record) => (
         <Space size="middle">
-          <Popover  title="Supprimer" trigger="hover">
+          <Popover title="Supprimer" trigger="hover">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer?"
               onConfirm={() => handleDelete(record.id_marque)}
@@ -65,66 +64,63 @@ const Marques = () => {
             </Popconfirm>
           </Popover>
         </Space>
-      )
-    }
+      ),
+    },
   ];
 
-  const showModal = (e) => {
+  const showModal = () => {
     setOpen(true);
   };
 
-    
   return (
-    <>
-      <div className="client">
-        <div className="client_wrapper">
-          <div className="client_wrapper_top">
-            <div className="client_text_row">
-              <div className="client_text_left">
-                <h2 className="client_h2">Marque</h2>
-                <span className="client_span">Liste des marques</span>
-              </div>
-              <div className="client_text_right">
-                <button onClick={showModal}><PlusCircleOutlined /></button>
-              </div>
+    <div className="client">
+      <div className="client_wrapper">
+        <div className="client_wrapper_top">
+          <div className="client_text_row">
+            <div className="client_text_left">
+              <h2 className="client_h2">Marque</h2>
+              <span className="client_span">Liste des marques</span>
             </div>
-          </div>
-          <div className="client_wrapper_center">
-            <Breadcrumb
-                separator=">"
-                items={[
-                  {
-                    title: 'Accueil',
-                  },
-                  {
-                    title: 'Application Center',
-                    href: '/',
-                  }
-                ]}
-            />
-            <div className="client_wrapper_center_bottom">
-                <div className="product-bottom-top">
-                  <div className="product-bottom-left">
-                    <SisternodeOutlined className='product-icon' />
-                    <div className="product-row-search">
-                      <SearchOutlined className='product-icon-plus'/>
-                      <input type="search" name="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)}  placeholder='Recherche...' className='product-search' />
-                    </div>
-                  </div>
-                  <div className="product-bottom-right">
-                    <FilePdfOutlined className='product-icon-pdf' />
-                    <FileExcelOutlined className='product-icon-excel'/>
-                    <PrinterOutlined className='product-icon-printer'/>
-                  </div>
-                </div>
-
-                <Table dataSource={data} columns={columns} loading={loading}  />
+            <div className="client_text_right">
+              <Button icon={<PlusCircleOutlined />} onClick={showModal} />
             </div>
           </div>
         </div>
+        <div className="client_wrapper_center">
+          <Breadcrumb
+            separator=">"
+            items={[
+              { title: 'Accueil' },
+              { title: 'Application Center', href: '/' },
+            ]}
+          />
+          <div className="client_wrapper_center_bottom">
+            <div className="product-bottom-top">
+              <div className="product-bottom-left">
+                <SisternodeOutlined className="product-icon" />
+                <div className="product-row-search">
+                  <SearchOutlined className="product-icon-plus" />
+                  <input
+                    type="search"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder="Recherche..."
+                    className="product-search"
+                  />
+                </div>
+              </div>
+              <div className="product-bottom-right">
+                <FilePdfOutlined className="product-icon-pdf" />
+                <FileExcelOutlined className="product-icon-excel" />
+                <PrinterOutlined className="product-icon-printer" />
+              </div>
+            </div>
+            <Table dataSource={data} columns={columns} loading={loading} />
+          </div>
+        </div>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default Marques
+export default Marques;

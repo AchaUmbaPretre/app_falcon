@@ -1,112 +1,95 @@
-import React, { useEffect,useState } from 'react';
-import './clientForm.scss'
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Select from 'react-select';
-import config from '../../../config';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
+import config from '../../../config';
+import './clientForms.scss';
 
 const ClientForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleInputChange = (e) => {
-    const fieldName = e.target.name;
-    const fieldValue = e.target.value;
-  
-    let updatedValue = fieldValue;
-  
-    if (fieldName === "email") {
-      updatedValue = fieldValue.toLowerCase();
-    } else if (Number.isNaN(Number(fieldValue))) {
-      updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+  const handleInputChange = useCallback((e) => {
+    const { name, value } = e.target;
+    let updatedValue = value;
+    
+    if (name === "email") {
+      updatedValue = value.toLowerCase();
+    } else if (Number.isNaN(Number(value))) {
+      updatedValue = value.charAt(0).toUpperCase() + value.slice(1);
     }
-  
-  setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
-  };
+    
+    setData((prev) => ({ ...prev, [name]: updatedValue }));
+  }, []);
 
-
-  const handleClick = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-  
-    if (!data.nom_client || !data.telephone ) {
+    
+    if (!data.nom_client || !data.telephone) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
-  
+    
     try {
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/client/client`, {
-        ...data
-      });
+      await axios.post(`${DOMAIN}/client/client`, data);
       toast.success('Client créé avec succès!');
       navigate('/client');
       window.location.reload();
     } catch (err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
-        toast.error(errorMessage);
-      } else {
-        toast.error(err.message);
-      }
+      const errorMessage = err.response?.data?.message || err.message;
+      toast.error(errorMessage.includes('déjà') ? `Le client ${data.nom_client} existe déjà avec ce numéro de téléphone` : errorMessage);
     } finally {
       setIsLoading(false);
     }
-  }
-  
+  }, [data, DOMAIN, navigate]);
+
+
   return (
-    <>
-        <div className="clientForm">
-          <div className="product-container">
-            <div className="product-container-top">
-              <div className="product-left">
-                <h2 className="product-h2">Un nouveau client</h2>
-                <span>Créer un nouveau client</span>
-              </div>
-            </div>
-            <div className="product-wrapper">
-              <div className="product-container-bottom">
-                <div className="form-controle">
-                  <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='nom_client' className="form-input" onChange={handleInputChange}  required/>
+    <div className="clientForms">
+      <div className="product-container">
+        <div className="product-container-top">
+          <div className="product-left">
+            <h2 className="product-h2">Un nouveau client</h2>
+            <span>Créer un nouveau client</span>
+          </div>
+        </div>
+        <div className="product-wrapper">
+          <div>
+            <form onSubmit={handleSubmit} className="product-container-bottom">
+              {['nom_client', 'nom_principal', 'poste', 'telephone', 'adresse', 'email'].map((field) => (
+                <div key={field} className="form-controle">
+                  <label htmlFor={field}>
+                    {field.replace('_', ' ')} <span style={{ color: 'red' }}>*</span>
+                  </label>
+                  <input
+                    type={field === 'email' ? 'email' : 'text'}
+                    name={field}
+                    className="form-input"
+                    onChange={handleInputChange}
+                    required={field !== 'poste'}
+                  />
                 </div>
-                <div className="form-controle">
-                  <label htmlFor="">Nom principal <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='nom_principal' className="form-input" onChange={handleInputChange}  required/>
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Poste <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='poste' className="form-input" onChange={handleInputChange} />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Telephone <span style={{color:'red'}}>*</span></label>
-                  <input type="tel" name='telephone' className="form-input" onChange={handleInputChange} required />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Adresse <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='adresse' className="form-input" onChange={handleInputChange} required />
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Email <span style={{color:'red'}}>*</span></label>
-                  <input type="email" name="email" className="form-input" onChange={handleInputChange} />
-                </div>
-              </div>
+              ))}
               <div className="form-submit">
-                <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
+                <button type="submit" className="btn-submit" disabled={isLoading}>
+                  Envoyer
+                </button>
                 {isLoading && (
                   <div className="loader-container loader-container-center">
                     <Spin size="large" />
                   </div>
-            )}
+                )}
               </div>
-            </div>
+            </form>
           </div>
         </div>
-    </>
-  )
-}
+      </div>
+    </div>
+  );
+};
 
-export default ClientForm
+export default ClientForm;
