@@ -33,10 +33,6 @@ const Marques = () => {
     fetchData();
   }, [DOMAIN]);
 
-  const rowClassName = () => {
-    return 'font-size-18'; // Nom de la classe CSS personnalisée
-  };
-
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
     {
@@ -122,7 +118,7 @@ const Marques = () => {
                   </div>
                 </div>
 
-                <Table dataSource={data} columns={columns} rowClassName={rowClassName} loading={loading}  />
+                <Table dataSource={data} columns={columns} loading={loading}  />
             </div>
           </div>
         </div>

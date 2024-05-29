@@ -1,5 +1,4 @@
 import React, { useEffect,useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
@@ -9,7 +8,6 @@ import { Spin } from 'antd';
 const AddVehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [marque, setMarque] = useState([]);
   const [client, setClient] = useState([]);
