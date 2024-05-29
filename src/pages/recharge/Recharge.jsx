@@ -132,7 +132,7 @@ const Recharge = () => {
         ),
       },
       {
-        title: 'Nbre de restant',
+        title: 'Nbre restant',
         dataIndex: 'days_restant',
         key: 'days_restant',
         render: (text) => (
@@ -240,7 +240,7 @@ const Recharge = () => {
         ),
       },
       {
-        title: 'Nbre de restant',
+        title: 'Nbre restant',
         dataIndex: 'days_restant',
         key: 'days_restant',
         render: (text) => (
