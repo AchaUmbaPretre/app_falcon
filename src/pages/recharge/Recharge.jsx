@@ -83,7 +83,7 @@ const Recharge = () => {
         dataIndex: 'numero',
         key: 'numero',
         render: (text) => (
-          <Tag color='blue'>
+          <Tag color='blue' onClick={() => handleCopy(text)}>
             <PhoneOutlined style={{ marginRight: 5 }} />
             {text}
           </Tag>
