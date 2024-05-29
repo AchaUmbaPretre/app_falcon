@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag, Input } from 'antd';
+import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag, Input, message } from 'antd';
 import { 
   PlusCircleOutlined, 
   SisternodeOutlined, 
@@ -180,7 +180,7 @@ const Recharge = () => {
         dataIndex: 'numero',
         key: 'numero',
         render: (text) => (
-          <Tag color='blue'>
+          <Tag color='blue' onClick={() => handleCopy(text)}>
             <PhoneOutlined style={{ marginRight: 5 }} />
             {text}
           </Tag>
@@ -230,7 +230,7 @@ const Recharge = () => {
         ),
       },
       {
-        title: 'Nbre de jour',
+        title: 'Nbre jour',
         dataIndex: 'days',
         key: 'days',
         render: (text) => (
@@ -283,6 +283,15 @@ const Recharge = () => {
     ];
 
     return <Table columns={columns} dataSource={record.records} pagination={false} rowKey="id_recharge" />;
+  };
+
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      message.success('Numéro copié dans le presse-papiers');
+    }).catch((err) => {
+      message.error('Échec de la copie');
+      console.error('Could not copy text: ', err);
+    });
   };
 
   const filteredData = groupedData.filter((item) =>

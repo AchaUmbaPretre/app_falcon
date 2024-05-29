@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import config from '../../../config';
-import './rechargeOne.css'; // Assurez-vous d'importer le fichier CSS
+import './rechargeOne.css';
 
 const RechargeOne = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
