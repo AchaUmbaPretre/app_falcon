@@ -188,7 +188,7 @@ const Sidebar = () => {
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="20">
             <Link to={'/permissions'}>
-            <Timeline.Item dot={<span className="custom-dot" />} />
+              <Timeline.Item dot={<span className="custom-dot" />} />
               Permissions
             </Link>
           </Item>
