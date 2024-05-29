@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined,CarOutlined,EyeOutlined,DeleteOutlined,SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button,Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { PlusCircleOutlined,CarOutlined,DeleteOutlined,SisternodeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import config from '../../../config';
 
 const Marques = () => {
