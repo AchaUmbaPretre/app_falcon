@@ -11,6 +11,7 @@ const PaiementForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({});
   const [dataClient, setDataClient] = useState([]);
+  const [methode, setMethode] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -29,8 +30,18 @@ const PaiementForm = () => {
     }
   }, [DOMAIN]);
 
+  const fetchMethode = useCallback(async () => {
+    try {
+      const { data } = await axios.get(`${DOMAIN}/paiement/methode`);
+      setMethode(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [DOMAIN]);
+
   useEffect(() => {
     fetchClient();
+    fetchMethode();
   }, [fetchClient]);
 
   const handleSubmit = async (e) => {
@@ -94,12 +105,15 @@ const PaiementForm = () => {
                 </div>
 
                 <div className="form-controle">
-                  <label htmlFor="methode">Méthode <span style={{ color: 'red' }}>*</span></label>
-                  <input
-                    type="text"
+                  <label htmlFor="methode">Méthode de paiement <span style={{ color: 'red' }}>*</span></label>
+                  <Select
                     name="methode"
-                    className="form-input"
-                    onChange={handleInputChange}
+                    options={methode.map((item) => ({
+                      value: item.id_methode,
+                      label: item.nom_methode,
+                    }))}
+                    onChange={(selectedOption) => setData((prev) => ({ ...prev, methode: selectedOption.value }))}
+                    placeholder="Sélectionnez une methode..."
                   />
                 </div>
 
