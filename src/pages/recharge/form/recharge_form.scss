@@ -1,3 +1,5 @@
+@import '../../../style.scss';
+
 .recharge_form{
     position: relative;
     width: 100%;
@@ -8,6 +10,9 @@
         -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
         box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
         border-radius: 5px;
+        @include miniTablette{
+            padding: 10px;
+        }
         .recharge_title_rows{
             display: flex;
             align-items: center;
@@ -16,20 +21,46 @@
             background: #e7e7e769;
             padding: 20px 10px;
             margin-bottom: 20px;
+            @include mobileXR{
+                display: grid;
+                grid-template-columns: repeat(1,1fr);
+                gap: 10px;
+            }
             .recharge_client_title{
                 font-size: 1rem;
+                @include miniTablette{
+                    font-size: .7rem;
+                }
             }
             .recharge_row_search{
                 border: 1px solid #c7c7c7;
                 border-radius: 5px;
                 padding: 6px 8px;
                 background: #fff;
+                @include miniTablette{
+                    padding: 5px 6px;
+                    width: 55%;
+                }
+                @include mobileXR{
+                    width: 80%;
+                }
+                .product-icon-plus{
+                    @include miniTablette{
+                        font-size: .7rem;
+                    }
+                }
                 .product-search{
                     border: none;
                     outline: none;
                     padding-left: 10px;
                     &::-webkit-input-placeholder { /* Chrome, Safari, Opera */
-                        font-size: 12px;
+                        font-size: 11px;
+                    }
+                    @include miniTablette{
+                        padding-left: 8px;
+                        &::-webkit-input-placeholder { /* Chrome, Safari, Opera */
+                            font-size: 11px;
+                        }
                     }
                 }
             }
@@ -54,6 +85,9 @@
             align-items: center;
             width: 100%;
             gap: 20px;
+            @include miniTablette{
+                grid-template-columns: repeat(2,1fr);
+            }
             .recharge_form_row{
                 padding: 20px;
                 position: relative;
@@ -67,11 +101,22 @@
                 border: 1px solid rgba(3, 3, 109, 0.171);
                 border-radius: 5px;
                 cursor: pointer;
+                @include miniTablette{
+                    padding: 10px;
+                }
                 &:hover{
                     border: 1px solid rgba(64, 64, 241, 0.425);
                 }
                 .recharge_img{
                     width: 40%;
+                    @include miniTablette{
+                        width: 35%;
+                    }
+                    @include miniTablette{
+                        width: 30%;
+                    }
+                    
+                    
                 }
                 .recharge_form_bottom{
                     display: flex;
@@ -82,6 +127,9 @@
                         font-size: .8rem;
                         color: #181d20;
                         font-weight: bold;
+                        @include miniTablette{
+                            font-size: .690rem;
+                        }
                     }
                 }
             }

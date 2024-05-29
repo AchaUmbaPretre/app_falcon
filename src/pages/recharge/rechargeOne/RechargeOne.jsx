@@ -128,7 +128,7 @@ const RechargeOne = () => {
         </Tag>
       )
     },
-    {
+/*     {
       title: 'Numero série',
       dataIndex: 'numero_serie',
       key: 'numero_serie',
@@ -138,7 +138,7 @@ const RechargeOne = () => {
           {text}
         </Tag>
       )
-    },
+    }, */
     {
       title: 'Numero',
       dataIndex: 'numero',
@@ -205,6 +205,7 @@ const RechargeOne = () => {
               rowSelection={rowSelection}
               loading={loading}
               rowKey="id_numero"
+              className='table_client'
             />
             <Button type="primary" onClick={showModal} disabled={loading}>
               Recharger

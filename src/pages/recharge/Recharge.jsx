@@ -348,6 +348,7 @@ const Recharge = () => {
               dataSource={filteredData}
               loading={loading}
               rowKey="id_client"
+              className='table_client'
             />
           </div>
         </div>
