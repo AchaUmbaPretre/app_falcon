@@ -18,9 +18,6 @@ const Paiement = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
-  const [idTraceur, setIdTraceur] = useState('');
-  const [historiqueDetail, setHistoriqueDetail] = useState(false);
-  const [historique, setHistorique] = useState('');
 
   const fetchPaiements = useCallback(async () => {
     try {
@@ -47,16 +44,14 @@ const Paiement = () => {
 
   const showDrawer = (id) => {
     setOpenDetail(true);
-    setIdTraceur(id);
-  };
-
-  const onClose = () => {
-    setOpenDetail(false);
-    setHistoriqueDetail(false);
   };
 
   const showModal = () => {
     setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpenDetail(false);
   };
 
   const columns = [
@@ -77,7 +72,7 @@ const Paiement = () => {
       dataIndex: 'montant',
       key: 'montant',
       render: (text, record) => (
-        <Tag color='green' onClick={() => setHistoriqueDetail(record.id_traceur)}>
+        <Tag color='green'>
           <DollarOutlined style={{ marginRight: '5px' }} />
           {text} $
         </Tag>
@@ -123,14 +118,14 @@ const Paiement = () => {
       render: (text, record) => (
         <Space size="middle">
           <Popover title="Voir les détails" trigger="hover">
-            <Link onClick={() => showDrawer(record.id_traceur)}>
+            <Link onClick={() => showDrawer(record.id_paiement)}>
               <Button icon={<EyeOutlined />} style={{ color: 'blue' }} />
             </Link>
           </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer?"
-              onConfirm={() => handleDelete(record.id_client)}
+              onConfirm={() => handleDelete(record.id_paiement)}
               okText="Oui"
               cancelText="Non"
             >
