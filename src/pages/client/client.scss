@@ -28,11 +28,12 @@
                     flex-direction: column;
                     gap: 3px;
                     .client_h2{
-                        font-size: 1.2rem;
+                        font-size: 1.1rem;
                         font-weight: 800;
                         background: linear-gradient(90deg, #13add8bd, #000000ee);
                         -webkit-background-clip: text;
                         color: transparent;
+                        text-transform: uppercase;
                         @include miniTablette{
                             font-size: 1rem;
                         }
@@ -40,6 +41,7 @@
                     .client_span{
                         font-size: .7rem;
                         color: #686868d8;
+                        font-style: oblique;
                         @include miniTablette{
                             font-size: .6rem;
                         }

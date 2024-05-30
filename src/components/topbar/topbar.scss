@@ -25,7 +25,7 @@
                 align-items: center;
                 gap: 8px;
                 .topbar_icon{
-                    font-size: 1.2rem;
+                    font-size: 1.1rem;
                 }
                 .topbar_user{
                     height: 35px;
@@ -37,6 +37,18 @@
                     font-size: .9rem;
                     color: #13AED8;
                 }
+            }
+            .topbarOne{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                cursor: pointer;
+                background:rgba(14, 193, 238, 0.068);
+                color: #4d4d4d;
+                height: 35px;
+                width: 35px;
+                border-radius: 50%;
             }
         }
     }

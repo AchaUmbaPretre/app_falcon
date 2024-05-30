@@ -216,7 +216,7 @@ const Client = () => {
                   <ClientContact id_client={idClient} />
                 </Modal>
 
-                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
+                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
                   <ClientDetail id_client ={idClient} />
                 </Drawer>
                 <Table dataSource={filteredData} columns={columns} scroll={scroll} loading={loading} className='table_client'  />

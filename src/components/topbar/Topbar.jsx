@@ -1,5 +1,5 @@
 import React from 'react'
-import { MenuFoldOutlined, BellOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, BellOutlined, MailOutlined } from '@ant-design/icons';
 import './topbar.scss'
 import users from './../../assets/user.png'
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,8 +8,6 @@ import { toggleSidebar } from '../../redux/userRedux';
 const Topbar = () => {
   const user = useSelector((state) => state.user.currentUser.username);
   const dispatch = useDispatch();
-  const isSidebarOpen = useSelector((state) => state.user.isSidebarOpen);
-
   const handleClick = () => {
     dispatch(toggleSidebar());
   };
@@ -22,10 +20,10 @@ const Topbar = () => {
             <MenuFoldOutlined onClick={handleClick} />
           </div>
           <div className="topbar_right">
-            <div className="topbar_icons">
-
+            <div className="topbar_icons topbarOne">
+              <MailOutlined className='topbar_icon'/>
             </div>
-            <div className="topbar_icons">
+            <div className="topbar_icons topbarOne">
               <BellOutlined className='topbar_icon' />
             </div>
             <div className="topbar_icons">
