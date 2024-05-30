@@ -117,11 +117,11 @@ const Paiement = () => {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-          <Popover title="Voir les détails" trigger="hover">
+{/*           <Popover title="Voir les détails" trigger="hover">
             <Link onClick={() => showDrawer(record.id_paiement)}>
               <Button icon={<EyeOutlined />} style={{ color: 'blue' }} />
             </Link>
-          </Popover>
+          </Popover> */}
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer?"
