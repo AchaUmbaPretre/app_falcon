@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,EyeOutlined,DeleteOutlined,InfoCircleOutlined,UserOutlined,CheckCircleOutlined,CloseCircleOutlined ,CarOutlined,BarcodeOutlined,CalendarOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined,EyeOutlined,CloseOutlined,DeleteOutlined,InfoCircleOutlined,UserOutlined,CheckCircleOutlined,CloseCircleOutlined ,CarOutlined,BarcodeOutlined,CalendarOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import TraceurForm from './form/TraceurForm';
 import TraceurDetail from './detail/TraceurDetail';
 import TraceurHistorique from './historique/TraceurHistorique';
+import TraceurTrie from './traceurTrie/TraceurTrie';
 
 const Traceur = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -19,6 +20,9 @@ const Traceur = () => {
   const [idTraceur, setIdTraceur] = useState('')
   const [historiqueDetail, setHistoriqueDetail] = useState(false)
   const [historique, setHistorique] = useState('')
+  const [start_date, setStartDate] = useState('');
+  const [end_date, setEndDate] = useState('');
+  const [openTrie, setOpenTrie] = useState(false);
 
 
   const historiqueTraceur = (e) => {
@@ -51,22 +55,16 @@ const Traceur = () => {
     };
 
 
-/*     useEffect(() => {
-      const fetchHistorique = async () => {
-        try {
-          const { data } = await axios.get(`${DOMAIN}/traceur`);
-          setData(data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchData();
-    }, [DOMAIN]); */
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/traceur`);
+        const { data } = await axios.get(`${DOMAIN}/traceur`, {
+          params: {
+            start_date,
+            end_date,
+            searchValue,
+          },
+        });
         setIsLoading(false)
         setData(data);
       } catch (error) {
@@ -74,7 +72,7 @@ const Traceur = () => {
       }
     };
     fetchData();
-  }, [DOMAIN]);
+  }, [DOMAIN, start_date, end_date, searchValue]);
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
@@ -235,17 +233,20 @@ const Traceur = () => {
                 items={[
                   {
                     title: 'Accueil',
+                    href: '/',
                   },
                   {
-                    title: 'Rétourné(e)',
-                    href: '/',
+                    title: 'Traceur'
                   }
                 ]}
             />
             <div className="client_wrapper_center_bottom">
                 <div className="product-bottom-top">
                   <div className="product-bottom-left">
-                    <SisternodeOutlined className='product-icon' />
+                  <Button
+                  icon={openTrie ? <CloseOutlined /> : <SisternodeOutlined />}
+                  onClick={() => setOpenTrie(!openTrie)}
+                  />
                     <div className="product-row-search">
                       <SearchOutlined className='product-icon-plus'/>
                       <input type="search" name="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)}  placeholder='Recherche...' className='product-search' />
@@ -257,6 +258,10 @@ const Traceur = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
+                {openTrie && (
+                    <TraceurTrie start_date={setStartDate} end_date={setEndDate} />
+                  )}
+                  
                 <Modal
                   title=""
                   centered

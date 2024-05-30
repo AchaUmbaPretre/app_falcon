@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag, Input, message } from 'antd';
 import { 
   PlusCircleOutlined, 
@@ -17,20 +17,18 @@ import {
   ExclamationCircleOutlined,
   ClockCircleOutlined,
   StopOutlined,
-  HourglassOutlined
+  HourglassOutlined,
+  CloseOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
 import config from '../../config';
 import './recharge.scss';
+import RechargeTrie from './rechargeTrie/RechargeTrie';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 const scroll = { x: 400 };
 
-const fetchRecharges = async () => {
-  const { data } = await axios.get(`${DOMAIN}/recharge`);
-  return data;
-};
 
 const deleteRecharge = async (id) => {
   await axios.delete(`${DOMAIN}/recharge/${id}`);
@@ -41,20 +39,32 @@ const Recharge = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [openTrie, setOpenTrie] = useState(false);
+  const [start_date, setStartDate] = useState('');
+  const [end_date, setEndDate] = useState('');
+
+
+  const fetchRecharge = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(`${DOMAIN}/recharge`, {
+        params: {
+          start_date,
+          end_date,
+          searchValue,
+        },
+      });
+      setData(data);
+    } catch (error) {
+      console.error('Failed to fetch operations:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [DOMAIN, start_date, end_date, searchValue]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const recharges = await fetchRecharges();
-        setData(recharges);
-      } catch (error) {
-        console.error('Error fetching recharges:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+    fetchRecharge();
+  }, [fetchRecharge]);
 
   const handleDelete = async (id) => {
     try {
@@ -399,7 +409,10 @@ const Recharge = () => {
           <div className="client_wrapper_center_bottom">
             <div className="product-bottom-top">
               <div className="product-bottom-left">
-                <SisternodeOutlined className='product-icon' />
+                <Button
+                  icon={openTrie ? <CloseOutlined /> : <SisternodeOutlined />}
+                  onClick={() => setOpenTrie(!openTrie)}
+                />
                 <div className="product-row-search">
                   <SearchOutlined className='product-icon-plus' />
                   <input
@@ -417,6 +430,9 @@ const Recharge = () => {
                 <PrinterOutlined className='product-icon-printer' />
               </div>
             </div>
+            {openTrie && (
+              <RechargeTrie start_date={setStartDate} end_date={setEndDate} />
+            )}
             <Table
               columns={columns}
               expandable={{ expandedRowRender }}

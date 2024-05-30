@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Table, Tag, message, Input, Button, Modal } from 'antd';
-import { UserOutlined, PhoneOutlined, SisternodeOutlined, BarcodeOutlined, SearchOutlined } from '@ant-design/icons';
+import { UserOutlined, PhoneOutlined, SisternodeOutlined, HourglassOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -165,13 +165,13 @@ const RechargeOne = () => {
       )
     },
     {
-      title: 'Recharger',
-      dataIndex: 'recharge',
-      key: 'recharge',
+      title: 'Action',
+      dataIndex: 'action',
+      key: 'action',
       render: () => (
         <div>
           <Button type="primary" onClick={showModal} disabled={loading}>
-            Recharger
+          <HourglassOutlined />
           </Button>
         </div>
       )

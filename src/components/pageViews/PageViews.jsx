@@ -86,7 +86,7 @@ const PageViews = () => {
                 <div className="pageViews_row" onClick={()=>navigate('/operations')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
-                            <span className="page_rond"></span>
+                            <span className="page_rondOp"></span>
                             <h5 className='pageViews_h5'>OPERATION</h5>
                         </div>
                         <h1 className="pageViews_h1"><CountUp end={operation}/></h1>
@@ -99,7 +99,7 @@ const PageViews = () => {
                 <div className="pageViews_row" onClick={()=>navigate('/traceurs')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
-                            <span className="page_rond"></span>
+                            <span className="page_rondTr"></span>
                             <h5 className='pageViews_h5'>TRACEUR</h5>
                         </div>
                         <h1 className="pageViews_h1"><CountUp end={traceur}/></h1>
@@ -112,7 +112,7 @@ const PageViews = () => {
                 <div className="pageViews_row" onClick={()=>navigate('/vehicules')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
-                            <span className="page_rond"></span>
+                            <span className="page_rondV"></span>
                             <h5 className='pageViews_h5'>VEHICULE</h5>
                         </div>
                         <h1 className="pageViews_h1"><CountUp end={vehicule}/></h1>

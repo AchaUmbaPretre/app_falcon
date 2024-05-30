@@ -42,7 +42,8 @@
                     gap: 4px;
                     .page_rond{
                         display: block;
-                        background: linear-gradient(90deg, #13add8bd, #000000c2);
+/*                         background: linear-gradient(90deg, #13add8bd, #000000c2); */
+                        background: rgb(2, 165, 89);
                         height: 7px;
                         width: 7px;
                         border-radius: 50%;
@@ -51,6 +52,40 @@
                             width: 5px;
                         }
                     }
+                    .page_rondOp{
+                        display: block;
+                        background: #c0ce05f5;
+                        height: 7px;
+                        width: 7px;
+                        border-radius: 50%;
+                        @include mobileXR{
+                            height: 5px;
+                            width: 5px;
+                        }
+                    }
+                    .page_rondTr{
+                        display: block;
+                        background: rgb(180, 3, 3);
+                        height: 7px;
+                        width: 7px;
+                        border-radius: 50%;
+                        @include mobileXR{
+                            height: 5px;
+                            width: 5px;
+                        }
+                    }
+                    .page_rondV{
+                        display: block;
+                        background: blue;
+                        height: 7px;
+                        width: 7px;
+                        border-radius: 50%;
+                        @include mobileXR{
+                            height: 5px;
+                            width: 5px;
+                        }
+                    }
+                    
                     .pageViews_h5{
                         margin: 0;
                         padding: 0;
@@ -88,14 +123,14 @@
                 }
                 .pageViews_span{
                     color: rgb(158, 157, 157);
-                    font-size: .9rem;
+                    font-size: .8rem;
                     letter-spacing: 1px;
                     @include miniTablette{
                         font-size: .7rem;
                         letter-spacing: 0px;
                     }
                     @include mobileXR{
-                        font-size: .6rem;
+                        font-size: .580rem;
                     }
                 }
             }

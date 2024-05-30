@@ -19,6 +19,7 @@
             justify-content: space-between;
             width: 100%;
             background: #e7e7e74d;
+            border: 1px solid rgba(3, 3, 109, 0.171);
             padding: 20px 10px;
             margin-bottom: 20px;
             border-radius: 5px;
@@ -110,6 +111,7 @@
                 }
                 &:hover{
                     border: 1px solid rgba(64, 64, 241, 0.425);
+                    transform: scale(1.1);
                 }
                 .recharge_img{
                     width: 25%;
@@ -128,7 +130,7 @@
                     padding-top: 10px;
                     .recharge_span{
                         font-size: .8rem;
-                        color: #181d20;
+                        color: #1a1c1d;
                         font-weight: bold;
                         @include miniTablette{
                             font-size: .690rem;

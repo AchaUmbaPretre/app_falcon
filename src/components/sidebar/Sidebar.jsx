@@ -211,13 +211,23 @@ const Sidebar = () => {
         </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="23">
-            <Link to={'/permissions'} onClick={handleLinkClick}>
+            <Link to={'/permissions'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Permissions
             </Link>
           </Item>
-          <Item key="24">Général</Item>
-          <Item key="25">Sécurité</Item>
+          <Item key="24">
+            <Link to={''} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Général
+            </Link>
+          </Item>
+          <Item key="25">
+            <Link to={''} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Sécurité
+            </Link>
+          </Item>
         </SubMenu>
         <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }} onClick={Logout}>
           Déconnecter

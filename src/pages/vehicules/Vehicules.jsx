@@ -33,7 +33,7 @@ const Vehicules = () => {
     try {
       await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
       message.success('Vehicle deleted successfully');
-      fetchData(); // Refresh data after delete
+      fetchData(); 
     } catch (err) {
       console.error(err);
       message.error('Failed to delete vehicle');
@@ -119,10 +119,7 @@ const Vehicules = () => {
           </div>
         </div>
         <div className="client_wrapper_center">
-          <Breadcrumb separator=">" items={[
-            { title: 'Accueil', href: '/' },
-            { title: 'Retourné(e)' }
-          ]} />
+          <Breadcrumb separator=">" items={[{ title: 'Accueil', href: '/' },{ title: 'vehicules' }]} />
           <div className="client_wrapper_center_bottom">
             <div className="product-bottom-top">
               <div className="product-bottom-left">

@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../../config';
 import { toast } from 'react-toastify';
-import { Spin, Button } from 'antd';
+import { Spin, Button, Table, Input } from 'antd';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const NumeroForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -29,17 +30,15 @@ const NumeroForm = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-  
+
     if (numeros.some(numero => !numero)) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
-  
+
     try {
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/affectation/numero_post`, {
-        numeros
-      });
+      await axios.post(`${DOMAIN}/affectation/numero_post`, { numeros });
       toast.success('Numéros créés avec succès!');
       navigate('/numero');
       window.location.reload();
@@ -54,6 +53,46 @@ const NumeroForm = () => {
     }
   };
 
+  const columns = [
+    {
+      title: 'Numéro',
+      dataIndex: 'numero',
+      key: 'numero',
+      render: (text, record, index) => (
+        <Input
+          type="tel"
+          name={`numero-${index}`}
+          className="form-input"
+          value={numeros[index]}
+          onChange={(e) => handleInputChange(index, e)}
+          placeholder='+243'
+          style={{padding: '10px'}}
+        />
+      ),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      width: "15%",
+      render: (text, record, index) => (
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          {numeros.length > 1 && (
+            <Button onClick={() => handleRemoveField(index)} danger>
+              <DeleteOutlined />
+            </Button>
+          )}
+          {index === numeros.length - 1 && (
+            <Button onClick={handleAddField} type="dashed">
+              <PlusOutlined />
+            </Button>
+          )}
+        </div>
+      ),
+    },
+  ];
+
+  const data = numeros.map((numero, index) => ({ key: index, numero }));
+
   return (
     <div className="clientForm">
       <div className="product-container">
@@ -64,32 +103,17 @@ const NumeroForm = () => {
           </div>
         </div>
         <div className="product-wrapper">
-          <div className="product-container-bottom">
-            {numeros.map((numero, index) => (
-              <div className="form-controle" key={index}>
-                <label htmlFor="">Numéro <span style={{color:'red'}}>*</span></label>
-                <input
-                  type="tel"
-                  name={`numero-${index}`}
-                  className="form-input"
-                  value={numero}
-                  onChange={(e) => handleInputChange(index, e)}
-                  placeholder='+243'
-                />
-                {index > 0 && (
-                  <Button onClick={() => handleRemoveField(index)} danger>
-                    Supprimer
-                  </Button>
-                )}
-              </div>
-            ))}
-            <div className="form-controle">
-              <Button onClick={handleAddField} type="dashed" style={{ marginBottom: '20px' }}>
-                Ajouter un numéro
+          <div className="product-container-bottom" style={{display:'flex', flexDirection:'column'}}>
+            <Table
+              columns={columns}
+              dataSource={data}
+              pagination={false}
+              bordered
+            />
+            <div className="form-submit" style={{ marginTop: '20px' }}>
+              <Button type="primary" onClick={handleClick} disabled={isLoading}>
+                Envoyer
               </Button>
-            </div>
-            <div className="form-submit">
-              <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
               {isLoading && (
                 <div className="loader-container loader-container-center">
                   <Spin size="large" />
