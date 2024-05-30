@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag, Input, message } from 'antd';
 import { 
   PlusCircleOutlined, 
@@ -82,6 +82,7 @@ const Recharge = () => {
     key: id_client,
     ...records[0],
     records,
+    numberCount: records.length, // Adding the count of numbers recharged
   }));
 
   const handleCopy = (text) => {
@@ -102,6 +103,17 @@ const Recharge = () => {
         <Tag color='blue'>
           <UserOutlined style={{ marginRight: 5 }} />
           {text}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Nbre rechargés',
+      dataIndex: 'numberCount',
+      key: 'numberCount',
+      render: (count) => (
+        <Tag color='green'>
+          <PhoneOutlined style={{ marginRight: 5 }} />
+          {count}
         </Tag>
       ),
     },
@@ -169,7 +181,7 @@ const Recharge = () => {
       },
     },
     {
-      title: 'Date de recharge',
+      title: 'Date & heure',
       dataIndex: 'date_recharge',
       key: 'date_recharge',
       sorter: (a, b) => moment(a.date_recharge) - moment(b.date_recharge),
@@ -181,7 +193,7 @@ const Recharge = () => {
       ),
     },
     {
-        title: 'Rechargé par ',
+        title: 'Réchargé par',
         dataIndex: 'username',
         key: 'username',
         render: (text) => (
@@ -290,6 +302,7 @@ const Recharge = () => {
             color = 'orange';
             icon = <ExclamationCircleOutlined />;
           }
+  
           return (
             <Tag icon={icon} color={color}>
               {days} jours
@@ -320,7 +333,7 @@ const Recharge = () => {
         },
       },
       {
-        title: 'Date de recharge',
+        title: 'Date & heure',
         dataIndex: 'date_recharge',
         key: 'date_recharge',
         sorter: (a, b) => moment(a.date_recharge) - moment(b.date_recharge),
