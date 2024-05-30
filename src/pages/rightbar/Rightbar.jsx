@@ -2,6 +2,7 @@ import React from 'react'
 import './rightbar.scss'
 import PageViews from '../../components/pageViews/PageViews'
 import PaiementChart from '../../components/chartjs/PaiementChart'
+import PieChart from '../../components/chartPie/ChartPie'
 
 const Rightbar = () => {
 
@@ -10,8 +11,9 @@ const Rightbar = () => {
       <div className="rightbar">
         <div className="rightbar_wrapper">
           <PageViews/>
-          <div>
+          <div className='rightbar_rows'>
             <PaiementChart/>
+            <PieChart/>
           </div>
         </div>
       </div>
