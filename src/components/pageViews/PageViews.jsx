@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import config from '../../config'
 import axios from 'axios'
 import CountUp from 'react-countup';
+import { useNavigate } from 'react-router-dom'
 
 const PageViews = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -15,6 +16,7 @@ const PageViews = () => {
     const [traceur, setTraceur] = useState('');
     const [vehicule, setVehicule] = useState('');
     const [loading, setLoading] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchClient = async () => {
@@ -68,7 +70,7 @@ const PageViews = () => {
     <>
         <div className="pageViews">
             <div className="pageViews_rows">
-                <div className="pageViews_row">
+                <div className="pageViews_row" onClick={()=>navigate('/client')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rond"></span>
@@ -81,7 +83,7 @@ const PageViews = () => {
                         <img src={clientImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-                <div className="pageViews_row">
+                <div className="pageViews_row" onClick={()=>navigate('/operations')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rond"></span>
@@ -94,7 +96,7 @@ const PageViews = () => {
                         <img src={operationImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-                <div className="pageViews_row">
+                <div className="pageViews_row" onClick={()=>navigate('/traceurs')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rond"></span>
@@ -107,7 +109,7 @@ const PageViews = () => {
                         <img src={traceurImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-                <div className="pageViews_row">
+                <div className="pageViews_row" onClick={()=>navigate('/vehicules')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rond"></span>
