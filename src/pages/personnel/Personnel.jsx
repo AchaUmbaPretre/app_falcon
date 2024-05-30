@@ -140,7 +140,7 @@ const Personnel = () => {
                   </div>
                 </div>
 
-                <Table dataSource={data} columns={columns} loading={loading} />
+                <Table dataSource={data} columns={columns} loading={loading} className='table_client' />
             </div>
           </div>
         </div>
