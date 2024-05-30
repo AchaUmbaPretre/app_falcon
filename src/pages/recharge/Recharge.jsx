@@ -12,7 +12,10 @@ import {
   FilePdfOutlined, 
   FileExcelOutlined, 
   PrinterOutlined,
-  CarOutlined
+  CarOutlined,
+  CheckCircleOutlined,
+  ExclamationCircleOutlined,
+  ClockCircleOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
@@ -79,68 +82,59 @@ const Recharge = () => {
         </Tag>
       ),
     },
-    {
-        title: 'Numero',
-        dataIndex: 'numero',
-        key: 'numero',
-        render: (text) => (
-          <Tag color='blue' onClick={() => handleCopy(text)}>
-            <PhoneOutlined style={{ marginRight: 5 }} />
-            {text}
-          </Tag>
-        ),
-      },
-      {
-        title: 'Traceur',
-        dataIndex: 'numero_serie',
-        key: 'numero_serie',
-        render: (text) => (
-          <Tag color='blue'>
-            <BarcodeOutlined style={{ marginRight: 5 }} />
-            {text}
-          </Tag>
-        ),
-      },
-      {
-        title: 'Matricule',
-        dataIndex: 'matricule',
-        key: 'matricule',
-        render: (text) => (
-          <Tag color='blue'>
-            <CarOutlined style={{ marginRight: "5px" }} />
-            {text}
-          </Tag>
-        ),
-      },
       {
         title: 'Status',
         dataIndex: 'recharge_status',
         key: 'recharge_status',
         render: (text) => (
-          <Tag color={text === "Rechargez aujourd'hui" ? 'red' : 'blue'}>
+          <Tag color={text === "Inactif" ? 'red' : 'blue'}>
             {text}
           </Tag>
         ),
       },
       {
-        title: 'Nbre de jour',
+        title: 'Validité',
         dataIndex: 'days',
         key: 'days',
-        render: (text) => (
-          <Tag color='blue'>
-            {text}
-          </Tag>
-        ),
+        render: (days) => {
+          let color = 'blue';
+          let icon = <CheckCircleOutlined />;
+          if (days <= 0) {
+            color = 'red';
+            icon = <ExclamationCircleOutlined />;
+          } else if (days <= 7) {
+            color = 'orange';
+            icon = <ExclamationCircleOutlined />;
+          }
+  
+          return (
+            <Tag icon={icon} color={color}>
+              {days} jours
+            </Tag>
+          );
+        },
       },
       {
-        title: 'Nbre restant',
+        title: 'Reste(s)',
         dataIndex: 'days_restant',
         key: 'days_restant',
-        render: (text) => (
-          <Tag color={text === 0 ? 'red' : 'green'}>
-            {text}
-          </Tag>
-        ),
+        render: (days_restant) => {
+          let color = 'green';
+          let icon = <CheckCircleOutlined />;
+          if (days_restant === 0) {
+            color = 'red';
+            icon = <ExclamationCircleOutlined />;
+          } else if (days_restant <= 7) {
+            color = 'orange';
+            icon = <ClockCircleOutlined />;
+          }
+  
+          return (
+            <Tag icon={icon} color={color}>
+              {days_restant} jours
+            </Tag>
+          );
+        },
       },
       {
         title: 'Date de recharge',
@@ -150,10 +144,10 @@ const Recharge = () => {
         sortDirections: ['descend', 'ascend'],
         render: (text) => (
           <Tag icon={<CalendarOutlined />} color='blue'>
-            {moment(text).format('DD-MM-yyyy')}
+            {moment(text).format('DD-MM-YYYY HH:mm')}
           </Tag>
         ),
-      }
+      },
   ];
 
   const expandedRowRender = (record) => {
@@ -319,7 +313,7 @@ const Recharge = () => {
             separator=">"
             items={[
               { title: 'Accueil' },
-              { title: 'Application Center', href: '/' },
+              { title: 'Rétourné(e)', href: '/' },
             ]}
           />
           <div className="client_wrapper_center_bottom">

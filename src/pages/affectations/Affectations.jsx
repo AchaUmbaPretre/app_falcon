@@ -3,7 +3,6 @@ import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } fro
 import { PlusCircleOutlined, SisternodeOutlined,PhoneOutlined,BarcodeOutlined,DeleteOutlined,EyeOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import AffectationForm from './form/AffectationForm';
 
 const Affectations = () => {
