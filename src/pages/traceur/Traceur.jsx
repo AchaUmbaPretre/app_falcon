@@ -269,11 +269,11 @@ const Traceur = () => {
                   <TraceurForm />
                 </Modal>
 
-                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
+                <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
                   <TraceurDetail id_traceur ={idTraceur} />
                 </Drawer>
 
-                <Drawer title="Historique" onClose={onClose} visible={historiqueDetail} width={700}>
+                <Drawer title="Historique" onClose={onClose} visible={historiqueDetail} width={750}>
                   <TraceurHistorique id_traceur={historique} />
                 </Drawer>
                 <Table dataSource={filteredData} columns={columns} loading={isLoading} className='table_client' />

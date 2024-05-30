@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image } from 'antd';
+import { Skeleton, Image } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import config from '../../../config';
@@ -23,13 +23,13 @@ const TraceurHistorique = ({ id_traceur }) => {
   }, [DOMAIN, id_traceur]);
 
   if (loading) {
-    return <p>Chargement...</p>;
+    return <Skeleton active />;
   }
 
   return (
     <div className="operationDetail">
-      {data.length === 0 &&  <p>Aucun historique disponible pour ce traceur.</p>}
-      {data.map(detail => (
+      {data.length === 0 && <p>Aucun historique disponible pour ce traceur.</p>}
+      {data.map((detail) => (
         <div key={detail.id_operations} className="operationDetail_wrapper">
           <div className="operation_row">
             <span className="operation_span">Client : </span>
@@ -89,8 +89,8 @@ const TraceurHistorique = ({ id_traceur }) => {
               className="product-img"
               width={200}
               height={200}
-              src="error"
-              fallback={`${DOMAIN}${detail.photo_plaque}`}
+              src={`${DOMAIN}${detail.photo_plaque}`}
+              fallback={`${DOMAIN}/default_image.png`}
             />
           </div>
           <div className="operation_row">
@@ -99,8 +99,8 @@ const TraceurHistorique = ({ id_traceur }) => {
               className="product-img"
               width={200}
               height={200}
-              src="error"
-              fallback={`${DOMAIN}${detail.photo_traceur}`}
+              src={`${DOMAIN}${detail.photo_traceur}`}
+              fallback={`${DOMAIN}/default_image.png`}
             />
           </div>
           <hr />
