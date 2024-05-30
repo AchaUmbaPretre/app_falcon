@@ -18,6 +18,7 @@ const Client = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
+  const scroll = { x: 400 };
 
   const showDrawer = (e) => {
     setOpenDetail(true);

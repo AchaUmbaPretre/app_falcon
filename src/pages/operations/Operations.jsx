@@ -17,7 +17,8 @@ const Operations = () => {
   const [open, setOpen] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedOperationIds, setSelectedOperationIds] = useState([]);
-
+  const scroll = { x: 400 };
+  
   const onSelectChange = (selectedRowKeys) => {
     setSelectedRowKeys(selectedRowKeys);
     setSelectedOperationIds(selectedRowKeys)

@@ -3,12 +3,11 @@ import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, T
 import {
   PlusCircleOutlined, CreditCardOutlined, EyeOutlined, DeleteOutlined,
   UserOutlined, DollarOutlined, CalendarOutlined, FilePdfOutlined,
-  FileExcelOutlined, PrinterOutlined, SearchOutlined, BarcodeOutlined
+  FileExcelOutlined, PrinterOutlined, SearchOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 import PaiementForm from './form/PaiementForm';
 
 const Paiement = () => {
@@ -18,6 +17,7 @@ const Paiement = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
+  const scroll = { x: 400 };
 
   const fetchPaiements = useCallback(async () => {
     try {
@@ -180,7 +180,7 @@ const Paiement = () => {
                   <PrinterOutlined className='product-icon-printer' />
                 </div>
               </div>
-              <Table dataSource={filteredData} columns={columns} loading={isLoading} className='table_client' />
+              <Table dataSource={filteredData} columns={columns} loading={isLoading} scroll={scroll} className='table_client' />
               <Modal
                 title=""
                 centered

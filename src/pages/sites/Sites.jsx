@@ -11,6 +11,7 @@ const Sites = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [sitesData, setSitesData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const scroll = { x: 400 };
 
   const fetchSites = useCallback(async () => {
     try {
@@ -125,7 +126,7 @@ const Sites = () => {
                 <PrinterOutlined className="product-icon-printer" />
               </div>
             </div>
-            <Table dataSource={filteredData} columns={columns} loading={isLoading} className="table_client" />
+            <Table dataSource={filteredData} columns={columns} loading={isLoading} scroll={scroll} className="table_client" />
             <Modal
               title="Ajouter un Site"
               centered

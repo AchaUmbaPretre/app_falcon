@@ -18,6 +18,7 @@ const Dette = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
+  const scroll = { x: 400 };
 
   const fetchPaiements = useCallback(async () => {
     try {
@@ -169,7 +170,7 @@ const Dette = () => {
                   <PrinterOutlined className='product-icon-printer' />
                 </div>
               </div>
-              <Table dataSource={filteredData} columns={columns} loading={isLoading} className='table_client' />
+              <Table dataSource={filteredData} columns={columns} loading={isLoading} scroll={scroll} className='table_client' />
               <Modal
                 title=""
                 centered
