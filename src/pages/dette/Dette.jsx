@@ -148,7 +148,7 @@ const Dette = () => {
             </div>
           </div>
           <div className="client_wrapper_center">
-            <Breadcrumb separator=">" items={[{ title: 'Accueil' }, { title: 'Rétourné(e)', href: '/' }]} />
+            <Breadcrumb separator=">" items={[{ title: 'Accueil',href: '/' }, { title: 'Dette' }]} />
             <div className="client_wrapper_center_bottom">
               <div className="product-bottom-top">
                 <div className="product-bottom-left">

@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd';
-import { PlusCircleOutlined, EnvironmentOutlined, UserOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Input } from 'antd';
+import {
+  PlusCircleOutlined, EnvironmentOutlined, UserOutlined, DeleteOutlined,
+  SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined,
+  SearchOutlined
+} from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import SitesForm from './form/SitesForm';
@@ -11,15 +15,16 @@ const Sites = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [sitesData, setSitesData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const scroll = { x: 400 };
 
   const fetchSites = useCallback(async () => {
+    setIsLoading(true);
     try {
       const { data } = await axios.get(`${DOMAIN}/operation/site`);
       setSitesData(data);
-      setIsLoading(false);
     } catch (error) {
       console.error('Error fetching sites:', error);
+    } finally {
+      setIsLoading(false);
     }
   }, [DOMAIN]);
 
@@ -37,7 +42,7 @@ const Sites = () => {
   };
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (_, __, index) => index + 1, width: "3%" },
+    { title: '#', dataIndex: 'id', key: 'id', render: (_, __, index) => index + 1, width: '3%' },
     {
       title: 'Client',
       dataIndex: 'nom_client',
@@ -47,7 +52,7 @@ const Sites = () => {
           <UserOutlined style={{ marginRight: 5 }} />
           {text}
         </Tag>
-      )
+      ),
     },
     {
       title: 'Site',
@@ -58,12 +63,11 @@ const Sites = () => {
           <EnvironmentOutlined style={{ marginRight: 5 }} />
           {text}
         </Tag>
-      )
+      ),
     },
     {
       title: 'Action',
       key: 'action',
-      width: "10%",
       render: (_, record) => (
         <Space size="middle">
           <Popover title="Supprimer" trigger="hover">
@@ -73,18 +77,18 @@ const Sites = () => {
               okText="Oui"
               cancelText="Non"
             >
-              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+              <Button icon={<DeleteOutlined />} danger />
             </Popconfirm>
           </Popover>
         </Space>
-      )
-    }
+      ),
+    },
   ];
 
   const handleModalOpen = () => setIsModalVisible(true);
   const handleModalClose = () => setIsModalVisible(false);
 
-  const filteredData = sitesData.filter(site => 
+  const filteredData = sitesData.filter((site) =>
     site.nom_client.toLowerCase().includes(searchValue.toLowerCase()) ||
     site.nom_site.toLowerCase().includes(searchValue.toLowerCase())
   );
@@ -99,19 +103,20 @@ const Sites = () => {
               <span className="client_span">Liste des sites</span>
             </div>
             <div className="client_text_right">
-              <Button onClick={handleModalOpen} icon={<PlusCircleOutlined />} />
+              <Button onClick={handleModalOpen} icon={<PlusCircleOutlined />} type="primary">
+                
+              </Button>
             </div>
           </div>
         </div>
         <div className="client_wrapper_center">
-          <Breadcrumb separator=">" items={[{ title: 'Accueil' }, { title: 'Rétourné(e)', href: '/' }]} />
+          <Breadcrumb separator=">" items={[{ title: 'Accueil', href: '/' }, { title: 'Sites' }]} />
           <div className="client_wrapper_center_bottom">
             <div className="product-bottom-top">
               <div className="product-bottom-left">
                 <SisternodeOutlined className="product-icon" />
-                <div className="product-row-search">
-                  <SearchOutlined className="product-icon-plus" />
-                  <input
+                <div className="product-row-searchs">
+                  <Input
                     type="search"
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
@@ -126,16 +131,23 @@ const Sites = () => {
                 <PrinterOutlined className="product-icon-printer" />
               </div>
             </div>
-            <Table dataSource={filteredData} columns={columns} loading={isLoading} scroll={scroll} className="table_client" />
+            <Table
+              dataSource={filteredData}
+              columns={columns}
+              loading={isLoading}
+              scroll={{ x: 400 }}
+              rowKey="id"
+              className="table_client"
+            />
             <Modal
-              title="Ajouter un Site"
+              title=""
               centered
               visible={isModalVisible}
               onCancel={handleModalClose}
               width={900}
               footer={null}
             >
-              <SitesForm />
+              <SitesForm onClose={handleModalClose} onRefresh={fetchSites} />
             </Modal>
           </div>
         </div>

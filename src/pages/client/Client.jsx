@@ -170,10 +170,10 @@ const Client = () => {
                 items={[
                   {
                     title: 'Accueil',
+                    href: '/',
                   },
                   {
-                    title: 'Rétourné(e)',
-                    href: '/',
+                    title: 'Client'
                   }
                 ]}
             />
