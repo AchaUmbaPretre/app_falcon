@@ -24,6 +24,7 @@ const Recharge = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const scroll = { x: 400 };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -282,7 +283,7 @@ const Recharge = () => {
       },
     ];
 
-    return <Table columns={columns} dataSource={record.records} pagination={false} rowKey="id_recharge" />;
+    return <Table columns={columns} dataSource={record.records} scroll={scroll} pagination={{ pageSize: 15}} rowKey="id_recharge" />;
   };
 
   const handleCopy = (text) => {
