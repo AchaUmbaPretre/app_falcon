@@ -29,32 +29,32 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Chart.js Bar Chart',
+      text: 'Graphique à Barres',
     },
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre','Octobre'];
 
 export const data = {
   labels,
   datasets: [
     {
-      label: 'Dataset 1',
+      label: 'Données 1',
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       backgroundColor: 'rgba(75, 192, 192, 0.5)',
       borderColor: 'rgba(75, 192, 192, 1)',
       borderWidth: 1,
     },
     {
-      label: 'Dataset 2',
+      label: 'Données 2',
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       backgroundColor: 'rgba(153, 102, 255, 0.5)',
       borderColor: 'rgba(153, 102, 255, 1)',
       borderWidth: 1,
     },
     {
-      label: 'Dataset 3',
+      label: 'Données 3',
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       backgroundColor: 'rgba(255, 206, 86, 0.5)',
       borderColor: 'rgba(255, 206, 86, 1)',
@@ -66,8 +66,8 @@ export const data = {
 const PaiementChart = () => {
   return (
     <div className='PaiementChart'>
-        <h2 className='paiement_h2'>Paiement</h2>
-        <Bar options={options} data={data} />
+      <h2 className='paiement_h2'>Paiement</h2>
+      <Bar options={options} data={data} />
     </div>
   );
 };

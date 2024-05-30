@@ -28,7 +28,7 @@
                     flex-direction: column;
                     gap: 3px;
                     .client_h2{
-                        font-size: 1.1rem;
+                        font-size: 1rem;
                         font-weight: 800;
                         background: linear-gradient(90deg, #13add8bd, #000000ee);
                         -webkit-background-clip: text;
@@ -41,7 +41,7 @@
                     .client_span{
                         font-size: .7rem;
                         color: #686868d8;
-                        font-style: oblique;
+                        font-style: italic;
                         @include miniTablette{
                             font-size: .6rem;
                         }

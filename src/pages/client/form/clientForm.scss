@@ -15,10 +15,14 @@
             .product-left{
                 display: flex;
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
                 .product-h2{
                     font-size: 1rem;
-                    color: rgb(1, 35, 138);
+                    font-weight: 800;
+                    background: linear-gradient(90deg, #13add8bd, #000000ee);
+                    -webkit-background-clip: text;
+                    color: transparent;
+                    text-transform: uppercase;
                     @include mobileXR{
                         font-size: .8rem;
                     }
@@ -26,6 +30,7 @@
                 span{
                     font-size: .8rem;
                     color: #6d6c6c;
+                    font-style: italic;
                     @include mobileXR{
                         display: none;
                     }

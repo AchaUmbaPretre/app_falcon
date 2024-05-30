@@ -18,9 +18,10 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            background: #e7e7e769;
+            background: #e7e7e74d;
             padding: 20px 10px;
             margin-bottom: 20px;
+            border-radius: 5px;
             @include mobileXR{
                 display: grid;
                 grid-template-columns: repeat(1,1fr);
@@ -28,6 +29,7 @@
             }
             .recharge_client_title{
                 font-size: 1rem;
+                font-style: italic;
                 @include miniTablette{
                     font-size: .7rem;
                 }
@@ -53,6 +55,7 @@
                     border: none;
                     outline: none;
                     padding-left: 10px;
+                    font-size: 12px;
                     &::-webkit-input-placeholder { /* Chrome, Safari, Opera */
                         font-size: 11px;
                     }
@@ -87,6 +90,7 @@
             gap: 20px;
             @include miniTablette{
                 grid-template-columns: repeat(2,1fr);
+                gap: 10px;
             }
             .recharge_form_row{
                 padding: 20px;
