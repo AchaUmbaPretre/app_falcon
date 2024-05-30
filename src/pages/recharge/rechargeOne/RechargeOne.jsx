@@ -11,10 +11,9 @@ const RechargeOne = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
   const [searchValue, setSearchValue] = useState('');
-  const [days, setDays] = useState(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [clientName, setClientName] = useState('');
 
@@ -29,7 +28,7 @@ const RechargeOne = () => {
       try {
         const response = await axios.get(`${DOMAIN}/recharge/rechargerClientOne?id_client=${id_client}`);
         setData(response.data);
-        setClientName(response.data[0].nom_client)
+        setClientName(response.data[0].nom_client);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -39,24 +38,33 @@ const RechargeOne = () => {
     fetchData();
   }, [DOMAIN, id_client]);
 
+  const onSelectChange = (selectedRowKeys, selectedRows) => {
+    setSelectedRows(selectedRows);
+  };
 
-  const onSelectChange = (selectedKeys) => {
-    setSelectedRowKeys(selectedKeys);
+  const handleDaysChange = (id, days) => {
+    setSelectedRows((prevSelectedRows) =>
+      prevSelectedRows.map((row) =>
+        row.id_numero === id ? { ...row, days } : row
+      )
+    );
   };
 
   const rowSelection = {
-    selectedRowKeys,
+    selectedRowKeys: selectedRows.map((row) => row.id_numero),
     onChange: onSelectChange,
   };
 
+  console.log(selectedRows)
+
   const handleRecharge = async () => {
-    if (selectedRowKeys.length === 0) {
+    if (selectedRows.length === 0) {
       message.error('Veuillez sélectionner au moins une ligne.');
       return;
     }
 
-    if (days <= 0) {
-      message.error('Veuillez entrer un nombre de jours valide.');
+    if (selectedRows.some(row => row.days <= 0)) {
+      message.error('Veuillez entrer un nombre de jours valide pour chaque ligne sélectionnée.');
       return;
     }
 
@@ -64,11 +72,11 @@ const RechargeOne = () => {
       setLoading(true);
 
       await Promise.all(
-        selectedRowKeys.map((item) =>
+        selectedRows.map((row) =>
           axios.post(`${DOMAIN}/recharge`, {
-            id_numero: item,
+            id_numero: row.id_numero,
             user_cr: userId,
-            days: days
+            days: row.days
           })
         )
       );
@@ -128,17 +136,6 @@ const RechargeOne = () => {
         </Tag>
       )
     },
-/*     {
-      title: 'Numero série',
-      dataIndex: 'numero_serie',
-      key: 'numero_serie',
-      render: (text) => (
-        <Tag color='blue'>
-          <BarcodeOutlined style={{ marginRight: 5 }} />
-          {text}
-        </Tag>
-      )
-    }, */
     {
       title: 'Numero',
       dataIndex: 'numero',
@@ -148,6 +145,35 @@ const RechargeOne = () => {
           <PhoneOutlined style={{ marginRight: 5 }} />
           {text}
         </Tag>
+      )
+    },
+    {
+      title: 'Nbre de jour',
+      dataIndex: 'days',
+      key: 'days',
+      render: (text, record) => (
+        <div>
+          <Input
+            type="number"
+            min="1"
+            onChange={(e) => handleDaysChange(record.id_numero, Number(e.target.value))}
+            placeholder="Nombre de jours"
+            className='days-input'
+            style={{ width: "100px" }}
+          />
+        </div>
+      )
+    },
+    {
+      title: 'Recharger',
+      dataIndex: 'recharge',
+      key: 'recharge',
+      render: () => (
+        <div>
+          <Button type="primary" onClick={showModal} disabled={loading}>
+            Recharger
+          </Button>
+        </div>
       )
     }
   ];
@@ -186,18 +212,6 @@ const RechargeOne = () => {
                   />
                 </div>
               </div>
-              <div className="product-bottom-right">
-                <label htmlFor="" style={{ fontSize: '13px', color: "#555" }}>Nbre de jour : </label>
-                <Input
-                  type="number"
-                  min="1"
-                  value={days}
-                  onChange={(e) => setDays(Number(e.target.value))}
-                  placeholder="Nombre de jours"
-                  className='days-input'
-                  style={{ width: "100px" }}
-                />
-              </div>
             </div>
             <Table
               dataSource={filteredData}
@@ -218,7 +232,7 @@ const RechargeOne = () => {
               className="custom-modal"
               centered
             >
-              <p>Voulez-vous vraiment recharger pour {days} jours ?</p>
+              <p>Voulez-vous vraiment recharger les numéros sélectionnés ?</p>
             </Modal>
           </div>
         </div>

@@ -101,11 +101,15 @@
                             padding: 6px 8px;
                             @include miniTablette{
                                 padding: 5px 7px;
-                                width: 85%;
+                                width: 70%;
+                            }
+                            @include mobileXR{
+                                padding: 5px 6px;
+                                width: 60%;
                             }
                             .product-icon-plus{
                                 @include miniTablette{
-                                    font-size: .8rem;
+                                    display: none;
                                 }
                             }
                             .product-search{
@@ -120,6 +124,9 @@
                                     &::-webkit-input-placeholder { /* Chrome, Safari, Opera */
                                         font-size: 11px;
                                     }
+                                }
+                                @include mobileXR{
+                                    font-size: 10px;
                                 }
                                 
                             }
