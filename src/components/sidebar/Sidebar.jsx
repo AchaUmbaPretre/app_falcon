@@ -197,7 +197,7 @@ const Sidebar = () => {
             </Link>
           </Item>
           <Item key="21">
-            <Link to={'/'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
+            <Link to={'/dette'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des dettes
             </Link>
