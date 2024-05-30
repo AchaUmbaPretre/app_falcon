@@ -116,6 +116,9 @@
                     @include miniTablette{
                         width: 20%;
                     }
+                    @include mobileXR{
+                        width: 30%;
+                    }
                     
                 }
                 .recharge_form_bottom{
@@ -129,6 +132,9 @@
                         font-weight: bold;
                         @include miniTablette{
                             font-size: .690rem;
+                        }
+                        @include mobileXR{
+                            font-size: .655rem;
                         }
                     }
                 }
