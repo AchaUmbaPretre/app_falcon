@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag, Input, message } from 'antd';
 import { 
   PlusCircleOutlined, 
@@ -15,43 +15,57 @@ import {
   CarOutlined,
   CheckCircleOutlined,
   ExclamationCircleOutlined,
-  ClockCircleOutlined
+  ClockCircleOutlined,
+  StopOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
 import config from '../../config';
+import './recharge.scss';
+
+const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+const scroll = { x: 400 };
+
+const fetchRecharges = async () => {
+  const { data } = await axios.get(`${DOMAIN}/recharge`);
+  return data;
+};
+
+const deleteRecharge = async (id) => {
+  await axios.delete(`${DOMAIN}/recharge/${id}`);
+};
 
 const Recharge = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const scroll = { x: 400 };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/recharge`);
-        setData(data);
-        setLoading(false);
+        const recharges = await fetchRecharges();
+        setData(recharges);
       } catch (error) {
-        console.log(error);
+        console.error('Error fetching recharges:', error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
-  }, [DOMAIN]);
+  }, []);
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${DOMAIN}/recharge/${id}`);
-      window.location.reload();
+      await deleteRecharge(id);
+      setData((prevData) => prevData.filter(item => item.id_recharge !== id));
+      message.success('Recharge deleted successfully');
     } catch (err) {
-      console.log(err);
+      console.error('Error deleting recharge:', err);
+      message.error('Failed to delete recharge');
     }
   };
 
-  // Function to group data by id_client
   const groupByClient = (data) => {
     return data.reduce((result, item) => {
       const { id_client } = item;
@@ -68,7 +82,16 @@ const Recharge = () => {
     key: id_client,
     ...records[0],
     records,
-  }))
+  }));
+
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      message.success('Numéro copié dans le presse-papiers');
+    }).catch((err) => {
+      message.error('Échec de la copie');
+      console.error('Could not copy text: ', err);
+    });
+  };
 
   const columns = [
     {
@@ -82,69 +105,89 @@ const Recharge = () => {
         </Tag>
       ),
     },
-      {
-        title: 'Status',
-        dataIndex: 'recharge_status',
-        key: 'recharge_status',
-        render: (text) => (
-          <Tag color={text === "Inactif" ? 'red' : 'blue'}>
-            {text}
+    {
+      title: 'Status',
+      dataIndex: 'recharge_status',
+      key: 'recharge_status',
+      render: (status) => {
+        let color = 'blue';
+        let icon = <CheckCircleOutlined />;
+        if (status === "Inactif") {
+          color = 'red';
+          icon = <StopOutlined />;
+        }
+
+        return (
+          <Tag icon={icon} color={color}>
+            {status}
           </Tag>
-        ),
+        );
       },
-      {
-        title: 'Validité',
-        dataIndex: 'days',
-        key: 'days',
-        render: (days) => {
-          let color = 'blue';
-          let icon = <CheckCircleOutlined />;
-          if (days <= 0) {
-            color = 'red';
-            icon = <ExclamationCircleOutlined />;
-          } else if (days <= 7) {
-            color = 'orange';
-            icon = <ExclamationCircleOutlined />;
-          }
-  
-          return (
-            <Tag icon={icon} color={color}>
-              {days} jours
-            </Tag>
-          );
-        },
+    },
+    {
+      title: 'Validité',
+      dataIndex: 'days',
+      key: 'days',
+      render: (days) => {
+        let color = 'blue';
+        let icon = <CheckCircleOutlined />;
+        if (days <= 0) {
+          color = 'red';
+          icon = <ExclamationCircleOutlined />;
+        } else if (days <= 7) {
+          color = 'orange';
+          icon = <ExclamationCircleOutlined />;
+        }
+
+        return (
+          <Tag icon={icon} color={color}>
+            {days} jours
+          </Tag>
+        );
       },
-      {
-        title: 'Reste(s)',
-        dataIndex: 'days_restant',
-        key: 'days_restant',
-        render: (days_restant) => {
-          let color = 'green';
-          let icon = <CheckCircleOutlined />;
-          if (days_restant === 0) {
-            color = 'red';
-            icon = <ExclamationCircleOutlined />;
-          } else if (days_restant <= 7) {
-            color = 'orange';
-            icon = <ClockCircleOutlined />;
-          }
-  
-          return (
-            <Tag icon={icon} color={color}>
-              {days_restant} jours
-            </Tag>
-          );
-        },
+    },
+    {
+      title: 'Reste(s)',
+      dataIndex: 'days_restant',
+      key: 'days_restant',
+      render: (days_restant) => {
+        let color = 'green';
+        let icon = <CheckCircleOutlined />;
+        if (days_restant === 0) {
+          color = 'red';
+          icon = <ExclamationCircleOutlined />;
+        } else if (days_restant <= 7) {
+          color = 'orange';
+          icon = <ClockCircleOutlined />;
+        }
+
+        return (
+          <Tag icon={icon} color={color}>
+            {days_restant} jours
+          </Tag>
+        );
       },
-      {
-        title: 'Date de recharge',
-        dataIndex: 'date_recharge',
-        key: 'date_recharge',
-        sorter: (a, b) => moment(a.date_recharge) - moment(b.date_recharge),
-        sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: 'Date de recharge',
+      dataIndex: 'date_recharge',
+      key: 'date_recharge',
+      sorter: (a, b) => moment(a.date_recharge) - moment(b.date_recharge),
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => (
+        <Tag icon={<CalendarOutlined />} color='blue'>
+          {moment(text).format('DD-MM-YYYY HH:mm')}
+        </Tag>
+      ),
+    },
+    {
+        title: 'Rechargé par ',
+        dataIndex: 'username',
+        key: 'username',
         render: (text) => (
-          <Tag icon={<CalendarOutlined />} color='blue'>
-            {moment(text).format('DD-MM-YYYY HH:mm')}
+          <Tag color='blue'>
+            <UserOutlined style={{ marginRight: 5 }} />
+            {text}
           </Tag>
         ),
       },
@@ -192,17 +235,17 @@ const Recharge = () => {
           </Tag>
         ),
       },
-      {
+/*       {
         title: 'Marque',
         dataIndex: 'nom_marque',
-        key: '',
+        key: 'nom_marque',
         render: (text) => (
           <Tag color='blue'>
             <CarOutlined style={{ marginRight: "5px" }} />
             {text}
           </Tag>
         ),
-      },
+      }, */
       {
         title: 'Traceur',
         dataIndex: 'numero_serie',
@@ -218,31 +261,63 @@ const Recharge = () => {
         title: 'Status',
         dataIndex: 'recharge_status',
         key: 'recharge_status',
-        render: (text) => (
-          <Tag color={text === "Rechargez aujourd'hui" ? 'red' : 'blue'}>
-            {text}
-          </Tag>
-        ),
+        render: (status) => {
+          let color = 'blue';
+          let icon = <CheckCircleOutlined />;
+          if (status === "Inactif") {
+            color = 'red';
+            icon = <StopOutlined />;
+          }
+  
+          return (
+            <Tag icon={icon} color={color}>
+              {status}
+            </Tag>
+          );
+        },
       },
       {
-        title: 'Nbre jour',
+        title: 'Validité',
         dataIndex: 'days',
         key: 'days',
-        render: (text) => (
-          <Tag color='blue'>
-            {text}
-          </Tag>
-        ),
+        render: (days) => {
+          let color = 'blue';
+          let icon = <CheckCircleOutlined />;
+          if (days <= 0) {
+            color = 'red';
+            icon = <ExclamationCircleOutlined />;
+          } else if (days <= 7) {
+            color = 'orange';
+            icon = <ExclamationCircleOutlined />;
+          }
+          return (
+            <Tag icon={icon} color={color}>
+              {days} jours
+            </Tag>
+          );
+        },
       },
       {
-        title: 'Nbre restant',
+        title: 'Reste(s)',
         dataIndex: 'days_restant',
         key: 'days_restant',
-        render: (text) => (
-          <Tag color={text === 0 ? 'red' : 'green'}>
-            {text}
-          </Tag>
-        ),
+        render: (days_restant) => {
+          let color = 'green';
+          let icon = <CheckCircleOutlined />;
+          if (days_restant === 0) {
+            color = 'red';
+            icon = <ExclamationCircleOutlined />;
+          } else if (days_restant <= 7) {
+            color = 'orange';
+            icon = <ClockCircleOutlined />;
+          }
+  
+          return (
+            <Tag icon={icon} color={color}>
+              {days_restant} jours
+            </Tag>
+          );
+        },
       },
       {
         title: 'Date de recharge',
@@ -252,7 +327,7 @@ const Recharge = () => {
         sortDirections: ['descend', 'ascend'],
         render: (text) => (
           <Tag icon={<CalendarOutlined />} color='blue'>
-            {moment(text).format('DD-MM-yyyy')}
+            {moment(text).format('DD-MM-YYYY HH:mm')}
           </Tag>
         ),
       },
@@ -277,16 +352,7 @@ const Recharge = () => {
       },
     ];
 
-    return <Table columns={columns} dataSource={record.records} scroll={scroll} pagination={{ pageSize: 15}} rowKey="id_recharge" />;
-  };
-
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text).then(() => {
-      message.success('Numéro copié dans le presse-papiers');
-    }).catch((err) => {
-      message.error('Échec de la copie');
-      console.error('Could not copy text: ', err);
-    });
+    return <Table columns={columns} dataSource={record.records} scroll={scroll} pagination={{ pageSize: 15 }} rowKey="id_recharge" />;
   };
 
   const filteredData = groupedData.filter((item) =>
