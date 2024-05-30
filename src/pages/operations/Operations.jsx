@@ -18,7 +18,7 @@ const Operations = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedOperationIds, setSelectedOperationIds] = useState([]);
   const scroll = { x: 400 };
-  
+
   const onSelectChange = (selectedRowKeys) => {
     setSelectedRowKeys(selectedRowKeys);
     setSelectedOperationIds(selectedRowKeys)
@@ -229,6 +229,7 @@ const Operations = () => {
                 loading={loading}
                 rowKey="id_operations"
                 className='table_client'
+                scroll={scroll}
               />
               <Modal
                 title=""

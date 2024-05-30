@@ -219,7 +219,7 @@ const Client = () => {
                 <Drawer title="Détail" onClose={onClose} visible={openDetail} width={500}>
                   <ClientDetail id_client ={idClient} />
                 </Drawer>
-                <Table dataSource={filteredData} columns={columns}  loading={loading} className='table_client'  />
+                <Table dataSource={filteredData} columns={columns} scroll={scroll} loading={loading} className='table_client'  />
             </div>
           </div>
         </div>

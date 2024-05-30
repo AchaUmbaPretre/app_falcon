@@ -10,6 +10,7 @@ const Personnel = () => {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const scroll = { x: 400 };
 
 
   useEffect(() => {
@@ -140,7 +141,7 @@ const Personnel = () => {
                   </div>
                 </div>
 
-                <Table dataSource={data} columns={columns} loading={loading} className='table_client' />
+                <Table dataSource={data} columns={columns} loading={loading} scroll={scroll} className='table_client' />
             </div>
           </div>
         </div>
