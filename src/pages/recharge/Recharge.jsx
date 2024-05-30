@@ -16,7 +16,8 @@ import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
   ClockCircleOutlined,
-  StopOutlined
+  StopOutlined,
+  HourglassOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
@@ -107,12 +108,12 @@ const Recharge = () => {
       ),
     },
     {
-      title: 'Nbre rechargés',
+      title: 'Nbre rechargé',
       dataIndex: 'numberCount',
       key: 'numberCount',
       render: (count) => (
         <Tag color='green'>
-          <PhoneOutlined style={{ marginRight: 5 }} />
+          <HourglassOutlined style={{ marginRight: 5 }} />
           {count}
         </Tag>
       ),
