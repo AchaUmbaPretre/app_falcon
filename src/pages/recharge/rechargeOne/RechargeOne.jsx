@@ -193,8 +193,8 @@ const RechargeOne = () => {
           <Breadcrumb
             separator=">"
             items={[
-              { title: 'Accueil' },
-              { title: 'Récharge', href: '/' },
+              { title: 'Accueil', href: '/' },
+              { title: 'Récharge' },
             ]}
           />
           <div className="client_wrapper_center_bottom">
