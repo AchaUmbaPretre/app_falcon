@@ -73,7 +73,7 @@ const NumeroForm = () => {
     {
       title: 'Action',
       key: 'action',
-      width: "15%",
+      width: "25%",
       render: (text, record, index) => (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           {numeros.length > 1 && (

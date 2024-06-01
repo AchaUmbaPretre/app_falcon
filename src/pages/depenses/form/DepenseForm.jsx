@@ -8,7 +8,7 @@ import { Spin, Modal } from 'antd';
 
 const DepenseForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState({});
+  const [data, setData] = useState({ id_users: '', montant: '', description: ''});
   const [users, setUsers] = useState([]);
   const [type, setType] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,19 +27,19 @@ const DepenseForm = () => {
 
   const fetchUsers = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/users`);
-      setUsers(data);
+      const response = await axios.get(`${DOMAIN}/users`);
+      setUsers(response.data);
     } catch (error) {
-      console.error('Failed to fetch clients:', error);
+      console.error('Failed to fetch users:', error);
     }
   }, [DOMAIN]);
 
   const fetchType = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/depense/type`);
-      setType(data);
+      const response = await axios.get(`${DOMAIN}/depense/type`);
+      setType(response.data);
     } catch (error) {
-      console.error('Failed to fetch payment methods:', error);
+      console.error('Failed to fetch categories:', error);
     }
   }, [DOMAIN]);
 
@@ -48,17 +48,19 @@ const DepenseForm = () => {
     fetchType();
   }, [fetchUsers, fetchType]);
 
+  console.log(data)
+
   const handleSubmit = async () => {
-    if (!data.id_client || !data.montant) {
+    if (!data.id_users || !data.montant) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
 
     try {
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/paiement`, data);
-      toast.success('Paiement créé avec succès!');
-      navigate('/paiement');
+      await axios.post(`${DOMAIN}/depense`, data);
+      toast.success('Dépense créé avec succès!');
+      navigate('/depense');
       window.location.reload();
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message;
@@ -96,7 +98,7 @@ const DepenseForm = () => {
           <div className="product-wrapper">
             <form className="product-container-bottom form_hand">
               <div className="form-controle">
-                <label htmlFor="id_client">
+                <label htmlFor="id_users">
                   Agents <span style={{ color: 'red' }}>*</span>
                 </label>
                 <Select
@@ -111,17 +113,17 @@ const DepenseForm = () => {
               </div>
 
               <div className="form-controle">
-                <label htmlFor="id_client">
-                  Type de categorie <span style={{ color: 'red' }}>*</span>
+                <label htmlFor="id_categorie">
+                  Type de catégorie <span style={{ color: 'red' }}>*</span>
                 </label>
                 <Select
-                  name="categore"
+                  name="id_categorie"
                   options={type.map((item) => ({
                     value: item.id_categorie_depense,
                     label: item.nom_categorie,
                   }))}
-                  onChange={(selectedOption) => setData((prev) => ({ ...prev, id_client: selectedOption.value }))}
-                  placeholder="Sélectionnez une categorie..."
+                  onChange={(selectedOption) => setData((prev) => ({ ...prev, id_categorie: selectedOption.value }))}
+                  placeholder="Sélectionnez une catégorie..."
                 />
               </div>
 
@@ -141,10 +143,16 @@ const DepenseForm = () => {
               </div>
 
               <div className="form-controle">
-                <label htmlFor="methode">
-                  Déscription <span style={{ color: 'red' }}>*</span>
+                <label htmlFor="description">
+                  Description <span style={{ color: 'red' }}>*</span>
                 </label>
-                <textarea name="description" id="" className="form-input" style={{resize:'none', height:"150px"}} placeholder='Entrer la description...'></textarea>
+                <textarea
+                  name="description"
+                  className="form-input"
+                  style={{ resize: 'none', height: "150px" }}
+                  placeholder='Entrez la description...'
+                  onChange={handleInputChange}
+                />
               </div>
 
               <div className="form-submit">
