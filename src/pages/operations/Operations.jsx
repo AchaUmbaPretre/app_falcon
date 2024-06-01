@@ -247,7 +247,7 @@ const Operations = () => {
               scroll={scroll}
             />
             <Modal
-              title="Ajouter une opération"
+              title=""
               centered
               visible={open}
               onCancel={() => setOpen(false)}

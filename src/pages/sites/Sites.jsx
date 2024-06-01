@@ -2,8 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Input } from 'antd';
 import {
   PlusCircleOutlined, EnvironmentOutlined, UserOutlined, DeleteOutlined,
-  SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined,
-  SearchOutlined
+  SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';

@@ -150,7 +150,7 @@ const Vehicules = () => {
               pagination={{ pageSize: 10 }}
             />
             <Modal
-              title="Ajouter un véhicule"
+              title=""
               centered
               open={isModalOpen}
               onCancel={handleCancel}
