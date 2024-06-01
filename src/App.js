@@ -45,6 +45,7 @@ import Recharge_form from './pages/recharge/form/Recharge_form';
 import RechargeOne from './pages/recharge/rechargeOne/RechargeOne';
 import Paiement from './pages/paiement/Paiement';
 import Dette from './pages/dette/Dette';
+import Depenses from './pages/depenses/Depenses';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -132,6 +133,7 @@ function App() {
         { path: '/personnel_form', element: <PersonnelForm /> },
         { path: '/paiement', element: <Paiement /> },
         { path: '/dette', element: <Dette /> },
+        { path: '/depense', element: <Depenses /> },
         { path: '/permissions', element: <Permissions /> },
       ]
     }

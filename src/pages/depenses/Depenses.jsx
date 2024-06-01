@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Input } from 'antd';
 import {
-  PlusCircleOutlined, CreditCardOutlined, DeleteOutlined,
+  PlusCircleOutlined, CreditCardOutlined, EyeOutlined, DeleteOutlined,
   UserOutlined, DollarOutlined, CalendarOutlined, FilePdfOutlined,
   FileExcelOutlined, PrinterOutlined, SearchOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
-import PaiementForm from './form/PaiementForm';
+import DepenseForm from './form/DepenseForm';
 
-const Paiement = () => {
+const Depenses = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
@@ -19,9 +19,9 @@ const Paiement = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const scroll = { x: 400 };
 
-  const fetchPaiements = useCallback(async () => {
+  const fetchDepense = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/paiement`);
+      const { data } = await axios.get(`${DOMAIN}/depense`);
       setData(data);
       setIsLoading(false);
     } catch (error) {
@@ -30,21 +30,18 @@ const Paiement = () => {
   }, [DOMAIN]);
 
   useEffect(() => {
-    fetchPaiements();
-  }, [fetchPaiements]);
+    fetchDepense();
+  }, [fetchDepense]);
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${DOMAIN}/paiement/${id}`);
-      fetchPaiements();
+      await axios.delete(`${DOMAIN}/depense/${id}`);
+      fetchDepense();
     } catch (err) {
       console.error(err);
     }
   };
 
-  const showDrawer = (id) => {
-    setOpenDetail(true);
-  };
 
   const showModal = () => {
     setOpen(true);
@@ -57,7 +54,7 @@ const Paiement = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
-      title: 'Client',
+      title: 'Agent',
       dataIndex: 'nom_client',
       key: 'nom_client',
       render: (text) => (
@@ -67,6 +64,16 @@ const Paiement = () => {
         </Tag>
       )
     },
+    {
+        title: "Categorie",
+        dataIndex: 'categorie',
+        key: 'categorie',
+        render: (text) => (
+          <Tag color="orange">
+            {text}
+          </Tag>
+        )
+      },
     {
       title: 'Montant',
       dataIndex: 'montant',
@@ -78,22 +85,11 @@ const Paiement = () => {
         </Tag>
       )
     },
-/*     {
-      title: 'Device',
-      dataIndex: 'device',
-      key: 'device',
-      render: (text) => (
-        <Tag color='purple'>
-          <BarcodeOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Tag>
-      )
-    }, */
     {
       title: "Date",
-      dataIndex: 'date_paiement',
-      key: 'date_paiement',
-      sorter: (a, b) => moment(a.date_paiement) - moment(b.date_paiement),
+      dataIndex: 'date_depense',
+      key: 'date_depense',
+      sorter: (a, b) => moment(a.date_depens) - moment(b.date_depens),
       sortDirections: ['descend', 'ascend'],
       render: (text) => (
         <Tag icon={<CalendarOutlined />} color="blue">
@@ -102,16 +98,15 @@ const Paiement = () => {
       )
     },
     {
-      title: "Methode",
-      dataIndex: 'nom_methode',
-      key: 'nom_methode',
-      render: (text) => (
-        <Tag color="orange">
-          <CreditCardOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Tag>
-      )
-    },
+        title: 'Description',
+        dataIndex: 'description',
+        key: 'description',
+        render: (text, record) => (
+          <Tag color='green'>
+            {text}
+          </Tag>
+        )
+      },
     {
       title: 'Action',
       key: 'action',
@@ -149,8 +144,8 @@ const Paiement = () => {
           <div className="client_wrapper_top">
             <div className="client_text_row">
               <div className="client_text_left">
-                <h2 className="client_h2">Paiement</h2>
-                <span className="client_span">Liste des paiements</span>
+                <h2 className="client_h2">Dépense</h2>
+                <span className="client_span">Liste des dépenses</span>
               </div>
               <div className="client_text_right">
                 <Button onClick={showModal} icon={<PlusCircleOutlined />} />
@@ -158,7 +153,7 @@ const Paiement = () => {
             </div>
           </div>
           <div className="client_wrapper_center">
-            <Breadcrumb separator=">" items={[{ title: 'Accueil' }, { title: 'Rétourné(e)', href: '/' }]} />
+            <Breadcrumb separator=">" items={[{ title: 'Accueil' }, { title: 'Dépense', href: '/' }]} />
             <div className="client_wrapper_center_bottom">
               <div className="product-bottom-top">
                 <div className="product-bottom-left">
@@ -189,7 +184,7 @@ const Paiement = () => {
                 width={800}
                 footer={null}
               >
-                <PaiementForm />
+                <DepenseForm />
               </Modal>
               <Drawer
                 title="Détails"
@@ -207,4 +202,4 @@ const Paiement = () => {
   );
 }
 
-export default Paiement;
+export default Depenses;
