@@ -79,16 +79,41 @@ const Depenses = () => {
       )
     },
     {
-      title: 'Montant',
-      dataIndex: 'montant',
-      key: 'montant',
-      render: (text, record) => (
-        <Tag color='green'>
-          <DollarOutlined style={{ marginRight: '5px' }} />
-          {text} $
-        </Tag>
-      )
-    },
+        title: 'En dollars',
+        dataIndex: 'montant',
+        key: 'montant',
+        sorter: (a, b) => a.montant - b.montant,
+        sortDirections: ['descend', 'ascend'],
+        render: (text, record) => (
+          <Tag color={record.montant !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+            {record.montant ? record.montant + ' $' : '0'}
+          </Tag>
+        ),
+      },
+      {
+        title: 'En franc',
+        dataIndex: 'montant_franc',
+        key: 'montant_franc',
+        sorter: (a, b) => a.montant_franc - b.montant_franc,
+        sortDirections: ['descend', 'ascend'],
+        render: (text, record) => (
+          <Tag color={record.montant_franc !== null ? 'green' : 'red'}>
+            {record.montant_franc !== null ? record.montant_franc + ' fc' : '0' + ' fc'}
+          </Tag>
+        ),
+      },
+      {
+        title: 'Montant total $',
+        dataIndex: 'montant_total_combine',
+        key: 'montant_total_combine',
+        sorter: (a, b) => a.montant_total_combine - b.montant_total_combine,
+        sortDirections: ['descend', 'ascend'],
+        render: (text, record) => (
+          <Tag color={record.montant_total_combine !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+            {record.montant_total_combine ? record.montant_total_combine + ' $' : '0' + ' $'}
+          </Tag>
+        ),
+      },
     {
       title: 'Date',
       dataIndex: 'date_depense',
@@ -98,16 +123,6 @@ const Depenses = () => {
       render: (text) => (
         <Tag icon={<CalendarOutlined />} color="blue">
           {moment(text).format('DD-MM-yyyy')}
-        </Tag>
-      )
-    },
-    {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-      render: (text) => (
-        <Tag color='green'>
-          {text}
         </Tag>
       )
     },
@@ -181,7 +196,7 @@ const Depenses = () => {
               className='table_client'
             />
             <Modal
-              title="Nouvelle dépense"
+              title=""
               centered
               open={isModalOpen}
               onCancel={closeModal}

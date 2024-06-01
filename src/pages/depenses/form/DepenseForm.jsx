@@ -8,7 +8,7 @@ import { Spin, Modal } from 'antd';
 
 const DepenseForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState({ id_users: '', montant: '', description: ''});
+  const [data, setData] = useState({ id_users: '', montant: '',montant_franc: '', description: ''});
   const [users, setUsers] = useState([]);
   const [type, setType] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +51,7 @@ const DepenseForm = () => {
   console.log(data)
 
   const handleSubmit = async () => {
-    if (!data.id_users || !data.montant) {
+    if (!data.id_users) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
@@ -71,7 +71,7 @@ const DepenseForm = () => {
   };
 
   const showModal = () => {
-    if (!data.id_users || !data.montant) {
+    if (!data.id_users) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
@@ -129,12 +129,27 @@ const DepenseForm = () => {
 
               <div className="form-controle">
                 <label htmlFor="montant">
-                  Montant <span style={{ color: 'red' }}>*</span>
+                  Montant en USD <span style={{ color: 'red' }}>*</span>
                 </label>
                 <input
                   type="number"
                   min="0"
                   name="montant"
+                  className="form-input"
+                  onChange={handleInputChange}
+                  required
+                  placeholder="ex : 100"
+                />
+              </div>
+
+              <div className="form-controle">
+                <label htmlFor="montant">
+                  Montant en Franc <span style={{ color: 'red' }}>*</span>
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  name="montant_franc"
                   className="form-input"
                   onChange={handleInputChange}
                   required
