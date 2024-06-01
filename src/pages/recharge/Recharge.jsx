@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag, Input, message } from 'antd';
+import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag, Input, message, Modal } from 'antd';
 import { 
   PlusCircleOutlined, 
   SisternodeOutlined, 
@@ -25,6 +25,7 @@ import moment from 'moment';
 import config from '../../config';
 import './recharge.scss';
 import RechargeTrie from './rechargeTrie/RechargeTrie';
+import Recharge_form from './form/Recharge_form';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 const scroll = { x: 400 };
@@ -42,6 +43,15 @@ const Recharge = () => {
   const [openTrie, setOpenTrie] = useState(false);
   const [start_date, setStartDate] = useState('');
   const [end_date, setEndDate] = useState('');
+
+
+  const openModal = () => {
+    setOpen(true);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+  };
 
 
   const fetchRecharge = useCallback(async () => {
@@ -441,6 +451,17 @@ const Recharge = () => {
               rowKey="id_client"
               className='table_client'
             />
+
+            <Modal
+              title=""
+              centered
+              open={open}
+              onCancel={closeModal}
+              width={1000}
+              footer={null}
+            >
+              <Recharge_form onClose={closeModal} />
+            </Modal>
           </div>
         </div>
       </div>

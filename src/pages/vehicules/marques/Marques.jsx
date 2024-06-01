@@ -92,8 +92,8 @@ const Marques = () => {
           <Breadcrumb
             separator=">"
             items={[
-              { title: 'Accueil' },
-              { title: 'Application Center', href: '/' },
+              { title: 'Accueil', href: '/' },
+              { title: 'Marques'},
             ]}
           />
           <div className="client_wrapper_center_bottom">
