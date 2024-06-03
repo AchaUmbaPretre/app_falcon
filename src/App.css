@@ -71,6 +71,19 @@ li{
     height: 100vh;
   }
 
+  .login_password_wrapper {
+    position: relative;
+}
+
+.login_password_eye {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+
   @media screen and (max-width: 568px){
     .outlet-wrapper{
         padding: 15px;

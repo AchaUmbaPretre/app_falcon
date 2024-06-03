@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Spin } from 'antd';
 import './App.css';
 import Sidebar from './components/sidebar/Sidebar';
 import Topbar from './components/topbar/Topbar';
 import config from './config';
-import Register from './pages/register/Register';
-import Login from './pages/login/Login';
 import Rightbar from './pages/rightbar/Rightbar';
 import Client from './pages/client/Client';
 import Operations from './pages/operations/Operations';
 import ClientForm from './pages/client/form/ClientForm';
 import Traceur from './pages/traceur/Traceur';
 import TraceurForm from './pages/traceur/form/TraceurForm';
-import OperationForm from './pages/operations/form/OperationForm';
 import Affectations from './pages/affectations/Affectations';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -46,10 +43,11 @@ import RechargeOne from './pages/recharge/rechargeOne/RechargeOne';
 import Paiement from './pages/paiement/Paiement';
 import Dette from './pages/dette/Dette';
 import Depenses from './pages/depenses/Depenses';
+import Login from './pages/login/Login';
+import Register from './pages/register/Register';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user?.currentUser);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -62,7 +60,7 @@ function App() {
         setLoading(false);
       } catch (error) {
         console.log(error);
-        setLoading(false); // Ensure loading is false in case of error
+        setLoading(false);
       }
     };
     fetchData();
