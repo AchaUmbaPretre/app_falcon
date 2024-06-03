@@ -38,10 +38,12 @@
     th, td {
         border: 1px solid #dddddd;
         padding: 8px;
+        font-size: .8rem;
       }
       th {
-        background-color: #9dfcf4a9;
+        background-color: #aafdf6a9;
         font-weight: bold;
+        font-size: .9rem;
       }
   
       tbody tr:nth-child(even) {
@@ -56,7 +58,7 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 25px;
-        padding: 20px 0;
+        padding: 10px 0;
         border-bottom: 1px solid #dddddd;
         @include miniTablette{
             grid-template-columns: repeat(2,1fr);

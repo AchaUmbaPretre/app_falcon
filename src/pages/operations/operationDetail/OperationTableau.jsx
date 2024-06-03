@@ -87,7 +87,7 @@ const OperationDetail = ({ selectedOperations }) => {
 
       {Object.entries(groupedByType).map(([type, details], index) => (
         <div key={type}>
-          <h3>{index + 1}. {type}</h3>
+          <h3 style={{paddingTop:'20px'}}>{index + 1}. {type}</h3>
           <table className="operationTable">
             <thead>
               <tr>
