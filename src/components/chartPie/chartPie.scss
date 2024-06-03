@@ -24,6 +24,9 @@
         color: transparent;
         font-weight: 700;
         padding-top: 20px;
+        @include mobileXR{
+            font-size: .9rem;
+        }
     }
     @include mobileXR{
         width: 100%;
