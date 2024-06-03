@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, message } from 'antd';
 import { PlusCircleOutlined, CarOutlined, UserOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import config from '../../config';
+import config, { userRequest } from '../../config';
 import Vehicules_form from './form/Vehicules_form';
 
 const Vehicules = () => {
@@ -15,7 +15,7 @@ const Vehicules = () => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${DOMAIN}/vehicule`);
+      const response = await userRequest.get(`${DOMAIN}/vehicule`);
       setData(response.data);
     } catch (error) {
       console.error(error);

@@ -26,6 +26,7 @@
         background: linear-gradient(90deg, #13add8bd, #000000c2);
         -webkit-background-clip: text;
         color: transparent;
+        font-weight: 700;
         @include mobileXR{
            font-size: .9rem;
        }

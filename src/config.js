@@ -13,5 +13,5 @@ export default {
 
 export const userRequest = axios.create({
       baseURL: 'https://apifalcon.loginsmart-cd.com',
-      header: { token: `Bearer ${TOKEN}` },
-});
+      headers: { Authorization: `Bearer ${TOKEN}` },  // Utilisation de l'en-tête Authorization
+    });

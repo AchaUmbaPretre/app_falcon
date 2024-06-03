@@ -59,8 +59,8 @@ const PieChart = () => {
   }, [DOMAIN]);
 
   return (
-    
     <div className='pieChart'>
+    <h2 className='depenses'>Dépenses</h2>
       {loading ? (
         <Skeleton active />
       ) : (

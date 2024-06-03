@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd';
 import { PlusCircleOutlined, CarOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import config from '../../../config';
+import config, { userRequest } from '../../../config';
 import Marque_form from './form/Marque_form';
 import '../../client/form/clientForm.scss'
 
@@ -25,7 +25,7 @@ const Marques = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${DOMAIN}/vehicule/marque`);
+        const response = await userRequest.get(`${DOMAIN}/vehicule/marque`);
         setData(response.data);
       } catch (error) {
         console.error(error);
