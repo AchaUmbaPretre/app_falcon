@@ -12,6 +12,7 @@ import config from '../../config';
 import OperationDetail from './operationDetail/OperationDetail';
 import OperationGen from './form/OperationGen';
 import OperationTrier from './operationTrier/OperationTrier';
+import OperationTableau from './operationDetail/OperationTableau';
 
 const Operations = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -262,7 +263,7 @@ const Operations = () => {
               visible={openDetail}
               width={800}
             >
-              <OperationDetail selectedOperations={selectedOperationIds} />
+              <OperationTableau selectedOperations={selectedOperationIds} />
             </Drawer>
           </div>
         </div>
