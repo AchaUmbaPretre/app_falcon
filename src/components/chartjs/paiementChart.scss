@@ -27,6 +27,7 @@
         -webkit-background-clip: text;
         color: transparent;
         font-weight: 700;
+        font-size: 1.2rem;
         @include mobileXR{
            font-size: .9rem;
        }
