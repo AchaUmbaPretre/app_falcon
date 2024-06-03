@@ -82,8 +82,9 @@ const PaiementChart = () => {
     fetchData();
   }, [DOMAIN]);
 
+  // Define the chart data only if paiementData and depenses are not null
   const data = {
-    labels,
+    labels: labels,
     datasets: [
       {
         label: 'Paiement',

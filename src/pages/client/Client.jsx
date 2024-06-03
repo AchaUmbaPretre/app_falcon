@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './client.scss';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd';
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton } from 'antd';
 import { PlusCircleOutlined, UserOutlined, EyeOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import ClientForm from './form/ClientForm';
 import config, { userRequest } from '../../config';
@@ -233,15 +233,19 @@ const Client = () => {
               <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
                 <ClientDetail id_client={idClient} />
               </Drawer>
-              <Table
-                dataSource={filteredData}
-                columns={columns}
-                scroll={scroll}
-                loading={loading}
-                className='table_client'
-                pagination={pagination}
-                onChange={handleTableChange}
-              />
+              
+              {loading ? (
+                <Skeleton active />
+              ) : (
+                <Table
+                  dataSource={filteredData}
+                  columns={columns}
+                  scroll={scroll}
+                  className='table_client'
+                  pagination={pagination}
+                  onChange={handleTableChange}
+                />
+              )}
             </div>
           </div>
         </div>

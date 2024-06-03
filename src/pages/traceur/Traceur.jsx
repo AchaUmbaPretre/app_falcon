@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,EyeOutlined,CloseOutlined,DeleteOutlined,InfoCircleOutlined,UserOutlined,CheckCircleOutlined,CloseCircleOutlined ,CarOutlined,BarcodeOutlined,CalendarOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
@@ -261,7 +261,7 @@ const Traceur = () => {
                 {openTrie && (
                     <TraceurTrie start_date={setStartDate} end_date={setEndDate} />
                   )}
-                  
+
                 <Modal
                   title=""
                   centered
@@ -281,7 +281,12 @@ const Traceur = () => {
                 <Drawer title="Historique" onClose={onClose} visible={historiqueDetail} width={750}>
                   <TraceurHistorique id_traceur={historique} />
                 </Drawer>
-                <Table dataSource={filteredData} columns={columns} loading={isLoading} className='table_client' />
+
+                {isLoading ? (
+                  <Skeleton active />
+                ) : (
+                  <Table dataSource={filteredData} columns={columns} loading={isLoading} className='table_client' />
+                )}
             </div>
           </div>
         </div>

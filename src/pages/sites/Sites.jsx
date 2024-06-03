@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Input } from 'antd';
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
 import {
   PlusCircleOutlined, EnvironmentOutlined, UserOutlined, DeleteOutlined,
   SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined
@@ -130,14 +130,18 @@ const Sites = () => {
                 <PrinterOutlined className="product-icon-printer" />
               </div>
             </div>
-            <Table
-              dataSource={filteredData}
-              columns={columns}
-              loading={isLoading}
-              scroll={{ x: 400 }}
-              rowKey="id"
-              className="table_client"
-            />
+            {isLoading ? (
+              <Skeleton active />
+            ): (
+              <Table
+                dataSource={filteredData}
+                columns={columns}
+                loading={isLoading}
+                scroll={{ x: 400 }}
+                rowKey="id"
+                className="table_client"
+              />
+            )}
             <Modal
               title=""
               centered
