@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import imgLogo from './../../../assets/falcon.png'
 import './operationDetail.scss';
 import config from '../../../config';
 import axios from 'axios';
@@ -42,7 +43,7 @@ const OperationDetail = ({ selectedOperations }) => {
     } else {
       const signatureDataUrl = sigCanvas.current.toDataURL();
       console.log(signatureDataUrl);
-      
+
           axios.post(`${DOMAIN}/operation/signature`, { signature: signatureDataUrl })
             .then(response => {
               console.log('Signature sauvegardée avec succès');
@@ -63,6 +64,14 @@ const OperationDetail = ({ selectedOperations }) => {
 
   return (
     <div className="operationDetail">
+    <div className="operations_row_title">
+      <div className="operations_row_img">
+        <img src={imgLogo} alt="" className="operations_img" />
+      </div>
+      <div className="operations_wrapper_title">
+        <h2 className="operations_h2">RAPPORT SYNTHETIQUE DES INSTALLATIONS ET CONTROLES TECHNIQUES DES TRACKERS EFFECTUEES EN DATE DU JEUDI 09 MAI 2024 SUR LES VEHICULES CARNAYO</h2>
+      </div>
+    </div>
       {operationsDetails.map(detail => (
         <div key={detail.id_operations} className="operationDetail_wrapper">
           <div className="operation_row">

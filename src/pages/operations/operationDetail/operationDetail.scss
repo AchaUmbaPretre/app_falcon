@@ -2,6 +2,33 @@
 
 
 .operationDetail{
+    .operations_row_title{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .operations_row_img{
+            width: 100%;
+            padding-left: 15px;
+            .operations_img{
+                width: 130px;
+                height: 60px;
+                object-fit: cover;
+            }
+        }
+        .operations_wrapper_title{
+            border-bottom: 1px solid #cecece;
+            width: 80%;
+            margin: 10px 0;
+            .operations_h2{
+                padding: 10px 0;
+                margin: 0;
+                font-size: 1rem;
+                color: red;
+                text-align: center;
+                line-height: 25px;
+            }
+        }
+    }
     .operationDetail_wrapper{
         display: grid;
         grid-template-columns: repeat(3, 1fr);

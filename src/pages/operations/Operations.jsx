@@ -260,7 +260,7 @@ const Operations = () => {
               title="Détail"
               onClose={closeDrawer}
               visible={openDetail}
-              width={700}
+              width={800}
             >
               <OperationDetail selectedOperations={selectedOperationIds} />
             </Drawer>
