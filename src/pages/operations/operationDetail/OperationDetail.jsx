@@ -41,18 +41,17 @@ const OperationDetail = ({ selectedOperations }) => {
       alert('Veuillez fournir une signature avant de soumettre.');
     } else {
       const signatureDataUrl = sigCanvas.current.toDataURL();
-      // Envoyer cette URL de données à votre serveur ou gérer comme nécessaire
       console.log(signatureDataUrl);
-      // Par exemple, vous pouvez l'envoyer via une requête axios :
-      // axios.post(`${DOMAIN}/save-signature`, { signature: signatureDataUrl })
-      //   .then(response => {
-      //     console.log('Signature sauvegardée avec succès');
-      //   })
-      //   .catch(error => {
-      //     console.error('Erreur lors de la sauvegarde de la signature:', error);
-      //   });
-    }
-  };
+      
+          axios.post(`${DOMAIN}/operation/signature`, { signature: signatureDataUrl })
+            .then(response => {
+              console.log('Signature sauvegardée avec succès');
+            })
+          .catch(error => {
+              console.error('Erreur lors de la sauvegarde de la signature:', error);
+            });
+              }
+            };
 
   if (loading) {
     return <p>Chargement...</p>;
