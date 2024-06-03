@@ -108,35 +108,36 @@ const OperationDetail = ({ selectedOperations }) => {
               ))}
             </tbody>
           </table>
-          {details.map(detail => (
-            <div key={detail.id_operations} className="operationDetail_wrapper">
-              <div className="operation_row">
-                <span className="operation_span">Matricule: </span>
-                <span className="operation_desc">{detail.matricule ?? 'N/A'}</span>
+          <div className="images_section">
+            {details.map(detail => (
+              <div key={detail.id_operations} className="operationDetail_wrapper">
+                <div className="operation_row">
+                  <span className="operation_span">Matricule: </span>
+                  <span className="operation_desc">{detail.matricule ?? 'N/A'}</span>
+                </div>
+                <div className="operation_row">
+                  <span className="operation_span">Photo plaque : </span>
+                  <Image
+                    className="product-img"
+                    width={200}
+                    height={200}
+                    src={`${DOMAIN}${detail.photo_plaque}`}
+                    fallback="error"
+                  />
+                </div>
+                <div className="operation_row">
+                  <span className="operation_span">Photo traceur : </span>
+                  <Image
+                    className="product-img"
+                    width={200}
+                    height={200}
+                    src={`${DOMAIN}${detail.photo_traceur}`}
+                    fallback="error"
+                  />
+                </div>
               </div>
-              <div className="operation_row">
-                <span className="operation_span">Photo plaque : </span>
-                <Image
-                  className="product-img"
-                  width={200}
-                  height={200}
-                  src={`${DOMAIN}${detail.photo_plaque}`}
-                  fallback="error"
-                />
-              </div>
-              <div className="operation_row">
-                <span className="operation_span">Photo traceur : </span>
-                <Image
-                  className="product-img"
-                  width={200}
-                  height={200}
-                  src={`${DOMAIN}${detail.photo_traceur}`}
-                  fallback="error"
-                />
-              </div>
-              <hr />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       ))}
 
