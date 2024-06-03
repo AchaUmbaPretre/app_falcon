@@ -55,8 +55,6 @@ const RechargeOne = () => {
     onChange: onSelectChange,
   };
 
-  console.log(selectedRows)
-
   const handleRecharge = async () => {
     if (selectedRows.length === 0) {
       message.error('Veuillez sélectionner au moins une ligne.');
@@ -124,17 +122,6 @@ const RechargeOne = () => {
       key: 'id',
       render: (text, record, index) => index + 1,
       width: "3%"
-    },
-    {
-      title: 'Nom',
-      dataIndex: 'nom_client',
-      key: 'nom_client',
-      render: (text) => (
-        <Tag color='blue'>
-          <UserOutlined style={{ marginRight: 5 }} />
-          {text}
-        </Tag>
-      )
     },
     {
       title: 'Numero',
@@ -221,9 +208,9 @@ const RechargeOne = () => {
               rowKey="id_numero"
               className='table_client'
             />
-            <Button type="primary" onClick={showModal} disabled={loading}>
+{/*             <Button type="primary" onClick={showModal} disabled={loading}>
               Recharger
-            </Button>
+            </Button> */}
             <Modal
               title="Confirmation de Recharge"
               visible={isModalVisible}
