@@ -18,7 +18,7 @@ const Affectations = () => {
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: 0 });
   const [filters, setFilters] = useState({});
-  const [showFilters, setShowFilters] = useState(false); // Nouvel état pour la visibilité des filtres
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize, filters);
@@ -30,7 +30,7 @@ const Affectations = () => {
       const response = await axios.get(`${DOMAIN}/affectation`, {
         params: { page, limit: pageSize, ...filters, search: searchValue }
       });
-      const { data: records, total } = response.data; // Assurez-vous que la réponse de l'API contient ces champs
+      const { data: records, total } = response.data;
       setData(records);
       setPagination(prev => ({ ...prev, total }));
       setLoading(false);

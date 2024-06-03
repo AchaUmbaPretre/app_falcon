@@ -1,5 +1,5 @@
 import { Menu, Timeline } from 'antd';
-import { UserOutlined, ClusterOutlined, CarOutlined,HourglassOutlined, UsergroupAddOutlined,DollarOutlined , FileOutlined, HomeOutlined, ToolOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import { UserOutlined, ClusterOutlined, CarOutlined, FileTextOutlined, HourglassOutlined, UsergroupAddOutlined,DollarOutlined , FileOutlined, HomeOutlined, ToolOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { toast, ToastContainer } from 'react-toastify';
 import './sidebar.css';
@@ -206,6 +206,14 @@ const Sidebar = () => {
             <Link to={'/depense'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des depenses
+            </Link>
+          </Item>
+        </SubMenu>
+        <SubMenu key="Rapport" icon={<FileTextOutlined style={{ fontSize: '17px' }} />} title="Rapport" style={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <Item key="16">
+            <Link to={'/rapport'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Rapport
             </Link>
           </Item>
         </SubMenu>
