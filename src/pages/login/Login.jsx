@@ -62,6 +62,7 @@ const Login = () => {
                                 id="password" 
                                 className="login_input" 
                                 value={password} 
+                                placeholder='Entrer votre mot de passe'
                                 onChange={(e) => setPassword(e.target.value)} 
                             />
                             <span 
