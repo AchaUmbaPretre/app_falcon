@@ -23,7 +23,7 @@ import Personnel from './pages/personnel/Personnel';
 import PersonnelForm from './pages/personnel/form/PersonnelForm';
 import OperationGen from './pages/operations/form/OperationGen';
 import Marques from './pages/vehicules/marques/Marques';
-import Vehicules_form from './pages/vehicules/form/Vehicules_form';
+import Vehicules_form from './pages/vehicules/form/VehiculesForm';
 import Superviseur from './pages/superviseur/Superviseur';
 import SuperviseurNavbar from './pages/superviseur/navbar/SuperviseurNavbar';
 import SuperviseurInstallation from './pages/superviseur/form/superviseurInstallation/SuperviseurInstallation';

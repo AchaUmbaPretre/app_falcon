@@ -3,7 +3,7 @@ import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } fro
 import { PlusCircleOutlined, CarOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config, { userRequest } from '../../../config';
-import Marque_form from './form/Marque_form';
+import MarqueForm from './form/Marque_form';
 import '../../client/form/clientForm.scss'
 
 const Marques = () => {
@@ -127,7 +127,7 @@ const Marques = () => {
                   width={1000}
                   footer={[]}
                 >
-                  <Marque_form/>
+                  <MarqueForm/>
             </Modal>
           </div>
         </div>

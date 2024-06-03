@@ -3,7 +3,7 @@ import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, mess
 import { PlusCircleOutlined, CarOutlined, UserOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config, { userRequest } from '../../config';
-import Vehicules_form from './form/Vehicules_form';
+import VehiculesForm from './form/VehiculesForm';
 
 const Vehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -157,7 +157,7 @@ const Vehicules = () => {
               width={1000}
               footer={null}
             >
-              <Vehicules_form onClose={handleCancel} onSave={fetchData} />
+              <VehiculesForm onClose={handleCancel} onSave={fetchData} />
             </Modal>
           </div>
         </div>

@@ -6,7 +6,7 @@ import config from '../../../config';
 import { toast, ToastContainer} from 'react-toastify';
 import { Spin } from 'antd';
 
-const Vehicules_form = () => {
+const VehiculesForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
   const navigate = useNavigate();
@@ -149,4 +149,4 @@ const Vehicules_form = () => {
   )
 }
 
-export default Vehicules_form
+export default VehiculesForm 
