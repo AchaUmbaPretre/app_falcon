@@ -98,7 +98,7 @@ const OperationDetail = ({ selectedOperations }) => {
             <thead>
               <tr>
                 <th>Matricule</th>
-                <th>Traceur</th>
+                <th>Tracker</th>
                 <th>Code</th>
                 <th>Observation</th>
               </tr>

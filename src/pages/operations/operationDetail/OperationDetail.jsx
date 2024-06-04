@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import imgLogo from './../../../assets/falcon.png';
+import imgLogo from './../../../assets/falcon.png'
 import './operationDetail.scss';
 import config from '../../../config';
 import axios from 'axios';
@@ -24,7 +24,7 @@ const OperationDetail = ({ selectedOperations }) => {
         setOperationsDetails(flattenedDetails);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching operation details:', error);
+        console.log(error);
       }
     };
 
@@ -42,15 +42,17 @@ const OperationDetail = ({ selectedOperations }) => {
       alert('Veuillez fournir une signature avant de soumettre.');
     } else {
       const signatureDataUrl = sigCanvas.current.toDataURL();
-      axios.post(`${DOMAIN}/operation/signature`, { signature: signatureDataUrl })
-        .then(response => {
-          console.log('Signature saved successfully');
-        })
-        .catch(error => {
-          console.error('Error saving signature:', error);
-        });
-    }
-  };
+      console.log(signatureDataUrl);
+
+          axios.post(`${DOMAIN}/operation/signature`, { signature: signatureDataUrl })
+            .then(response => {
+              console.log('Signature sauvegardée avec succès');
+            })
+          .catch(error => {
+              console.error('Erreur lors de la sauvegarde de la signature:', error);
+            });
+              }
+            };
 
   if (loading) {
     return <p>Chargement...</p>;
@@ -62,35 +64,64 @@ const OperationDetail = ({ selectedOperations }) => {
 
   return (
     <div className="operationDetail">
-      <div className="operations_row_title">
-        <div className="operations_row_img">
-          <img src={imgLogo} alt="Logo" className="operations_img" />
-        </div>
-        <div className="operations_wrapper_title">
-          <h2 className="operations_h2">RAPPORT SYNTHETIQUE DES INSTALLATIONS ET CONTROLES TECHNIQUES DES TRACKERS EFFECTUEES EN DATE DU JEUDI 09 MAI 2024 SUR LES VEHICULES CARNAYO</h2>
-        </div>
+    <div className="operations_row_title">
+      <div className="operations_row_img">
+        <img src={imgLogo} alt="" className="operations_img" />
       </div>
+      <div className="operations_wrapper_title">
+        <h2 className="operations_h2">RAPPORT SYNTHETIQUE DES INSTALLATIONS ET CONTROLES TECHNIQUES DES TRACKERS EFFECTUEES EN DATE DU JEUDI 09 MAI 2024 SUR LES VEHICULES CARNAYO</h2>
+      </div>
+    </div>
       {operationsDetails.map(detail => (
         <div key={detail.id_operations} className="operationDetail_wrapper">
-          {[
-            ['Client', detail.nom_client],
-            ['Superviseur', detail.superviseur],
-            ['Ingenieur', detail.technicien],
-            ['Type d\'opération', detail.type_operations],
-            ['Marque', detail.nom_marque],
-            ['Matricule', detail.matricule],
-            ['Traceur', detail.numero_serie],
-            ['Kilometre', detail.kilometre],
-            ['Tension', detail.tension],
-            ['Probleme', detail.probleme],
-            ['Observation', detail.observation],
-            ['Crée(e) par', detail.user_cr],
-          ].map(([label, value], index) => (
-            <div className="operation_row" key={index}>
-              <span className="operation_span">{label} : </span>
-              <span className="operation_desc">{value ?? 'N/A'}</span>
-            </div>
-          ))}
+          <div className="operation_row">
+            <span className="operation_span">Client : </span>
+            <span className="operation_desc">{detail.nom_client ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Superviseur : </span>
+            <span className="operation_desc">{detail.superviseur ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Ingenieur : </span>
+            <span className="operation_desc">{detail.technicien ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Type d'opération : </span>
+            <span className="operation_desc">{detail.type_operations ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Marque : </span>
+            <span className="operation_desc">{detail.nom_marque ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Matricule: </span>
+            <span className="operation_desc">{detail.matricule ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Traceur : </span>
+            <span className="operation_desc">{detail.numero_serie ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Kilometre : </span>
+            <span className="operation_desc">{detail.kilometre ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Tension : </span>
+            <span className="operation_desc">{detail.tension ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Probleme : </span>
+            <span className="operation_desc">{detail.probleme ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Observation : </span>
+            <span className="operation_desc">{detail.observation ?? 'N/A'}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Crée(e) par : </span>
+            <span className="operation_desc">{detail.user_cr ?? 'N/A'}</span>
+          </div>
           <div className="operation_row">
             <span className="operation_span">Photo plaque : </span>
             <Image

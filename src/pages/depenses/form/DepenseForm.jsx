@@ -99,7 +99,7 @@ const DepenseForm = () => {
             <form className="product-container-bottom form_hand">
               <div className="form-controle">
                 <label htmlFor="id_users">
-                  Agents <span style={{ color: 'red' }}>*</span>
+                  Beneficiaire <span style={{ color: 'red' }}>*</span>
                 </label>
                 <Select
                   name="id_users"
