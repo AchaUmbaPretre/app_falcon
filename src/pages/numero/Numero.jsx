@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,GlobalOutlined,PhoneOutlined,EyeOutlined,DeleteOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton } from 'antd'
+import { PlusCircleOutlined, SisternodeOutlined,GlobalOutlined,PhoneOutlined,DeleteOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import NumeroForm from './form/NumeroForm';
@@ -158,7 +158,12 @@ const Numero = () => {
                   <NumeroForm />
                 </Modal>
 
-                <Table dataSource={data} columns={columns} loading={loading} className='table_client' />
+                {loading ? (
+                  <Skeleton active />
+                ) : (
+                  <Table dataSource={data} columns={columns} loading={loading} className='table_client' />
+                )}
+
             </div>
           </div>
         </div>

@@ -54,6 +54,12 @@ const OperationDetail = ({ selectedOperations }) => {
     }
   };
 
+  const sendEmail = () => {
+    // Logique pour envoyer les données par e-mail
+    // Vous devez implémenter cette fonction en fonction de votre configuration de serveur
+    console.log('Envoyer par e-mail :', operationsDetails);
+  };
+
   if (loading) {
     return <p>Chargement...</p>;
   }
@@ -149,7 +155,8 @@ const OperationDetail = ({ selectedOperations }) => {
           canvasProps={{ width: 500, height: 200, className: 'sigCanvas' }}
         />
         <Button onClick={clearSignature}>Effacer</Button>
-        <Button type="primary" onClick={saveSignature}>Enregistrer la signature</Button>
+        <Button type="primary" onClick={saveSignature}>Enregistrer la signature</Button> 
+        <Button type="primary" onClick={sendEmail}>Envoyer par e-mail</Button>
       </div>
     </div>
   );
