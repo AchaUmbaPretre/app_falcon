@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag } from 'antd';
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag } from 'antd';
 import {
   PlusCircleOutlined, SisternodeOutlined, UserOutlined, CloseOutlined,
   ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined,
@@ -238,7 +238,10 @@ const Operations = () => {
             {openTrie && (
               <OperationTrier getProduits={setData} start_date={setStartDate} end_date={setEndDate} />
             )}
-            <Table
+            { loading ? (
+              <Skeleton active />
+            ) : (
+              <Table
               dataSource={data}
               columns={columns}
               rowSelection={rowSelection}
@@ -247,6 +250,8 @@ const Operations = () => {
               className='table_client'
               scroll={scroll}
             />
+            )}
+            
             <Modal
               title=""
               centered
