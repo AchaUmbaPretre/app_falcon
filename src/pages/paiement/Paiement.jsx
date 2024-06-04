@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Input } from 'antd';
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
 import {
   PlusCircleOutlined, CreditCardOutlined, DeleteOutlined,
   UserOutlined, DollarOutlined, CalendarOutlined, FilePdfOutlined,
@@ -158,7 +158,7 @@ const Paiement = () => {
             </div>
           </div>
           <div className="client_wrapper_center">
-            <Breadcrumb separator=">" items={[{ title: 'Accueil' }, { title: 'Rétourné(e)', href: '/' }]} />
+            <Breadcrumb separator=">" items={[{ title: 'Accueil', href: '/' }, { title: 'Paiement' }]} />
             <div className="client_wrapper_center_bottom">
               <div className="product-bottom-top">
                 <div className="product-bottom-left">
@@ -180,7 +180,11 @@ const Paiement = () => {
                   <PrinterOutlined className='product-icon-printer' />
                 </div>
               </div>
-              <Table dataSource={filteredData} columns={columns} loading={isLoading} scroll={scroll} className='table_client' />
+              { isLoading ? (
+                <Skeleton active />
+              ) : (
+                <Table dataSource={filteredData} columns={columns} loading={isLoading} scroll={scroll} className='table_client' />
+              )}
               <Modal
                 title=""
                 centered
