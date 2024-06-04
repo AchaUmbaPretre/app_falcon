@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Input } from 'antd';
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
 import {
   PlusCircleOutlined, CreditCardOutlined, EyeOutlined, DeleteOutlined,
   UserOutlined, DollarOutlined, CalendarOutlined, FilePdfOutlined,
@@ -188,13 +188,18 @@ const Depenses = () => {
                 <PrinterOutlined className='product-icon-printer' />
               </div>
             </div>
-            <Table
-              dataSource={filteredData}
-              columns={columns}
-              loading={isLoading}
-              scroll={scroll}
-              className='table_client'
-            />
+            {isLoading ? (
+                <Skeleton active />
+            ) : (
+                <Table
+                dataSource={filteredData}
+                columns={columns}
+                loading={isLoading}
+                scroll={scroll}
+                className='table_client'
+                />
+            )}
+
             <Modal
               title=""
               centered
@@ -211,7 +216,6 @@ const Depenses = () => {
               onClose={closeDrawer}
               open={isDrawerOpen}
             >
-              {/* Contenu détaillé du traceur ici */}
             </Drawer>
           </div>
         </div>
