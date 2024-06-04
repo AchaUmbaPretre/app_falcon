@@ -40,6 +40,8 @@ const SitesForm = () => {
     fetchData();
   }, [DOMAIN]);
 
+  console.log(data)
+
   const handleClick = async (e) => {
     e.preventDefault();
     

@@ -209,14 +209,14 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-        <SubMenu key="Rapport" icon={<FileTextOutlined style={{ fontSize: '17px' }} />} title="Rapport" style={{ fontSize: '14px', letterSpacing: '1px' }}>
+{/*         <SubMenu key="Rapport" icon={<FileTextOutlined style={{ fontSize: '17px' }} />} title="Rapport" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="16">
             <Link to={'/rapport'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Rapport
             </Link>
           </Item>
-        </SubMenu>
+        </SubMenu> */}
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="23">
             <Link to={'/permissions'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
