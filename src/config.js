@@ -8,10 +8,10 @@ const TOKEN = currentUser?.accessToken;
 /* REACT_APP_SERVER_DOMAIN : 'https://apifalcon.loginsmart-cd.com' */
 
 export default {
-      REACT_APP_SERVER_DOMAIN : 'https://apifalcon.loginsmart-cd.com' 
+      REACT_APP_SERVER_DOMAIN : 'http://localhost:8070'
 };
 
 export const userRequest = axios.create({
   baseURL: 'https://apifalcon.loginsmart-cd.com',
-  headers: { Authorization: `Bearer ${TOKEN}` }, 
+  headers: { Authorization: `Bearer ${TOKEN}` },
 });

@@ -3,14 +3,26 @@ import imgLogo from './../../../assets/falcon.png';
 import './operationDetail.scss';
 import config from '../../../config';
 import axios from 'axios';
-import { Image, Button } from 'antd';
+import { Button, Popover } from 'antd';
+import { DeleteOutlined, SaveOutlined, MailOutlined, FilePdfOutlined } from '@ant-design/icons';
 import SignatureCanvas from 'react-signature-canvas';
+import html2pdf from 'html2pdf.js';
 
 const OperationDetail = ({ selectedOperations }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [operationsDetails, setOperationsDetails] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [clientName, setClientName] = useState('');
+  const [formattedDate, setFormattedDate] = useState('');
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const sigCanvas = useRef(null);
+  const pdfRef = useRef();
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('fr-FR', options).toUpperCase();
+  };
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -22,6 +34,12 @@ const OperationDetail = ({ selectedOperations }) => {
         );
         const flattenedDetails = details.flat();
         setOperationsDetails(flattenedDetails);
+
+        if (flattenedDetails.length > 0) {
+          setClientName(flattenedDetails[0]?.nom_client ?? 'N/A');
+          const operationDate = flattenedDetails[0]?.date_operation ?? 'N/A';
+          setFormattedDate(formatDate(operationDate));
+        }
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -55,9 +73,38 @@ const OperationDetail = ({ selectedOperations }) => {
   };
 
   const sendEmail = () => {
-    // Logique pour envoyer les données par e-mail
-    // Vous devez implémenter cette fonction en fonction de votre configuration de serveur
     console.log('Envoyer par e-mail :', operationsDetails);
+  };
+
+  const generatePDF = () => {
+    setIsGeneratingPDF(true);
+    const element = pdfRef.current;
+
+    const images = element.querySelectorAll('img');
+    const imagePromises = Array.from(images).map(img => new Promise((resolve, reject) => {
+      if (img.complete) {
+        resolve();
+      } else {
+        img.onload = resolve;
+        img.onerror = reject;
+      }
+    }));
+
+    Promise.all(imagePromises)
+      .then(() => {
+        const options = {
+          filename: `rapport_${formattedDate}.pdf`,
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+        };
+        html2pdf().from(element).set(options).save().then(() => {
+          setIsGeneratingPDF(false);
+        });
+      })
+      .catch(error => {
+        console.error('Error loading images:', error);
+        setIsGeneratingPDF(false);
+      });
   };
 
   if (loading) {
@@ -78,7 +125,7 @@ const OperationDetail = ({ selectedOperations }) => {
   }, {});
 
   return (
-    <div className="operationDetail">
+    <div className="operationDetail" ref={pdfRef}>
       <div className="operations_row_title">
         <div className="operations_row_img">
           <img src={imgLogo} alt="Logo" className="operations_img" />
@@ -86,14 +133,14 @@ const OperationDetail = ({ selectedOperations }) => {
         <div className="operations_wrapper_title">
           <h2 className="operations_h2">
             RAPPORT SYNTHETIQUE DES INSTALLATIONS ET CONTROLES TECHNIQUES DES TRACKERS EFFECTUEES
-            EN DATE DU JEUDI 09 MAI 2024 SUR LES VEHICULES CARNAYO
+            EN DATE DU {formattedDate} SUR LES VEHICULES {clientName.toUpperCase()}
           </h2>
         </div>
       </div>
 
       {Object.entries(groupedByType).map(([type, details], index) => (
         <div key={type}>
-          <h3 style={{paddingTop:'20px'}}>{index + 1}. {type}</h3>
+          <h3 style={{ paddingTop: '20px' }}>{index + 1}. {type}</h3>
           <table className="operationTable">
             <thead>
               <tr>
@@ -123,22 +170,22 @@ const OperationDetail = ({ selectedOperations }) => {
                 </div>
                 <div className="operation_row">
                   <span className="operation_span">Photo plaque : </span>
-                  <Image
+                  <img
                     className="product-img"
                     width={200}
                     height={200}
                     src={`${DOMAIN}${detail.photo_plaque}`}
-                    fallback="error"
+                    alt="Photo plaque"
                   />
                 </div>
                 <div className="operation_row">
                   <span className="operation_span">Photo traceur : </span>
-                  <Image
+                  <img
                     className="product-img"
                     width={200}
                     height={200}
                     src={`${DOMAIN}${detail.photo_traceur}`}
-                    fallback="error"
+                    alt="Photo traceur"
                   />
                 </div>
               </div>
@@ -148,15 +195,28 @@ const OperationDetail = ({ selectedOperations }) => {
       ))}
 
       <div className="signature_section">
-        <h3>Signature du client</h3>
+        <h3 className='signature_title'>Signature du client</h3>
         <SignatureCanvas
           ref={sigCanvas}
           penColor="black"
           canvasProps={{ width: 500, height: 200, className: 'sigCanvas' }}
         />
-        <Button onClick={clearSignature}>Effacer</Button>
-        <Button type="primary" onClick={saveSignature}>Enregistrer la signature</Button> 
-        <Button type="primary" onClick={sendEmail}>Envoyer par e-mail</Button>
+        {!isGeneratingPDF && (
+          <div className="no-print">
+          <Popover title="Supprimer la signature" trigger="hover">
+            <DeleteOutlined onClick={clearSignature} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color:'red', border:'1px solid red', borderRadius:'50%', padding:'3px' }} />
+          </Popover>
+          <Popover title="Sauvegarde" trigger="hover">
+            <SaveOutlined onClick={saveSignature} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', border:'1px solid black', borderRadius:'50%', padding:'3px' }} />
+          </Popover>
+          <Popover title="Envoyer dans le mail" trigger="hover">
+            <MailOutlined onClick={sendEmail} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', border:'1px solid black', borderRadius:'50%', padding:'3px' }} />
+          </Popover>
+          <Popover title="Télecharger en pdf" trigger="hover">
+            <FilePdfOutlined onClick={generatePDF} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px',color:'red', border:'1px solid red', borderRadius:'50%', padding:'3px' }} />
+          </Popover>
+          </div>
+        )}
       </div>
     </div>
   );

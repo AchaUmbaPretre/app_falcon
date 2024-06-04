@@ -1,101 +1,111 @@
 @import '../../../style.scss';
 
-
-.operationDetail{
-    .operations_row_title{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .operations_row_img{
-            width: 100%;
-            padding-left: 15px;
-            .operations_img{
-                width: 130px;
-                height: 60px;
-                object-fit: cover;
-            }
-        }
-        .operations_wrapper_title{
-            border-bottom: 1px solid #cecece;
-            width: 80%;
-            margin: 10px 0;
-            .operations_h2{
-                padding: 10px 0;
-                margin: 0;
-                font-size: 1rem;
-                color: red;
-                text-align: center;
-                line-height: 25px;
-            }
-        }
+.operationDetail {
+    padding: 20px;
+  .operations_row_title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .operations_row_img {
+      width: 100%;
+      padding-left: 15px;
+      .operations_img {
+        width: 130px;
+        height: 60px;
+        object-fit: cover;
+      }
     }
-    .operationTable{
-        width: 100%;
+    .operations_wrapper_title {
+      border-bottom: 1px solid #cecece;
+      width: 80%;
+      margin: 10px 0;
+      .operations_h2 {
+        padding: 10px 0;
+        margin: 0;
+        font-size: 1rem;
+        color: red;
+        text-align: center;
+        line-height: 25px;
+      }
+    }
+  }
+  .operationTable {
+    width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
     font-size: 16px;
     text-align: left;
-    th, td {
-        border: 1px solid #dddddd;
-        padding: 8px;
+    th,
+    td {
+      border: 1px solid #dddddd;
+      padding: 8px;
+      font-size: .8rem;
+    }
+    th {
+      background-color: #aafdf6a9;
+      font-weight: bold;
+      font-size: .9rem;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+  }
+  .operationDetail_wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    padding: 10px 0;
+    border-bottom: 1px solid #dddddd;
+    @include miniTablette {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px;
+    }
+    .h2_detail {
+      @include miniTablette {
+        font-size: 1rem;
+      }
+    }
+    .operation_row {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+      .operation_span {
+        font-size: .9rem;
+        @include miniTablette {
+          font-size: .7rem;
+        }
+      }
+      .product-img {
+        object-fit: cover;
+        @include miniTablette {
+          width: 80%;
+          height: auto;
+        }
+      }
+      .operation_desc {
+        color: #555;
         font-size: .8rem;
       }
-      th {
-        background-color: #aafdf6a9;
-        font-weight: bold;
+    }
+  }
+  .signature_section {
+    padding-top: 20px;
+    .signature_title{
         font-size: .9rem;
-      }
-  
-      tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
-      }
-  
-      tbody tr:hover {
-        background-color: #f1f1f1;
-      }
     }
-    .operationDetail_wrapper{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-        padding: 10px 0;
-        border-bottom: 1px solid #dddddd;
-        @include miniTablette{
-            grid-template-columns: repeat(2,1fr);
-            gap: 5px;
-        }
-        .h2_detail{
-            @include miniTablette{
-                font-size: 1rem;
-            }
-        }
-        .operation_row{
-            position: relative;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 10px;
-            .operation_span{
-                font-size: .9rem;
-                @include miniTablette{
-                    font-size: .7rem;
-                }
-            }
-            .product-img{
-                object-fit: cover;
-                @include miniTablette{
-                    width: 80%;
-                    height: auto;
-                }
-            }
-            .operation_desc{
-                color: #555;
-                font-size: .8rem;
-            }
-        }
+  }
+
+  @media print {
+    .no-print {
+      display: none;
     }
-    .signature_section{
-        padding-top: 20px;
-    }
+  }
 }

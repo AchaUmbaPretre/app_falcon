@@ -83,6 +83,12 @@ li{
     cursor: pointer;
 }
 
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+
 
   @media screen and (max-width: 568px){
     .outlet-wrapper{
