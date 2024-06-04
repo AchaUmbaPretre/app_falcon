@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag, Input, message, Modal } from 'antd';
+import { Breadcrumb, Button, Popconfirm, Popover, Space, Table, Tag, Input, message, Modal, Skeleton } from 'antd';
 import { 
   PlusCircleOutlined, 
   SisternodeOutlined, 
@@ -412,8 +412,8 @@ const Recharge = () => {
           <Breadcrumb
             separator=">"
             items={[
-              { title: 'Accueil' },
-              { title: 'Rétourné(e)', href: '/' },
+              { title: 'Accueil',href: '/' },
+              { title: 'Recharge' },
             ]}
           />
           <div className="client_wrapper_center_bottom">
@@ -443,14 +443,20 @@ const Recharge = () => {
             {openTrie && (
               <RechargeTrie start_date={setStartDate} end_date={setEndDate} />
             )}
-            <Table
-              columns={columns}
-              expandable={{ expandedRowRender }}
-              dataSource={filteredData}
-              loading={loading}
-              rowKey="id_client"
-              className='table_client'
-            />
+            { loading ? (
+                <Skeleton active />
+            ) : (
+                <Table
+                columns={columns}
+                expandable={{ expandedRowRender }}
+                dataSource={filteredData}
+                loading={loading}
+                rowKey="id_client"
+                className='table_client'
+                />
+            )
+
+            }
 
             <Modal
               title=""

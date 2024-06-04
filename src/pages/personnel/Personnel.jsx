@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Table, Tag } from 'antd'
+import { Breadcrumb, Skeleton, Table, Tag } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,SettingOutlined,PhoneOutlined,MailOutlined,UserOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
@@ -118,10 +118,10 @@ const Personnel = () => {
                 items={[
                   {
                     title: 'Accueil',
+                    href: '/',
                   },
                   {
-                    title: 'Retourné',
-                    href: '/',
+                    title: 'Personnel'
                   }
                 ]}
             />
@@ -140,8 +140,11 @@ const Personnel = () => {
                     <PrinterOutlined className='product-icon-printer'/>
                   </div>
                 </div>
-
-                <Table dataSource={data} columns={columns} loading={loading} scroll={scroll} className='table_client' />
+                { loading ? (
+                  <Skeleton active />
+                ) : (
+                  <Table dataSource={data} columns={columns} loading={loading} scroll={scroll} className='table_client' />
+                )}
             </div>
           </div>
         </div>
