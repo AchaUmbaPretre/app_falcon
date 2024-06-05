@@ -15,7 +15,7 @@ const Vehicules = () => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await userRequest.get(`${DOMAIN}/vehicule`);
+      const response = await axios.get(`${DOMAIN}/vehicule`);
       setData(response.data);
     } catch (error) {
       console.error(error);

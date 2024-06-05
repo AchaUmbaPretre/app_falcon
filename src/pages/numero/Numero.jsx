@@ -37,7 +37,7 @@ const Numero = () => {
 
 
   const getNetworkName = (phoneNumber) => {
-    if (phoneNumber.startsWith('+24382') || phoneNumber.startsWith('+243 83')) {
+    if (phoneNumber.startsWith('+24382') || phoneNumber.startsWith('+24383') || phoneNumber.startsWith('+24381') )  {
       return { name: 'Vodacom', color: 'green' };
     } else if (phoneNumber.startsWith('+24399')) {
       return { name: 'Airtel', color: 'red' };

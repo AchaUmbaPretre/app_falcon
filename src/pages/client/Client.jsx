@@ -44,14 +44,13 @@ const Client = () => {
 
   const fetchData = async (page, pageSize) => {
     try {
-      const { data } = await userRequest.get(`${DOMAIN}/client`, {
+      const { data } = await axios.get(`${DOMAIN}/client`, {
         params: { page, limit: pageSize }
       });
       setData(data);
       setLoading(false);
       setPagination((prevPagination) => ({
-        ...prevPagination,
-        total: data.length,
+        ...prevPagination
       }));
     } catch (error) {
       console.log(error);

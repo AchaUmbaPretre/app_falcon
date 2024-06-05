@@ -40,7 +40,6 @@ const NumeroForm = () => {
       setIsLoading(true);
       await axios.post(`${DOMAIN}/affectation/numero_post`, { numeros });
       toast.success('Numéros créés avec succès!');
-      navigate('/numero');
       window.location.reload();
     } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {

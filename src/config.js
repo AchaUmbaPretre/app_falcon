@@ -8,7 +8,7 @@ const TOKEN = currentUser?.accessToken;
 /* REACT_APP_SERVER_DOMAIN : 'https://apifalcon.loginsmart-cd.com' */
 
 export default {
-      REACT_APP_SERVER_DOMAIN : 'http://localhost:8070'
+      REACT_APP_SERVER_DOMAIN : 'https://apifalcon.loginsmart-cd.com'
 };
 
 export const userRequest = axios.create({

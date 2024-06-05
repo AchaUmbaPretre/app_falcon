@@ -149,6 +149,7 @@ const OperationDetail = ({ selectedOperations }) => {
             <thead>
               <tr>
                 <th>Matricule</th>
+                <th>Marque</th>
                 <th>Tracker</th>
                 <th>Code</th>
                 <th>Observation</th>
@@ -158,6 +159,7 @@ const OperationDetail = ({ selectedOperations }) => {
               {details.map(detail => (
                 <tr key={detail.id_operations}>
                   <td>{detail.matricule ?? 'N/A'}</td>
+                  <td>{detail.nom_marque ?? 'N/A'}</td>
                   <td>{detail.numero_serie ?? 'N/A'}</td>
                   <td>{detail.code ?? 'N/A'}</td>
                   <td>{detail.observation ?? 'N/A'}</td>

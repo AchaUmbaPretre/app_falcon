@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, DatePicker, notification } from 'antd';
 import { PlusCircleOutlined, SisternodeOutlined, PhoneOutlined, BarcodeOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
-import config, { userRequest } from '../../config';
+import config from '../../config';
 import axios from 'axios';
 import AffectationForm from './form/AffectationForm';
 import * as XLSX from 'xlsx';
@@ -27,7 +27,7 @@ const Affectations = () => {
   const fetchData = async (page, pageSize, filters) => {
     setLoading(true);
     try {
-      const response = await userRequest.get(`${DOMAIN}/affectation`, {
+      const response = await axios.get(`${DOMAIN}/affectation`, {
         params: { page, limit: pageSize, ...filters, search: searchValue }
       });
       const { data: records, total } = response.data;

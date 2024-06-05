@@ -25,7 +25,7 @@ const Marques = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await userRequest.get(`${DOMAIN}/vehicule/marque`);
+        const response = await axios.get(`${DOMAIN}/vehicule/marque`);
         setData(response.data);
       } catch (error) {
         console.error(error);
