@@ -67,7 +67,14 @@ const Rapport = () => {
     <>
         <div className="rapport">
             <div className="rapport_wrapper">
-                <h2 className="rapport_title">Rapport</h2>
+                <div className="rapport_title-rows">
+                    <h2 className="rapport_title">Rapport</h2>
+                    <div className="rapport_row_search">
+                        <input type="date" name='start_date' className='rapport_input' />
+                        au 
+                        <input type="date" name='end_date' className='rapport_input'/>
+                    </div>
+                </div>
                 <div className="rapport_rows">
                     <div className="rapport_row">
                         <img src={imgRapport} alt="" className="rapport_img" />

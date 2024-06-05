@@ -7,6 +7,31 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+        .rapport_title-rows{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #fff;
+            -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 15px -10px rgba(131, 129, 129, 0.75);
+            border: 1px solid rgba(3, 3, 109, 0.171);
+            border-radius: 5px;
+            .rapport_row_search{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                .rapport_input{
+                    width: 100%;
+                    padding: 10px;
+                    border: none;
+                    outline: none;
+                    border: 1px solid #c5c5c5;
+                    border-radius: 5px;
+                    font-size: .7rem;
+                }
+            }
+        }
         .rapport_title{
             font-size: 1.3rem;
             font-weight: 800;
