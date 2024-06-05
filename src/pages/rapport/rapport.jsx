@@ -51,14 +51,10 @@ const Rapport = () => {
                     <div className="rapport_row">
                         <img src={imgRapport} alt="" className="rapport_img" />
                         <div className="rapport_rows_info">
-                            <span className="rapport_sous_title">Traceur</span>
-                            <span className="rapport_sous_title">Nbre de traceur : </span>
-                            <span className="rapport_sous_title">Actif</span>
-                            <span className="rapport_sous_title">Démentalé</span>
-                            <span className="rapport_sous_title">Défectueux</span>
+                            <span className="rapport_sous_titles">Client</span>
+                            <span className="rapport_sous_title">Nbre de client : </span>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
