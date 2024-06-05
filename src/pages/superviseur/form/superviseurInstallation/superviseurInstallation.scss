@@ -122,9 +122,12 @@
             }
         }
         .form-submit{
+            width: 100%;
             display: flex;
+            align-items: flex-end;
             gap: 10px;
             padding-top: 30px;
+            margin-left: 10px;
             .btn-submit{
                 padding: 15px 20px;
                 border: none;
