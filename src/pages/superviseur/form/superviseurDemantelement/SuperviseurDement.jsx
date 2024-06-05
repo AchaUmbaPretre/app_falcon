@@ -110,7 +110,6 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
         { headers: { 'Content-Type': 'multipart/form-data' } }
       );
       toast.success('Opération créée avec succès!');
-      navigate('/demantelement');
       window.location.reload();
     } catch (err) {
       const errorMessage = err.response?.status === 400 && err.response.data?.message
