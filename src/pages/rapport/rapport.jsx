@@ -89,7 +89,7 @@ const Rapport = () => {
                         <img src={imgRapport} alt="" className="rapport_img" />
                         <div className="rapport_rows_info">
                             <span className="rapport_sous_titles">Numéro</span>
-                            <span className="rapport_sous_title">Nbre de numéro : {numero}</span>
+                            <span className="rapport_sous_title">Nbre de numéro : <strong>{numero}</strong></span>
                         </div>
                     </div>
 
@@ -97,7 +97,7 @@ const Rapport = () => {
                         <img src={imgRapport} alt="" className="rapport_img" />
                         <div className="rapport_rows_info">
                             <span className="rapport_sous_titles">Véhicule</span>
-                            <span className="rapport_sous_title">Nbre de vehicule : {vehicule?.nbre_vehicule}</span>
+                            <span className="rapport_sous_title">Nbre de vehicule : <strong>{vehicule?.nbre_vehicule}</strong></span>
                         </div>
                     </div>
 
@@ -122,7 +122,7 @@ const Rapport = () => {
                         <img src={imgRapport} alt="" className="rapport_img" />
                         <div className="rapport_rows_info">
                             <span className="rapport_sous_titles">Client</span>
-                            <span className="rapport_sous_title">Nbre de client : {client}</span>
+                            <span className="rapport_sous_title">Nbre de client : <strong>{client}</strong></span>
                         </div>
                     </div>
                 </div>
