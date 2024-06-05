@@ -3,7 +3,7 @@ import imgLogo from './../../../assets/falcon.png';
 import './operationDetail.scss';
 import config from '../../../config';
 import axios from 'axios';
-import { Button, Popover } from 'antd';
+import { Popover } from 'antd';
 import { DeleteOutlined, SaveOutlined, MailOutlined, FilePdfOutlined } from '@ant-design/icons';
 import SignatureCanvas from 'react-signature-canvas';
 import html2pdf from 'html2pdf.js';
@@ -79,9 +79,10 @@ const OperationDetail = ({ selectedOperations }) => {
   const generatePDF = () => {
     setIsGeneratingPDF(true);
     const element = pdfRef.current;
-
+  
     const images = element.querySelectorAll('img');
     const imagePromises = Array.from(images).map(img => new Promise((resolve, reject) => {
+      console.log('Image URL:', img.src);
       if (img.complete) {
         resolve();
       } else {
@@ -89,7 +90,7 @@ const OperationDetail = ({ selectedOperations }) => {
         img.onerror = reject;
       }
     }));
-
+  
     Promise.all(imagePromises)
       .then(() => {
         const options = {
@@ -97,15 +98,18 @@ const OperationDetail = ({ selectedOperations }) => {
           html2canvas: { scale: 2, useCORS: true },
           jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
         };
-        html2pdf().from(element).set(options).save().then(() => {
-          setIsGeneratingPDF(false);
-        });
+        return html2pdf().from(element).set(options).save();
+      })
+      .then(() => {
+        setIsGeneratingPDF(false);
       })
       .catch(error => {
-        console.error('Error loading images:', error);
+        console.error('Error generating PDF:', error);
         setIsGeneratingPDF(false);
       });
   };
+  
+  
 
   if (loading) {
     return <p>Chargement...</p>;
@@ -133,7 +137,7 @@ const OperationDetail = ({ selectedOperations }) => {
         <div className="operations_wrapper_title">
           <h2 className="operations_h2">
             RAPPORT SYNTHETIQUE DES INSTALLATIONS ET CONTROLES TECHNIQUES DES TRACKERS EFFECTUEES
-            EN DATE DU {formattedDate} SUR LES VEHICULES {clientName.toUpperCase()}
+            EN DATE DU {formattedDate} SUR LES VEHICULE(S) {clientName.toUpperCase()}
           </h2>
         </div>
       </div>
@@ -176,6 +180,7 @@ const OperationDetail = ({ selectedOperations }) => {
                     height={200}
                     src={`${DOMAIN}${detail.photo_plaque}`}
                     alt="Photo plaque"
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/placeholder/image.png'; }}
                   />
                 </div>
                 <div className="operation_row">
@@ -186,6 +191,7 @@ const OperationDetail = ({ selectedOperations }) => {
                     height={200}
                     src={`${DOMAIN}${detail.photo_traceur}`}
                     alt="Photo traceur"
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/placeholder/image.png'; }}
                   />
                 </div>
               </div>
@@ -203,18 +209,18 @@ const OperationDetail = ({ selectedOperations }) => {
         />
         {!isGeneratingPDF && (
           <div className="no-print">
-          <Popover title="Supprimer la signature" trigger="hover">
-            <DeleteOutlined onClick={clearSignature} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color:'red', border:'1px solid red', borderRadius:'50%', padding:'3px' }} />
-          </Popover>
-          <Popover title="Sauvegarde" trigger="hover">
-            <SaveOutlined onClick={saveSignature} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', border:'1px solid black', borderRadius:'50%', padding:'3px' }} />
-          </Popover>
-          <Popover title="Envoyer dans le mail" trigger="hover">
-            <MailOutlined onClick={sendEmail} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', border:'1px solid black', borderRadius:'50%', padding:'3px' }} />
-          </Popover>
-          <Popover title="Télecharger en pdf" trigger="hover">
-            <FilePdfOutlined onClick={generatePDF} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px',color:'red', border:'1px solid red', borderRadius:'50%', padding:'3px' }} />
-          </Popover>
+            <Popover title="Supprimer la signature" trigger="hover">
+              <DeleteOutlined onClick={clearSignature} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: 'red', border: '1px solid red', borderRadius: '50%', padding: '3px' }} />
+            </Popover>
+            <Popover title="Sauvegarde" trigger="hover">
+              <SaveOutlined onClick={saveSignature} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', border: '1px solid black', borderRadius: '50%', padding: '3px' }} />
+            </Popover>
+            <Popover title="Envoyer dans le mail" trigger="hover">
+              <MailOutlined onClick={sendEmail} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', border: '1px solid black', borderRadius: '50%', padding: '3px' }} />
+            </Popover>
+            <Popover title="Télécharger en pdf" trigger="hover">
+              <FilePdfOutlined onClick={generatePDF} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: 'red', border: '1px solid red', borderRadius: '50%', padding: '3px' }} />
+            </Popover>
           </div>
         )}
       </div>
