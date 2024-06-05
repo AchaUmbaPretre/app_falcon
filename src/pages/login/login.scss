@@ -98,6 +98,7 @@
                     color: rgb(7, 44, 77);
                 }
                 .login_input{
+                    width: 100%;
                     padding: 15px 10px;
                     border: none;
                     outline: none;
@@ -111,9 +112,10 @@
                     }
                     @include mobileXR{
                         font-size: .8rem;
+                        padding: 12px 9px;
                     }
                     @include miniTablette{
-                        padding: 10px 8px;
+                        padding: 12px 8px;
                     }
                 }
                 .login_password_wrapper{
