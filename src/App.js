@@ -45,6 +45,7 @@ import Dette from './pages/dette/Dette';
 import Depenses from './pages/depenses/Depenses';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
+import Rapport from './pages/rapport/Rapport';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -130,6 +131,7 @@ function App() {
         { path: '/personnel', element: <Personnel /> },
         { path: '/personnel_form', element: <PersonnelForm /> },
         { path: '/paiement', element: <Paiement /> },
+        { path: '/rapport', element: <Rapport /> },
         { path: '/dette', element: <Dette /> },
         { path: '/depense', element: <Depenses /> },
         { path: '/permissions', element: <Permissions /> },
