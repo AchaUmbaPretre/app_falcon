@@ -118,7 +118,7 @@ const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
     } finally {
       setIsLoading(false);
     }
-    setShowConfirmModal(false); // Fermer le modal après le traitement
+    setShowConfirmModal(false);
   };
 
   const renderSelect = (label, name, options, placeholder, icon = null) => (

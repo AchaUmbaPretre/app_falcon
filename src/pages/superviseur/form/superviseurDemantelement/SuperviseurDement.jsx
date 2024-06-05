@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { Modal, Spin } from 'antd';
-import config from '../../../../config';
 import { useSelector } from 'react-redux';
+import config from '../../../../config';
 
 const SuperviseurDement = ({ id_type_operation = 3 }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState({});
   const navigate = useNavigate();
+  const userId = useSelector((state) => state.user.currentUser.id);
+
+  const [data, setData] = useState({});
   const [client, setClient] = useState([]);
   const [idClient, setIdClient] = useState('');
   const [site, setSite] = useState([]);
@@ -21,347 +23,181 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
   const [etat, setEtat] = useState([]);
   const [imagePreview, setImagePreview] = useState('');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const userId = useSelector((state) => state.user.currentUser.id);
 
-
-  const handleInputChange = (e) => {
-    const fieldName = e.target.name;
-    const fieldValue = e.target.value;
-
-    // Vérifier si le champ est un champ de fichier
-    if (e.target.type === 'file') {
-      const file = e.target.files[0];
+  const handleInputChange = useCallback((e) => {
+    const { name, value, type, files } = e.target;
+    if (type === 'file') {
+      const file = files[0];
       if (file) {
         const reader = new FileReader();
         reader.onloadend = () => {
           setImagePreview(reader.result);
         };
         reader.readAsDataURL(file);
-        setData((prev) => ({ ...prev, [fieldName]: file }));
+        setData((prev) => ({ ...prev, [name]: file }));
       } else {
         setImagePreview('');
-        setData((prev) => ({ ...prev, [fieldName]: null }));
+        setData((prev) => ({ ...prev, [name]: null }));
       }
     } else {
-      // Traitement pour les autres types de champs
-      let updatedValue = fieldValue;
-      if (fieldName === "contact_email") {
-        updatedValue = fieldValue.toLowerCase();
-      } else if (Number.isNaN(Number(fieldValue))) {
-        if (typeof fieldValue === "string" && fieldValue.length > 0) {
-          updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
-        }
+      let updatedValue = value;
+      if (name === 'contact_email') {
+        updatedValue = value.toLowerCase();
+      } else if (isNaN(Number(value)) && typeof value === 'string' && value.length > 0) {
+        updatedValue = value.charAt(0).toUpperCase() + value.slice(1);
       }
-      setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
+      setData((prev) => ({ ...prev, [name]: updatedValue }));
     }
-  };
+  }, []);
+
+  const fetchData = useCallback(async (url, setter) => {
+    try {
+      const { data } = await axios.get(url);
+      setter(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/client`);
-        setClient(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
-
-  useEffect(()=>{
-    setIdClient(data?.id_client)
-  },[data?.id_client])
+    fetchData(`${DOMAIN}/client`, setClient);
+  }, [DOMAIN, fetchData]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule?id_client=${idClient}`);
-        setVehicule(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN,idClient]);
-
-  const handleConfirm = () => {
-    setShowConfirmModal(true);
-  };
-
-  const handleCancel = () => {
-    setShowConfirmModal(false);
-  }
-
+    if (idClient) {
+      fetchData(`${DOMAIN}/vehicule?id_client=${idClient}`, setVehicule);
+    }
+  }, [DOMAIN, idClient, fetchData]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/client`);
-        setClient(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
+    fetchData(`${DOMAIN}/traceur`, setTraceur);
+  }, [DOMAIN, fetchData]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/traceur`);
-        setTraceur(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
+    fetchData(`${DOMAIN}/operation/site`, setSite);
+  }, [DOMAIN, fetchData]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/operation/site`);
-        setSite(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
+    fetchData(`${DOMAIN}/users`, setUsers);
+  }, [DOMAIN, fetchData]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/users`);
-        setUsers(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
+    fetchData(`${DOMAIN}/traceur/traceur_etat`, setEtat);
+  }, [DOMAIN, fetchData]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/traceur/traceur_etat`);
-        setEtat(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
+    setIdClient(data?.id_client);
+  }, [data?.id_client]);
 
-  const handleClick = async (e) => {
+  const handleConfirm = () => setShowConfirmModal(true);
+  const handleCancel = () => setShowConfirmModal(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!data.id_vehicule || !data.id_traceur) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
-
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      await axios.post(`${DOMAIN}/operation`, {
-        ...data,
-        id_type_operations: id_type_operation,
-        user_cr: userId
-      }, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      await axios.post(
+        `${DOMAIN}/operation`,
+        {
+          ...data,
+          id_type_operations: id_type_operation,
+          user_cr: userId,
         },
-      });
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
       toast.success('Opération créée avec succès!');
       navigate('/demantelement');
       window.location.reload();
     } catch (err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le client ${data.nom} existe déjà avec ce numéro de téléphone`;
-        toast.error(errorMessage);
-      } else {
-        toast.error(err.message);
-      }
+      const errorMessage = err.response?.status === 400 && err.response.data?.message
+        ? `Le client ${data.nom} existe déjà avec ce numéro de téléphone`
+        : err.message;
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
+      setShowConfirmModal(false); // Fermer le modal après le traitement
     }
-  }
+  };
 
-  const supervisorOptions = users
-  .filter((user) => user.role === 'superviseur')
-  .map((supervisor) => ({
-    value: supervisor.id,
-    label: supervisor.username,
-  }));
+  const renderSelect = (label, name, options, placeholder) => (
+    <div className="form-controle">
+      <label>{label} <span style={{ color: 'red' }}>*</span></label>
+      <Select
+        name={name}
+        options={options}
+        onChange={(selectedOption) => handleInputChange({ target: { name, value: selectedOption.value } })}
+        placeholder={placeholder}
+      />
+    </div>
+  );
 
-  const ingenieurOptions = users
-  .filter((user) => user.role === 'technicien')
-  .map((technicien) => ({
-    value: technicien.id,
-    label: technicien.username,
-  }));
+  const filterUsersByRole = (role) => users
+    .filter((user) => user.role === role)
+    .map((user) => ({ value: user.id, label: user.username }));
 
   const traceurOptions = traceur
-  .filter((t) => t.id_etat_traceur  === 7)
-  .map((id_traceur) => ({
-    value: id_traceur.id_traceur ,
-    label: id_traceur.numero_serie,
-  }));
+    .filter((t) => t.id_etat_traceur === 7)
+    .map((tc) => ({ value: tc.id_traceur, label: tc.numero_serie }));
 
   return (
-    <>
-      <div className="clientForm">
-        <div className="product-container">
-          <div className="product-container-top">
-            <div className="product-left">
-              <h2 className="product-h2">Opération : Démentèlement</h2>
-            </div>
-          </div>
-          <div className="product-wrapper">
-            <div className="product-container-bottom">
-              <div className="form-controle">
-                <label htmlFor="">Nom client ou société<span style={{color:'red'}}>*</span></label>
-                <Select
-                  name="id_client"
-                  options={client?.map((item) => ({
-                    value: item.id_client,
-                    label: item.nom_client,
-                  }))}
-                  onChange={(selectedOption) =>
-                    handleInputChange({
-                      target: { name: 'id_client', value: selectedOption.value },
-                    })
-                  }
-                  placeholder="Sélectionnez un client..."
-                />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Véhicule <span style={{color:'red'}}>*</span></label>
-                <Select
-                  name="id_vehicule"
-                  options={vehicule?.map((item) => ({
-                    value: item.id_vehicule,
-                    label: `Marque : ${item.nom_marque} / Matricule : ${item.matricule}`,
-                  }))}
-                  onChange={(selectedOption) =>
-                    handleInputChange({
-                      target: { name: 'id_vehicule', value: selectedOption.value },
-                    })
-                  }
-                  placeholder="Sélectionnez un véhicule..."
-                />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Site <span style={{color:'red'}}>*</span></label>
-                <Select
-                  name="site"
-                  options={site?.map((item) => ({
-                    value: item.id_site,
-                    label: item.nom_site,
-                  }))}
-                  onChange={(selectedOption) =>
-                    handleInputChange({
-                      target: { name: 'site', value: selectedOption.value },
-                    })
-                  }
-                  placeholder="Sélectionnez un site..."
-                />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Traceur <span style={{color:'red'}}>*</span></label>
-                <Select
-                  name="id_traceur"
-                  options={traceurOptions}
-                  onChange={(selectedOption) =>
-                    handleInputChange({
-                      target: { name: 'id_traceur', value: selectedOption.value },
-                    })
-                  }
-                  placeholder="Sélectionnez un traceur..."
-                />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Etat du traceur <span style={{color:'red'}}>*</span></label>
-                <Select
-                  name="id_etat_traceur"
-                  options={etat?.map((item) => ({
-                    value: item.id_etat_traceur,
-                    label: item.nom_etat_traceur,
-                  }))}
-                  onChange={(selectedOption) =>
-                    handleInputChange({
-                      target: { name: 'id_etat_traceur', value: selectedOption.value },
-                    })
-                  }
-                  placeholder="Sélectionnez un état..."
-                />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
-                <Select
-                  name="id_superviseur"
-                  options={supervisorOptions}
-                  onChange={(selectedOption) =>
-                    handleInputChange({
-                      target: { name: 'id_superviseur', value: selectedOption.value },
-                    })
-                  }
-                  placeholder="Sélectionnez un superviseur..."
-                />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Date d'opération <span style={{color:'red'}}>*</span></label>
-                <input type="date" name='date_operation' className="form-input" onChange={handleInputChange} />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Technicien <span style={{color:'red'}}>*</span></label>
-                <Select
-                  name="id_technicien"
-                  options={ingenieurOptions}
-                  onChange={(selectedOption) =>
-                    handleInputChange({
-                      target: { name: 'id_technicien', value: selectedOption.value },
-                    })
-                  }
-                  placeholder="Sélectionnez un technicien..."
-                />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Photo plaque <span style={{color:'red'}}>*</span></label>
-                <input type="file" accept=".jpeg, .png, .jpg" name='photo_plaque' className="form-input" onChange={handleInputChange} />
-              </div>
-              <div className="form-controle">
-                <label htmlFor="">Photo traceur <span style={{color:'red'}}>*</span></label>
-                <input type="file" accept=".jpeg, .png, .jpg" name='photo_traceur' className="form-input" onChange={handleInputChange} />
-              </div>
-            </div>
-            <div className="form-submit">
-              <button className="btn-submit" onClick={handleConfirm} disabled={isLoading}>Envoyer</button>
-              {isLoading && (
-                <div className="loader-container loader-container-center">
-                  <Spin size="large" />
-                </div>
-              )}
-            </div>
-
-            <Modal
-              title="Confirmation de l'opération"
-              visible={showConfirmModal}
-              onOk={handleClick}
-              onCancel={handleCancel}
-              centered
-              cancelText={<span style={{ color: '#fff' }}>Non</span>}
-              okText={<span style={{ color: '#fff' }}>Oui</span>}
-              cancelButtonProps={{ style: { background: 'red', border: 'none', borderRadius: '5px', fontWeight: 'bold' } }}
-              okButtonProps={{ style: { background: 'blue', border: 'none', borderRadius: '5px', fontWeight: 'bold' } }}
-            >
-              <p>Êtes-vous sûr de vouloir démonter ce traceur ? Cette action est irréversible.</p>
-            </Modal>
+    <div className="superviseurInstall">
+      <div className="product-container">
+        <div className="product-container-top">
+          <div className="product-left">
+            <h2 className="product-h2">Opération : Démentèlement</h2>
           </div>
         </div>
+        <div className="product-wrapper">
+          <div className="product-container-bottom">
+            {renderSelect('Nom client ou société', 'id_client', client.map(({ id_client, nom_client }) => ({ value: id_client, label: nom_client })), 'Sélectionnez un client...')}
+            {renderSelect('Véhicule', 'id_vehicule', vehicule.map(({ id_vehicule, nom_marque, matricule }) => ({ value: id_vehicule, label: `Marque : ${nom_marque} / Matricule : ${matricule}` })), 'Sélectionnez un véhicule...')}
+            {renderSelect('Site', 'site', site.map(({ id_site, nom_site }) => ({ value: id_site, label: nom_site })), 'Sélectionnez un site...')}
+            {renderSelect('Traceur', 'id_traceur', traceurOptions, 'Sélectionnez un traceur...')}
+            {renderSelect('Etat du traceur', 'id_etat_traceur', etat.map(({ id_etat_traceur, nom_etat_traceur }) => ({ value: id_etat_traceur, label: nom_etat_traceur })), 'Sélectionnez un état...')}
+            {renderSelect('Superviseur', 'id_superviseur', filterUsersByRole('superviseur'), 'Sélectionnez un superviseur...')}
+            <div className="form-controle">
+              <label>Date d'opération <span style={{ color: 'red' }}>*</span></label>
+              <input type="date" name='date_operation' className="form-input" onChange={handleInputChange} />
+            </div>
+            {renderSelect('Technicien', 'id_technicien', filterUsersByRole('technicien'), 'Sélectionnez un technicien...')}
+            <div className="form-controle">
+              <label>Photo plaque <span style={{ color: 'red' }}>*</span></label>
+              <input type="file" accept=".jpeg, .png, .jpg" name='photo_plaque' className="form-input" onChange={handleInputChange} />
+            </div>
+            <div className="form-controle">
+              <label>Photo traceur <span style={{ color: 'red' }}>*</span></label>
+              <input type="file" accept=".jpeg, .png, .jpg" name='photo_traceur' className="form-input" onChange={handleInputChange} />
+            </div>
+          </div>
+          <div className="form-submit">
+            <button className="btn-submit" onClick={handleConfirm} disabled={isLoading}>Envoyer</button>
+            {isLoading && (
+              <div className="loader-container loader-container-center">
+                <Spin size="large" />
+              </div>
+            )}
+          </div>
+          <Modal
+            title="Confirmation de l'opération"
+            visible={showConfirmModal}
+            onOk={handleSubmit}
+            onCancel={handleCancel}
+            centered
+            cancelText={<span style={{ color: '#fff' }}>Non</span>}
+            okText={<span style={{ color: '#fff' }}>Oui</span>}
+            cancelButtonProps={{ style: { background: 'red', border: 'none', borderRadius: '5px', fontWeight: 'bold' } }}
+            okButtonProps={{ style: { background: 'blue', border: 'none', borderRadius: '5px', fontWeight: 'bold' } }}
+          >
+            <p>Êtes-vous sûr de vouloir démonter ce traceur ? Cette action est irréversible.</p>
+          </Modal>
+        </div>
       </div>
-    </>
-  )
+    </div>
+  );
 }
 
 export default SuperviseurDement;
