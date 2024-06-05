@@ -27,8 +27,7 @@ const PageViews = () => {
             } catch (error) {
                 console.log(error);
             }
-        };
-        const fetchOperation = async () => {
+        };const fetchOperation = async () => {
             try {
                 const { data } = await axios.get(`${DOMAIN}/operation/count`);
                 setOperation(data[0].nbre_operation);
@@ -36,6 +35,7 @@ const PageViews = () => {
                 console.log(error);
             }
         };
+        
         const fetchTraceur = async () => {
             try {
                 const { data } = await axios.get(`${DOMAIN}/traceur/count`);
