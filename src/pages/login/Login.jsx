@@ -50,6 +50,7 @@ const Login = () => {
                             className="login_input" 
                             value={username} 
                             onChange={(e) => setUsername(e.target.value)} 
+                            autoComplete="off"
                         />
                     </div>
                     <div className="login_control">
@@ -64,6 +65,7 @@ const Login = () => {
                                 value={password} 
                                 placeholder='Entrer votre mot de passe'
                                 onChange={(e) => setPassword(e.target.value)} 
+                                autoComplete="new-password"
                             />
                             <span 
                                 className="login_password_eye" 
