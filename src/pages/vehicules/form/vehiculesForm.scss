@@ -1,0 +1,32 @@
+.confirmation-modal .ant-modal-content {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+  }
+  
+  .confirmation-modal .ant-modal-header {
+    background-color: #007BFF;
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .confirmation-modal .ant-modal-title {
+    color: white;
+  }
+  
+  .confirmation-modal .ant-modal-footer {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 10px; 
+  }
+  
+  .confirmation-modal .modal-text {
+    font-size: 16px; 
+    margin-bottom: 20px;
+  }
+  
+  .confirmation-modal .modal-data p {
+    margin: 5px 0; 
+    font-size: 14px;
+  }
+  

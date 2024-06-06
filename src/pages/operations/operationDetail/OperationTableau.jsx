@@ -37,7 +37,7 @@ const OperationDetail = ({ selectedOperations }) => {
 
         if (flattenedDetails.length > 0) {
           setClientName(flattenedDetails[0]?.nom_client ?? 'N/A');
-          const operationDate = flattenedDetails[0]?.date_operation ?? 'N/A';
+          const operationDate = flattenedDetails[0]?.created_at ?? 'N/A';
           setFormattedDate(formatDate(operationDate));
         }
         setLoading(false);
