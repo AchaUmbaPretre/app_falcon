@@ -85,6 +85,7 @@ const Rapport = () => {
                                 traceur.map((t) => (
                                     <React.Fragment key={t.nbre_traceur}>
                                         <span className="rapport_sous_title">Nbre de traceur : <strong>{t.nbre_traceur}</strong></span>
+                                        <span className="rapport_sous_title">Neuf : <strong>{t.Nbre_neuf}</strong></span>
                                         <span className="rapport_sous_title">Actif : <strong>{t.Nbre_actif}</strong></span>
                                         <span className="rapport_sous_title">Démanteler : <strong>{t.Nbre_dementele}</strong></span>
                                         <span className="rapport_sous_title">Défectueux : <strong>{t.Nbre_defectueux}</strong></span>

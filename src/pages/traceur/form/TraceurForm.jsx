@@ -52,6 +52,7 @@ const TraceurForm = () => {
       await axios.post(`${DOMAIN}/traceur`, data);
       toast.success('Traceur créé avec succès!');
       navigate('/traceurs');
+      window.location.reload();
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message;
       toast.error(errorMessage);

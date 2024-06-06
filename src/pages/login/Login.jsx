@@ -73,9 +73,12 @@ const Login = () => {
                             </span>
                         </div>
                     </div>
-                    <div className="login_row_checked">
-                        <input type="checkbox" id="remember-me" />
-                        <label htmlFor="remember-me" className="login_checkbox">Remember me</label>
+                    <div className="login_remember_row">
+                        <div className="login_row_checked">
+                            <input type="checkbox" id="remember-me" />
+                            <label htmlFor="remember-me" className="login_checkbox">Remember me</label>
+                        </div>
+                        <Link to={'/forgot'} className='login_forgot'>Mot de passe oublié ?</Link>
                     </div>
                     <div className="login-btn">
                         <button className="btn" onClick={handleClick}>Envoyer</button>

@@ -126,16 +126,27 @@
                     }
                 }
             }
-            .login_row_checked{
+            .login_remember_row{
+                width: 100%;
                 display: flex;
-                align-items: center;
-                gap: 5px;
-                .login_checkbox{
-                    font-size: .8rem;
-                    letter-spacing: 1px;
-                    @include mobileXR{
-                        font-size: .7rem;
+                justify-content: space-between;
+                .login_row_checked{
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    .login_checkbox{
+                        font-size: .8rem;
+                        letter-spacing: 1px;
+                        @include mobileXR{
+                            font-size: .7rem;
+                        }
                     }
+                }
+                .login_forgot{
+                    font-size: .8rem;
+                        @include mobileXR{
+                            font-size: .7rem;
+                        }
                 }
             }
             .login-btn{
