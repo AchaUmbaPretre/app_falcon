@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Spin } from 'antd';
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import config from '../../config';
@@ -10,6 +11,9 @@ const PassWordForgot = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [password, setPassword] = useState('');
+    const [newPassword, setnewPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState(null);
 
@@ -78,7 +82,22 @@ const PassWordForgot = () => {
                         <div className="login_control">
                             <span className="login_label">Nom : {user.username}</span>
                             <span className="login_label">Email : {user.email}</span>
-                            
+                            <div className="login_password_wrapper">
+                            <input 
+                                type={showPassword ? "text" : "password"} 
+                                id="password" 
+                                className="login_input" 
+                                value={password} 
+                                placeholder='Entrer votre mot de passe'
+                                onChange={(e) => setPassword(e.target.value)} 
+                            />
+                            <span 
+                                className="login_password_eye" 
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                            </span>
+                        </div>
                         </div>
                     </div>
                 )}
