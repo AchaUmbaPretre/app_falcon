@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import config from '../../config';
 import iconLogin from './../../assets/Location tracking-bro.png';
+import iconForgot from './../../assets/forgot.jpg'
 
 const PassWordForgot = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -93,12 +94,12 @@ const PassWordForgot = () => {
                 ) : (
                     <div className="login_left">
                         <div className="login_left_top">
-                            <h2 className="login_h2">Détail de votre compte</h2>
+                            <h2 className="login_h2">Compte retrouvé</h2>
                         </div>
                         <div className="login_control">
                             <span className="login_label">Nom : {user.username}</span>
                             <span className="login_label">Email : {user.email}</span>
-                            <div className="login_password_wrapper">
+                            <div className="login_password_wrapper" style={{marginTop: "20px"}}>
                             <input 
                                 type={showPassword ? "text" : "password"} 
                                 id="password" 
@@ -128,7 +129,7 @@ const PassWordForgot = () => {
                     </div>
                 )}
                 <div className="login_right">
-                    <img src={iconLogin} alt="Login Illustration" className="login-img" />
+                    <img src={iconForgot} alt="Login Illustration" className="login-img" />
                 </div>
             </div>
         </div>

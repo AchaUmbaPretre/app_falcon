@@ -47,7 +47,6 @@ import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Rapport from './pages/rapport/Rapport';
 import PassWordForgot from './pages/passwordForgot/PassWordForgot';
-import DetailForgot from './pages/passwordForgot/DetailForgot';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -162,7 +161,6 @@ function App() {
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
     { path: '/forgot', element: <PassWordForgot /> },
-    { path: '/detail_forgot', element: <DetailForgot /> },
     user?.role === null && {
       path: '/*',
       element: <Page405 />
