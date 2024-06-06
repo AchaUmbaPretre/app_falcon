@@ -13,7 +13,6 @@ const PassWordForgot = () => {
     const [email, setEmail] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
-    const [newPassword, setnewPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState(null);
 
@@ -30,6 +29,23 @@ const PassWordForgot = () => {
             } else {
                 toast.error('Aucun utilisateur trouvé.');
             }
+        } catch (error) {
+            console.error(error);
+            toast.error(error.response?.data?.message || 'Une erreur est survenue');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleClickNew = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+    
+        try {
+             await axios.put(`${DOMAIN}/users/password_reset/${user.id}?password=${password}`);
+             toast.success('Mot de passe a été changé avec succès!');
+             navigate('/login');
+            window.location.reload();
         } catch (error) {
             console.error(error);
             toast.error(error.response?.data?.message || 'Une erreur est survenue');
@@ -88,7 +104,7 @@ const PassWordForgot = () => {
                                 id="password" 
                                 className="login_input" 
                                 value={password} 
-                                placeholder='Entrer votre mot de passe'
+                                placeholder='Entrer votre nouveau mot de passe... '
                                 onChange={(e) => setPassword(e.target.value)} 
                             />
                             <span 
@@ -97,6 +113,16 @@ const PassWordForgot = () => {
                             >
                                 {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                             </span>
+                        </div>
+                        <div className="login-btn">
+                            <button className="btn" onClick={handleClickNew} disabled={isLoading}>
+                                Envoyer
+                            </button>
+                            {isLoading && (
+                                <div className="loader-container loader-container-center">
+                                    <Spin size="large" />
+                                </div>
+                            )}
                         </div>
                         </div>
                     </div>

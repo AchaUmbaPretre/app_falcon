@@ -14,7 +14,6 @@ export const login = async (dispatch, user, navigate) => {
     if (res.data.success) {
       message.success("Connectez-vous avec succès");
       navigate('/');
-      window.location.reload();
     } else {
       navigate('/login')
       message.error(res.data.message);
