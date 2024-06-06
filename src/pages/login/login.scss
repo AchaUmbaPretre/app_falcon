@@ -147,6 +147,9 @@
                         @include mobileXR{
                             font-size: .7rem;
                         }
+                    &:hover{
+                        color: red;
+                    }
                 }
             }
             .login-btn{

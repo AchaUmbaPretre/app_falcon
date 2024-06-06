@@ -5,7 +5,6 @@ import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import config from '../../config';
-import iconLogin from './../../assets/Location tracking-bro.png';
 import iconForgot from './../../assets/forgot.jpg'
 
 const PassWordForgot = () => {
@@ -62,19 +61,13 @@ const PassWordForgot = () => {
                     <div className="login_left">
                         <div className="login_left_top">
                             <h2 className="login_h2">Trouvez votre compte</h2>
-                            <span className="login_span">
-                                Vous n'avez pas de compte ?
-                                <span className="login_span_sous">
-                                    <Link to="/register"> Inscrivez-vous</Link>
-                                </span>
-                            </span>
                         </div>
                         <div className="login_control">
                             <label htmlFor="email" className="login_label">Email</label>
                             <input 
                                 type="email" 
                                 id="email" 
-                                placeholder="votre@exemple.com" 
+                                placeholder="Entrer votre mail..." 
                                 className="login_input" 
                                 value={email} 
                                 onChange={(e) => setEmail(e.target.value)} 
