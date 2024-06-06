@@ -44,9 +44,7 @@ const Client = () => {
 
   const fetchData = async (page, pageSize) => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/client`, {
-        params: { page, limit: pageSize }
-      });
+      const { data } = await axios.get(`${DOMAIN}/client`);
       setData(data);
       setLoading(false);
       setPagination((prevPagination) => ({
