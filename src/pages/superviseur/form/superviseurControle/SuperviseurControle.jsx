@@ -83,6 +83,8 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
     setIdClient(data?.id_client);
   }, [data?.id_client]);
 
+  console.log(data)
+
   const handleConfirm = () => setShowConfirmModal(true);
   const handleCancel = () => setShowConfirmModal(false);
 

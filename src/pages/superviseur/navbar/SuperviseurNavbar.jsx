@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { BellOutlined, PoweroffOutlined, MailOutlined } from '@ant-design/icons'
 import './superviseurNavbar.scss'
 import { Badge } from 'antd';
@@ -12,10 +12,8 @@ import { toast } from 'react-toastify';
 const SuperviseurNavbar = () => {
     const navigate = useNavigate();
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-    const [data, setData] = useState([]);
     const [currentUser, setCurrentUser] = useState('')
     const user = useSelector((state) => state.user.currentUser.username);
-    const userId = useSelector((state) => state.user.currentUser.id);
 
     const Logout = async () => {
   
@@ -44,7 +42,7 @@ const SuperviseurNavbar = () => {
                             <Badge count={''}>
                                 <MailOutlined className='navbar-icon' />
                             </Badge>
-                            <Badge count={data.length}>
+                            <Badge count={0}>
                                 <BellOutlined className='navbar-icon'/>
                             </Badge>
                             <PoweroffOutlined className='navbar-icon' onClick={Logout}/>

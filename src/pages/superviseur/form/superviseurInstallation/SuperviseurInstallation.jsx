@@ -137,8 +137,8 @@ const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
     .filter((user) => user.role === role)
     .map((user) => ({ value: user.id, label: user.username }));
 
-  const traceurOptions = traceur
-    .filter((t) => t.id_etat_traceur === 1)
+    const traceurOptions = traceur
+    .filter((t) => t.id_etat_traceur === 1 || t.id_etat_traceur === 2)
     .map((tc) => ({ value: tc.id_traceur, label: tc.numero_serie }));
 
   return (

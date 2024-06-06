@@ -24,10 +24,8 @@ import {
   FilePdfOutlined,
   FileExcelOutlined,
   PrinterOutlined,
-  SearchOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
-  UserOutlined,
 } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
