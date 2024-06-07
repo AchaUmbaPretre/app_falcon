@@ -74,6 +74,10 @@ const Marques = () => {
     setOpen(true);
   };
 
+  const filteredData = data?.filter((item) =>
+    item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <div className="client">
       <div className="client_wrapper">
@@ -117,17 +121,17 @@ const Marques = () => {
                 <PrinterOutlined className="product-icon-printer" />
               </div>
             </div>
-            <Table dataSource={data} columns={columns} loading={loading} />
+            <Table dataSource={filteredData} columns={columns} loading={loading} />
 
             <Modal
-                  title=""
-                  centered
-                  open={open}
-                  onCancel={() => setOpen(false)}
-                  width={1000}
-                  footer={[]}
-                >
-                  <MarqueForm/>
+              title=""
+              centered
+              open={open}
+              onCancel={() => setOpen(false)}
+              width={1000}
+              footer={[]}
+            >
+              <MarqueForm/>
             </Modal>
           </div>
         </div>

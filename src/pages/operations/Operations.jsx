@@ -195,6 +195,13 @@ const Operations = () => {
     },
   ];
 
+  const filteredData = data?.filter((item) =>
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_site?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.superviseur?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.technicien?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <div className="client">
       <div className="client_wrapper">
@@ -242,7 +249,7 @@ const Operations = () => {
               <Skeleton active />
             ) : (
               <Table
-              dataSource={data}
+              dataSource={filteredData}
               columns={columns}
               rowSelection={rowSelection}
               loading={loading}
