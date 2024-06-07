@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { Spin } from 'antd';
 import config from '../../../config';
 import './clientForms.scss';
@@ -40,9 +40,14 @@ const ClientForm = () => {
       navigate('/client');
       window.location.reload();
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message;
-      toast.error(errorMessage.includes('déjà') ? `Le client ${data.nom_client} existe déjà avec ce numéro de téléphone` : errorMessage);
-    } finally {
+      if (err.response && err.response.status === 400 && err.response.data && err.response.data.error) {
+        const errorMessage = err.response.data.error;
+        toast.error(errorMessage);
+      } else {
+        toast.error(err.message);
+      }
+    }
+    finally {
       setIsLoading(false);
     }
   }, [data, DOMAIN, navigate]);
@@ -50,6 +55,7 @@ const ClientForm = () => {
 
   return (
     <div className="clientForms">
+    <ToastContainer />
       <div className="product-container">
         <div className="product-container-top">
           <div className="product-left">
