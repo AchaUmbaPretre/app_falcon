@@ -143,6 +143,11 @@ const Affectations = () => {
     setShowFilters(!showFilters);
   };
 
+  const filteredData = data?.filter((item) =>
+    item.numero?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.numero_serie?.toLowerCase().includes(searchValue.toLowerCase()) 
+  );
+
   return (
     <>
       <div className="client">
@@ -205,7 +210,7 @@ const Affectations = () => {
                 <Skeleton active />
               ) : (
                 <Table
-                  dataSource={data}
+                  dataSource={filteredData}
                   columns={columns}
                   className='table_client'
                   pagination={pagination}

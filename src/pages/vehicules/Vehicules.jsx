@@ -104,6 +104,12 @@ const Vehicules = () => {
     }
   ];
 
+  const filteredData = data?.filter((item) =>
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.matricule?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <div className="client">
       <div className="client_wrapper">
@@ -142,7 +148,7 @@ const Vehicules = () => {
               </div>
             </div>
             <Table 
-              dataSource={data} 
+              dataSource={filteredData} 
               columns={columns} 
               rowClassName={() => 'font-size-18'} 
               loading={loading} 
