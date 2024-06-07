@@ -4,9 +4,11 @@ import Select from 'react-select';
 import config from '../../../config';
 import { toast, ToastContainer} from 'react-toastify';
 import { Spin } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const AddVehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const navigate = useNavigate();
   const [data, setData] = useState({})
   const [isLoading, setIsLoading] = useState(false);
   const [marque, setMarque] = useState([]);
@@ -65,6 +67,7 @@ const AddVehicules = () => {
         ...data
       })
 
+      navigate('/installation');
       toast.success('Vehicule créé avec succès!');
       window.location.reload();
 

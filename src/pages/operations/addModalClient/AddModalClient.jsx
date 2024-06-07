@@ -41,6 +41,7 @@ const AddModalClient = () => {
         ...data
       });
       toast.success('Client créé avec succès!');
+      navigate('/installation');
       window.location.reload();
     } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {

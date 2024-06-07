@@ -54,6 +54,7 @@ const AddSites = () => {
         ...data
       })
       toast.success('Site créé avec succès!');
+      navigate('/installation');
       window.location.reload();
 
     }catch(err) {

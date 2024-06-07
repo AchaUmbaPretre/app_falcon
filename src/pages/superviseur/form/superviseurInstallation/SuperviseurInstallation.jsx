@@ -10,6 +10,8 @@ import './superviseurInstallation.scss';
 import { useSelector } from 'react-redux';
 import AddModalClient from '../../../operations/addModalClient/AddModalClient';
 import AddSites from '../../../sites/addSites/AddSites';
+import AddVehicules from '../../../vehicules/addVehicules/AddVehicules';
+import AddTraceur from '../../../traceur/addTraceur/AddTraceur';
 
 const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -28,6 +30,8 @@ const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSite, setOpenSite] = useState(false);
+  const [openVehicule, setOpenVehicule] = useState(false);
+  const [openTraceur, setOpenTraceur] = useState(false);
 
   const handleInputChange = useCallback((e) => {
     const { name, value, type, files } = e.target;
@@ -154,8 +158,8 @@ const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
             <div className="product-container-bottom">
               {renderSelect('Nom client ou société', 'id_client', client.map(({ id_client, nom_client }) => ({ value: id_client, label: nom_client })), 'Sélectionnez un client...', <PlusCircleOutlined onClick={() => setOpen(true)} className='icon_plus' />)}
               {renderSelect('Site', 'site', site.map(({ id_site, nom_site }) => ({ value: id_site, label: nom_site })), 'Sélectionnez un site...', <PlusCircleOutlined onClick={() => setOpenSite(true)} className='icon_plus' />)}
-              {renderSelect('Véhicule', 'id_vehicule', vehicule.map(({ id_vehicule, nom_marque, matricule }) => ({ value: id_vehicule, label: `Marque : ${nom_marque} / Matricule : ${matricule}` })), 'Sélectionnez un véhicule...')}
-              {renderSelect('Traceur', 'id_traceur', traceurOptions, 'Sélectionnez un traceur...')}
+              {renderSelect('Véhicule', 'id_vehicule', vehicule.map(({ id_vehicule, nom_marque, matricule }) => ({ value: id_vehicule, label: `Marque : ${nom_marque} / Matricule : ${matricule}` })), 'Sélectionnez un véhicule...', <PlusCircleOutlined onClick={() => setOpenVehicule(true)} className='icon_plus' />)}
+              {renderSelect('Traceur', 'id_traceur', traceurOptions, 'Sélectionnez un traceur...', <PlusCircleOutlined onClick={() => setOpenTraceur(true)} className='icon_plus' />)}
               {renderSelect('Superviseur', 'id_superviseur', filterUsersByRole('superviseur'), 'Sélectionnez un superviseur...')}
               <div className="form-controle">
                 <label>Date d'opération <span style={{ color: 'red' }}>*</span></label>
@@ -220,6 +224,28 @@ const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
             footer={null}
           >
             <AddSites />
+          </Modal>
+
+          <Modal
+            title=""
+            centered
+            open={openVehicule}
+            onCancel={() => setOpenVehicule(false)}
+            width={1000}
+            footer={null}
+          >
+            <AddVehicules />
+          </Modal>
+
+          <Modal
+            title=""
+            centered
+            open={openTraceur}
+            onCancel={() => setOpenTraceur(false)}
+            width={1000}
+            footer={null}
+          >
+            <AddTraceur />
           </Modal>
         </div>
       </div>
