@@ -23,6 +23,7 @@ const Client = () => {
     pageSize: 10,
   });
   const scroll = { x: 400 };
+  const [client, setClient] = useState([]);
 
   const showDrawer = (e) => {
     setOpenDetail(true);
@@ -55,8 +56,19 @@ const Client = () => {
     }
   };
 
+
+  const fetchClient = async () => {
+    try {
+        const { data } = await axios.get(`${DOMAIN}/client/count`);
+        setClient(data[0].nbre_client);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
+    fetchClient()
   }, [DOMAIN, pagination.current, pagination.pageSize]);
 
   const handleTableChange = (newPagination) => {
@@ -170,6 +182,9 @@ const Client = () => {
               <div className="client_text_left">
                 <h2 className="client_h2">Client</h2>
                 <span className="client_span">Liste des clients</span>
+              </div>
+              <div className="client_row_number">
+                <span className="client_span_title">Total : {client}</span>
               </div>
               <div className="client_text_right">
                 <button onClick={showModal}><PlusCircleOutlined /></button>

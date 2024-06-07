@@ -5,11 +5,11 @@
     width: 100%;
     overflow: auto; 
     .client_wrapper{
+        position: relative;
         display: flex;
         flex-direction: column;
         gap: 20px;
         width: 100%;
-        overflow: auto;
         .client_wrapper_top{
             background: #fff;
             padding: 20px;
@@ -44,6 +44,25 @@
                         font-style: italic;
                         @include miniTablette{
                             font-size: .6rem;
+                        }
+                    }
+                }
+                .client_row_number{
+                    padding: 10px;
+                    background: #fff;
+                    -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
+                    box-shadow: 0px 0px 15px -10px rgba(131, 129, 129, 0.75);
+                    border: 1px solid rgba(3, 3, 109, 0.171);
+                    border-radius: 5px;
+                    .client_span_title{
+                        font-size: .9rem;
+                        font-weight: 800;
+                        background: linear-gradient(90deg, #13add8bd, #000000ee);
+                        -webkit-background-clip: text;
+                        color: transparent;
+                        text-transform: uppercase;
+                        @include miniTablette{
+                            font-size: .8rem;
                         }
                     }
                 }

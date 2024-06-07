@@ -13,6 +13,8 @@ import OperationDetail from './operationDetail/OperationDetail';
 import OperationGen from './form/OperationGen';
 import OperationTrier from './operationTrier/OperationTrier';
 import OperationTableau from './operationDetail/OperationTableau';
+import CountUp from 'react-countup';
+
 
 const Operations = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -27,6 +29,7 @@ const Operations = () => {
   const [end_date, setEndDate] = useState('');
   const [openTrie, setOpenTrie] = useState(false);
   const scroll = { x: 400 };
+  const [operation, setOperation] = useState(null);
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -56,9 +59,23 @@ const Operations = () => {
     }
   }, [DOMAIN, start_date, end_date, searchValue]);
 
+
+  const fetchNbreOperation = useCallback(async () => {
+    try {
+      const { data } = await axios.get(`${DOMAIN}/operation/count`);
+      setOperation(data[0].nbre_operation);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [DOMAIN]);
+
   useEffect(() => {
     fetchOperations();
   }, [fetchOperations]);
+
+  useEffect(() => {
+    fetchNbreOperation()
+  }, [fetchNbreOperation]);
 
   const handleDelete = async (id) => {
     try {
@@ -210,6 +227,13 @@ const Operations = () => {
             <div className="client_text_left">
               <h2 className="client_h2">Opérations</h2>
               <span className="client_span">Liste des opérations</span>
+            </div>
+            <div className="client_row_number">
+                {operation !== null ? (
+                  <span className="client_span_title">Total : <CountUp end={operation} /></span>
+                ) : (
+                  <Skeleton.Input style={{ width: 120 }} active />
+                )}
             </div>
             <div className="client_text_right">
               <Button icon={<PlusCircleOutlined />} onClick={() => setOpen(true)} />

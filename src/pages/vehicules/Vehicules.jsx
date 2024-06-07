@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, message } from 'antd';
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag, message } from 'antd';
 import { PlusCircleOutlined, CarOutlined, UserOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import VehiculesForm from './form/VehiculesForm';
+import CountUp from 'react-countup';
 
 const Vehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [vehicule, setVehicule] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -25,9 +27,19 @@ const Vehicules = () => {
     }
   }, [DOMAIN]);
 
+  const fetchVehicule = useCallback(async () => {
+    try {
+      const { data } = await axios.get(`${DOMAIN}/vehicule/count`);
+      setVehicule(data[0]?.nbre_vehicule);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [DOMAIN]);
+
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+    fetchVehicule();
+  }, [fetchData, fetchVehicule]);
 
   const handleDelete = async (id) => {
     try {
@@ -118,6 +130,13 @@ const Vehicules = () => {
             <div className="client_text_left">
               <h2 className="client_h2">Véhicule</h2>
               <span className="client_span">Liste des véhicules</span>
+            </div>
+            <div className="client_row_number">
+              {vehicule ? (
+                <span className="client_span_title">Total : <CountUp end={vehicule}/></span>
+              ) : (
+                <Skeleton.Input active />
+              )}
             </div>
             <div className="client_text_right">
               <Button onClick={showModal} icon={<PlusCircleOutlined />} />
