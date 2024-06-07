@@ -74,14 +74,15 @@ const VehiculesForm = () => {
       toast.success('Vehicule créé avec succès!');
       navigate('/vehicules');
       window.location.reload();
-    } catch (err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le traceur ${data.nom} existe déjà avec ce numéro de téléphone`;
+    }catch (err) {
+      if (err.response && err.response.status === 400 && err.response.data && err.response.data.error) {
+        const errorMessage = err.response.data.error;
         toast.error(errorMessage);
       } else {
         toast.error(err.message);
       }
-    } finally {
+    }
+    finally {
       setIsLoading(false);
     }
   };
