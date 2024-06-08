@@ -4,9 +4,10 @@ import './operationDetail.scss';
 import config from '../../../config';
 import axios from 'axios';
 import { Popover } from 'antd';
-import { DeleteOutlined, SaveOutlined, MailOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { DeleteOutlined, SaveOutlined, MailOutlined, FilePdfOutlined, FileWordOutlined } from '@ant-design/icons';
 import SignatureCanvas from 'react-signature-canvas';
 import html2pdf from 'html2pdf.js';
+import htmlDocx from 'html-docx-js/dist/html-docx';
 
 const OperationDetail = ({ selectedOperations }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -79,7 +80,7 @@ const OperationDetail = ({ selectedOperations }) => {
   const generatePDF = () => {
     setIsGeneratingPDF(true);
     const element = pdfRef.current;
-  
+
     const images = element.querySelectorAll('img');
     const imagePromises = Array.from(images).map(img => new Promise((resolve, reject) => {
       console.log('Image URL:', img.src);
@@ -90,7 +91,7 @@ const OperationDetail = ({ selectedOperations }) => {
         img.onerror = reject;
       }
     }));
-  
+
     Promise.all(imagePromises)
       .then(() => {
         const options = {
@@ -108,8 +109,18 @@ const OperationDetail = ({ selectedOperations }) => {
         setIsGeneratingPDF(false);
       });
   };
-  
-  
+
+  const generateDocx = () => {
+    const content = pdfRef.current.innerHTML;
+    const docx = htmlDocx.asBlob(content);
+    const url = URL.createObjectURL(docx);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `rapport_${formattedDate}.docx`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   if (loading) {
     return <p>Chargement...</p>;
@@ -130,12 +141,12 @@ const OperationDetail = ({ selectedOperations }) => {
 
   return (
     <div className="operationDetail" ref={pdfRef}>
-      <div className="operations_row_title">
-        <div className="operations_row_img">
+      <div className="operations_row_title" style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+        <div className="operations_row_img" style={{width:"100%", paddingLeft:'15px'}}>
           <img src={imgLogo} alt="Logo" className="operations_img" />
         </div>
-        <div className="operations_wrapper_title">
-          <h2 className="operations_h2">
+        <div className="operations_wrapper_title" style={{borderBottom: '1px solid #cecece', width:'80%', margin: "10px 0"}}>
+          <h2 className="operations_h2" style={{padding:'10px 0', margin: '0', fontSize:'1rem', color:"red", textAlign:'center', lineHeight:'25px'}}>
             RAPPORT SYNTHETIQUE DES INSTALLATIONS ET CONTROLES TECHNIQUES DES TRACKERS EFFECTUEES
             EN DATE DU {formattedDate} SUR LES VEHICULE(S) {clientName.toUpperCase()}
           </h2>
@@ -145,36 +156,36 @@ const OperationDetail = ({ selectedOperations }) => {
       {Object.entries(groupedByType).map(([type, details], index) => (
         <div key={type}>
           <h3 style={{ paddingTop: '20px' }}>{index + 1}. {type}</h3>
-          <table className="operationTable">
+          <table className="operationTable" style={{width:'100%', borderCollapse:'collapse', margin:'20px 0', fontSize:'16px', textAlign:'left'}}>
             <thead>
               <tr>
-                <th>Matricule</th>
-                <th>Marque</th>
-                <th>Tracker</th>
-                <th>Code</th>
-                <th>Observation</th>
+                <th style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>Matricule</th>
+                <th style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>Marque</th>
+                <th style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>Tracker</th>
+                <th style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>Code</th>
+                <th style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>Observation</th>
               </tr>
             </thead>
             <tbody>
               {details.map(detail => (
                 <tr key={detail.id_operations}>
-                  <td>{detail.matricule ?? 'N/A'}</td>
-                  <td>{detail.nom_marque ?? 'N/A'}</td>
-                  <td>{detail.numero_serie ?? 'N/A'}</td>
-                  <td>{detail.code ?? 'N/A'}</td>
-                  <td>{detail.observation ?? 'N/A'}</td>
+                  <td style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>{detail.matricule ?? 'N/A'}</td>
+                  <td style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>{detail.nom_marque ?? 'N/A'}</td>
+                  <td style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>{detail.numero_serie ?? 'N/A'}</td>
+                  <td style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>{detail.code ?? 'N/A'}</td>
+                  <td style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>{detail.observation ?? 'N/A'}</td>
                 </tr>
               ))}
             </tbody>
           </table>
           <div className="images_section">
             {details.map(detail => (
-              <div key={detail.id_operations} className="operationDetail_wrapper">
-                <div className="operation_row">
+              <div key={detail.id_operations} className="operationDetail_wrapper" style={{width:'100%', display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'25px', padding:'10px 0', borderBottom:'1px solid #dddddd'}}>
+                <div className="operation_row" style={{width:'100%', display:'flex', flexDirection:'column', gap:'10px', padding:'10px'}}>
                   <span className="operation_span">Matricule: </span>
                   <span className="operation_desc">{detail.matricule ?? 'N/A'}</span>
                 </div>
-                <div className="operation_row">
+                <div className="operation_row" style={{width:'100%', display:'flex', flexDirection:'column', gap:'10px', padding:'10px'}}>
                   <span className="operation_span">Photo plaque : </span>
                   <img
                     className="product-img"
@@ -185,7 +196,7 @@ const OperationDetail = ({ selectedOperations }) => {
                     onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/placeholder/image.png'; }}
                   />
                 </div>
-                <div className="operation_row">
+                <div className="operation_row" style={{width:'100%', display:'flex', flexDirection:'column', gap:'10px', padding:'10px'}}>
                   <span className="operation_span">Photo traceur : </span>
                   <img
                     className="product-img"
@@ -214,14 +225,17 @@ const OperationDetail = ({ selectedOperations }) => {
             <Popover title="Supprimer la signature" trigger="hover">
               <DeleteOutlined onClick={clearSignature} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: 'red', border: '1px solid red', borderRadius: '50%', padding: '3px' }} />
             </Popover>
-            <Popover title="Sauvegarde" trigger="hover">
-              <SaveOutlined onClick={saveSignature} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', border: '1px solid black', borderRadius: '50%', padding: '3px' }} />
+            <Popover title="Sauvegarde la signature" trigger="hover">
+              <SaveOutlined onClick={saveSignature} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: 'green', border: '1px solid green', borderRadius: '50%', padding: '3px' }} />
             </Popover>
-            <Popover title="Envoyer dans le mail" trigger="hover">
-              <MailOutlined onClick={sendEmail} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', border: '1px solid black', borderRadius: '50%', padding: '3px' }} />
+            <Popover title="Envoyer par mail" trigger="hover">
+              <MailOutlined onClick={sendEmail} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: '#0056b3', border: '1px solid #0056b3', borderRadius: '50%', padding: '3px' }} />
             </Popover>
-            <Popover title="Télécharger en pdf" trigger="hover">
-              <FilePdfOutlined onClick={generatePDF} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: 'red', border: '1px solid red', borderRadius: '50%', padding: '3px' }} />
+            <Popover title="Exporter en PDF" trigger="hover">
+              <FilePdfOutlined onClick={generatePDF} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: '#b35a00', border: '1px solid #b35a00', borderRadius: '50%', padding: '3px' }} />
+            </Popover>
+            <Popover title="Exporter en Word" trigger="hover">
+              <FileWordOutlined onClick={generateDocx} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: '#3b5998', border: '1px solid #3b5998', borderRadius: '50%', padding: '3px' }} />
             </Popover>
           </div>
         )}

@@ -35,6 +35,7 @@ import TraceurForm from './form/TraceurForm';
 import TraceurDetail from './detail/TraceurDetail';
 import TraceurHistorique from './historique/TraceurHistorique';
 import TraceurTrie from './traceurTrie/TraceurTrie';
+import CountUp from 'react-countup';
 
 const Traceur = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -49,6 +50,7 @@ const Traceur = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [openTrie, setOpenTrie] = useState(false);
+  const [traceur, setTraceur] = useState('');
 
   const fetchData = useCallback(async () => {
     try {
@@ -67,9 +69,19 @@ const Traceur = () => {
     }
   }, [DOMAIN, startDate, endDate, searchValue]);
 
+  const fetchTraceur= useCallback(async () => {
+    try {
+      const { data } = await axios.get(`${DOMAIN}/traceur/count`);
+      setTraceur(data[0].nbre_traceur);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [DOMAIN]);
+
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+    fetchTraceur()
+  }, [fetchData, fetchTraceur]);
 
   const showDrawer = (id) => {
     setIdTraceur(id);
@@ -218,6 +230,13 @@ const Traceur = () => {
             <div className="client_text_left">
               <h2 className="client_h2">Traceur</h2>
               <span className="client_span">Liste des traceurs</span>
+            </div>
+            <div className="client_row_number">
+              {traceur ? (
+                <span className="client_span_title">Total : <CountUp end={traceur}/></span>
+              ) : (
+                <Skeleton.Input active />
+              )}
             </div>
             <div className="client_text_right">
               <Button onClick={showModal} icon={<PlusCircleOutlined />} />
