@@ -59,7 +59,7 @@ const Client = () => {
 
   const fetchClient = async () => {
     try {
-        const { data } = await axios.get(`${DOMAIN}/client/count`);
+        const { data } = await axios.get(`${DOMAIN}/client/count?searchValue=${searchValue}`);
         setClient(data[0].nbre_client);
     } catch (error) {
         console.log(error);
@@ -69,7 +69,7 @@ const Client = () => {
   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
     fetchClient()
-  }, [DOMAIN, pagination.current, pagination.pageSize]);
+  }, [DOMAIN, pagination.current, pagination.pageSize, searchValue]);
 
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);

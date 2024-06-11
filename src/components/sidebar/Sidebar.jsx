@@ -5,7 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import './sidebar.css';
 import logo from './../../assets/falcon.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import config from '../../config';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ const Sidebar = () => {
   const sidebarRef = useRef(null);
   const navigate = useNavigate();
   const isSidebarOpen = useSelector((state) => state.user?.isSidebarOpen);
-
+  const [data, setData] = useState([]);
   const onOpenChange = (keys) => {
     setOpenKeys(keys);
   };
@@ -42,6 +42,19 @@ const Sidebar = () => {
       toast.error('Erreur lors de la déconnexion.');
     }
   };
+
+  const fetchMenu = useCallback(async () => {
+    try {
+      const { data } = await axios.get(`${DOMAIN}/menu/menuAll`);
+      setData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [DOMAIN]);
+
+  useEffect(() => {
+    fetchMenu();
+  }, [fetchMenu]);
 
   return (
     <div className={`sidebar ${isSidebarOpen ? 'visible' : ''}`} ref={sidebarRef} >

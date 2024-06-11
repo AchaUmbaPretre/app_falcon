@@ -29,17 +29,19 @@ const Vehicules = () => {
 
   const fetchVehicule = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/vehicule/count`);
+      const { data } = await axios.get(`${DOMAIN}/vehicule/count?searchValue=${searchValue}`);
       setVehicule(data[0]?.nbre_vehicule);
     } catch (error) {
       console.log(error);
     }
-  }, [DOMAIN]);
+  }, [DOMAIN,searchValue]);
+
+
 
   useEffect(() => {
     fetchData();
     fetchVehicule();
-  }, [fetchData, fetchVehicule]);
+  }, [fetchData, fetchVehicule, searchValue]);
 
   const handleDelete = async (id) => {
     try {
