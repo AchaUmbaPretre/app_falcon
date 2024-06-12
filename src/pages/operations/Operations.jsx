@@ -13,6 +13,9 @@ import OperationGen from './form/OperationGen';
 import OperationTrier from './operationTrier/OperationTrier';
 import OperationTableau from './operationDetail/OperationTableau';
 import CountUp from 'react-countup';
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 
 const Operations = () => {
@@ -106,6 +109,42 @@ const Operations = () => {
 
   const closeDrawer = () => {
     setOpenDetail(false);
+  };
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Liste d'opérations", 14, 22);
+    const tableColumn = ["#", "Client", "Site", "Type d'opération", "Superviseur", "Technicien", "Date"];
+    const tableRows = [];
+
+    data.forEach((record, index) => {
+      const date = new Date(record.created_at);
+      const formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
+      const tableRow = [
+        index + 1,
+        record.nom_client,
+        record.nom_site,
+        record.type_operations,
+        record.superviseur,
+        record.technicien,
+        formattedDate
+      ];
+      tableRows.push(tableRow);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+    });
+    doc.save('opérations.pdf');
+  };
+
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Opérations");
+    XLSX.writeFile(wb, "opérations.xlsx");
   };
 
   const columns = [
@@ -261,9 +300,9 @@ const Operations = () => {
                 </div>
               </div>
               <div className="product-bottom-right">
-                <FilePdfOutlined className='product-icon-pdf' />
-                <FileExcelOutlined className='product-icon-excel' />
-                <PrinterOutlined className='product-icon-printer' />
+                <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
+                <Button className="product-icon-printer" icon={<PrinterOutlined />} />
               </div>
             </div>
             {openTrie && (

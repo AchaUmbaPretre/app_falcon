@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
 import {
   PlusCircleOutlined, EnvironmentOutlined, UserOutlined, DeleteOutlined,
-  SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined
+  SisternodeOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
@@ -125,9 +125,6 @@ const Sites = () => {
                 </div>
               </div>
               <div className="product-bottom-right">
-                <FilePdfOutlined className="product-icon-pdf" />
-                <FileExcelOutlined className="product-icon-excel" />
-                <PrinterOutlined className="product-icon-printer" />
               </div>
             </div>
             {isLoading ? (

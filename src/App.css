@@ -83,6 +83,16 @@ li{
     cursor: pointer;
 }
 
+.btn-submit{
+    padding: 15px 20px;
+    border: none;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 @media print {
   .no-print {
     display: none;
