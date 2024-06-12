@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton } from 'antd'
-import { PlusCircleOutlined, SisternodeOutlined,GlobalOutlined,PhoneOutlined,DeleteOutlined ,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined, GlobalOutlined, PhoneOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import NumeroForm from './form/NumeroForm';
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 const Numero = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -14,20 +17,19 @@ const Numero = () => {
 
   const handleDelete = async (id) => {
     try {
-        await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
-          window.location.reload();
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
+      await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`${DOMAIN}/affectation/numero`);
         setData(data);
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -35,9 +37,8 @@ const Numero = () => {
     fetchData();
   }, [DOMAIN]);
 
-
   const getNetworkName = (phoneNumber) => {
-    if (phoneNumber.startsWith('+24382') || phoneNumber.startsWith('+24383') || phoneNumber.startsWith('+24381') )  {
+    if (phoneNumber.startsWith('+24382') || phoneNumber.startsWith('+24383') || phoneNumber.startsWith('+24381')) {
       return { name: 'Vodacom', color: 'green' };
     } else if (phoneNumber.startsWith('+24399')) {
       return { name: 'Airtel', color: 'red' };
@@ -50,14 +51,50 @@ const Numero = () => {
     }
   };
 
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Liste des numeros", 14, 22);
+    const tableColumn = ["#", "Numero", "Réseau"];
+    const tableRows = [];
+
+    data.forEach((record, index) => {
+      const network = getNetworkName(record.numero).name;
+      const tableRow = [
+        index + 1,
+        record.numero,
+        network
+      ];
+      tableRows.push(tableRow);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+    });
+    doc.save('numero.pdf');
+  };
+
+  const exportToExcel = () => {
+    const exportData = data.map((record, index) => ({
+      '#': index + 1,
+      'Numero': record.numero,
+      'Réseau': getNetworkName(record.numero).name
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Numero");
+    XLSX.writeFile(wb, "numero.xlsx");
+  };
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width:"3%"},
+    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
       title: 'Numero',
       dataIndex: 'numero',
       key: 'numero',
-      render : (text,record)=>(
+      render: (text, record) => (
         <div>
           <Tag color={'blue'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
@@ -78,30 +115,30 @@ const Numero = () => {
       }
     },
     {
-        title: 'Action',
-        key: 'action',
-        width: "160px",
-        render: (text, record) => (
-          <Space size="middle">
-            <Popover  title="Supprimer" trigger="hover">
-              <Popconfirm
-                title="Êtes-vous sûr de vouloir supprimer?"
-                onConfirm={() => handleDelete(record.id_client)}
-                okText="Oui"
-                cancelText="Non"
-              >
-                <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
-              </Popconfirm>
-            </Popover>
-          </Space>
-        )
-      }
+      title: 'Action',
+      key: 'action',
+      width: "160px",
+      render: (text, record) => (
+        <Space size="middle">
+          <Popover title="Supprimer" trigger="hover">
+            <Popconfirm
+              title="Êtes-vous sûr de vouloir supprimer?"
+              onConfirm={() => handleDelete(record.id_client)}
+              okText="Oui"
+              cancelText="Non"
+            >
+              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+            </Popconfirm>
+          </Popover>
+        </Space>
+      )
+    }
   ];
 
   const showModal = (e) => {
     setOpen(true);
   };
-    
+
   return (
     <>
       <div className="client">
@@ -119,57 +156,55 @@ const Numero = () => {
           </div>
           <div className="client_wrapper_center">
             <Breadcrumb
-                separator=">"
-                items={[
-                  {
-                    title: 'Accueil',
-                    href: '/',
-                  },
-                  {
-                    title: 'Numéro'
-                  }
-                ]}
+              separator=">"
+              items={[
+                {
+                  title: 'Accueil',
+                  href: '/',
+                },
+                {
+                  title: 'Numéro'
+                }
+              ]}
             />
             <div className="client_wrapper_center_bottom">
-                <div className="product-bottom-top">
-                  <div className="product-bottom-left">
-                    <SisternodeOutlined className='product-icon' />
-                    <div className="product-row-search">
-                      <SearchOutlined className='product-icon-plus'/>
-                      <input type="search" name="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)}  placeholder='Recherche...' className='product-search' />
-                    </div>
-                  </div>
-                  <div className="product-bottom-right">
-                    <FilePdfOutlined className='product-icon-pdf' />
-                    <FileExcelOutlined className='product-icon-excel'/>
-                    <PrinterOutlined className='product-icon-printer'/>
+              <div className="product-bottom-top">
+                <div className="product-bottom-left">
+                  <SisternodeOutlined className='product-icon' />
+                  <div className="product-row-search">
+                    <SearchOutlined className='product-icon-plus' />
+                    <input type="search" name="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder='Recherche...' className='product-search' />
                   </div>
                 </div>
+                <div className="product-bottom-right">
+                  <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                  <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
+                  <Button className="product-icon-printer" icon={<PrinterOutlined />} />
+                </div>
+              </div>
 
-                <Modal
-                  title=""
-                  centered
-                  open={open}
-                  onCancel={() => setOpen(false)}
-                  width={1000}
-                  footer={[
-                            ]}
-                >
-                  <NumeroForm />
-                </Modal>
+              <Modal
+                title=""
+                centered
+                open={open}
+                onCancel={() => setOpen(false)}
+                width={1000}
+                footer={[]}
+              >
+                <NumeroForm />
+              </Modal>
 
-                {loading ? (
-                  <Skeleton active />
-                ) : (
-                  <Table dataSource={data} columns={columns} loading={loading} className='table_client' />
-                )}
-
+              {loading ? (
+                <Skeleton active />
+              ) : (
+                <Table dataSource={data} columns={columns} loading={loading} className='table_client' />
+              )}
             </div>
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default Numero
+export default Numero;
