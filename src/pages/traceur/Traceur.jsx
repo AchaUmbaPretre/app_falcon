@@ -35,6 +35,9 @@ import TraceurForm from './form/TraceurForm';
 import TraceurDetail from './detail/TraceurDetail';
 import TraceurHistorique from './historique/TraceurHistorique';
 import TraceurTrie from './traceurTrie/TraceurTrie';
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 import CountUp from 'react-countup';
 
 const Traceur = () => {
@@ -104,6 +107,38 @@ const Traceur = () => {
     } catch (err) {
       console.error('Error deleting record:', err);
     }
+  };
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Liste des traceurs", 14, 22);
+    const tableColumn = ["#", "nom_model", "numero_serie","nom_etat_traceur", "nom_client"];
+    const tableRows = [];
+
+    data.forEach((record, index) => {
+      const tableRow = [
+        index + 1,
+        record.nom_model,
+        record.numero_serie,
+        record.nom_etat_traceur,
+        record.nom_client
+      ];
+      tableRows.push(tableRow);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+    });
+    doc.save('traceur.pdf');
+  };
+
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Traceur");
+    XLSX.writeFile(wb, "traceur.xlsx");
   };
 
   const columns = [
@@ -273,9 +308,9 @@ const Traceur = () => {
                 </div>
               </div>
               <div className="product-bottom-right">
-                <FilePdfOutlined className="product-icon-pdf" />
-                <FileExcelOutlined className="product-icon-excel" />
-                <PrinterOutlined className="product-icon-printer" />
+                <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
+                <Button className="product-icon-printer" icon={<PrinterOutlined />} />
               </div>
             </div>
             {openTrie && <TraceurTrie start_date={setStartDate} end_date={setEndDate} />}
