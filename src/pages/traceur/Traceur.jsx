@@ -71,12 +71,12 @@ const Traceur = () => {
 
   const fetchTraceur= useCallback(async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/traceur/count`);
+      const { data } = await axios.get(`${DOMAIN}/traceur/count?searchValue=${searchValue}`);
       setTraceur(data[0].nbre_traceur);
     } catch (error) {
       console.log(error);
     }
-  }, [DOMAIN]);
+  }, [DOMAIN,searchValue]);
 
   useEffect(() => {
     fetchData();

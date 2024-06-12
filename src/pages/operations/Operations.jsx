@@ -9,7 +9,6 @@ import {
 import axios from 'axios';
 import moment from 'moment';
 import config from '../../config';
-import OperationDetail from './operationDetail/OperationDetail';
 import OperationGen from './form/OperationGen';
 import OperationTrier from './operationTrier/OperationTrier';
 import OperationTableau from './operationDetail/OperationTableau';
@@ -216,6 +215,7 @@ const Operations = () => {
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.nom_site?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.superviseur?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.type_operations?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.technicien?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
