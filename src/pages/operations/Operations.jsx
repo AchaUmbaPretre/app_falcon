@@ -62,12 +62,12 @@ const Operations = () => {
 
   const fetchNbreOperation = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/operation/count`);
+      const { data } = await axios.get(`${DOMAIN}/operation/count?searchValue=${searchValue}`);
       setOperation(data[0].nbre_operation);
     } catch (error) {
       console.log(error);
     }
-  }, [DOMAIN]);
+  }, [DOMAIN, searchValue]);
 
   useEffect(() => {
     fetchOperations();
