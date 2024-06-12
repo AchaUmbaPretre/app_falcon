@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, DatePicker, notification } from 'antd';
 import { PlusCircleOutlined, SisternodeOutlined, PhoneOutlined, BarcodeOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
@@ -7,6 +7,7 @@ import AffectationForm from './form/AffectationForm';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import CountUp from 'react-countup';
 
 const { RangePicker } = DatePicker;
 
@@ -19,6 +20,7 @@ const Affectations = () => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: 0 });
   const [filters, setFilters] = useState({});
   const [showFilters, setShowFilters] = useState(false);
+  const [affect, setAffect] = useState('');
 
   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize, filters);
@@ -135,6 +137,19 @@ const Affectations = () => {
     }
   ];
 
+  const fetchAffectation = useCallback(async () => {
+    try {
+      const { data } = await axios.get(`${DOMAIN}/affectation/count?searchValue=${searchValue}`);
+      setAffect(data[0]?.nbre_affectation);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [DOMAIN,searchValue]);
+
+  useEffect(() => {
+    fetchAffectation();
+  }, [fetchAffectation]);
+
   const showModal = () => {
     setOpen(true);
   };
@@ -158,6 +173,13 @@ const Affectations = () => {
                 <h2 className="client_h2">Affectations</h2>
                 <span className="client_span">Liste d'affectations</span>
               </div>
+              <div className="client_row_number">
+                {affect ? (
+                  <span className="client_span_title">Total : <CountUp end={affect} /></span>
+                ) : (
+                  <Skeleton.Input style={{ width: 120 }} active />
+                )}
+            </div>
               <div className="client_text_right">
                 <button onClick={showModal}><PlusCircleOutlined /></button>
               </div>
