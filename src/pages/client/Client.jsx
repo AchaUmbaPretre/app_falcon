@@ -3,7 +3,7 @@ import './client.scss';
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton } from 'antd';
 import { PlusCircleOutlined, UserOutlined, EyeOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import ClientForm from './form/ClientForm';
-import config, { userRequest } from '../../config';
+import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ClientContact from './clientContact/ClientContact';

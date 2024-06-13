@@ -11,7 +11,7 @@ import './traceurForm.scss'
 const TraceurForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const navigate = useNavigate();
-  const [traceurs, setTraceurs] = useState([{ model: '', numero_serie: '', code: '' }]);
+  const [traceurs, setTraceurs] = useState([{ model: '', numero_serie: '', code: '', numero: '' }]);
   const [isLoading, setIsLoading] = useState(false);
   const [modelOptions, setModelOptions] = useState([]);
 
@@ -29,7 +29,7 @@ const TraceurForm = () => {
   };
 
   const addTraceur = () => {
-    setTraceurs([...traceurs, { model: '', numero_serie: '', code: '' }]);
+    setTraceurs([...traceurs, { model: '', numero_serie: '', code: '', numero: '' }]);
   };
 
   const removeTraceur = (index) => {
@@ -104,6 +104,22 @@ const TraceurForm = () => {
       ),
     },
     {
+      title: 'Telephone',
+      dataIndex: 'numero',
+      key: 'numero',
+      render: (_, record, index) => (
+        <input
+          type="text"
+          name="numero"
+          className="form-input"
+          onChange={(e) => handleInputChange(index, e)}
+          value={traceurs[index].numero}
+          placeholder='Entrer le tel...'
+          required
+        />
+      ),
+    },
+    {
       title: 'Code(nomenclature)',
       dataIndex: 'code',
       key: 'code',
@@ -142,6 +158,7 @@ const TraceurForm = () => {
     },
   ];
 
+
   return (
     <>
       <ToastContainer />
@@ -161,7 +178,7 @@ const TraceurForm = () => {
                 pagination={false}
                 rowKey={(record, index) => index}
               />
-              <div className="form-submit" style={{ marginTop: '20px' }}>
+              <div className="form-submit" style={{ margin: '20px 0' }}>
                 <button type="primary" onClick={handleSubmit} disabled={isLoading} className='btn-submit'>
                   Envoyer
                 </button>
