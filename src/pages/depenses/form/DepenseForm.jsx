@@ -48,8 +48,6 @@ const DepenseForm = () => {
     fetchType();
   }, [fetchUsers, fetchType]);
 
-  console.log(data)
-
   const handleSubmit = async () => {
     if (!data.id_users) {
       toast.error('Veuillez remplir tous les champs requis');
