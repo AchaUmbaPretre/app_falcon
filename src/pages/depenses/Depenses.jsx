@@ -9,6 +9,7 @@ import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
 import DepenseForm from './form/DepenseForm';
+import { Link } from 'react-router-dom';
 
 const Depenses = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -68,14 +69,26 @@ const Depenses = () => {
       )
     },
     {
+      title: 'Date',
+      dataIndex: 'date_depense',
+      key: 'date_depense',
+      sorter: (a, b) => moment(a.date_depense) - moment(b.date_depense),
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => (
+        <Tag icon={<CalendarOutlined />} color="blue">
+          {moment(text).format('DD-MM-yyyy')}
+        </Tag>
+      )
+    },
+    {
         title: 'Dollars',
-        dataIndex: 'montant',
-        key: 'montant',
-        sorter: (a, b) => a.montant - b.montant,
+        dataIndex: 'montant_dollars',
+        key: 'montant_dollars',
+        sorter: (a, b) => a.montant_dollars - b.montant_dollars,
         sortDirections: ['descend', 'ascend'],
         render: (text, record) => (
-          <Tag color={record.montant !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
-            {record.montant ? record.montant + ' $' : '0'}
+          <Tag color={record.montant_dollars !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+            {record.montant_dollars ? record.montant_dollars + ' $' : '0'}
           </Tag>
         ),
       },
@@ -104,31 +117,14 @@ const Depenses = () => {
         ),
       },
     {
-      title: 'Date',
-      dataIndex: 'date_depense',
-      key: 'date_depense',
-      sorter: (a, b) => moment(a.date_depense) - moment(b.date_depense),
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => (
-        <Tag icon={<CalendarOutlined />} color="blue">
-          {moment(text).format('DD-MM-yyyy')}
-        </Tag>
-      )
-    },
-    {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-          <Popover title="Supprimer" trigger="hover">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer?"
-              onConfirm={() => handleDelete(record.id_depense)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
-            </Popconfirm>
+          <Popover title="Voir les détails" trigger="hover">
+            <Link >
+              <Button icon={<EyeOutlined />} style={{ color: 'blue' }} />
+            </Link>
           </Popover>
         </Space>
       )
