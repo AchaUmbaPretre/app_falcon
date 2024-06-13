@@ -21,7 +21,7 @@ const Depenses = () => {
 
   const fetchDepenses = useCallback(async () => {
     try {
-      const response = await axios.get(`${DOMAIN}/depense`);
+      const response = await axios.get(`${DOMAIN}/depense/depenseAll`);
       setDepenses(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des dépenses:", error);
@@ -58,20 +58,9 @@ const Depenses = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
-      title: 'Agent',
-      dataIndex: 'username',
-      key: 'username',
-      render: (text) => (
-        <Tag color='blue'>
-          <UserOutlined style={{ marginRight: '5px' }} />
-          {text}
-        </Tag>
-      )
-    },
-    {
-      title: 'Catégorie',
-      dataIndex: 'nom_categorie',
-      key: 'nom_categorie',
+      title: 'Jour',
+      dataIndex: 'jour_semaine',
+      key: 'jour_semaine',
       render: (text) => (
         <Tag color="orange">
           {text}
@@ -79,7 +68,7 @@ const Depenses = () => {
       )
     },
     {
-        title: 'En dollars',
+        title: 'Dollars',
         dataIndex: 'montant',
         key: 'montant',
         sorter: (a, b) => a.montant - b.montant,
@@ -91,7 +80,7 @@ const Depenses = () => {
         ),
       },
       {
-        title: 'En franc',
+        title: 'Franc',
         dataIndex: 'montant_franc',
         key: 'montant_franc',
         sorter: (a, b) => a.montant_franc - b.montant_franc,
@@ -103,14 +92,14 @@ const Depenses = () => {
         ),
       },
       {
-        title: 'Montant total $',
-        dataIndex: 'montant_total_combine',
-        key: 'montant_total_combine',
-        sorter: (a, b) => a.montant_total_combine - b.montant_total_combine,
+        title: 'Total_depense $',
+        dataIndex: 'total_depense',
+        key: 'total_depense',
+        sorter: (a, b) => a.total_depense - b.total_depense,
         sortDirections: ['descend', 'ascend'],
         render: (text, record) => (
-          <Tag color={record.montant_total_combine !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
-            {record.montant_total_combine ? record.montant_total_combine + ' $' : '0' + ' $'}
+          <Tag color={record.total_depense !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+            {record.total_depense ? record.total_depense + ' $' : '0' + ' $'}
           </Tag>
         ),
       },
@@ -146,10 +135,6 @@ const Depenses = () => {
     }
   ];
 
-  const filteredData = depenses.filter((item) =>
-    item.username.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom_categorie.toLowerCase().includes(searchValue.toLowerCase())
-  );
 
   return (
     <div className="client">
@@ -192,7 +177,7 @@ const Depenses = () => {
                 <Skeleton active />
             ) : (
                 <Table
-                dataSource={filteredData}
+                dataSource={depenses}
                 columns={columns}
                 loading={isLoading}
                 scroll={scroll}
