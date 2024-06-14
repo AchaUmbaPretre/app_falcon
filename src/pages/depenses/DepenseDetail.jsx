@@ -1,92 +1,73 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Drawer, Modal, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
-import {
-  PlusCircleOutlined, SisternodeOutlined, EyeOutlined,
-  DollarOutlined, CalendarOutlined, FilePdfOutlined,
-  FileExcelOutlined, PrinterOutlined,
-} from '@ant-design/icons';
+import { Button,Table, Tag,Skeleton } from 'antd';
+import { UserOutlined, DollarOutlined, CalendarOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
-const DepenseDetail = ({date}) => {
+const DepenseDetail = ({ date }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [depenses, setDepenses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [dateDetail, setDateDetail] = useState('')
   const scroll = { x: 400 };
 
+  const fetchDepenses = useCallback(async () => {
+    try {
+      const { data } = await axios.get(`${DOMAIN}/depense`, { params: { date } });
+      setDepenses(data);
+    } catch (error) {
+      console.error('Error fetching depenses:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [DOMAIN, date]);
 
-
-  const showDrawer = (e) => {
-    setIsDrawerOpen(true);
-    setDateDetail(e)
-  };
+  useEffect(() => {
+    fetchDepenses();
+  }, [fetchDepenses]);
 
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.text("Liste des dépenses", 14, 22);
-    const tableColumn = ["#", "jour_semaine", "date_depense", "montant_dollars", "montant_franc", "total_depense"];
-    const tableRows = [];
-
-    depenses.forEach((record, index) => {
-      const date = new Date(record.date_depense);
-      const formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
-      const tableRow = [
-        index + 1,
-        record.jour_semaine,
-        formattedDate,
-        record.montant_dollars,
-        record.montant_franc,
-        record.total_depense
-      ];
-      tableRows.push(tableRow);
-    });
+    const tableColumn = ["#", "Jour", "Date", "Dollars", "Franc", "Total Dépense"];
+    const tableRows = depenses.map((record, index) => [
+      index + 1,
+      record.jour,
+      moment(record.date_depense).format('DD/MM/YYYY'),
+      record.montant_dollars,
+      record.montant_franc,
+      record.montant_total_combine,
+    ]);
 
     doc.autoTable({
       head: [tableColumn],
       body: tableRows,
       startY: 30,
     });
-    doc.save('dépense.pdf');
+    doc.save('dépenses.pdf');
   };
 
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(depenses);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "dépense");
+    XLSX.utils.book_append_sheet(wb, ws, "Dépenses");
     XLSX.writeFile(wb, "depenses.xlsx");
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/depense?date=${date}`);
-        setDepenses(data);
-        setIsLoading(false)
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN, date]);
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
       title: 'Jour',
-      dataIndex: '"jour',
-      key: '"jour',
+      dataIndex: 'jour',
+      key: 'jour',
       render: (text) => (
         <Tag color="orange" icon={<CalendarOutlined />}>
           {text}
         </Tag>
-      )
+      ),
     },
     {
       title: 'Date',
@@ -98,57 +79,54 @@ const DepenseDetail = ({date}) => {
         <Tag icon={<CalendarOutlined />} color="blue">
           {moment(text).format('DD-MM-yyyy')}
         </Tag>
-      )
+      ),
     },
     {
-        title: 'Dollars',
-        dataIndex: 'montant_dollars',
-        key: 'montant_dollars',
-        sorter: (a, b) => a.montant_dollars - b.montant_dollars,
-        sortDirections: ['descend', 'ascend'],
+        title: 'Nom',
+        dataIndex: 'username',
+        key: 'username',
         render: (text, record) => (
-          <Tag color={record.montant_dollars !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
-            {record.montant_dollars ? record.montant_dollars + ' $' : '0'}
-          </Tag>
-        ),
-      },
-      {
-        title: 'Franc',
-        dataIndex: 'montant_franc',
-        key: 'montant_franc',
-        sorter: (a, b) => a.montant_franc - b.montant_franc,
-        sortDirections: ['descend', 'ascend'],
-        render: (text, record) => (
-          <Tag color={record.montant_franc !== null ? 'green' : 'red'}>
-            {record.montant_franc !== null ? record.montant_franc + ' fc' : '0' + ' fc'}
-          </Tag>
-        ),
-      },
-      {
-        title: 'Total_depense $',
-        dataIndex: 'total_depense',
-        key: 'total_depense',
-        sorter: (a, b) => a.total_depense - b.total_depense,
-        sortDirections: ['descend', 'ascend'],
-        render: (text, record) => (
-          <Tag color={record.total_depense !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
-            {record.total_depense ? record.total_depense + ' $' : '0' + ' $'}
-          </Tag>
-        ),
+          <div>
+            <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          </div>
+        )
       },
     {
-      title: 'Action',
-      key: 'action',
+      title: 'Dollars',
+      dataIndex: 'montant_dollars',
+      key: 'montant_dollars',
+      sorter: (a, b) => a.montant_dollars - b.montant_dollars,
+      sortDirections: ['descend', 'ascend'],
       render: (text, record) => (
-        <Space size="middle">
-          <Popover title="Voir les détails" trigger="hover">
-            <Link onClick={() => showDrawer(record.date_depense)}>
-              <Button icon={<EyeOutlined />} style={{ color: 'blue' }} />
-            </Link>
-          </Popover>
-        </Space>
-      )
-    }
+        <Tag color={record.montant_dollars ? 'green' : 'red'} icon={<DollarOutlined />}>
+          {record.montant_dollars ? `${record.montant_dollars} $` : '0 $'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Franc',
+      dataIndex: 'montant_franc',
+      key: 'montant_franc',
+      sorter: (a, b) => a.montant_franc - b.montant_franc,
+      sortDirections: ['descend', 'ascend'],
+      render: (text, record) => (
+        <Tag color={record.montant_franc ? 'green' : 'red'}>
+          {record.montant_franc ? `${record.montant_franc} fc` : '0 fc'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Total Dépense $',
+      dataIndex: 'montant_total_combine',
+      key: 'montant_total_combine',
+      sorter: (a, b) => a.montant_total_combine - b.montant_total_combine,
+      sortDirections: ['descend', 'ascend'],
+      render: (text, record) => (
+        <Tag color={record.montant_total_combine ? 'green' : 'red'} icon={<DollarOutlined />}>
+          {record.montant_total_combine ? `${record.montant_total_combine} $` : '0 $'}
+        </Tag>
+      ),
+    },
   ];
 
   return (
@@ -157,8 +135,7 @@ const DepenseDetail = ({date}) => {
         <div className="client_wrapper_center">
           <div className="client_wrapper_center_bottom">
             <div className="product-bottom-top">
-              <div className="product-bottom-left">
-              </div>
+              <div className="product-bottom-left" />
               <div className="product-bottom-right">
                 <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
                 <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
@@ -166,21 +143,21 @@ const DepenseDetail = ({date}) => {
               </div>
             </div>
             {isLoading ? (
-                <Skeleton active />
+              <Skeleton active />
             ) : (
-                <Table
+              <Table
                 dataSource={depenses}
                 columns={columns}
                 loading={isLoading}
                 scroll={scroll}
                 className='table_client'
-                />
+              />
             )}
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default DepenseDetail;
