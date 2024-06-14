@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import DepenseDetail from './DepenseDetail';
 
 const Depenses = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -233,12 +234,13 @@ const Depenses = () => {
               <DepenseForm onClose={closeModal} />
             </Modal>
             <Drawer
-              title="Détails"
+              title="Détail dépense"
               placement="right"
               onClose={closeDrawer}
               visible={isDrawerOpen}
-              width={600}
+              width={900}
             >
+              <DepenseDetail date={dateDetail} />
             </Drawer>
           </div>
         </div>

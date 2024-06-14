@@ -39,26 +39,6 @@ const DepenseDetail = () => {
     fetchDepenses();
   }, [fetchDepenses]);
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${DOMAIN}/depense/${id}`);
-      fetchDepenses();
-    } catch (error) {
-      console.error("Erreur lors de la suppression de la dépense:", error);
-    }
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const closeDrawer = () => {
-    setIsDrawerOpen(false);
-  };
   const showDrawer = (e) => {
     setIsDrawerOpen(true);
     setDateDetail(e)
@@ -177,32 +157,10 @@ const DepenseDetail = () => {
   return (
     <div className="client">
       <div className="client_wrapper">
-        <div className="client_wrapper_top">
-          <div className="client_text_row">
-            <div className="client_text_left">
-              <h2 className="client_h2">Dépense</h2>
-              <span className="client_span">Liste des dépenses</span>
-            </div>
-            <div className="client_text_right">
-              <Button onClick={openModal} icon={<PlusCircleOutlined />} />
-            </div>
-          </div>
-        </div>
         <div className="client_wrapper_center">
-          <Breadcrumb separator=">" items={[{ title: 'Accueil' }, { title: 'Dépense', href: '/' }]} />
           <div className="client_wrapper_center_bottom">
             <div className="product-bottom-top">
               <div className="product-bottom-left">
-              <Button icon={<SisternodeOutlined />}/>
-                <div className="product-row-searchs">
-                    <Input
-                      type="search"
-                      value={searchValue}
-                      onChange={(e) => setSearchValue(e.target.value)}
-                      placeholder="Recherche..."
-                      className="product-search"
-                    />
-                </div>
               </div>
               <div className="product-bottom-right">
                 <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
@@ -221,25 +179,6 @@ const DepenseDetail = () => {
                 className='table_client'
                 />
             )}
-
-            <Modal
-              title=""
-              centered
-              open={isModalOpen}
-              onCancel={closeModal}
-              width={800}
-              footer={null}
-            >
-              <DepenseForm onClose={closeModal} />
-            </Modal>
-            <Drawer
-              title="Détails"
-              placement="right"
-              onClose={closeDrawer}
-              visible={isDrawerOpen}
-              width={600}
-            >
-            </Drawer>
           </div>
         </div>
       </div>
