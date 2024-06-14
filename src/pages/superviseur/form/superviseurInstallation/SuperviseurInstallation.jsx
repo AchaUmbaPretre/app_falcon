@@ -204,6 +204,11 @@ const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
             okButtonProps={{ style: { background: 'blue' } }}
           >
             <p>Est-ce que le traceur installé a déjà été configuré ?</p>
+            {isLoading && (
+                <div className="loader-container loader-container-center">
+                  <Spin size="large" />
+                </div>
+              )}
           </Modal>
           <Modal
             title=""
