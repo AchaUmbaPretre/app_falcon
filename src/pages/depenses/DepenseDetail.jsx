@@ -14,7 +14,7 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
-const Depenses = () => {
+const DepenseDetail = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [depenses, setDepenses] = useState([]);
@@ -247,4 +247,4 @@ const Depenses = () => {
   );
 }
 
-export default Depenses;
+export default DepenseDetail;
