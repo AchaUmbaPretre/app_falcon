@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton } from 'antd'
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined, GlobalOutlined, PhoneOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
@@ -170,10 +170,14 @@ const Numero = () => {
             <div className="client_wrapper_center_bottom">
               <div className="product-bottom-top">
                 <div className="product-bottom-left">
-                  <SisternodeOutlined className='product-icon' />
-                  <div className="product-row-search">
-                    <SearchOutlined className='product-icon-plus' />
-                    <input type="search" name="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder='Recherche...' className='product-search' />
+                  <Button icon={<SisternodeOutlined />}/>
+                  <div className="product-row-searchs">
+                    <Input
+                      type="search"
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      placeholder="Recherche..."
+                    />
                   </div>
                 </div>
                 <div className="product-bottom-right">
