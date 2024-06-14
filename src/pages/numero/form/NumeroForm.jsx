@@ -108,9 +108,9 @@ const NumeroForm = () => {
               bordered
             />
             <div className="form-submit" style={{ marginTop: '20px' }}>
-              <button type="primary" onClick={handleClick} disabled={isLoading}>
+              <Button type="primary" onClick={handleClick} disabled={isLoading}>
                 Envoyer
-              </button>
+              </Button>
               {isLoading && (
                 <div className="loader-container loader-container-center">
                   <Spin size="large" />
