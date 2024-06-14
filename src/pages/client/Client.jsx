@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './client.scss';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton } from 'antd';
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
 import { PlusCircleOutlined, UserOutlined, EyeOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import ClientForm from './form/ClientForm';
 import config from '../../config';
@@ -244,10 +244,15 @@ const Client = () => {
             <div className="client_wrapper_center_bottom">
               <div className="product-bottom-top">
                 <div className="product-bottom-left">
-                  <SisternodeOutlined className='product-icon' />
-                  <div className="product-row-search">
-                    <SearchOutlined className='product-icon-plus' />
-                    <input type="search" name="" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder='Recherche...' className='product-search' />
+                  <Button icon={<SisternodeOutlined />}/>
+                  <div className="product-row-searchs">
+                    <Input
+                      type="search"
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      placeholder="Recherche..."
+                      className="product-search"
+                    />
                   </div>
                 </div>
                 <div className="product-bottom-right">

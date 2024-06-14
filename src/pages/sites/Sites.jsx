@@ -113,7 +113,7 @@ const Sites = () => {
           <div className="client_wrapper_center_bottom">
             <div className="product-bottom-top">
               <div className="product-bottom-left">
-                <SisternodeOutlined className="product-icon" />
+                <Button icon={<SisternodeOutlined />}/>
                 <div className="product-row-searchs">
                   <Input
                     type="search"
