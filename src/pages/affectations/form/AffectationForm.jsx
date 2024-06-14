@@ -171,7 +171,7 @@ const AffectationForm = () => {
                 type="primary"
                 onClick={handleSubmit}
                 disabled={isLoading}
-                style={{ width: '100%', marginTop: '16px' }}
+                style={{ width: '90%', marginTop: '16px' }}
               >
                 Envoyer
               </Button>
