@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, DatePicker, notification } from 'antd';
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, DatePicker, notification, Input } from 'antd';
 import { PlusCircleOutlined, SisternodeOutlined, PhoneOutlined, BarcodeOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
@@ -203,8 +203,13 @@ const Affectations = () => {
                 <div className="product-bottom-left">
                   <SisternodeOutlined className='product-icon' onClick={toggleFilters} />
                   <div className="product-row-search">
-                    <SearchOutlined className='product-icon-plus' />
-                    <input type="search" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} placeholder='Recherche...' className='product-search' />
+                    <Input
+                      type="search"
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      placeholder="Recherche..."
+                      className="product-search"
+                    />
                   </div>
                 </div>
                 <div className="product-bottom-right">
