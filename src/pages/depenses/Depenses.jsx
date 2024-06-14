@@ -82,7 +82,7 @@ const Depenses = () => {
       body: tableRows,
       startY: 30,
     });
-    doc.save('client.pdf');
+    doc.save('dépense.pdf');
   };
 
   const exportToExcel = () => {
