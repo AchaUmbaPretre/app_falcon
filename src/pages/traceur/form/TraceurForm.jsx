@@ -202,7 +202,6 @@ const TraceurForm = () => {
         </div>
       </div>
 
-      {/* Modal de confirmation */}
       <Modal
         title="Confirmer l'envoi des traceurs"
         visible={modalVisible}
