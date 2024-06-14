@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import config from '../../../config';
-import { toast } from 'react-toastify';
-import { Spin, Button, Table, Input } from 'antd';
+import { toast,ToastContainer } from 'react-toastify';
+import { Spin, Button, Table, Input, Modal } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const NumeroForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [numeros, setNumeros] = useState(['']);
   const [isLoading, setIsLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalConfirmLoading, setModalConfirmLoading] = useState(false);
 
   const handleInputChange = (index, event) => {
     const values = [...numeros];
@@ -26,16 +28,19 @@ const NumeroForm = () => {
     setNumeros(values);
   };
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-
+  const handleClick = () => {
     if (numeros.some(numero => !numero)) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
 
+    // Ouvrir le modal de confirmation
+    setModalVisible(true);
+  };
+
+  const handleConfirmSend = async () => {
     try {
-      setIsLoading(true);
+      setModalConfirmLoading(true);
       await axios.post(`${DOMAIN}/affectation/numero_post`, { numeros });
       toast.success('Numéros créés avec succès!');
       window.location.reload();
@@ -46,6 +51,8 @@ const NumeroForm = () => {
         toast.error(err.message);
       }
     } finally {
+      setModalConfirmLoading(false);
+      setModalVisible(false);
       setIsLoading(false);
     }
   };
@@ -91,7 +98,8 @@ const NumeroForm = () => {
   const data = numeros.map((numero, index) => ({ key: index, numero }));
 
   return (
-    <div className="clientForm">
+    <div className="traceurForm">
+    <ToastContainer />
       <div className="product-container">
         <div className="product-container-top">
           <div className="product-left">
@@ -108,9 +116,9 @@ const NumeroForm = () => {
               bordered
             />
             <div className="form-submit" style={{ marginTop: '20px' }}>
-              <Button type="primary" onClick={handleClick} disabled={isLoading}>
+              <button type="primary" onClick={handleClick} disabled={isLoading} className='btn-submit'>
                 Envoyer
-              </Button>
+              </button>
               {isLoading && (
                 <div className="loader-container loader-container-center">
                   <Spin size="large" />
@@ -120,6 +128,16 @@ const NumeroForm = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        title="Confirmer l'envoi"
+        visible={modalVisible}
+        confirmLoading={modalConfirmLoading}
+        onCancel={() => setModalVisible(false)}
+        onOk={handleConfirmSend}
+      >
+        <p >Êtes-vous sûr de vouloir envoyer les données ?</p>
+      </Modal>
     </div>
   );
 };

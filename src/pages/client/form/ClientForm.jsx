@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import { Spin } from 'antd';
+import { Spin, Modal } from 'antd';
 import config from '../../../config';
 import './clientForms.scss';
 
@@ -11,6 +11,8 @@ const ClientForm = () => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalConfirmLoading, setModalConfirmLoading] = useState(false);
 
   const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -33,8 +35,13 @@ const ClientForm = () => {
       return;
     }
     
+    // Ouvrir le modal de confirmation
+    setModalVisible(true);
+  }, [data]);
+
+  const handleConfirmSend = useCallback(async () => {
     try {
-      setIsLoading(true);
+      setModalConfirmLoading(true);
       await axios.post(`${DOMAIN}/client/client`, data);
       toast.success('Client créé avec succès!');
       navigate('/client');
@@ -48,14 +55,15 @@ const ClientForm = () => {
       }
     }
     finally {
+      setModalConfirmLoading(false);
+      setModalVisible(false);
       setIsLoading(false);
     }
   }, [data, DOMAIN, navigate]);
 
-
   return (
     <div className="clientForms">
-    <ToastContainer />
+      <ToastContainer />
       <div className="product-container">
         <div className="product-container-top">
           <div className="product-left">
@@ -94,6 +102,25 @@ const ClientForm = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal de confirmation */}
+      <Modal
+        title="Confirmer l'envoi"
+        visible={modalVisible}
+        confirmLoading={modalConfirmLoading}
+        onCancel={() => setModalVisible(false)}
+        onOk={handleConfirmSend}
+      >
+        <p>Voulez-vous envoyer les informations suivantes ?</p>
+        <ul>
+          <li><strong>Nom du client :</strong> {data.nom_client}</li>
+          <li><strong>Nom principal :</strong> {data.nom_principal}</li>
+          <li><strong>Poste :</strong> {data.poste}</li>
+          <li><strong>Téléphone :</strong> {data.telephone}</li>
+          <li><strong>Adresse :</strong> {data.adresse}</li>
+          <li><strong>Email :</strong> {data.email}</li>
+        </ul>
+      </Modal>
     </div>
   );
 };

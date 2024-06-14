@@ -93,6 +93,70 @@ li{
     cursor: pointer;
 }
 
+/* clientForm.css */
+
+/* Styles pour le modal */
+.ant-modal-content {
+  border-radius: 8px;
+}
+
+.ant-modal-header {
+  background-color: #1890ff;
+  color: #fff;
+  border-radius: 8px 8px 0 0;
+  padding: 16px;
+  border-bottom: none;
+}
+
+.ant-modal-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ant-modal-body {
+  padding: 24px;
+}
+
+.ant-modal-footer {
+  border-top: none;
+  padding: 16px;
+  text-align: right;
+}
+
+/* Styles pour le contenu du modal */
+.ant-modal-body ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ant-modal-body li {
+  margin-bottom: 8px;
+}
+
+/* Styles pour les boutons du footer du modal */
+.ant-modal-footer .ant-btn-primary {
+  background-color: #1890ff;
+  border-color: #1890ff;
+  margin-left: 8px;
+}
+
+.ant-modal-footer .ant-btn-primary:hover,
+.ant-modal-footer .ant-btn-primary:focus {
+  background-color: #40a9ff;
+  border-color: #40a9ff;
+}
+
+
+/* Loader */
+.loader-container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+
 @media print {
   .no-print {
     display: none;
