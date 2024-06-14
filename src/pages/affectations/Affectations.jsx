@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, DatePicker, notification, Input } from 'antd';
-import { PlusCircleOutlined, SisternodeOutlined, PhoneOutlined, BarcodeOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined, CloseOutlined, PhoneOutlined, BarcodeOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import AffectationForm from './form/AffectationForm';
@@ -201,8 +201,11 @@ const Affectations = () => {
             <div className="client_wrapper_center_bottom">
               <div className="product-bottom-top">
                 <div className="product-bottom-left">
-                  <SisternodeOutlined className='product-icon' onClick={toggleFilters} />
-                  <div className="product-row-search">
+                  <Button
+                    icon={showFilters ? <CloseOutlined /> : <SisternodeOutlined />}
+                    onClick={toggleFilters}
+                  />
+                  <div className="product-row-searchs">
                     <Input
                       type="search"
                       value={searchValue}
