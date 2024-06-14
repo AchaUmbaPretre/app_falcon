@@ -8,36 +8,20 @@ import {
 import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
-import DepenseForm from './form/DepenseForm';
 import { Link } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
-const DepenseDetail = () => {
+const DepenseDetail = ({date}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [searchValue, setSearchValue] = useState('');
   const [depenses, setDepenses] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [dateDetail, setDateDetail] = useState('')
   const scroll = { x: 400 };
 
-  const fetchDepenses = useCallback(async () => {
-    try {
-      const response = await axios.get(`${DOMAIN}/depense/depenseAll`);
-      setDepenses(response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des dépenses:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [DOMAIN]);
 
-  useEffect(() => {
-    fetchDepenses();
-  }, [fetchDepenses]);
 
   const showDrawer = (e) => {
     setIsDrawerOpen(true);
@@ -79,12 +63,25 @@ const DepenseDetail = () => {
     XLSX.writeFile(wb, "depenses.xlsx");
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/depense?date=${date}`);
+        setDepenses(data);
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN, date]);
+
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
       title: 'Jour',
-      dataIndex: 'jour_semaine',
-      key: 'jour_semaine',
+      dataIndex: '"jour',
+      key: '"jour',
       render: (text) => (
         <Tag color="orange" icon={<CalendarOutlined />}>
           {text}
