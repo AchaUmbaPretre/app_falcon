@@ -204,26 +204,26 @@ const Sidebar = () => {
         </SubMenu>
         <SubMenu key="Paiement" icon={<DollarOutlined style={{ fontSize: '17px' }} />} title="Paiement" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="20">
-            <Link to={'/paiement'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
-              <Timeline.Item dot={<span className="custom-dot" />} />
-              Liste des paiements
-            </Link>
-          </Item>
-          <Item key="21">
-            <Link to={'/dette'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
-              <Timeline.Item dot={<span className="custom-dot" />} />
-              Liste des dettes
-            </Link>
-          </Item>
-          <Item key="22">
             <Link to={'/depense'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des depenses
             </Link>
           </Item>
+          <Item key="21">
+            <Link to={'/paiement'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Liste des paiements
+            </Link>
+          </Item>
+          <Item key="22">
+            <Link to={'/dette'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Liste des dettes
+            </Link>
+          </Item>
         </SubMenu>
          <SubMenu key="Rapport" icon={<FileTextOutlined style={{ fontSize: '17px' }} />} title="Rapport" style={{ fontSize: '14px', letterSpacing: '1px' }}>
-          <Item key="16">
+          <Item key="23">
             <Link to={'/rapport'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Rapport
@@ -231,19 +231,19 @@ const Sidebar = () => {
           </Item>
         </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
-          <Item key="23">
+          <Item key="24">
             <Link to={'/permissions'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Permissions
             </Link>
           </Item>
-          <Item key="24">
+          <Item key="25">
             <Link to={''} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Général
             </Link>
           </Item>
-          <Item key="25">
+          <Item key="26">
             <Link to={''} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Sécurité

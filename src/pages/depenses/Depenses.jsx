@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Drawer, Modal, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
 import {
-  PlusCircleOutlined, CreditCardOutlined, EyeOutlined,
+  PlusCircleOutlined, SisternodeOutlined, EyeOutlined,
   DollarOutlined, CalendarOutlined, FilePdfOutlined,
-  FileExcelOutlined, PrinterOutlined, SearchOutlined
+  FileExcelOutlined, PrinterOutlined,
 } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
@@ -66,10 +66,12 @@ const Depenses = () => {
     const tableRows = [];
 
     depenses.forEach((record, index) => {
+      const date = new Date(record.date_depense);
+      const formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
       const tableRow = [
         index + 1,
         record.jour_semaine,
-        record.date_depense,
+        formattedDate,
         record.montant_dollars,
         record.montant_franc,
         record.total_depense
@@ -186,7 +188,7 @@ const Depenses = () => {
           <div className="client_wrapper_center_bottom">
             <div className="product-bottom-top">
               <div className="product-bottom-left">
-                <CreditCardOutlined className='product-icon' />
+              <Button icon={<SisternodeOutlined />}/>
                 <div className="product-row-searchs">
                     <Input
                       type="search"
