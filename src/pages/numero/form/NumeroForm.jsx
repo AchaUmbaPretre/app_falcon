@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../../config';
 import { toast } from 'react-toastify';
@@ -9,7 +8,6 @@ import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 const NumeroForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [numeros, setNumeros] = useState(['']);
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (index, event) => {
@@ -110,9 +108,9 @@ const NumeroForm = () => {
               bordered
             />
             <div className="form-submit" style={{ marginTop: '20px' }}>
-              <Button type="primary" onClick={handleClick} disabled={isLoading}>
+              <button type="primary" onClick={handleClick} disabled={isLoading}>
                 Envoyer
-              </Button>
+              </button>
               {isLoading && (
                 <div className="loader-container loader-container-center">
                   <Spin size="large" />
