@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
+import { Breadcrumb, Button, Drawer, Modal, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
 import {
-  PlusCircleOutlined, CreditCardOutlined, EyeOutlined, DeleteOutlined,
-  UserOutlined, DollarOutlined, CalendarOutlined, FilePdfOutlined,
+  PlusCircleOutlined, CreditCardOutlined, EyeOutlined,
+  DollarOutlined, CalendarOutlined, FilePdfOutlined,
   FileExcelOutlined, PrinterOutlined, SearchOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
@@ -10,6 +10,9 @@ import config from '../../config';
 import moment from 'moment';
 import DepenseForm from './form/DepenseForm';
 import { Link } from 'react-router-dom';
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 const Depenses = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -56,6 +59,39 @@ const Depenses = () => {
     setIsDrawerOpen(false);
   };
 
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Liste des dépenses", 14, 22);
+    const tableColumn = ["#", "jour_semaine", "date_depense", "montant_dollars", "montant_franc", "total_depense"];
+    const tableRows = [];
+
+    depenses.forEach((record, index) => {
+      const tableRow = [
+        index + 1,
+        record.jour_semaine,
+        record.date_depense,
+        record.montant_dollars,
+        record.montant_franc,
+        record.total_depense
+      ];
+      tableRows.push(tableRow);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+    });
+    doc.save('client.pdf');
+  };
+
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(depenses);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "dépense");
+    XLSX.writeFile(wb, "depenses.xlsx");
+  };
+
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
@@ -63,7 +99,7 @@ const Depenses = () => {
       dataIndex: 'jour_semaine',
       key: 'jour_semaine',
       render: (text) => (
-        <Tag color="orange">
+        <Tag color="orange" icon={<CalendarOutlined />}>
           {text}
         </Tag>
       )
@@ -151,21 +187,20 @@ const Depenses = () => {
             <div className="product-bottom-top">
               <div className="product-bottom-left">
                 <CreditCardOutlined className='product-icon' />
-                <div className="product-row-search">
-                  <SearchOutlined className='product-icon-plus' />
-                  <input
-                    type="search"
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    placeholder='Recherche...'
-                    className='product-search'
-                  />
+                <div className="product-row-searchs">
+                    <Input
+                      type="search"
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      placeholder="Recherche..."
+                      className="product-search"
+                    />
                 </div>
               </div>
               <div className="product-bottom-right">
-                <FilePdfOutlined className='product-icon-pdf' />
-                <FileExcelOutlined className='product-icon-excel' />
-                <PrinterOutlined className='product-icon-printer' />
+                <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
+                <Button className="product-icon-printer" icon={<PrinterOutlined />} />
               </div>
             </div>
             {isLoading ? (
