@@ -131,7 +131,6 @@ const Depenses = () => {
     }
   ];
 
-
   return (
     <div className="client">
       <div className="client_wrapper">

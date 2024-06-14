@@ -45,8 +45,6 @@ const PieChart = () => {
           const labels = data.map(item => item.nom_categorie);
           const datasetData = data.map(item => item.total_depense);
 
-          console.log(datasetData)
-
           const newChartData = {
             labels: labels,
             datasets: [
