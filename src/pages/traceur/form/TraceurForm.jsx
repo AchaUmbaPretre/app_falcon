@@ -56,8 +56,6 @@ const TraceurForm = () => {
     fetchModel();
   }, [DOMAIN]);
 
-  console.log(traceurs)
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (traceurs.some((traceur) => !traceur.model || !traceur.numero_serie || !traceur.code)) {
