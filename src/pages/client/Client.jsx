@@ -284,7 +284,7 @@ const Client = () => {
                 <ClientContact id_client={idClient} />
               </Modal>
 
-              <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
+              <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
                 <ClientDetail id_client={idClient} />
               </Drawer>
               

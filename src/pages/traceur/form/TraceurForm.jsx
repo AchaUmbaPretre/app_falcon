@@ -11,7 +11,7 @@ import './traceurForm.scss';
 const TraceurForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const navigate = useNavigate();
-  const [traceurs, setTraceurs] = useState([{ model: '', numero_serie: '', code: '', numero: '' }]);
+  const [traceurs, setTraceurs] = useState([{ model: '', numero_serie: '', traceur_id:'', code: '', numero: '' }]);
   const [isLoading, setIsLoading] = useState(false);
   const [modelOptions, setModelOptions] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,7 +31,7 @@ const TraceurForm = () => {
   };
 
   const addTraceur = () => {
-    setTraceurs([...traceurs, { model: '', numero_serie: '', code: '', numero: '' }]);
+    setTraceurs([...traceurs, { model: '', numero_serie: '', traceur_id:'', code: '', numero: '' }]);
   };
 
   const removeTraceur = (index) => {
@@ -55,6 +55,8 @@ const TraceurForm = () => {
     };
     fetchModel();
   }, [DOMAIN]);
+
+  console.log(traceurs)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -114,6 +116,22 @@ const TraceurForm = () => {
           onChange={(e) => handleInputChange(index, e)}
           value={traceurs[index].numero_serie}
           placeholder="Entrer le numéro de série..."
+          required
+        />
+      ),
+    },
+    {
+      title: 'ID Traceur',
+      dataIndex: 'traceur_id',
+      key: 'traceur_id',
+      render: (_, record, index) => (
+        <input
+          type="text"
+          name="traceur_id"
+          className="form-input"
+          onChange={(e) => handleInputChange(index, e)}
+          value={traceurs[index].traceur_id}
+          placeholder="Entrer l'id traceur.."
           required
         />
       ),

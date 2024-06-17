@@ -37,6 +37,10 @@ const ClientDetail = ({ id_client }) => {
             <span className="operation_desc">{data?.nom_client}</span>
           </div>
           <div className="operation_row">
+            <span className="operation_span">Nom principal :</span>
+            <span className="operation_desc">{data?.nom_principal}</span>
+          </div>
+          <div className="operation_row">
             <span className="operation_span">Poste :</span>
             <span className="operation_desc">{data?.poste}</span>
           </div>
