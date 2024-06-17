@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import rapportImg from './../../../assets/depenses.jpg'
-import './rapportDuJour.scss'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import config from '../../../config';
@@ -9,7 +8,7 @@ import axios from 'axios';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const RapportDuJour = () => {
+const RapportNdoeDuJour = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [loading, setLoading] = useState(true);
     const [chartData, setChartData] = useState({
@@ -112,4 +111,4 @@ const RapportDuJour = () => {
   )
 }
 
-export default RapportDuJour
+export default RapportNdoeDuJour

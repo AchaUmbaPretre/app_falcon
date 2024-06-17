@@ -2,6 +2,7 @@ import React from 'react'
 import './rapportGlobal.scss'
 import { Tabs } from 'antd'
 import RapportDuJour from '../rapportFalcon/RapportDuJour'
+import RapportNdoeDuJour from '../rapportNdoe/RapportNdoeDuJour'
 
 const RapportGlobal = () => {
   return (
@@ -23,15 +24,13 @@ const RapportGlobal = () => {
                             </Tabs.TabPane>
                         </Tabs>
                     </div>
-                    <div className="rapport_rows">
-                        
-                    </div>
                 </div>
                 <div className="rapport_right">
                     <h2 className="rapport_h2">Rapport de dépenses de Falcon</h2>
                     <div className="rapport_wrapper_pan">
                         <Tabs>
                             <Tabs.TabPane tab='Aujourdui' key={1}>
+                            <RapportNdoeDuJour/>
                             </Tabs.TabPane>
                             <Tabs.TabPane tab="Hier" key={2}>
                             </Tabs.TabPane>
@@ -40,9 +39,6 @@ const RapportGlobal = () => {
                             <Tabs.TabPane tab='30 derniers jours' key={4}>
                             </Tabs.TabPane>
                         </Tabs>
-                    </div>
-                    <div className="rapport_rows">
-
                     </div>
                 </div>
             </div>
