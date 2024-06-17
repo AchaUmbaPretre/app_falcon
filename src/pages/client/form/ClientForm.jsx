@@ -84,7 +84,7 @@ const ClientForm = () => {
                     name={field}
                     className="form-input"
                     onChange={handleInputChange}
-                    required={field !== 'poste'}
+                    required={field !== 'poste' && field !== 'telephone' && field !== 'adresse' && field !== 'email'}
                   />
                 </div>
               ))}
@@ -103,15 +103,15 @@ const ClientForm = () => {
         </div>
       </div>
 
-      {/* Modal de confirmation */}
       <Modal
         title="Confirmer l'envoi"
         visible={modalVisible}
         confirmLoading={modalConfirmLoading}
         onCancel={() => setModalVisible(false)}
         onOk={handleConfirmSend}
+        className="confirmation-modal"
       >
-        <p>Voulez-vous envoyer les informations suivantes ?</p>
+        <p className="modal-text">Voulez-vous envoyer les informations suivantes ?</p>
         <ul>
           <li><strong>Nom du client :</strong> {data.nom_client}</li>
           <li><strong>Nom principal :</strong> {data.nom_principal}</li>
