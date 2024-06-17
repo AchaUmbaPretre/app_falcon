@@ -35,7 +35,6 @@ const ClientForm = () => {
       return;
     }
     
-    // Ouvrir le modal de confirmation
     setModalVisible(true);
   }, [data]);
 
