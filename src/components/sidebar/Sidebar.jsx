@@ -229,21 +229,27 @@ const Sidebar = () => {
               Rapport
             </Link>
           </Item>
+          <Item key="24">
+            <Link to={'/rapport_global'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Rapport global
+            </Link>
+          </Item>
         </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
-          <Item key="24">
+          <Item key="25">
             <Link to={'/permissions'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Permissions
             </Link>
           </Item>
-          <Item key="25">
+          <Item key="26">
             <Link to={''} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Général
             </Link>
           </Item>
-          <Item key="26">
+          <Item key="27">
             <Link to={''} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Sécurité

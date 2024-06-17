@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Spin } from 'antd';
+import { ScaleLoader } from 'react-spinners';
 import './App.css';
 import Sidebar from './components/sidebar/Sidebar';
 import Topbar from './components/topbar/Topbar';
@@ -72,7 +72,7 @@ function App() {
     if (loading) {
       return (
         <div className="loading-container">
-          <Spin size="large" />
+          <ScaleLoader size="large" color="rgb(131, 159, 241)" />
         </div>
       );
     }
