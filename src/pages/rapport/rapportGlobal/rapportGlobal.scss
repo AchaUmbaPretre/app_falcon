@@ -1,25 +1,42 @@
 .rapportGlobal{
     width: 100%;
     .rapportWrapper{
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 10px;
         .rapport_left{
+            flex: 1;
             padding: 10px;
             background: #fff;
             -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
             box-shadow: 0px 0px 15px -10px rgba(131, 129, 129, 0.75);
             border: 1px solid rgba(3, 3, 109, 0.171);
             border-radius: 5px;
+            .rapport_h2{
+                font-size: 1.2rem;
+                font-weight: 900;
+                background: linear-gradient(90deg, #13add8bd, #000000ee);
+                    -webkit-background-clip: text;
+                    color: transparent;
+            }
         }
         .rapport_right{
+            flex: 1;
             padding: 10px;
             background: #fff;
             -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
             box-shadow: 0px 0px 15px -10px rgba(131, 129, 129, 0.75);
             border: 1px solid rgba(3, 3, 109, 0.171);
             border-radius: 5px;
+            .rapport_h2{
+                font-size: 1.2rem;
+                font-weight: 900;
+                background: linear-gradient(90deg, #13add8bd, #000000ee);
+                    -webkit-background-clip: text;
+                    color: transparent;
+            }
         }
     }
 }
