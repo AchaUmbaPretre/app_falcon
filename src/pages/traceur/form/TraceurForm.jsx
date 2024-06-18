@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Select from 'react-select';
 import config from '../../../config';
 import { ToastContainer, toast } from 'react-toastify';
 import { Table, Button, Spin, Modal } from 'antd';
