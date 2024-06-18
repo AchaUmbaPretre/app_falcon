@@ -58,7 +58,7 @@ const TraceurForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (traceurs.some((traceur) => !traceur.model || !traceur.numero_serie || !traceur.code)) {
+    if (traceurs.some((traceur) => !traceur.model || !traceur.code)) {
       toast.error('Veuillez remplir tous les champs requis pour chaque traceur');
       return;
     }
@@ -116,7 +116,7 @@ const TraceurForm = () => {
           className="form-input"
           onChange={(e) => handleInputChange(index, e)}
           value={traceurs[index].numero_serie}
-          placeholder="Entrer le numéro de série..."
+          placeholder="Entrer le num de série..."
           required
         />
       ),

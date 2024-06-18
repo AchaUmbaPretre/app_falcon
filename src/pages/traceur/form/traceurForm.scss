@@ -64,6 +64,11 @@
                 outline: none;
                 border: 1px solid #c5c5c5;
                 border-radius: 5px;
+                font-size: 12px;
+
+                    &::-webkit-input-placeholder { /* Chrome, Safari, Opera */
+                        font-size: 12px;
+                    }
             }
             .form-controle{
                 display: flex;
@@ -91,6 +96,11 @@
                     outline: none;
                     border: 1px solid #c5c5c5;
                     border-radius: 5px;
+                    font-size: 12px;
+
+                    &::-webkit-input-placeholder { /* Chrome, Safari, Opera */
+                        font-size: 11px;
+                    }
                 }
                 .form-desc{
                     height: 100px;

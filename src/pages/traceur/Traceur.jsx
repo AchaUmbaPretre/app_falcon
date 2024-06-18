@@ -150,13 +150,34 @@ const Traceur = () => {
       width: '3%',
     },
     {
+      title: 'Id traceur',
+      dataIndex: 'traceur_id',
+      key: 'traceur_id',
+      render: (text) => (
+        <Tag color="blue">
+          {text}
+        </Tag>
+      ),
+    },
+    {
       title: 'Model',
-      dataIndex: 'nom_model',
+      dataIndex: 'model',
       key: 'model',
       render: (text) => (
         <Tag color="blue">
-          <CarOutlined style={{ marginRight: '5px' }} />
+          <BarcodeOutlined  style={{ marginRight: '5px' }} />
           {text}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Tag',
+      dataIndex: 'code',
+      key: 'code',
+      render: (text) => (
+        <Tag color={text ? 'blue' : 'red'}>
+          <BarcodeOutlined style={{ marginRight: '5px' }} />
+          {text || 'Aucun'}
         </Tag>
       ),
     },
@@ -197,17 +218,6 @@ const Traceur = () => {
       render: (text) => (
         <Tag color={text ? 'blue' : 'red'}>
           <CarOutlined style={{ marginRight: '5px' }} />
-          {text || 'Aucun'}
-        </Tag>
-      ),
-    },
-    {
-      title: 'Code',
-      dataIndex: 'code',
-      key: 'code',
-      render: (text) => (
-        <Tag color={text ? 'blue' : 'red'}>
-          <BarcodeOutlined style={{ marginRight: '5px' }} />
           {text || 'Aucun'}
         </Tag>
       ),
