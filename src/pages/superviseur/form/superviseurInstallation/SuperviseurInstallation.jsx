@@ -17,7 +17,7 @@ const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const navigate = useNavigate();
   const userId = useSelector((state) => state.user.currentUser.id);
-  
+
   const [data, setData] = useState({});
   const [client, setClient] = useState([]);
   const [idClient, setIdClient] = useState('');
@@ -198,12 +198,15 @@ const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
             onOk={handleSubmit}
             onCancel={handleCancel}
             centered
-            cancelText={<span style={{ color: '#fff' }}>Non</span>}
-            okText={<span style={{ color: '#fff' }}>Oui</span>}
-            cancelButtonProps={{ style: { background: 'red' } }}
-            okButtonProps={{ style: { background: 'blue' } }}
+            cancelText="Non"
+            okText="Oui"
+            cancelButtonProps={{ style: { background: 'red', color: '#fff' } }}
+            okButtonProps={{ style: { background: 'blue', color: '#fff' } }}
           >
             <p>Est-ce que le traceur installé a déjà été configuré ?</p>
+            {Object.keys(data).map(key => (
+              <p key={key}><strong>{key}:</strong> {data[key]}</p>
+            ))}
             {isLoading && (
                 <div className="loader-container loader-container-center">
                   <Spin size="large" />
