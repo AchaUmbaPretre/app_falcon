@@ -105,8 +105,8 @@ const Affectations = () => {
     },
     {
       title: 'Traceur',
-      dataIndex: 'numero_serie',
-      key: 'numero_serie',
+      dataIndex: 'code',
+      key: 'code',
       render: (text, record) => (
         <div>
           <Tag color={'blue'}>

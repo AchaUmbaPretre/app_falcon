@@ -160,6 +160,10 @@ const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
               {renderSelect('Site', 'site', site.map(({ id_site, nom_site }) => ({ value: id_site, label: nom_site })), 'Sélectionnez un site...', <PlusCircleOutlined onClick={() => setOpenSite(true)} className='icon_plus' />)}
               {renderSelect('Véhicule', 'id_vehicule', vehicule.map(({ id_vehicule, nom_marque, matricule }) => ({ value: id_vehicule, label: `Marque : ${nom_marque} / Matricule : ${matricule}` })), 'Sélectionnez un véhicule...', <PlusCircleOutlined onClick={() => setOpenVehicule(true)} className='icon_plus' />)}
               {renderSelect('Traceur', 'id_traceur', traceurOptions, 'Sélectionnez un traceur...', <PlusCircleOutlined onClick={() => setOpenTraceur(true)} className='icon_plus' />)}
+              <div className="form-controle">
+                <label>Nomenclature <span style={{ color: 'red' }}>*</span></label>
+                <input type="text" name='nomenclature' className="form-input" onChange={handleInputChange} />
+              </div>
               {renderSelect('Superviseur', 'id_superviseur', filterUsersByRole('superviseur'), 'Sélectionnez un superviseur...')}
               <div className="form-controle">
                 <label>Date d'opération <span style={{ color: 'red' }}>*</span></label>

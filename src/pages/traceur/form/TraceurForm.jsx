@@ -58,7 +58,7 @@ const TraceurForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (traceurs.some((traceur) => !traceur.model || !traceur.code)) {
+    if (traceurs.some((traceur) => !traceur.numero || !traceur.code)) {
       toast.error('Veuillez remplir tous les champs requis pour chaque traceur');
       return;
     }
@@ -148,7 +148,7 @@ const TraceurForm = () => {
           className="form-input"
           onChange={(e) => handleInputChange(index, e)}
           value={traceurs[index].numero}
-          placeholder="Entrer le téléphone..."
+          placeholder="Entrer le tel..."
           required
         />
       ),
