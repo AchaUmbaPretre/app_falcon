@@ -319,7 +319,7 @@ const Traceur = () => {
               centered
               open={open}
               onCancel={() => setOpen(false)}
-              width={1000}
+              width={1200}
               footer={null}
             >
               <TraceurForm />

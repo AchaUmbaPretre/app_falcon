@@ -94,11 +94,14 @@ const TraceurForm = () => {
       dataIndex: 'model',
       key: 'model',
       render: (_, record, index) => (
-        <Select
-          options={modelOptions}
-          onChange={(selectedOption) => handleModelChange(index, selectedOption)}
-          placeholder="Sélectionnez un model..."
-          value={modelOptions.find((option) => option.value === traceurs[index].model)}
+        <input
+          type="text"
+          name="model"
+          className="form-input"
+          onChange={(e) => handleInputChange(index, e)}
+          value={traceurs[index].model}
+          placeholder="Entrer le model..."
+          required
         />
       ),
     },
@@ -151,7 +154,7 @@ const TraceurForm = () => {
       ),
     },
     {
-      title: 'Code(nomenclature)',
+      title: 'Tag',
       dataIndex: 'code',
       key: 'code',
       render: (_, record, index) => (
