@@ -154,8 +154,8 @@ const Traceur = () => {
       dataIndex: 'traceur_id',
       key: 'traceur_id',
       render: (text) => (
-        <Tag color="blue">
-          {text}
+        <Tag color={text ? 'blue' : 'red'}>
+          {text || 'Aucun'}
         </Tag>
       ),
     },
@@ -164,9 +164,9 @@ const Traceur = () => {
       dataIndex: 'model',
       key: 'model',
       render: (text) => (
-        <Tag color="blue">
+        <Tag color={text ? 'blue' : 'red'}>
           <BarcodeOutlined  style={{ marginRight: '5px' }} />
-          {text}
+          {text || 'Aucun'}
         </Tag>
       ),
     },
@@ -188,9 +188,9 @@ const Traceur = () => {
       render: (text, record) => (
         <Popover content={`Voir l'historique du traceur ${record.numero_serie}`} placement="top">
           <div onClick={() => setHistoriqueDetail(true) || setHistorique(record.id_traceur)}>
-            <Tag color="blue">
+            <Tag color={text ? 'blue' : 'red'}>
               <BarcodeOutlined style={{ marginRight: '5px' }} />
-              {text}
+              {text || 'Aucun'}
             </Tag>
           </div>
         </Popover>
