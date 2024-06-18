@@ -162,7 +162,6 @@ const OperationDetail = ({ selectedOperations }) => {
                 <th style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>Matricule</th>
                 <th style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>Marque</th>
                 <th style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>Tracker</th>
-                <th style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>Code</th>
                 <th style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>Observation</th>
               </tr>
             </thead>
@@ -171,7 +170,6 @@ const OperationDetail = ({ selectedOperations }) => {
                 <tr key={detail.id_operations}>
                   <td style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>{detail.matricule ?? 'N/A'}</td>
                   <td style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>{detail.nom_marque ?? 'N/A'}</td>
-                  <td style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>{detail.numero_serie ?? 'N/A'}</td>
                   <td style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>{detail.code ?? 'N/A'}</td>
                   <td style={{border:'1px solid #dddddd', padding:'8px', fontSize:'.8rem'}}>{detail.observation ?? 'N/A'}</td>
                 </tr>

@@ -29,7 +29,11 @@ const TraceurDetail = ({ id_traceur }) => {
         <div className="operationDetail_wrapper">
           <div className="operation_row">
             <span className="operation_span">Model :</span>
-            <span className="operation_desc">{data?.nom_model}</span>
+            <span className="operation_desc">{data?.model}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Tag :</span>
+            <span className="operation_desc">{data?.code}</span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Numero série :</span>

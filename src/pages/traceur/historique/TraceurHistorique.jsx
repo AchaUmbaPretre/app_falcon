@@ -26,6 +26,7 @@ const TraceurHistorique = ({ id_traceur }) => {
     return <Skeleton active />;
   }
 
+
   return (
     <div className="operationDetail">
       {data.length === 0 && <p>Aucun historique disponible pour ce traceur.</p>}
