@@ -5,6 +5,9 @@ import axios from 'axios';
 import config from '../../config';
 import VehiculesForm from './form/VehiculesForm';
 import CountUp from 'react-countup';
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 const Vehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -87,6 +90,17 @@ const Vehicules = () => {
       )
     },
     {
+      title: 'Modéle',
+      dataIndex: 'modele',
+      key: 'modele',
+      render: (text) => (
+        <Tag color={text ? 'blue' : 'red'}>
+          <CarOutlined style={{ marginRight: "5px" }} />
+          {text || 'Aucun'}
+        </Tag>
+      )
+    },
+    {
       title: 'Matricule',
       dataIndex: 'matricule',
       key: 'matricule',
@@ -117,6 +131,38 @@ const Vehicules = () => {
       )
     }
   ];
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Liste des vehicules", 14, 22);
+    const tableColumn = ["#", "nom_client", "nom_marque","modele"];
+    const tableRows = [];
+
+    data.forEach((record, index) => {
+      const tableRow = [
+        index + 1,
+        record.nom_client,
+        record.nom_marque,
+        record.modele,
+        record.matricule
+      ];
+      tableRows.push(tableRow);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+    });
+    doc.save('vehicules.pdf');
+  };
+
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Traceur");
+    XLSX.writeFile(wb, "traceur.xlsx");
+  };
 
   const filteredData = data?.filter((item) =>
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -163,9 +209,9 @@ const Vehicules = () => {
                 </div>
               </div>
               <div className="product-bottom-right">
-                <FilePdfOutlined className='product-icon-pdf' />
-                <FileExcelOutlined className='product-icon-excel' />
-                <PrinterOutlined className='product-icon-printer' />
+                <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
+                <Button className="product-icon-printer" icon={<PrinterOutlined />} />
               </div>
             </div>
             <Table 
