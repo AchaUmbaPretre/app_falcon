@@ -136,7 +136,7 @@ const PageViews = () => {
                 <Popover title="Voir les rapports" trigger="hover">
                     <div className="rowTotals" onClick={()=> showModal()}>
                         <div className="rowTotal-left">
-                            <FileDoneOutlined className='rowTotalIcon'/>
+                            <FileDoneOutlined className='rowTotalIcon' style={{color: '#13add8bd', fontSize:"25px"}}/>
                         </div>
                     </div> 
                 </Popover>
