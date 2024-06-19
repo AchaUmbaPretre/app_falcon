@@ -278,6 +278,10 @@ const OperationForm = ({id_type_operation}) => {
                     />
                 </div>
                 <div className="form-controle">
+                  <label>Nomenclature <span style={{ color: 'red' }}>*</span></label>
+                  <input type="text" name='nomenclature' className="form-input" onChange={handleInputChange} />
+                </div>
+                <div className="form-controle">
                   <label htmlFor="">Superviseur <span style={{color:'red'}}>*</span></label>
                   <Select
                     name="id_superviseur"

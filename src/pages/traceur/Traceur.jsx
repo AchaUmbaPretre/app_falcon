@@ -150,7 +150,7 @@ const Traceur = () => {
       width: '3%',
     },
     {
-      title: 'Id traceur',
+      title: 'ID traceur',
       dataIndex: 'traceur_id',
       key: 'traceur_id',
       render: (text) => (
