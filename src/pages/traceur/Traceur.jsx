@@ -186,7 +186,7 @@ const Traceur = () => {
       ),
     },
     {
-      title: 'Numero série',
+      title: 'N° série',
       dataIndex: 'numero_serie',
       key: 'numero_serie',
       render: (text, record) => (
