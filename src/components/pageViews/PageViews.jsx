@@ -4,11 +4,14 @@ import operationImg from './../../assets/operation.png'
 import traceurImg from './../../assets/traceur.png'
 import vehiculeImg from './../../assets/vehicule.png'
 import { useEffect, useState } from 'react'
+import {
+    FileDoneOutlined
+  } from '@ant-design/icons';
 import config from '../../config'
 import axios from 'axios'
 import CountUp from 'react-countup';
 import { useNavigate } from 'react-router-dom'
-import { Skeleton } from 'antd'
+import { Popover, Skeleton } from 'antd'
 
 const PageViews = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -17,6 +20,7 @@ const PageViews = () => {
     const [traceur, setTraceur] = useState(null);
     const [vehicule, setVehicule] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -60,6 +64,11 @@ const PageViews = () => {
 
         fetchData();
     }, [DOMAIN]);
+
+    const showModal = () => {
+        setOpen(true);
+      };
+  
 
     return (
         <div className="pageViews">
@@ -124,6 +133,13 @@ const PageViews = () => {
                         <img src={vehiculeImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
+                <Popover title="Voir les rapports" trigger="hover">
+                    <div className="rowTotals" onClick={()=> showModal()}>
+                        <div className="rowTotal-left">
+                            <FileDoneOutlined className='rowTotalIcon'/>
+                        </div>
+                    </div> 
+                </Popover>
             </div>
         </div>
     )
