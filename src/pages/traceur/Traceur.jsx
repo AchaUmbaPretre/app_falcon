@@ -11,6 +11,7 @@ import {
   Table,
   Tag,
   Input,
+  Pagination
 } from 'antd';
 import {
   PlusCircleOutlined,
@@ -55,6 +56,14 @@ const Traceur = () => {
   const [openTrie, setOpenTrie] = useState(false);
   const [traceur, setTraceur] = useState('');
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalItems, setTotalItems] = useState(0);
+
+  
+  
+
+
   const fetchData = useCallback(async () => {
     try {
       const { data } = await axios.get(`${DOMAIN}/traceur`, {
@@ -62,15 +71,21 @@ const Traceur = () => {
           start_date: startDate,
           end_date: endDate,
           searchValue,
+          page: currentPage,
+          pageSize,
         },
       });
-      setData(data);
+      setData(data.rows); // Assurez-vous que votre backend renvoie les données sous cette forme
+      setTotalItems(data.total); // Assurez-vous que votre backend renvoie le nombre total d'éléments
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
       setIsLoading(false);
     }
-  }, [DOMAIN, startDate, endDate, searchValue]);
+  }, [DOMAIN, startDate, endDate, searchValue, currentPage, pageSize]);
+  
+
+  console.log(totalItems)
 
   const fetchTraceur= useCallback(async () => {
     try {
@@ -85,6 +100,15 @@ const Traceur = () => {
     fetchData();
     fetchTraceur()
   }, [fetchData, fetchTraceur]);
+
+  const handleTableChange = (pagination) => {
+    setCurrentPage(pagination.current);
+    setPageSize(pagination.pageSize);
+    fetchData();
+  };
+  
+  
+  
 
   const showDrawer = (id) => {
     setIdTraceur(id);
@@ -280,7 +304,7 @@ const Traceur = () => {
             </div>
             <div className="client_row_number">
               {traceur ? (
-                <span className="client_span_title">Total : <CountUp end={traceur}/></span>
+                <span className="client_span_title">Total : <CountUp end={traceur} /></span>
               ) : (
                 <Skeleton.Input active />
               )}
@@ -345,13 +369,26 @@ const Traceur = () => {
             {isLoading ? (
               <Skeleton active />
             ) : (
-              <Table dataSource={filteredData} columns={columns} loading={isLoading} className="table_client" />
+              <Table
+              dataSource={filteredData}
+              columns={columns}
+              pagination={{
+                current: currentPage,
+                pageSize: pageSize,
+                total: totalItems, // Total number of items
+                showSizeChanger: true,
+                pageSizeOptions: ['10', '20', '50', '100'],
+              }}
+              onChange={handleTableChange}
+              className="table_client"
+            />
             )}
           </div>
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default Traceur;
