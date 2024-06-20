@@ -93,13 +93,13 @@ const DepenseDetail = ({ date }) => {
       },
     {
       title: 'Dollars',
-      dataIndex: 'montant_dollars',
-      key: 'montant_dollars',
-      sorter: (a, b) => a.montant_dollars - b.montant_dollars,
+      dataIndex: 'montant"',
+      key: 'montant',
+      sorter: (a, b) => a.montant - b.montant,
       sortDirections: ['descend', 'ascend'],
       render: (text, record) => (
-        <Tag color={record.montant_dollars ? 'green' : 'red'} icon={<DollarOutlined />}>
-          {record.montant_dollars ? `${record.montant_dollars} $` : '0 $'}
+        <Tag color={record.montant ? 'green' : 'red'} icon={<DollarOutlined />}>
+          {record.montant ? `${record.montant} $` : '0 $'}
         </Tag>
       ),
     },
