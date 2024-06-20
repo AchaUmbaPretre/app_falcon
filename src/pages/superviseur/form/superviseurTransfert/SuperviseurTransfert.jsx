@@ -42,7 +42,7 @@ const SuperviseurTransfert = ({ id_type_operation = 2 }) => {
 
   const fetchTraceurs = async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/traceur`);
+      const { data } = await axios.get(`${DOMAIN}/traceur/traceurInstalls`);
       setTraceurs(data);
     } catch (error) {
       console.error(error);

@@ -76,7 +76,7 @@ const SuperviseurInstallation = ({ id_type_operation = 1 }) => {
   }, [DOMAIN, idClient, fetchData]);
 
   useEffect(() => {
-    fetchData(`${DOMAIN}/traceur`, setTraceur);
+    fetchData(`${DOMAIN}/traceur/traceurInstall`, setTraceur);
   }, [DOMAIN, fetchData]);
 
   useEffect(() => {

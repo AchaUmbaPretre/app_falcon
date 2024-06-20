@@ -37,7 +37,7 @@ const SuperviseurRemplace = ({ id_type_operation = 5 }) => {
   useEffect(() => {
     fetchData('/traceur/traceur_etat', setEtat);
     fetchData('/client', setClient);
-    fetchData('/traceur', setTraceur);
+    fetchData('/traceur/traceurInstall', setTraceur);
     fetchData('/operation/site', setSite);
     fetchData('/users', setUsers);
     fetchData('/affectation/numero', setNumero);

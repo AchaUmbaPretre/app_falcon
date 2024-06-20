@@ -68,7 +68,7 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
   }, [DOMAIN, idClient, fetchData]);
 
   useEffect(() => {
-    fetchData(`${DOMAIN}/traceur`, setTraceur);
+    fetchData(`${DOMAIN}/traceur/traceurInstall`, setTraceur);
   }, [DOMAIN, fetchData]);
 
   useEffect(() => {
