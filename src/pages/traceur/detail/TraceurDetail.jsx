@@ -13,7 +13,7 @@ const TraceurDetail = ({ id_traceur }) => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`${DOMAIN}/traceur?idTraceur=${id_traceur}`);
-        setData(data[0]);
+        setData(data.rows[0]);
         setLoading(false);
       } catch (error) {
         console.log(error);

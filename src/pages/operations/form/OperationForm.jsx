@@ -334,7 +334,7 @@ const OperationForm = ({id_type_operation}) => {
                 <div className="loader-container loader-container-center">
                    <Spin size="large" />
                 </div>
-            )}
+                )}
               </div>
             </div>
             <Modal
@@ -349,6 +349,11 @@ const OperationForm = ({id_type_operation}) => {
               okButtonProps={{ style: { background: 'blue' } }}
             >
               <p>Est-ce que le traceur installé a déjà été configuré ?</p>
+              {isLoading && (
+                <div className="loader-container loader-container-center">
+                   <Spin size="large" />
+                </div>
+                )}
             </Modal>
 
             <Modal

@@ -288,7 +288,7 @@ const Traceur = () => {
   const filteredData = data?.filter(
     (item) =>
       item.nom_model?.toLowerCase().includes(searchValue.toLowerCase()) ||
-      item.numero_serie?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      item.code?.toLowerCase().includes(searchValue.toLowerCase()) ||
       item.nom_etat_traceur?.toLowerCase().includes(searchValue.toLowerCase()) ||
       item.nom_client?.toLowerCase().includes(searchValue.toLowerCase())
   );
