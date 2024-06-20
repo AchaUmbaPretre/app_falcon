@@ -16,20 +16,19 @@ const RapportInfo1an = () => {
     const [traceur, setTraceur] = useState(null);
     const [vehicule, setVehicule] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchClient = async () => {
             try {
-                const { data } = await axios.get(`${DOMAIN}/client/count`);
+                const { data } = await axios.get(`${DOMAIN}/client/count1an`);
                 setClient(data[0].nbre_client);
             } catch (error) {
                 console.log(error);
             }
         };const fetchOperation = async () => {
             try {
-                const { data } = await axios.get(`${DOMAIN}/operation/count`);
+                const { data } = await axios.get(`${DOMAIN}/operation/count1an`);
                 setOperation(data[0].nbre_operation);
             } catch (error) {
                 console.log(error);
@@ -38,7 +37,7 @@ const RapportInfo1an = () => {
         
         const fetchTraceur = async () => {
             try {
-                const { data } = await axios.get(`${DOMAIN}/traceur/count`);
+                const { data } = await axios.get(`${DOMAIN}/traceur/count1an`);
                 setTraceur(data[0].nbre_traceur);
             } catch (error) {
                 console.log(error);
@@ -46,7 +45,7 @@ const RapportInfo1an = () => {
         };
         const fetchVehicule = async () => {
             try {
-                const { data } = await axios.get(`${DOMAIN}/vehicule/count`);
+                const { data } = await axios.get(`${DOMAIN}/vehicule/count1an`);
                 setVehicule(data[0].nbre_vehicule);
             } catch (error) {
                 console.log(error);
@@ -60,14 +59,6 @@ const RapportInfo1an = () => {
 
         fetchData();
     }, [DOMAIN]);
-
-    const showModal = () => {
-        setOpen(true);
-      };
-
-      const onClose = () => {
-        setOpen(false);
-      };
   
 
     return (

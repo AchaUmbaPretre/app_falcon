@@ -22,14 +22,14 @@ const RapportInfoHier = () => {
     useEffect(() => {
         const fetchClient = async () => {
             try {
-                const { data } = await axios.get(`${DOMAIN}/client/count`);
+                const { data } = await axios.get(`${DOMAIN}/client/countHier`);
                 setClient(data[0].nbre_client);
             } catch (error) {
                 console.log(error);
             }
         };const fetchOperation = async () => {
             try {
-                const { data } = await axios.get(`${DOMAIN}/operation/count`);
+                const { data } = await axios.get(`${DOMAIN}/operation/countHier`);
                 setOperation(data[0].nbre_operation);
             } catch (error) {
                 console.log(error);
@@ -38,7 +38,7 @@ const RapportInfoHier = () => {
         
         const fetchTraceur = async () => {
             try {
-                const { data } = await axios.get(`${DOMAIN}/traceur/count`);
+                const { data } = await axios.get(`${DOMAIN}/traceur/countHier`);
                 setTraceur(data[0].nbre_traceur);
             } catch (error) {
                 console.log(error);
@@ -46,7 +46,7 @@ const RapportInfoHier = () => {
         };
         const fetchVehicule = async () => {
             try {
-                const { data } = await axios.get(`${DOMAIN}/vehicule/count`);
+                const { data } = await axios.get(`${DOMAIN}/vehicule/countHier`);
                 setVehicule(data[0].nbre_vehicule);
             } catch (error) {
                 console.log(error);
