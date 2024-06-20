@@ -1,20 +1,15 @@
-import './pageViews.scss'
 import clientImg from './../../assets/clients.png'
 import operationImg from './../../assets/operation.png'
 import traceurImg from './../../assets/traceur.png'
 import vehiculeImg from './../../assets/vehicule.png'
 import { useEffect, useState } from 'react'
-import {
-    FileDoneOutlined
-  } from '@ant-design/icons';
 import config from '../../config'
 import axios from 'axios'
 import CountUp from 'react-countup';
 import { useNavigate } from 'react-router-dom'
-import { Drawer, Popover, Skeleton } from 'antd'
-import InformationGen from '../informationGen/InformationGen'
+import { Skeleton } from 'antd'
 
-const PageViews = () => {
+const RapportInfo7jours = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [client, setClient] = useState(null);
     const [operation, setOperation] = useState(null);
@@ -138,19 +133,9 @@ const PageViews = () => {
                         <img src={vehiculeImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-                <Popover title="Voir les rapports" trigger="hover">
-                    <div className="rowTotals" onClick={()=> showModal()}>
-                        <div className="rowTotal-left">
-                            <FileDoneOutlined className='rowTotalIcon' style={{color: '#13add8bd', fontSize:"25px"}}/>
-                        </div>
-                    </div> 
-                </Popover>
             </div>
-            <Drawer title="Détail" onClose={onClose} visible={open} width={1000}>
-                <InformationGen/>
-            </Drawer>
         </div>
     )
 }
 
-export default PageViews;
+export default RapportInfo7jours;
