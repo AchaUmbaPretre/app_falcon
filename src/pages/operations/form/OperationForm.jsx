@@ -149,7 +149,7 @@ const OperationForm = ({id_type_operation}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/traceur`);
+        const { data } = await axios.get(`${DOMAIN}/traceur/traceurInstall`);
         setTraceur(data);
       } catch (error) {
         console.log(error);
@@ -201,7 +201,7 @@ const OperationForm = ({id_type_operation}) => {
     .filter((t) => t.id_etat_traceur === 1)
     .map((tc) => ({
       value: tc.id_traceur,
-      label: tc.numero_serie
+      label: tc.code
     }));
   
   return (

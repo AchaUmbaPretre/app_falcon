@@ -141,7 +141,7 @@ const OperationRemplacement = ({ id_type_operation }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/traceur`);
+        const { data } = await axios.get(`${DOMAIN}/traceur/traceurInstall`);
         setTraceur(data);
       } catch (error) {
         console.log(error);
@@ -253,7 +253,7 @@ const OperationRemplacement = ({ id_type_operation }) => {
                   name="id_traceur"
                   options={traceur?.map((item) => ({
                     value: item.id_traceur,
-                    label: item.numero_serie,
+                    label: item.code,
                   }))}
                   onChange={(selectedOption) =>
                     handleInputChange({
