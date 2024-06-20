@@ -40,10 +40,14 @@
             .rowTotal-right{
                 display: flex;
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
                 h2{
-                    font-size: 1.1rem;
-                    color: rgb(1, 35, 138);
+                    font-size: 1.8rem;
+                    font-weight: 900;
+                    letter-spacing: 2px;
+                    background: linear-gradient(90deg, #13add8bd, #000000c2);
+                    -webkit-background-clip: text;
+                    color: transparent;
                 }
                 .rowTotal-span{
                     font-size: .7rem;

@@ -146,7 +146,7 @@ const PageViews = () => {
                     </div> 
                 </Popover>
             </div>
-            <Drawer title="Rapport" onClose={onClose} visible={open} width={1000}>
+            <Drawer title="Rapport" onClose={onClose} visible={open} width={980}>
                 <InformationGen/>
             </Drawer>
         </div>
