@@ -101,7 +101,7 @@ const DepenseDetail = ({ date }) => {
         <Tag color={record.montant ? 'green' : 'red'} icon={<DollarOutlined />}>
           {record.montant ? `${record.montant} $` : '0 $'}
         </Tag>
-      ),
+      ), 
     },
     {
       title: 'Franc',
