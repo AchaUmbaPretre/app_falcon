@@ -30,7 +30,7 @@ const OperationDetail = ({ selectedOperations }) => {
       try {
         const details = await Promise.all(
           selectedOperations.map(id =>
-            axios.get(`${DOMAIN}/operation?id_client=${id}`).then(response => response.data)
+            axios.get(`${DOMAIN}/operation?id_operation=${id}`).then(response => response.data)
           )
         );
         const flattenedDetails = details.flat();
@@ -38,7 +38,7 @@ const OperationDetail = ({ selectedOperations }) => {
 
         if (flattenedDetails.length > 0) {
           setClientName(flattenedDetails[0]?.nom_client ?? 'N/A');
-          const operationDate = flattenedDetails[0]?.created_at ?? 'N/A';
+          const operationDate = flattenedDetails[0]?.date_operation ?? 'N/A';
           setFormattedDate(formatDate(operationDate));
         }
         setLoading(false);
