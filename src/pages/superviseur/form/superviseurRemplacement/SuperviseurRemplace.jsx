@@ -163,7 +163,7 @@ const SuperviseurRemplace = ({ id_type_operation = 5 }) => {
               })), "Sélectionnez un véhicule...")}
               {renderSelect("Traceur", "id_traceur", traceur.map((item) => ({
                 value: item.id_traceur,
-                label: item.numero_serie,
+                label: item.code,
               })), "Sélectionnez un traceur...")}
               {renderSelect("Etat du traceur", "id_etat_traceur", etat.map((item) => ({
                 value: item.id_etat_traceur,

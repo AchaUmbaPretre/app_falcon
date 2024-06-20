@@ -137,7 +137,7 @@ const SuperviseurControle = ({ id_type_operation = 4 }) => {
 
   const traceurOptions = traceur
     .filter((t) => t.id_etat_traceur === 2 || t.id_etat_traceur === 7)
-    .map((tc) => ({ value: tc.id_traceur, label: tc.numero_serie }));
+    .map((tc) => ({ value: tc.id_traceur, label: tc.code }));
 
   return (
     <>

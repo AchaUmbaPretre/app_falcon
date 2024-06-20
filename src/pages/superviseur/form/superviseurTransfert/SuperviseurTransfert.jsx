@@ -42,7 +42,7 @@ const SuperviseurTransfert = ({ id_type_operation = 2 }) => {
 
   const fetchTraceurs = async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/traceur/traceurInstalls`);
+      const { data } = await axios.get(`${DOMAIN}/traceur/traceurInstall`);
       setTraceurs(data);
     } catch (error) {
       console.error(error);
@@ -146,7 +146,7 @@ const SuperviseurTransfert = ({ id_type_operation = 2 }) => {
 
   const supervisorOptions = createOptions(users.filter((user) => user.role === 'superviseur'), 'id', 'username');
   const technicienOptions = createOptions(users.filter((user) => user.role === 'technicien'), 'id', 'username');
-  const traceurOptions = createOptions(traceurs.filter((t) => t.id_etat_traceur === 2), 'id_traceur', 'numero_serie');
+  const traceurOptions = createOptions(traceurs.filter((t) => t.id_etat_traceur === 2), 'id_traceur', 'code');
   const clientOptions = createOptions(clients, 'id_client', 'nom_client');
   const siteOptions = createOptions(sites, 'id_site', 'nom_site');
   const vehiculeOptions = vehicules.map((item) => ({
