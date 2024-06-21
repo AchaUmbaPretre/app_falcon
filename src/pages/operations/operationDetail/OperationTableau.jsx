@@ -231,12 +231,12 @@ const OperationDetail = ({ selectedOperations }) => {
 
       <div className="signature_section">
         <h3 className='signature_title'>Signature du client</h3>
-        <SignatureCanvas
+        {signatureUrl ? <img src={signatureUrl} alt="Signature sauvegardée"/> : <SignatureCanvas
           ref={sigCanvas}
           penColor="black"
           canvasProps={{ width: 500, height: 200, className: 'sigCanvas' }}
-        />
-        {signatureUrl && <img src={signatureUrl} alt="Signature sauvegardée" />}
+        />}
+      
         {!isGeneratingPDF && (
           <div className="no-print">
             <Popover title="Supprimer la signature" trigger="hover">
