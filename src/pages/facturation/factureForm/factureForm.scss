@@ -4,15 +4,22 @@
         width: 100%;;
         padding: 20px;
         .factureForm_top{
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            margin-bottom: 20px;
             .facture_h2{
-
+                font-size: 1rem;
+                padding: 0;
+                margin: 0;
             }
         }
         .factureForm_wrapper{
             .factureForm{
                 display: flex;
                 flex-direction: column;
-                gap: 10px;
+                gap: 15px;
                 .facture_controle{
                     .facture_label{
                         font-size: .8rem;

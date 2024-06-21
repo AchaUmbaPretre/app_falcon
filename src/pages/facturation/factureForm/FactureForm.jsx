@@ -16,9 +16,9 @@ function FactureForm() {
 
     useEffect(() => {
         axios.get(`${DOMAIN}/client`).then(response => setClients(response.data));
-        axios.get('/produits').then(response => setProduits(response.data));
+/*         axios.get('/produits').then(response => setProduits(response.data));
         axios.get('/remises').then(response => setRemises(response.data));
-        axios.get('/taxes').then(response => setTaxes(response.data));
+        axios.get('/taxes').then(response => setTaxes(response.data)); */
     }, []);
 
     const addDetail = () => {

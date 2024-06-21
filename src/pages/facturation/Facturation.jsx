@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
-import { PlusCircleOutlined, UserOutlined, EyeOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined,DollarOutlined, UserOutlined, EyeOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -44,7 +44,7 @@ const Facturation = () => {
     }
   };
 
-  const fetchData = async (page, pageSize) => {
+/*   const fetchData = async (page, pageSize) => {
     try {
       const { data } = await axios.get(`${DOMAIN}/client`);
       setData(data);
@@ -56,7 +56,7 @@ const Facturation = () => {
       console.log(error);
     }
   };
-
+ */
 
   const fetchClient = async () => {
     try {
@@ -67,11 +67,11 @@ const Facturation = () => {
     }
 };
 
-  useEffect(() => {
+/*   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
     fetchClient()
   }, [DOMAIN, pagination.current, pagination.pageSize, searchValue]);
-
+ */
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
   };
@@ -153,16 +153,17 @@ const Facturation = () => {
       )
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      render: (text, record) => (
-        <Tag color={'gold'}>
-          <MailOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Tag>
-      )
-    },
+        title: 'Montant',
+        dataIndex: 'montant',
+        key: 'montant',
+        sorter: (a, b) => a.montant - b.montant,
+        sortDirections: ['descend', 'ascend'],
+        render: (text, record) => (
+          <Tag color={record.montant !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+            {record.montant ? record.montant + ' $' : '0'}
+          </Tag>
+        ),
+      },
     {
       title: 'Action',
       key: 'action',
@@ -264,7 +265,7 @@ const Facturation = () => {
                 centered
                 open={open}
                 onCancel={() => setOpen(false)}
-                width={900}
+                width={850}
                 footer={[]}
               >
                 <FactureForm />
