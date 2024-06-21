@@ -122,7 +122,11 @@ const OperationDetail = ({ selectedOperations }) => {
 
   const generateDocx = () => {
     const content = pdfRef.current.innerHTML;
-    const docx = htmlDocx.asBlob(content);
+  
+    // Assurez-vous que signatureUrl est correctement intégré dans le contenu HTML
+    const modifiedContent = content.replace('src="signaturePlaceholder"', `src="${signatureUrl}"`);
+  
+    const docx = htmlDocx.asBlob(modifiedContent);
     const url = URL.createObjectURL(docx);
     const a = document.createElement('a');
     a.href = url;
@@ -132,6 +136,7 @@ const OperationDetail = ({ selectedOperations }) => {
     document.body.removeChild(a);
   };
   
+
   
   if (loading) {
     return <p>Chargement...</p>;

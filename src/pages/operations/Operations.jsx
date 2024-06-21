@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag } from 'antd';
+import { Breadcrumb, Button, Drawer, Input, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag } from 'antd';
 import {
   PlusCircleOutlined, SisternodeOutlined, UserOutlined, CloseOutlined,
   ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined,
@@ -290,13 +290,13 @@ const Operations = () => {
                 />
                 <div className="product-row-search">
                   <SearchOutlined className='product-icon-plus' />
-                  <input
-                    type="search"
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    placeholder='Recherche...'
-                    className='product-search'
-                  />
+                  <Input
+                      type="search"
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      placeholder="Recherche..."
+                      className="product-search"
+                    />
                 </div>
               </div>
               <div className="product-bottom-right">
