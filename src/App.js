@@ -48,6 +48,7 @@ import Register from './pages/register/Register';
 import Rapport from './pages/rapport/Rapport';
 import PassWordForgot from './pages/passwordForgot/PassWordForgot';
 import RapportGlobal from './pages/rapport/rapportGlobal/RapportGlobal';
+import Facturation from './pages/facturation/Facturation';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -133,6 +134,7 @@ function App() {
         { path: '/personnel', element: <Personnel /> },
         { path: '/personnel_form', element: <PersonnelForm /> },
         { path: '/paiement', element: <Paiement /> },
+        { path: '/facturation', element: <Facturation /> },
         { path: '/rapport', element: <Rapport /> },
         { path: '/rapport_global', element: <RapportGlobal /> },
         { path: '/dette', element: <Dette /> },
