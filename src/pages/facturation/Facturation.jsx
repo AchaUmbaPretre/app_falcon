@@ -264,7 +264,7 @@ const Facturation = () => {
                 centered
                 open={open}
                 onCancel={() => setOpen(false)}
-                width={1000}
+                width={900}
                 footer={[]}
               >
                 <FactureForm />
