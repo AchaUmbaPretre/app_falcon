@@ -288,8 +288,6 @@ const Operations = () => {
                   icon={openTrie ? <CloseOutlined /> : <SisternodeOutlined />}
                   onClick={() => setOpenTrie(!openTrie)}
                 />
-                <div className="product-row-search">
-                  <SearchOutlined className='product-icon-plus' />
                   <Input
                       type="search"
                       value={searchValue}
@@ -297,7 +295,6 @@ const Operations = () => {
                       placeholder="Recherche..."
                       className="product-search"
                     />
-                </div>
               </div>
               <div className="product-bottom-right">
                 <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />

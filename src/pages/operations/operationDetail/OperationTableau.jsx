@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import imgLogo from './../../../assets/falcon.png';
 import './operationDetail.scss';
 import config from '../../../config';
@@ -95,9 +95,22 @@ const OperationDetail = ({ selectedOperations }) => {
   };
   
 
-  const sendEmail = () => {
+  const sendEmail = useCallback(async () => {
     console.log('Envoyer par e-mail :', operationsDetails);
-  };
+  
+    try {
+      await axios.post(`${DOMAIN}/operation/send-operation-email`, {
+        id_operations: selectedOperations
+      });
+  
+      toast.success('Email envoyé avec succès!');
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || err.message;
+      toast.error(errorMessage);
+    }
+  }, [selectedOperations, DOMAIN]);
+  
+  
 
   const generatePDF = () => {
     setIsGeneratingPDF(true);

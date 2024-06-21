@@ -1,5 +1,5 @@
 import { Menu, Timeline } from 'antd';
-import { UserOutlined, ClusterOutlined, CarOutlined, FileTextOutlined, HourglassOutlined, UsergroupAddOutlined,DollarOutlined , FileOutlined, HomeOutlined, ToolOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import { UserOutlined, ClusterOutlined, AuditOutlined, CarOutlined, FileTextOutlined, HourglassOutlined, UsergroupAddOutlined,DollarOutlined , FileOutlined, HomeOutlined, ToolOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { toast, ToastContainer } from 'react-toastify';
 import './sidebar.css';
@@ -219,6 +219,20 @@ const Sidebar = () => {
             <Link to={'/dette'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des dettes
+            </Link>
+          </Item>
+        </SubMenu>
+        <SubMenu key="Facturation" icon={<AuditOutlined  style={{ fontSize: '17px' }} />} title="Facturation" style={{ fontSize: '14px', letterSpacing: '1px' }}>
+          <Item key="4">
+            <Link to={'/facturation'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
+              <Timeline.Item dot={<span className="custom-dot" />}  />
+              Liste des facturations
+            </Link>
+          </Item>
+          <Item key="5">
+            <Link to={'/traceurs_form'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Enregistrer facturation
             </Link>
           </Item>
         </SubMenu>
