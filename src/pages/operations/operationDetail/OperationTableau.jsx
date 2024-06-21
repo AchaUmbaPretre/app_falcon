@@ -8,6 +8,7 @@ import { DeleteOutlined, SaveOutlined, MailOutlined, FilePdfOutlined, FileWordOu
 import SignatureCanvas from 'react-signature-canvas';
 import html2pdf from 'html2pdf.js';
 import htmlDocx from 'html-docx-js/dist/html-docx';
+import { toast,ToastContainer } from 'react-toastify';
 
 const OperationDetail = ({ selectedOperations }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -18,6 +19,8 @@ const OperationDetail = ({ selectedOperations }) => {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const sigCanvas = useRef(null);
   const pdfRef = useRef();
+  const [idClient, setIdClient] = useState('');
+  const [signatureUrl, setSignatureUrl] = useState('');
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -37,6 +40,7 @@ const OperationDetail = ({ selectedOperations }) => {
         setOperationsDetails(flattenedDetails);
 
         if (flattenedDetails.length > 0) {
+          setIdClient(flattenedDetails[0]?.id_client)
           setClientName(flattenedDetails[0]?.nom_client ?? 'N/A');
           const operationDate = flattenedDetails[0]?.date_operation ?? 'N/A';
           setFormattedDate(formatDate(operationDate));
@@ -56,22 +60,40 @@ const OperationDetail = ({ selectedOperations }) => {
     sigCanvas.current.clear();
   };
 
+/*   const saveSignature = () => {
+    if (sigCanvas.current.isEmpty()) {
+      alert('Veuillez fournir une signature avant de soumettre.');
+    } else {
+      const signatureDataUrl = sigCanvas.current.toDataURL();
+
+      axios.post(`${DOMAIN}/operation/signature`, { signature: signatureDataUrl, id_client: idClient })
+        .then(response => {
+          toast.success('Signature sauvegardée avec succès!');
+          setSignatureUrl(response.data.signatureUrl); // Mise à jour de l'URL de la signature
+        })
+        .catch(error => {
+          console.error('Erreur lors de la sauvegarde de la signature:', error);
+        });
+    }
+  }; */
+
   const saveSignature = () => {
     if (sigCanvas.current.isEmpty()) {
       alert('Veuillez fournir une signature avant de soumettre.');
     } else {
       const signatureDataUrl = sigCanvas.current.toDataURL();
-      console.log(signatureDataUrl);
-
-      axios.post(`${DOMAIN}/operation/signature`, { signature: signatureDataUrl })
+  
+      axios.post(`${DOMAIN}/operation/signature`, { signature: signatureDataUrl, id_client: idClient })
         .then(response => {
-          console.log('Signature sauvegardée avec succès');
+          toast.success('Signature sauvegardée avec succès!');
+          setSignatureUrl(response.data.signatureUrl); // Mettez à jour l'URL de la signature
         })
         .catch(error => {
           console.error('Erreur lors de la sauvegarde de la signature:', error);
         });
     }
   };
+  
 
   const sendEmail = () => {
     console.log('Envoyer par e-mail :', operationsDetails);
@@ -80,27 +102,14 @@ const OperationDetail = ({ selectedOperations }) => {
   const generatePDF = () => {
     setIsGeneratingPDF(true);
     const element = pdfRef.current;
-
-    const images = element.querySelectorAll('img');
-    const imagePromises = Array.from(images).map(img => new Promise((resolve, reject) => {
-      console.log('Image URL:', img.src);
-      if (img.complete) {
-        resolve();
-      } else {
-        img.onload = resolve;
-        img.onerror = reject;
-      }
-    }));
-
-    Promise.all(imagePromises)
-      .then(() => {
-        const options = {
-          filename: `rapport_${formattedDate}.pdf`,
-          html2canvas: { scale: 2, useCORS: true },
-          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-        };
-        return html2pdf().from(element).set(options).save();
-      })
+  
+    const options = {
+      filename: `rapport_${formattedDate}.pdf`,
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+    };
+  
+    html2pdf().from(element).set(options).save()
       .then(() => {
         setIsGeneratingPDF(false);
       })
@@ -109,6 +118,7 @@ const OperationDetail = ({ selectedOperations }) => {
         setIsGeneratingPDF(false);
       });
   };
+  
 
   const generateDocx = () => {
     const content = pdfRef.current.innerHTML;
@@ -121,7 +131,8 @@ const OperationDetail = ({ selectedOperations }) => {
     a.click();
     document.body.removeChild(a);
   };
-
+  
+  
   if (loading) {
     return <p>Chargement...</p>;
   }
@@ -140,7 +151,9 @@ const OperationDetail = ({ selectedOperations }) => {
   }, {});
 
   return (
+    
     <div className="operationDetail" ref={pdfRef}>
+    <ToastContainer />
       <div className="operations_row_title" style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
         <div className="operations_row_img" style={{width:"100%", paddingLeft:'15px'}}>
           <img src={imgLogo} alt="Logo" className="operations_img" />
@@ -218,6 +231,7 @@ const OperationDetail = ({ selectedOperations }) => {
           penColor="black"
           canvasProps={{ width: 500, height: 200, className: 'sigCanvas' }}
         />
+        {signatureUrl && <img src={signatureUrl} alt="Signature sauvegardée" />}
         {!isGeneratingPDF && (
           <div className="no-print">
             <Popover title="Supprimer la signature" trigger="hover">

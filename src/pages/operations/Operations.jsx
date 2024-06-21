@@ -206,9 +206,9 @@ const Operations = () => {
     },
     {
       title: "Date d'opération",
-      dataIndex: 'created_at',
-      key: 'created_at',
-      sorter: (a, b) => moment(a.created_at) - moment(b.created_at),
+      dataIndex: 'date_operation',
+      key: 'date_operation',
+      sorter: (a, b) => moment(a.date_operation) - moment(b.date_operation),
       sortDirections: ['descend', 'ascend'],
       render: (text) => (
         <Tag icon={<CalendarOutlined />} color="blue">
