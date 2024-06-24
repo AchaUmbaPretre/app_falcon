@@ -44,9 +44,9 @@ const Facturation = () => {
     }
   };
 
-/*   const fetchData = async (page, pageSize) => {
+   const fetchData = async (page, pageSize) => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/client`);
+      const { data } = await axios.get(`${DOMAIN}/facture`);
       setData(data);
       setLoading(false);
       setPagination((prevPagination) => ({
@@ -56,32 +56,28 @@ const Facturation = () => {
       console.log(error);
     }
   };
- */
 
 
-/*   useEffect(() => {
+
+   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
-    fetchClient()
+    fetchData()
   }, [DOMAIN, pagination.current, pagination.pageSize, searchValue]);
- */
+
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
   };
 
   const exportToPDF = () => {
     const doc = new jsPDF();
-    doc.text("Liste des clients", 14, 22);
-    const tableColumn = ["#", "nom_client", "poste", "telephone", "adresse", "email"];
+    doc.text("Liste des factures", 14, 22);
+    const tableColumn = ["#", "nom_client", "email"];
     const tableRows = [];
 
     data.forEach((record, index) => {
       const tableRow = [
         index + 1,
-        record.nom_client,
-        record.poste,
-        record.telephone,
-        record.adresse,
-        record.email
+        record.nom_client
       ];
       tableRows.push(tableRow);
     });
@@ -91,14 +87,14 @@ const Facturation = () => {
       body: tableRows,
       startY: 30,
     });
-    doc.save('client.pdf');
+    doc.save('facture.pdf');
   };
 
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "client");
-    XLSX.writeFile(wb, "client.xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, "facture");
+    XLSX.writeFile(wb, "facture.xlsx");
   };
 
   const columns = [
@@ -184,10 +180,7 @@ const Facturation = () => {
   };
 
   const filteredData = data?.filter((item) =>
-    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.poste?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.telephone?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.adresse?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
