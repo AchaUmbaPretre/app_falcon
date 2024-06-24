@@ -10,8 +10,7 @@ import {
   Space,
   Table,
   Tag,
-  Input,
-  Pagination
+  Input
 } from 'antd';
 import {
   PlusCircleOutlined,
@@ -84,8 +83,6 @@ const Traceur = () => {
     }
   }, [DOMAIN, startDate, endDate, searchValue, currentPage, pageSize]);
   
-
-  console.log(totalItems)
 
   const fetchTraceur= useCallback(async () => {
     try {

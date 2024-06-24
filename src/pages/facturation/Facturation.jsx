@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
-import { PlusCircleOutlined,DollarOutlined, UserOutlined, EyeOutlined, DeleteOutlined, AuditOutlined , MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
+import { PlusCircleOutlined, DollarOutlined, UserOutlined, EyeOutlined, DeleteOutlined, AuditOutlined, SearchOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -8,76 +8,65 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import FactureForm from './factureForm/FactureForm';
-
+import PaiementFacture from './factureForm/PaiementFacture';
 
 const Facturation = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const [opens, setOpens] = useState(false);
-  const [idClient, setIdClient] = useState([]);
+  const [idFacture, setIdFacture] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 10,
+    pageSize: 9,
+    total: 0
   });
-  const scroll = { x: 400 };
-  const [client, setClient] = useState([]);
 
-  const showDrawer = (e) => {
-    setOpenDetail(true);
-    setIdClient(e);
-  };
-
-  const onClose = () => {
-    setOpenDetail(false);
-  };
-
-  const handleDelete = async (id) => {
+  const fetchData = async (page, pageSize) => {
     try {
-      await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
-      window.location.reload();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-   const fetchData = async (page, pageSize) => {
-    try {
-      const { data } = await axios.get(`${DOMAIN}/facture`);
+      const { data, headers } = await axios.get(`${DOMAIN}/facture`, {
+        params: {
+          page,
+          pageSize,
+        },
+      });
       setData(data);
       setLoading(false);
-      setPagination((prevPagination) => ({
-        ...prevPagination
-      }));
+      setPagination({
+        ...pagination,
+        total: parseInt(headers['x-total-count']),
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
-
-
-   useEffect(() => {
+  useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
-    fetchData()
-  }, [DOMAIN, pagination.current, pagination.pageSize, searchValue]);
+  }, [pagination.current, pagination.pageSize]);
 
   const handleTableChange = (newPagination) => {
-    setPagination(newPagination);
+    setPagination({
+      ...pagination,
+      current: newPagination.current,
+      pageSize: newPagination.pageSize,
+    });
   };
 
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.text("Liste des factures", 14, 22);
-    const tableColumn = ["#", "nom_client", "email"];
+    const tableColumn = ["#", "Nom du client", "Email"];
     const tableRows = [];
 
     data.forEach((record, index) => {
       const tableRow = [
         index + 1,
-        record.nom_client
+        record.nom_client,
+        record.email,
       ];
       tableRows.push(tableRow);
     });
@@ -93,7 +82,7 @@ const Facturation = () => {
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "facture");
+    XLSX.utils.book_append_sheet(wb, ws, "Factures");
     XLSX.writeFile(wb, "facture.xlsx");
   };
 
@@ -103,95 +92,102 @@ const Facturation = () => {
       title: 'Nom client',
       dataIndex: 'nom_client',
       key: 'nom_client',
-      render: (text, record) => (
-        <div>
-          <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
-        </div>
+      render: (text) => (
+        <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
       )
     },
     {
       title: 'Quantité',
       dataIndex: 'quantite',
       key: 'quantite',
-      render: (text, record) => (
-        <div>
-          <Tag color={'green'}>{text}</Tag>
-        </div>
+      render: (text) => (
+        <Tag color={'green'}>{text}</Tag>
       )
     },
     {
-        title: 'Prix unitaire',
-        dataIndex: 'prix_unitaire',
-        key: 'prix_unitaire',
-        sorter: (a, b) => a.prix_unitaire - b.prix_unitaire,
-        sortDirections: ['descend', 'ascend'],
-        render: (text, record) => (
-          <Tag color={record.prix_unitaire !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
-            {record.prix_unitaire ? record.prix_unitaire + ' $' : '0'}
-          </Tag>
-        ),
-      },
+      title: 'Prix unitaire',
+      dataIndex: 'prix_unitaire',
+      key: 'prix_unitaire',
+      sorter: (a, b) => a.prix_unitaire - b.prix_unitaire,
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => (
+        <Tag color={text !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+          {text ? `${text} $` : '0'}
+        </Tag>
+      ),
+    },
     {
-        title: 'Montant',
-        dataIndex: 'montant',
-        key: 'montant',
-        sorter: (a, b) => a.montant - b.montant,
-        sortDirections: ['descend', 'ascend'],
-        render: (text, record) => (
-          <Tag color={record.montant !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
-            {record.montant ? record.montant + ' $' : '0'}
-          </Tag>
-        ),
-      },
-      {
-        title: 'Total (Avec remise)',
-        dataIndex: 'total',
-        key: 'total',
-        sorter: (a, b) => a.total - b.total,
-        sortDirections: ['descend', 'ascend'],
-        render: (text, record) => (
-          <Tag color={record.total !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
-            {record.total ? record.total + ' $' : '0'}
-          </Tag>
-        ),
-      },
-      {
-        title: 'Remise',
-        dataIndex: 'description',
-        key: 'description',
-        render: (text, record) => (
-          <div>
-            <Tag color={text ? 'blue' : 'red'}>{text ?? 'Aucune'}</Tag>
-          </div>
-        )
-      },
-      {
-        title: 'Taxes',
-        dataIndex: 'taxes_description',
-        key: 'taxes_description',
-        render: (text, record) => (
-          <div>
-            <Tag color={'blue'}>{text}</Tag>
-          </div>
-        )
-      },
+      title: 'Montant',
+      dataIndex: 'montant',
+      key: 'montant',
+      sorter: (a, b) => a.montant - b.montant,
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => (
+        <Tag color={text !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+          {text ? `${text} $` : '0'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Total (Avec remise)',
+      dataIndex: 'total',
+      key: 'total',
+      sorter: (a, b) => a.total - b.total,
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => (
+        <Tag color={text !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+          {text ? `${text} $` : '0'}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Remise',
+      dataIndex: 'description',
+      key: 'description',
+      render: (text) => (
+        <Tag color={text ? 'blue' : 'red'}>{text ?? 'Aucune'}</Tag>
+      )
+    },
+    {
+      title: 'Taxes',
+      dataIndex: 'taxes_description',
+      key: 'taxes_description',
+      render: (text) => (
+        <Tag color={'blue'}>{text ?? 'Aucune'}</Tag>
+      )
+    },
+    {
+      title: 'Status',
+      dataIndex: 'statut',
+      key: 'statut',
+      render: (text) => (
+        <Tag color={
+          text === 'non payé' ? 'red' :
+          text === 'payé' ? 'green' :
+          text === 'partiellement payé' ? 'blue' :
+          'default'
+        }>
+          {text}
+        </Tag>
+      )
+    },
     {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
           <Popover title="Voir les détails" trigger="hover">
-            <Link onClick={() => showDrawer(record.id_client)}>
+            <Link>
               <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
             </Link>
           </Popover>
           <Popover title="Ajouter le paiement" trigger="hover">
-            <Button icon={<AuditOutlined />} onClick={() => showModalContact(record.id_client)} style={{ color: 'blue' }} />
+            <Button icon={<AuditOutlined />} onClick={() => showModalPaiment(record.id_facture)} style={{ color: 'blue' }} />
           </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer?"
-              onConfirm={() => handleDelete(record.id_client)}
+              onConfirm={''}
               okText="Oui"
               cancelText="Non"
             >
@@ -203,17 +199,17 @@ const Facturation = () => {
     }
   ];
 
-  const showModal = (e) => {
+  const showModal = () => {
     setOpen(true);
   };
 
-  const showModalContact = (e) => {
+  const showModalPaiment = (idFacture) => {
     setOpens(true);
-    setIdClient(e);
+    setIdFacture(idFacture);
   };
 
-  const filteredData = data?.filter((item) =>
-    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase())
+  const filteredData = data.filter((item) =>
+    item.nom_client.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -226,9 +222,6 @@ const Facturation = () => {
                 <h2 className="client_h2">Facturation</h2>
                 <span className="client_span">Liste des factures</span>
               </div>
-              {/* <div className="client_row_number">
-                <span className="client_span_title">Total : {client}</span>
-              </div> */}
               <div className="client_text_right">
                 <button onClick={showModal}><PlusCircleOutlined /></button>
               </div>
@@ -250,7 +243,7 @@ const Facturation = () => {
             <div className="client_wrapper_center_bottom">
               <div className="product-bottom-top">
                 <div className="product-bottom-left">
-                  <Button icon={<SisternodeOutlined />}/>
+                  <Button icon={<SearchOutlined />} />
                   <div className="product-row-searchs">
                     <Input
                       type="search"
@@ -268,30 +261,41 @@ const Facturation = () => {
                 </div>
               </div>
 
-               <Modal
+              <Modal
                 title=""
                 centered
                 open={open}
                 onCancel={() => setOpen(false)}
                 width={850}
-                footer={[]}
+                footer={null}
               >
                 <FactureForm />
               </Modal>
 
-{/*               <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
-                <ClientDetail id_client={idClient} />
-              </Drawer>  */}
-              
+              <Modal
+                title=""
+                centered
+                open={opens}
+                onCancel={() => setOpens(false)}
+                width={690}
+                footer={null}
+              >
+                <PaiementFacture idFacture={idFacture} />
+              </Modal>
+
               {loading ? (
                 <Skeleton active />
               ) : (
                 <Table
                   dataSource={filteredData}
                   columns={columns}
-                  scroll={scroll}
-                  className='table_client'
-                  pagination={pagination}
+                  pagination={{
+                    current: pagination.current,
+                    pageSize: pagination.pageSize,
+                    total: pagination.total,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '50', '100'],
+                  }}
                   onChange={handleTableChange}
                 />
               )}
