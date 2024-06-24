@@ -18,7 +18,7 @@ const Facturation = () => {
   const [idFacture, setIdFacture] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openDetail, setOpenDetail] = useState(false);
+  const [openRecu, setOpenRecu] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 9,
@@ -282,6 +282,17 @@ const Facturation = () => {
                 open={opens}
                 onCancel={() => setOpens(false)}
                 width={690}
+                footer={null}
+              >
+                <PaiementFacture idFacture={idFacture} />
+              </Modal>
+
+              <Modal
+                title=""
+                centered
+                open={openRecu}
+                onCancel={() => setOpenRecu(false)}
+                width={700}
                 footer={null}
               >
                 <PaiementFacture idFacture={idFacture} />
