@@ -40,6 +40,18 @@ const FacturationRecu = () => {
                             </tr>
                         </tbody>
                     </table>
+
+                    <div className="facture_signature">
+                        <h3>Signature</h3>
+                    </div>
+
+                    <div className="facture_footer">
+                        <hr />
+                        <div className="facture_footer_rows">
+                            <h2>Cash to MADIEME ONEMA Nobel or +24382194092</h2>
+                            <span>ID NAT 01-93-N26910E KNG/RCCM/17-A-04285</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

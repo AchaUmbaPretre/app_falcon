@@ -40,6 +40,7 @@
                 width: 100%;
                 text-align: center;
                 text-decoration:underline;
+                font-size: .9rem;
                } 
             }
             .facture_client{
@@ -80,6 +81,37 @@
                     }
                 }
 
+            }
+            .facture_signature{
+                width: 100%;
+                margin: 20px 0 40px 0;
+                h3{
+                    font-size: .8rem;
+                    display: block;
+                    width: 100%;
+                    text-align: right
+                }
+            }
+            .facture_footer{
+                hr{
+                    height: 2px;
+                }
+                .facture_footer_rows{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    align-items: center;
+                    justify-content: center;
+                    h2{
+                        font-size: .8rem;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    span{
+                        font-size: .6rem;
+                    }
+                }
             }
         }
     }
