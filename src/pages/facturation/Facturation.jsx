@@ -115,10 +115,22 @@ const Facturation = () => {
       key: 'quantite',
       render: (text, record) => (
         <div>
-          <Tag color={'green'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          <Tag color={'green'}>{text}</Tag>
         </div>
       )
     },
+    {
+        title: 'Prix unitaire',
+        dataIndex: 'prix_unitaire',
+        key: 'prix_unitaire',
+        sorter: (a, b) => a.prix_unitaire - b.prix_unitaire,
+        sortDirections: ['descend', 'ascend'],
+        render: (text, record) => (
+          <Tag color={record.prix_unitaire !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+            {record.prix_unitaire ? record.prix_unitaire + ' $' : '0'}
+          </Tag>
+        ),
+      },
     {
         title: 'Montant',
         dataIndex: 'montant',
@@ -130,6 +142,38 @@ const Facturation = () => {
             {record.montant ? record.montant + ' $' : '0'}
           </Tag>
         ),
+      },
+      {
+        title: 'Total (Avec remise)',
+        dataIndex: 'total',
+        key: 'total',
+        sorter: (a, b) => a.total - b.total,
+        sortDirections: ['descend', 'ascend'],
+        render: (text, record) => (
+          <Tag color={record.total !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+            {record.total ? record.total + ' $' : '0'}
+          </Tag>
+        ),
+      },
+      {
+        title: 'Remise',
+        dataIndex: 'description',
+        key: 'description',
+        render: (text, record) => (
+          <div>
+            <Tag color={'blue'}>{text}</Tag>
+          </div>
+        )
+      },
+      {
+        title: 'Taxes',
+        dataIndex: 'taxes_description',
+        key: 'taxes_description',
+        render: (text, record) => (
+          <div>
+            <Tag color={'blue'}>{text}</Tag>
+          </div>
+        )
       },
     {
       title: 'Action',

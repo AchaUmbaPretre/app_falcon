@@ -3,7 +3,9 @@ import './factureForm.scss';
 import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
-import { Input } from 'antd';
+import { Input, Modal, Button } from 'antd';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function FactureForm() {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -11,7 +13,7 @@ function FactureForm() {
     const [clients, setClients] = useState([]);
     const [remises, setRemises] = useState([]);
     const [taxes, setTaxes] = useState([]);
-    const [factureDetails, setFactureDetails] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         axios.get(`${DOMAIN}/client`).then(response => setClients(response.data));
@@ -36,17 +38,32 @@ function FactureForm() {
         setData((prev) => ({ ...prev, [actionMeta.name]: selectedOption.value }));
     };
 
-    const createFacture = () => {
+    const handleModalOk = () => {
+        setModalVisible(false);
+        toast.success('Facture créée avec succès !');
+    };
+
+    const handleModalCancel = () => {
+        setModalVisible(false);
+    };
+
+    const createFacture = (e) => {
+        e.preventDefault();
         const date_facture = new Date().toISOString().split('T')[0];
-        const details = data.map(detail => ({
-            quantite: detail.quantite,
-            prix_unitaire: detail.prix,
-            id_remise: detail.id_remise ? detail.id_remise.value : null,
-            id_taxe: detail.id_taxe ? detail.id_taxe.value : null
-        }));
-        axios.post(`${DOMAIN}/factures`, { id_client: data.id_client ,date_facture, details })
+        const details = [{
+            quantite: data.quantite,
+            prix_unitaire: data.prix_unitaire,
+            id_remise: data.id_remise || null,
+            id_taxe: data.id_taxe || null
+        }];
+        axios.post(`${DOMAIN}/facture`, { id_client: data.id_client, date_facture, details })
             .then(response => {
                 console.log('Facture créée:', response.data);
+                setModalVisible(true);
+            })
+            .catch(error => {
+                console.error('Erreur lors de la création de la facture:', error);
+                toast.error('Erreur lors de la création de la facture.');
             });
     };
 
@@ -59,7 +76,7 @@ function FactureForm() {
                     </div>
                     <div className="factureForm_wrapper">
                         <div>
-                            <form className='factureForm'>
+                            <form className='factureForm' onSubmit={createFacture}>
                                 <div className="facture_controle">
                                     <label htmlFor="" className="facture_label">Client <span style={{ color: 'red' }}>*</span></label>
                                     <Select
@@ -89,17 +106,26 @@ function FactureForm() {
                                     <Select
                                         options={taxes.map(t => ({ value: t.id_taxes, label: t.description }))}
                                         onChange={handleSelectChange}
-                                        name='id_taxes'
+                                        name='id_taxe'
                                     />
                                 </div>
                                 <div className="facture_btn">
-                                    <button onClick={createFacture}>Créer la facture</button>
+                                    <button type="submit">Créer la facture</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+            <Modal
+                title="Confirmation"
+                visible={modalVisible}
+                onOk={handleModalOk}
+                onCancel={handleModalCancel}
+            >
+                <p>Êtes-vous sûr de vouloir créer cette facture ?</p>
+            </Modal>
+            <ToastContainer />
         </>
     );
 }
