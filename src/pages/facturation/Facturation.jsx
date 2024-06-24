@@ -9,6 +9,7 @@ import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import FactureForm from './factureForm/FactureForm';
 import PaiementFacture from './factureForm/PaiementFacture';
+import FacturationRecu from './facturationRecu/FacturationRecu';
 
 const Facturation = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -18,7 +19,7 @@ const Facturation = () => {
   const [idFacture, setIdFacture] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openRecu, setOpenRecu] = useState(false);
+  const [openRecu, setOpenRecu] = useState(true);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 9,
@@ -182,7 +183,7 @@ const Facturation = () => {
         <Space size="middle">
           <Popover title="Voir les détails" trigger="hover">
             <Link>
-              <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
+              <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={() => showModalRecu(record.id_facture)} />
             </Link>
           </Popover>
           <Popover title="Ajouter le paiement" trigger="hover">
@@ -209,6 +210,11 @@ const Facturation = () => {
 
   const showModalPaiment = (idFacture) => {
     setOpens(true);
+    setIdFacture(idFacture);
+  };
+
+  const showModalRecu = (idFacture) => {
+    setOpenRecu(true);
     setIdFacture(idFacture);
   };
 
@@ -292,10 +298,10 @@ const Facturation = () => {
                 centered
                 open={openRecu}
                 onCancel={() => setOpenRecu(false)}
-                width={700}
+                width={800}
                 footer={null}
               >
-                <PaiementFacture idFacture={idFacture} />
+                <FacturationRecu />
               </Modal>
 
               {loading ? (
