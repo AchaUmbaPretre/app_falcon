@@ -16,8 +16,8 @@ function FactureForm() {
 
     useEffect(() => {
         axios.get(`${DOMAIN}/client`).then(response => setClients(response.data));
-/*      axios.get('/remises').then(response => setRemises(response.data));
-        axios.get('/taxes').then(response => setTaxes(response.data)); */
+        axios.get(`${DOMAIN}/facture/remises`).then(response => setRemises(response.data));
+        axios.get(`${DOMAIN}/facture/taxes`).then(response => setTaxes(response.data));
     }, []);
 
     const createFacture = () => {
@@ -57,22 +57,22 @@ function FactureForm() {
                                     <Input type="number" name='quantite' min={0} placeholder='10' />
                                 </div>
                                 <div className="facture_controle">
+                                    <label htmlFor="" className="facture_label">Prix</label>
+                                    <Input type="number" name='prix_unitaire' placeholder='1000' min={0} />
+                                </div>
+                                <div className="facture_controle">
                                     <label htmlFor="" className="facture_label">Remises</label>
                                     <Select 
-                                        options={clients?.map(client => ({ value: client.id, label: client.nom }))}
+                                        options={remises?.map(r => ({ value: r.id_remise, label: r.description }))}
                                         onChange={setSelectedClient}
                                     />
                                 </div>
                                 <div className="facture_controle">
                                     <label htmlFor="" className="facture_label">Taxes</label>
                                     <Select 
-                                        options={clients?.map(client => ({ value: client.id, label: client.nom }))}
+                                        options={taxes?.map(t => ({ value: t.id_taxes, label: t.description }))}
                                         onChange={setSelectedClient}
                                     />
-                                </div>
-                                <div className="facture_controle">
-                                    <label htmlFor="" className="facture_label">Prix</label>
-                                    <Input type="number" name='prix_unitaire' placeholder='1000' min={0} />
                                 </div>
                                 <div className="facture_btn">
                                     <button>Créer la facture</button>
