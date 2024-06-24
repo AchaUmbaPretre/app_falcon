@@ -55,7 +55,7 @@ function FactureForm() {
                                 </div>
                                 <div className="facture_controle">
                                     <label htmlFor="" className="facture_label">Quantité</label>
-                                    <Input type="number" name='quantite' min={0} />
+                                    <Input type="number" name='quantite' min={0} placeholder='10' />
                                 </div>
                                 <div className="facture_controle">
                                     <label htmlFor="" className="facture_label">Remises</label>
@@ -73,7 +73,7 @@ function FactureForm() {
                                 </div>
                                 <div className="facture_controle">
                                     <label htmlFor="" className="facture_label">Prix</label>
-                                    <Input type="number" name='prix_unitaire' placeholder='1000' />
+                                    <Input type="number" name='prix_unitaire' placeholder='1000' min={0} />
                                 </div>
                                 <div className="facture_btn">
                                     <button>Créer la facture</button>
