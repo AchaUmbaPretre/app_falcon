@@ -20,6 +20,26 @@ const FacturationRecu = () => {
                         <h3 className="facture_desc"><span>CLIENT</span>: <strong>CAR NAYO</strong></h3>
                     </div>
                     <h5 className="facture_h5">A PAYE CE QUI SUIT : </h5>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Réf</th>
+                                <th>Qté</th>
+                                <th>Decription</th>
+                                <th>Status</th>
+                                <th>Sous total USD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>5</td>
+                                <td>Paiement de la facture CARNAYO N°3065/05/24/LMDE</td>
+                                <td>SOLDE</td>
+                                <td>2168,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

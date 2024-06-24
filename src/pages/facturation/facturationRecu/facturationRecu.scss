@@ -52,8 +52,34 @@
             }
             .facture_h5{
                 display: block;
-                    width: 100%;
-                    text-align: center;
+                width: 100%;
+                text-align: center;
+            }
+            table{
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0; 
+                font-size: 16px; 
+                text-align: left;
+                thead{
+                    tr{
+                        th{
+                            border: 1px solid #dddddd; 
+                            padding: 8px; 
+                            font-size: .8rem;
+                        }
+                    }
+                }
+                tbody{
+                    tr{
+                        td{
+                            border: 1px solid #dddddd; 
+                            padding: 8px; 
+                            font-size: .8rem;
+                        }
+                    }
+                }
+
             }
         }
     }
