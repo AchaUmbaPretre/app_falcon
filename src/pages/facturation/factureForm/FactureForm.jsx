@@ -21,16 +21,6 @@ function FactureForm() {
         axios.get('/taxes').then(response => setTaxes(response.data)); */
     }, []);
 
-    const addDetail = () => {
-        setFactureDetails([...factureDetails, { produit: null, quantite: 1, remise: null, taxe: null }]);
-    };
-
-    const handleDetailChange = (index, field, value) => {
-        const newDetails = [...factureDetails];
-        newDetails[index][field] = value;
-        setFactureDetails(newDetails);
-    };
-
     const createFacture = () => {
         const date_facture = new Date().toISOString().split('T')[0];
         const details = factureDetails.map(detail => ({
@@ -65,7 +55,7 @@ function FactureForm() {
                                 </div>
                                 <div className="facture_controle">
                                     <label htmlFor="" className="facture_label">Quantité</label>
-                                    <Input type="number" />
+                                    <Input type="number" name='quantite' min={0} />
                                 </div>
                                 <div className="facture_controle">
                                     <label htmlFor="" className="facture_label">Remises</label>
@@ -80,6 +70,10 @@ function FactureForm() {
                                         options={clients?.map(client => ({ value: client.id, label: client.nom }))}
                                         onChange={setSelectedClient}
                                     />
+                                </div>
+                                <div className="facture_controle">
+                                    <label htmlFor="" className="facture_label">Prix</label>
+                                    <Input type="number" name='prix_unitaire' placeholder='1000' />
                                 </div>
                                 <div className="facture_btn">
                                     <button>Créer la facture</button>

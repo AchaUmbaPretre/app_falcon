@@ -58,14 +58,6 @@ const Facturation = () => {
   };
  */
 
-  const fetchClient = async () => {
-    try {
-        const { data } = await axios.get(`${DOMAIN}/client/count?searchValue=${searchValue}`);
-        setClient(data[0].nbre_client);
-    } catch (error) {
-        console.log(error);
-    }
-};
 
 /*   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
@@ -122,19 +114,9 @@ const Facturation = () => {
       )
     },
     {
-      title: 'Poste',
-      dataIndex: 'poste',
-      key: 'poste',
-      render: (text, record) => (
-        <div>
-          <Tag color={'blue'}><TeamOutlined style={{ marginRight: "5px" }} />{text}</Tag>
-        </div>
-      )
-    },
-    {
-      title: 'Téléphone',
-      dataIndex: 'telephone',
-      key: 'telephone',
+      title: 'Quantité',
+      dataIndex: 'quantite',
+      key: 'quantite',
       render: (text, record) => (
         <div>
           <Tag color={'green'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
