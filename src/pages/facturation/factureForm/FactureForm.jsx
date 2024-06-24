@@ -9,17 +9,55 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function FactureForm() {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-    const [data, setData] = useState({});
+    const [data, setData] = useState({
+        quantite: null, // Initialize with null or ''
+    });
     const [clients, setClients] = useState([]);
+    const [idClients, setIdClients] = useState([]);
+    const [nbre, setNbres] = useState('');
     const [remises, setRemises] = useState([]);
     const [taxes, setTaxes] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
-        axios.get(`${DOMAIN}/client`).then(response => setClients(response.data));
-        axios.get(`${DOMAIN}/facture/remises`).then(response => setRemises(response.data));
-        axios.get(`${DOMAIN}/facture/taxes`).then(response => setTaxes(response.data));
-    }, [DOMAIN]);
+        // Fetch initial data
+        axios.get(`${DOMAIN}/client`)
+            .then(clientsRes => {
+                setClients(clientsRes.data);
+            })
+            .catch(error => {
+                console.error('Error fetching clients:', error);
+            });
+
+        axios.get(`${DOMAIN}/facture/remises`)
+            .then(remisesRes => {
+                setRemises(remisesRes.data);
+            })
+            .catch(error => {
+                console.error('Error fetching remises:', error);
+            });
+
+        axios.get(`${DOMAIN}/facture/taxes`)
+            .then(taxesRes => {
+                setTaxes(taxesRes.data);
+            })
+            .catch(error => {
+                console.error('Error fetching taxes:', error);
+            });
+
+        if (idClients) {
+            axios.get(`${DOMAIN}/traceur/countClient?id_client=${idClients}`)
+                .then(traceurRes => {
+                    setNbres(traceurRes.data[0].nbre_traceur);
+                    if (!data.quantite) {
+                        setData(prev => ({ ...prev, quantite: nbre }));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching traceur count:', error);
+                });
+        }
+    }, [DOMAIN, idClients, data.quantite, nbre]);
 
     const handleInputChange = useCallback((e) => {
         const { name, value } = e.target;
@@ -32,10 +70,14 @@ function FactureForm() {
         }
 
         setData((prev) => ({ ...prev, [name]: updatedValue }));
+
     }, []);
 
     const handleSelectChange = (selectedOption, actionMeta) => {
         setData((prev) => ({ ...prev, [actionMeta.name]: selectedOption.value }));
+        if (actionMeta.name === "id_client") {
+            setIdClients(selectedOption.value);
+        }
     };
 
     const handleModalOk = () => {
@@ -67,6 +109,8 @@ function FactureForm() {
             });
     };
 
+    
+
     return (
         <>
             <div className="factureForm">
@@ -87,7 +131,7 @@ function FactureForm() {
                                 </div>
                                 <div className="facture_controle">
                                     <label htmlFor="" className="facture_label">Quantité <span style={{ color: 'red' }}>*</span></label>
-                                    <Input type="number" name='quantite' min={0} placeholder='10' onChange={handleInputChange} />
+                                    <Input type="number" name='quantite' min={0} placeholder='10' value={data.quantite || ''} onChange={handleInputChange} />
                                 </div>
                                 <div className="facture_controle">
                                     <label htmlFor="" className="facture_label">Prix <span style={{ color: 'red' }}>*</span></label>

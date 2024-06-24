@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
-import { PlusCircleOutlined,DollarOutlined, UserOutlined, EyeOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined,DollarOutlined, UserOutlined, EyeOutlined, DeleteOutlined, AuditOutlined , MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -161,7 +161,7 @@ const Facturation = () => {
         key: 'description',
         render: (text, record) => (
           <div>
-            <Tag color={'blue'}>{text}</Tag>
+            <Tag color={text ? 'blue' : 'red'}>{text ?? 'Aucune'}</Tag>
           </div>
         )
       },
@@ -185,8 +185,8 @@ const Facturation = () => {
               <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
             </Link>
           </Popover>
-          <Popover title="Ajouter les contacts" trigger="hover">
-            <Button icon={<PlusCircleOutlined />} onClick={() => showModalContact(record.id_client)} style={{ color: 'blue' }} />
+          <Popover title="Ajouter le paiement" trigger="hover">
+            <Button icon={<AuditOutlined />} onClick={() => showModalContact(record.id_client)} style={{ color: 'blue' }} />
           </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
