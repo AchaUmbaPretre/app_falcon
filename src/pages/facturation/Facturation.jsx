@@ -100,7 +100,7 @@ const Facturation = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
-      title: 'Nom',
+      title: 'Nom client',
       dataIndex: 'nom_client',
       key: 'nom_client',
       render: (text, record) => (
@@ -117,17 +117,6 @@ const Facturation = () => {
         <div>
           <Tag color={'green'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
-      )
-    },
-    {
-      title: 'Adresse',
-      dataIndex: 'adresse',
-      key: 'adresse',
-      render: (text, record) => (
-        <Tag color={'volcano'}>
-          <EnvironmentOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Tag>
       )
     },
     {
