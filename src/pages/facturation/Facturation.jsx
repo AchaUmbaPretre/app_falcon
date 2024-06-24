@@ -59,14 +59,18 @@ const Facturation = () => {
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.text("Liste des factures", 14, 22);
-    const tableColumn = ["#", "Nom du client", "Email"];
+    const tableColumn = ["#", "Nom du client", "Quantite","Prix unitaire","Montant","Total (Avec remise)","Status"];
     const tableRows = [];
 
     data.forEach((record, index) => {
       const tableRow = [
         index + 1,
         record.nom_client,
-        record.email,
+        record.quantite,
+        record.prix_unitaire,
+        record.montant,
+        record.total,
+        record.statut
       ];
       tableRows.push(tableRow);
     });
