@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
-import { toast } from 'react-toastify';
 import { Modal, Spin } from 'antd';
 import OperationForm from './OperationForm';
 import OperationControle from './OperationControle';
@@ -14,7 +13,6 @@ import OperationRemplacement from './OperationRemplacement';
 const OperationGen = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({})
-  const navigate = useNavigate();
   const [type, setType] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);

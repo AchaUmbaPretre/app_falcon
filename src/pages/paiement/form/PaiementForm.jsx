@@ -4,7 +4,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
 import { ToastContainer, toast } from 'react-toastify';
-import { Spin, Modal, Tabs } from 'antd';
+import { Spin, Modal, Tabs, DatePicker } from 'antd';
 import './paiementForm.scss';
 
 const { TabPane } = Tabs;
@@ -95,6 +95,10 @@ const PaiementForm = () => {
     setIsModalVisible(false);
   };
 
+  const handleDateChange = (date, dateString) => {
+    setData((prevData) => ({ ...prevData, date_paiement: dateString }));
+};
+
   return (
     <>
       <ToastContainer />
@@ -150,6 +154,12 @@ const PaiementForm = () => {
                       onChange={(selectedOption) => setData((prev) => ({ ...prev, methode: selectedOption.value }))}
                       placeholder="Sélectionnez une méthode..."
                     />
+                  </div>
+                  <div className="form-controle" style={{ display: "flex", flexDirection: 'column' }}>
+                    <label>
+                      Date de paiement <span style={{ color: 'red' }}>*</span>
+                    </label>
+                    <DatePicker name='date_paiement' onChange={handleDateChange} />
                   </div>
                 </form>
               </TabPane>
