@@ -4,8 +4,10 @@ import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
 import { ToastContainer, toast } from 'react-toastify';
-import { Spin, Modal } from 'antd';
+import { Spin, Modal, Tabs } from 'antd';
 import './paiementForm.scss';
+
+const { TabPane } = Tabs;
 
 const PaiementForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -14,6 +16,7 @@ const PaiementForm = () => {
   const [methode, setMethode] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState("1");
   const navigate = useNavigate();
 
   const handleInputChange = useCallback((e) => {
@@ -48,6 +51,12 @@ const PaiementForm = () => {
     fetchClient();
     fetchMethode();
   }, [fetchClient, fetchMethode]);
+
+  useEffect(() => {
+    if (data.id_client && data.montant && data.methode) {
+      setActiveTab("2");
+    }
+  }, [data]);
 
   const handleSubmit = async () => {
     if (!data.id_client || !data.montant) {
@@ -95,53 +104,101 @@ const PaiementForm = () => {
             <h2 className="product-h2">Paiement</h2>
           </div>
           <div className="product-wrapper">
-            <form className="product-container-bottom form_hand">
-              <div className="form-controle">
-                <label htmlFor="id_client">
-                  Client <span style={{ color: 'red' }}>*</span>
-                </label>
-                <Select
-                  name="id_client"
-                  options={dataClient.map((item) => ({
-                    value: item.id_client,
-                    label: item.nom_client,
-                  }))}
-                  onChange={(selectedOption) => setData((prev) => ({ ...prev, id_client: selectedOption.value }))}
-                  placeholder="Sélectionnez un client..."
-                />
-              </div>
+            <Tabs activeKey={activeTab} onChange={setActiveTab}>
+              <TabPane tab="Informations Client" key="1">
+                <form className="product-container-bottom form_hand">
+                  <div className="form-controle">
+                    <label htmlFor="id_client">
+                      Client <span style={{ color: 'red' }}>*</span>
+                    </label>
+                    <Select
+                      name="id_client"
+                      options={dataClient.map((item) => ({
+                        value: item.id_client,
+                        label: item.nom_client,
+                      }))}
+                      onChange={(selectedOption) => setData((prev) => ({ ...prev, id_client: selectedOption.value }))}
+                      placeholder="Sélectionnez un client..."
+                    />
+                  </div>
 
-              <div className="form-controle">
-                <label htmlFor="montant">
-                  Montant <span style={{ color: 'red' }}>*</span>
-                </label>
-                <input
-                  type="number"
-                  min="0"
-                  name="montant"
-                  className="form-input"
-                  onChange={handleInputChange}
-                  required
-                  placeholder="ex : 100"
-                />
-              </div>
+                  <div className="form-controle">
+                    <label htmlFor="montant">
+                      Montant <span style={{ color: 'red' }}>*</span>
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      name="montant"
+                      className="form-input"
+                      onChange={handleInputChange}
+                      required
+                      placeholder="ex : 100"
+                    />
+                  </div>
 
-              <div className="form-controle">
-                <label htmlFor="methode">
-                  Méthode de paiement <span style={{ color: 'red' }}>*</span>
-                </label>
-                <Select
-                  name="methode"
-                  options={methode.map((item) => ({
-                    value: item.id_methode,
-                    label: item.nom_methode,
-                  }))}
-                  onChange={(selectedOption) => setData((prev) => ({ ...prev, methode: selectedOption.value }))}
-                  placeholder="Sélectionnez une méthode..."
-                />
-              </div>
+                  <div className="form-controle">
+                    <label htmlFor="methode">
+                      Méthode de paiement <span style={{ color: 'red' }}>*</span>
+                    </label>
+                    <Select
+                      name="methode"
+                      options={methode.map((item) => ({
+                        value: item.id_methode,
+                        label: item.nom_methode,
+                      }))}
+                      onChange={(selectedOption) => setData((prev) => ({ ...prev, methode: selectedOption.value }))}
+                      placeholder="Sélectionnez une méthode..."
+                    />
+                  </div>
+                </form>
+              </TabPane>
 
-              <div className="form-submit">
+              <TabPane tab="Détails du Paiement" key="2">
+                <form className="product-container-bottom form_hand">
+                  <div className="form-controle">
+                    <label htmlFor="numero_paiement">
+                      Numéro de paiement <span style={{ color: 'red' }}>*</span>
+                    </label>
+                    <input 
+                      type="number"
+                      min="0"
+                      name="numero_paiement"
+                      className="form-input"
+                      onChange={handleInputChange}
+                      required
+                      placeholder="ex : 123456"
+                    />
+                  </div>
+
+                  <div className="form-controle">
+                    <label htmlFor="document">
+                      Document <span style={{ color: 'red' }}>*</span>
+                    </label>
+                    <input 
+                      type="file"
+                      name="document"
+                      className="form-input"
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="form-controle">
+                    <label htmlFor="reference">
+                      Référence <span style={{ color: 'red' }}>*</span>
+                    </label>
+                    <input
+                      type="text" 
+                      name="reference" 
+                      className="form-input"
+                      onChange={handleInputChange}
+                      placeholder="Référence" 
+                      required 
+                    />
+                  </div>
+                </form>
+                <div className="form-submit">
                 <button type="button" className="btn-submit" onClick={showModal} disabled={isLoading}>
                   Envoyer
                 </button>
@@ -149,9 +206,10 @@ const PaiementForm = () => {
                   <div className="loader-container loader-container-center">
                     <Spin size="large" />
                   </div>
-                )}
-              </div>
-            </form>
+              )}
+            </div>
+              </TabPane>
+            </Tabs>
           </div>
         </div>
       </div>
