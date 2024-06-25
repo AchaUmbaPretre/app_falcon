@@ -57,7 +57,7 @@ const Paiement = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
-      title: 'Code ref',
+      title: 'Code',
       dataIndex: 'ref',
       key: 'ref',
       render: (text) => (
