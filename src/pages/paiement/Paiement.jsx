@@ -221,15 +221,13 @@ const Paiement = () => {
               <div className="product-bottom-top">
                 <div className="product-bottom-left">
                   <Button icon={<SisternodeOutlined />}/>
-                  <div className="product-row-search">
-                    <Input
+                  <Input
                       type="search"
                       value={searchValue}
                       onChange={(e) => setSearchValue(e.target.value)}
                       placeholder="Recherche..."
                       className="product-search"
                     />
-                  </div>
                 </div>
                 <div className="product-bottom-right">
                   <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
