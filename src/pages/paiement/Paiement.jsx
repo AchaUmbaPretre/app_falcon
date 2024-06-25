@@ -57,6 +57,16 @@ const Paiement = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
+      title: 'Code ref',
+      dataIndex: 'ref',
+      key: 'ref',
+      render: (text) => (
+        <Tag color='blue'>
+          {text}
+        </Tag>
+      )
+    },
+    {
       title: 'Client',
       dataIndex: 'nom_client',
       key: 'nom_client',
@@ -78,17 +88,17 @@ const Paiement = () => {
         </Tag>
       )
     },
-/*     {
-      title: 'Device',
-      dataIndex: 'device',
-      key: 'device',
-      render: (text) => (
-        <Tag color='purple'>
-          <BarcodeOutlined style={{ marginRight: "5px" }} />
-          {text}
+    {
+      title: 'Montant (TVA)',
+      dataIndex: 'montant_tva',
+      key: 'montant_tva',
+      render: (text, record) => (
+        <Tag color='green'>
+          <DollarOutlined style={{ marginRight: '5px' }} />
+          {text} $
         </Tag>
       )
-    }, */
+    },
     {
       title: "Date",
       dataIndex: 'date_paiement',
@@ -108,6 +118,17 @@ const Paiement = () => {
       render: (text) => (
         <Tag color="orange">
           <CreditCardOutlined style={{ marginRight: "5px" }} />
+          {text}
+        </Tag>
+      )
+    },
+    {
+      title: 'Effectué par',
+      dataIndex: 'username',
+      key: 'username',
+      render: (text) => (
+        <Tag color='blue'>
+          <UserOutlined style={{ marginRight: '5px' }} />
           {text}
         </Tag>
       )

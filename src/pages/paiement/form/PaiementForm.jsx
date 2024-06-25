@@ -6,6 +6,7 @@ import config from '../../../config';
 import { ToastContainer, toast } from 'react-toastify';
 import { Spin, Modal, Tabs, DatePicker } from 'antd';
 import './paiementForm.scss';
+import { useSelector } from 'react-redux';
 
 const { TabPane } = Tabs;
 
@@ -18,16 +19,39 @@ const PaiementForm = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [activeTab, setActiveTab] = useState("1");
   const navigate = useNavigate();
+  const userId = useSelector((state) => state.user.currentUser.id);
 
-  const handleInputChange = useCallback((e) => {
-    const { name, value } = e.target;
-    const updatedValue = name === 'email'
-      ? value.toLowerCase()
-      : isNaN(Number(value))
-        ? value.charAt(0).toUpperCase() + value.slice(1)
-        : value;
-    setData((prev) => ({ ...prev, [name]: updatedValue }));
-  }, []);
+
+  const handleInputChange = (e) => {
+    const fieldName = e.target.name;
+    const fieldValue = e.target.value;
+  
+    // Vérifier si le champ est un champ de fichier
+    if (e.target.type === 'file') {
+      const file = e.target.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+        };
+        reader.readAsDataURL(file);
+        setData((prev) => ({ ...prev, [fieldName]: file }));
+      } else {
+        setData((prev) => ({ ...prev, [fieldName]: null }));
+      }
+    } else {
+      // Traitement pour les autres types de champs
+      let updatedValue = fieldValue;
+      if (fieldName === "contact_email") {
+        updatedValue = fieldValue.toLowerCase();
+      } else if (Number.isNaN(Number(fieldValue))) {
+        if (typeof fieldValue === "string" && fieldValue.length > 0) {
+          updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
+        }
+      }
+      setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
+    }
+  };
 
   const fetchClient = useCallback(async () => {
     try {
@@ -52,11 +76,11 @@ const PaiementForm = () => {
     fetchMethode();
   }, [fetchClient, fetchMethode]);
 
-  useEffect(() => {
-    if (data.id_client && data.montant && data.methode) {
+/*   useEffect(() => {
+    if (data.id_client && data.date_paiement && data.methode) {
       setActiveTab("2");
     }
-  }, [data]);
+  }, [data]); */
 
   const handleSubmit = async () => {
     if (!data.id_client || !data.montant) {
@@ -66,7 +90,11 @@ const PaiementForm = () => {
 
     try {
       setIsLoading(true);
-      await axios.post(`${DOMAIN}/paiement`, data);
+      await axios.post(`${DOMAIN}/paiement`, {...data, user_paiement: userId },{
+        headers: {
+        'Content-Type': 'multipart/form-data',
+        },
+      });
       toast.success('Paiement créé avec succès!');
       navigate('/paiement');
       window.location.reload();
@@ -173,11 +201,10 @@ const PaiementForm = () => {
                     <input 
                       type="number"
                       min="0"
-                      name="numero_paiement"
+                      name="code_paiement"
                       className="form-input"
-                      onChange={handleInputChange}
-                      required
                       placeholder="ex : 123456"
+                      onChange={handleInputChange}
                     />
                   </div>
 
@@ -190,7 +217,6 @@ const PaiementForm = () => {
                       name="document"
                       className="form-input"
                       onChange={handleInputChange}
-                      required
                     />
                   </div>
                   
@@ -200,11 +226,10 @@ const PaiementForm = () => {
                     </label>
                     <input
                       type="text" 
-                      name="reference" 
+                      name="ref" 
                       className="form-input"
                       onChange={handleInputChange}
                       placeholder="Référence" 
-                      required 
                     />
                   </div>
                 </form>
