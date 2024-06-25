@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
 import {
-  PlusCircleOutlined, CreditCardOutlined, DeleteOutlined,
+  PlusCircleOutlined, CreditCardOutlined, DeleteOutlined,SisternodeOutlined,
   UserOutlined, DollarOutlined, CalendarOutlined, FilePdfOutlined,
-  FileExcelOutlined, PrinterOutlined, SearchOutlined
+  FileExcelOutlined, PrinterOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
 import PaiementForm from './form/PaiementForm';
+import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 const Paiement = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -52,6 +55,40 @@ const Paiement = () => {
 
   const onClose = () => {
     setOpenDetail(false);
+  };
+
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Liste des clients", 14, 22);
+    const tableColumn = ["#", "Code","nom_client", "Montant", "Montant_tva", "Date","Methode"];
+    const tableRows = [];
+
+    data.forEach((record, index) => {
+      const tableRow = [
+        index + 1,
+        record.nom_client,
+        record.ref,
+        record.montant,
+        record.montant_tva,
+        record.date_paiement,
+        record.methode
+      ];
+      tableRows.push(tableRow);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30,
+    });
+    doc.save('paiement.pdf');
+  };
+
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "paiement");
+    XLSX.writeFile(wb, "paiement.xlsx");
   };
 
   const columns = [
@@ -183,22 +220,21 @@ const Paiement = () => {
             <div className="client_wrapper_center_bottom">
               <div className="product-bottom-top">
                 <div className="product-bottom-left">
-                  <CreditCardOutlined className='product-icon' />
+                  <Button icon={<SisternodeOutlined />}/>
                   <div className="product-row-search">
-                    <SearchOutlined className='product-icon-plus' />
-                    <input
+                    <Input
                       type="search"
                       value={searchValue}
                       onChange={(e) => setSearchValue(e.target.value)}
-                      placeholder='Recherche...'
-                      className='product-search'
+                      placeholder="Recherche..."
+                      className="product-search"
                     />
                   </div>
                 </div>
                 <div className="product-bottom-right">
-                  <FilePdfOutlined className='product-icon-pdf' />
-                  <FileExcelOutlined className='product-icon-excel' />
-                  <PrinterOutlined className='product-icon-printer' />
+                  <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                  <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
+                  <Button className="product-icon-printer" icon={<PrinterOutlined />} />
                 </div>
               </div>
               { isLoading ? (
