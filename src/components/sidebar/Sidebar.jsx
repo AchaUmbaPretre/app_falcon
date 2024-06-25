@@ -222,7 +222,7 @@ const Sidebar = () => {
             </Link>
           </Item>
         </SubMenu>
-        <SubMenu key="Facturation" icon={<AuditOutlined  style={{ fontSize: '17px' }} />} title="Facturation" style={{ fontSize: '14px', letterSpacing: '1px' }}>
+{/*         <SubMenu key="Facturation" icon={<AuditOutlined  style={{ fontSize: '17px' }} />} title="Facturation" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="4">
             <Link to={'/facturation'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />}  />
@@ -235,7 +235,7 @@ const Sidebar = () => {
               Enregistrer facturation
             </Link>
           </Item>
-        </SubMenu>
+        </SubMenu> */}
          <SubMenu key="Rapport" icon={<FileTextOutlined style={{ fontSize: '17px' }} />} title="Rapport" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="23">
             <Link to={'/rapport'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
