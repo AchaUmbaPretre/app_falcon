@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
 import {
   PlusCircleOutlined, CreditCardOutlined, DeleteOutlined,SisternodeOutlined,
-  UserOutlined, DollarOutlined, CalendarOutlined, FilePdfOutlined,
+  UserOutlined, DollarOutlined, CalendarOutlined,EyeOutlined, FilePdfOutlined,
   FileExcelOutlined, PrinterOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
@@ -12,6 +12,7 @@ import PaiementForm from './form/PaiementForm';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import { Link } from 'react-router-dom';
 
 const Paiement = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -175,11 +176,11 @@ const Paiement = () => {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-{/*           <Popover title="Voir les détails" trigger="hover">
+           <Popover title="Voir les détails" trigger="hover">
             <Link onClick={() => showDrawer(record.id_paiement)}>
               <Button icon={<EyeOutlined />} style={{ color: 'blue' }} />
             </Link>
-          </Popover> */}
+          </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
               title="Êtes-vous sûr de vouloir supprimer?"
