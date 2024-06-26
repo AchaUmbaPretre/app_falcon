@@ -33,7 +33,7 @@ const PaiementDetail = ({ id_paiement }) => {
 
   return (
     <div className="operationDetail">
-      <h1 style={{ padding: '10px 0px', fontSize: "22px" }} className='h2_detail'>Contact principal :</h1>
+      <h1 style={{ padding: '10px 0px', fontSize: "22px" }} className='h2_detail'>Détail du paiement :</h1>
       <Skeleton loading={loading} active>
         <div className="operationDetail_wrapper">
           <div className="operation_row">
