@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
 import {
-  PlusCircleOutlined, CreditCardOutlined, DeleteOutlined,SisternodeOutlined,
-  UserOutlined, DollarOutlined, CalendarOutlined,EyeOutlined, FilePdfOutlined,
+  PlusCircleOutlined, CreditCardOutlined, DeleteOutlined, SisternodeOutlined,
+  UserOutlined, DollarOutlined, CalendarOutlined, EyeOutlined, FilePdfOutlined,
   FileExcelOutlined, PrinterOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { Link } from 'react-router-dom';
+import PaiementDetail from './PaiementDetail';
 
 const Paiement = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -22,11 +23,12 @@ const Paiement = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
   const scroll = { x: 400 };
+  const [idPaiement, setIdPaiement] = useState(''); 
 
   const fetchPaiements = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/paiement`);
-      setData(data);
+      const response = await axios.get(`${DOMAIN}/paiement`);
+      setData(response.data);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -48,6 +50,7 @@ const Paiement = () => {
 
   const showDrawer = (id) => {
     setOpenDetail(true);
+    setIdPaiement(id);
   };
 
   const showModal = () => {
@@ -61,18 +64,18 @@ const Paiement = () => {
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.text("Liste des clients", 14, 22);
-    const tableColumn = ["#", "Code","nom_client", "Montant", "Montant_tva", "Date","Methode"];
+    const tableColumn = ["#", "Code", "nom_client", "Montant", "Montant_tva", "Date", "Methode"];
     const tableRows = [];
 
     data.forEach((record, index) => {
       const tableRow = [
         index + 1,
-        record.nom_client,
         record.ref,
+        record.nom_client,
         record.montant,
         record.montant_tva,
         record.date_paiement,
-        record.methode
+        record.nom_methode
       ];
       tableRows.push(tableRow);
     });
@@ -176,7 +179,7 @@ const Paiement = () => {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-           <Popover title="Voir les détails" trigger="hover">
+          <Popover title="Voir les détails" trigger="hover">
             <Link onClick={() => showDrawer(record.id_paiement)}>
               <Button icon={<EyeOutlined />} style={{ color: 'blue' }} />
             </Link>
@@ -221,14 +224,14 @@ const Paiement = () => {
             <div className="client_wrapper_center_bottom">
               <div className="product-bottom-top">
                 <div className="product-bottom-left">
-                  <Button icon={<SisternodeOutlined />}/>
+                  <Button icon={<SisternodeOutlined />} />
                   <Input
-                      type="search"
-                      value={searchValue}
-                      onChange={(e) => setSearchValue(e.target.value)}
-                      placeholder="Recherche..."
-                      className="product-search"
-                    />
+                    type="search"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder="Recherche..."
+                    className="product-search"
+                  />
                 </div>
                 <div className="product-bottom-right">
                   <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
@@ -236,7 +239,7 @@ const Paiement = () => {
                   <Button className="product-icon-printer" icon={<PrinterOutlined />} />
                 </div>
               </div>
-              { isLoading ? (
+              {isLoading ? (
                 <Skeleton active />
               ) : (
                 <Table dataSource={filteredData} columns={columns} loading={isLoading} scroll={scroll} className='table_client' />
@@ -256,8 +259,9 @@ const Paiement = () => {
                 placement="right"
                 onClose={onClose}
                 open={openDetail}
+                width={750}
               >
-                {/* Contenu détaillé du traceur ici */}
+                <PaiementDetail id_paiement={idPaiement} />
               </Drawer>
             </div>
           </div>
