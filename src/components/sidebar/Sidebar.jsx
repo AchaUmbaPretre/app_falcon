@@ -204,15 +204,15 @@ const Sidebar = () => {
         </SubMenu>
         <SubMenu key="Paiement" icon={<DollarOutlined style={{ fontSize: '17px' }} />} title="Paiement" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="20">
-            <Link to={'/depense'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
-              <Timeline.Item dot={<span className="custom-dot" />} />
-              Liste des depenses
-            </Link>
-          </Item>
-          <Item key="21">
             <Link to={'/paiement'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Liste des paiements
+            </Link>
+          </Item>
+          <Item key="21">
+            <Link to={'/depense'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
+              <Timeline.Item dot={<span className="custom-dot" />} />
+              Liste des depenses
             </Link>
           </Item>
           <Item key="22">
