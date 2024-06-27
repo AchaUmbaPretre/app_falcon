@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag, message } from 'antd';
+import { Breadcrumb, Button, Input, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag, message } from 'antd';
 import { PlusCircleOutlined, CarOutlined, UserOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
@@ -197,15 +197,14 @@ const Vehicules = () => {
           <div className="client_wrapper_center_bottom">
             <div className="product-bottom-top">
               <div className="product-bottom-left">
-                <SisternodeOutlined className='product-icon' />
-                <div className="product-row-search">
-                  <SearchOutlined className='product-icon-plus' />
-                  <input 
-                    type="search" 
-                    value={searchValue} 
-                    onChange={(e) => setSearchValue(e.target.value)} 
-                    placeholder='Recherche...' 
-                    className='product-search' 
+                <Button icon={<SisternodeOutlined />}/>
+                <div className="product-row-searchs">
+                  <Input
+                    type="search"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder="Recherche..."
+                    className="product-search"
                   />
                 </div>
               </div>
