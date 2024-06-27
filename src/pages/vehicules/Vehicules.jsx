@@ -167,9 +167,9 @@ const Vehicules = () => {
   const filteredData = data?.filter((item) =>
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.matricule?.toLowerCase().includes(searchValue.toLowerCase())
+    item.matricule?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.modele?.toLowerCase().includes(searchValue.toLowerCase())
   );
-
   return (
     <div className="client">
       <div className="client_wrapper">
