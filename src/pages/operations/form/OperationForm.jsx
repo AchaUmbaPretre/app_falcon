@@ -89,7 +89,7 @@ const OperationForm = ({id_type_operation}) => {
   const handleClick = async (e) => {
     e.preventDefault();
   
-    if (!data.id_client || !data.site ) {
+    if (!data.id_client || !data.site || !data.id_vehicule) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
