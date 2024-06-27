@@ -135,7 +135,7 @@ const Vehicules = () => {
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.text("Liste des vehicules", 14, 22);
-    const tableColumn = ["#", "nom_client", "nom_marque","modele"];
+    const tableColumn = ["#", "nom_client", "nom_marque","modele","matricule"];
     const tableRows = [];
 
     data.forEach((record, index) => {
@@ -160,8 +160,8 @@ const Vehicules = () => {
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Traceur");
-    XLSX.writeFile(wb, "traceur.xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, "Vehicule");
+    XLSX.writeFile(wb, "vehicule.xlsx");
   };
 
   const filteredData = data?.filter((item) =>
@@ -170,6 +170,7 @@ const Vehicules = () => {
     item.matricule?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.modele?.toLowerCase().includes(searchValue.toLowerCase())
   );
+
   return (
     <div className="client">
       <div className="client_wrapper">
