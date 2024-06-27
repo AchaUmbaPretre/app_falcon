@@ -230,6 +230,7 @@ const OperationForm = ({id_type_operation}) => {
                         })
                       }
                       placeholder="Sélectionnez un client..."
+                      required
                     />
                 </div>
                 <div className="form-controle">
@@ -246,6 +247,8 @@ const OperationForm = ({id_type_operation}) => {
                         })
                       }
                       placeholder="Sélectionnez un site..."
+
+                      required
                     />
                 </div>
                 <div className="form-controle">
@@ -275,6 +278,7 @@ const OperationForm = ({id_type_operation}) => {
                         })
                       }
                       placeholder="Sélectionnez un traceur..."
+                      required
                     />
                 </div>
                 <div className="form-controle">
@@ -292,6 +296,7 @@ const OperationForm = ({id_type_operation}) => {
                       })
                     }
                     placeholder="Sélectionnez un superviseur..."
+                    required
                   />
                 </div>
                 <div className="form-controle">
@@ -309,6 +314,7 @@ const OperationForm = ({id_type_operation}) => {
                         })
                       }
                       placeholder="Sélectionnez un technicien..."
+                      required
                     />
                 </div>
                 <div className="form-controle">
