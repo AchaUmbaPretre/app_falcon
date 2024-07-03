@@ -172,6 +172,17 @@ const Operations = () => {
       ),
     },
     {
+      title: 'Tag(Traceur)',
+      dataIndex: 'code',
+      key: 'code',
+      render: (text) => (
+        <Tag color='green'>
+          <BarcodeOutlined  style={{ marginRight: '5px' }} />
+          {text}
+        </Tag>
+      ),
+    },
+    {
       title: "Type d'opération",
       dataIndex: 'type_operations',
       key: 'type_operations',
