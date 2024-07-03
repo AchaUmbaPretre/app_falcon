@@ -244,7 +244,7 @@ const Operations = () => {
       render: (text, record) => (
         <Space size="middle">
           <Popover title="Voir les détails" trigger="hover">
-            <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={showDrawer} />
+            <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={showDrawer} disabled={selectedRowKeys.length === 0} />
           </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
