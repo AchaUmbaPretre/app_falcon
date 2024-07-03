@@ -115,9 +115,9 @@ const Marques = () => {
                 </div>
               </div>
               <div className="product-bottom-right">
-                <FilePdfOutlined className="product-icon-pdf" />
-                <FileExcelOutlined className="product-icon-excel" />
-                <PrinterOutlined className="product-icon-printer" />
+                <Button  className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                <Button  className="product-icon-excel" icon={<FileExcelOutlined />} />
+                <Button className="product-icon-printer" icon={<PrinterOutlined />} />
               </div>
             </div>
             <Table dataSource={filteredData} columns={columns} loading={loading} />
