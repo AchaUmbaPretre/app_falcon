@@ -4,7 +4,7 @@ import {
   PlusCircleOutlined, SisternodeOutlined, UserOutlined, CloseOutlined,
   ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined,
   EnvironmentOutlined, CalendarOutlined, FilePdfOutlined, FileExcelOutlined,
-  PrinterOutlined, SearchOutlined
+  PrinterOutlined, BarcodeOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
@@ -161,12 +161,12 @@ const Operations = () => {
       ),
     },
     {
-      title: 'Site',
-      dataIndex: 'nom_site',
-      key: 'nom_site',
+      title: 'Matricule',
+      dataIndex: 'matricule',
+      key: 'matricule',
       render: (text) => (
         <Tag color='volcano'>
-          <EnvironmentOutlined style={{ marginRight: 5 }} />
+          <BarcodeOutlined  style={{ marginRight: '5px' }} />
           {text}
         </Tag>
       ),
@@ -255,7 +255,8 @@ const Operations = () => {
     item.nom_site?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.superviseur?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.type_operations?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.technicien?.toLowerCase().includes(searchValue.toLowerCase())
+    item.technicien?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.matricule.toLowerCase().includes(searchValue.toLowerCase()) 
   );
 
   return (
