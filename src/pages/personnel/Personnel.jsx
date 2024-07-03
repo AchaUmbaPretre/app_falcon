@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Skeleton, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Skeleton, Table, Tag } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,SettingOutlined,PhoneOutlined,MailOutlined,UserOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined, SearchOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
@@ -135,9 +135,9 @@ const Personnel = () => {
                     </div>
                   </div>
                   <div className="product-bottom-right">
-                    <FilePdfOutlined className='product-icon-pdf' />
-                    <FileExcelOutlined className='product-icon-excel'/>
-                    <PrinterOutlined className='product-icon-printer'/>
+                    <Button className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                    <Button  className="product-icon-excel" icon={<FileExcelOutlined />} />
+                    <Button className="product-icon-printer" icon={<PrinterOutlined />} />
                   </div>
                 </div>
                 { loading ? (
