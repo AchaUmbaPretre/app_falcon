@@ -45,10 +45,6 @@ const Recharge = () => {
   const [end_date, setEndDate] = useState('');
 
 
-  const openModal = () => {
-    setOpen(true);
-  };
-
   const closeModal = () => {
     setOpen(false);
   };
@@ -423,14 +419,13 @@ const Recharge = () => {
                   icon={openTrie ? <CloseOutlined /> : <SisternodeOutlined />}
                   onClick={() => setOpenTrie(!openTrie)}
                 />
-                <div className="product-row-search">
-                  <SearchOutlined className='product-icon-plus' />
-                  <input
+                <div className="product-row-searchs">
+                  <Input
                     type="search"
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
-                    placeholder='Recherche...'
-                    className='product-search'
+                    placeholder="Recherche..."
+                    className="product-search"
                   />
                 </div>
               </div>
