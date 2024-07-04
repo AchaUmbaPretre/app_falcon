@@ -16,6 +16,7 @@ const OperationDetail = ({ selectedOperations }) => {
   const [loading, setLoading] = useState(true);
   const [clientName, setClientName] = useState('');
   const [formattedDate, setFormattedDate] = useState('');
+  const [email, setEmail] = useState('');
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const sigCanvas = useRef(null);
   const pdfRef = useRef();
@@ -43,6 +44,7 @@ const OperationDetail = ({ selectedOperations }) => {
           setIdClient(flattenedDetails[0]?.id_client)
           setClientName(flattenedDetails[0]?.nom_client ?? 'N/A');
           const operationDate = flattenedDetails[0]?.date_operation ?? 'N/A';
+          setEmail(flattenedDetails[0]?.email)
           setFormattedDate(formatDate(operationDate));
         }
         setLoading(false);
@@ -100,7 +102,8 @@ const OperationDetail = ({ selectedOperations }) => {
   
     try {
       await axios.post(`${DOMAIN}/operation/send-operation-email`, {
-        id_operations: selectedOperations
+        id_operations: selectedOperations,
+        email: email
       });
   
       toast.success('Email envoyé avec succès!');
@@ -108,7 +111,11 @@ const OperationDetail = ({ selectedOperations }) => {
       const errorMessage = err.response?.data?.message || err.message;
       toast.error(errorMessage);
     }
-  }, [selectedOperations, DOMAIN]);
+  }, [selectedOperations, email, DOMAIN]);
+
+
+
+  console.log(email)
   
   
 
@@ -167,6 +174,7 @@ const OperationDetail = ({ selectedOperations }) => {
     acc[type_operations].push(detail);
     return acc;
   }, {});
+
 
   return (
     
