@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Input, Skeleton } from 'antd';
 import {
-  PlusCircleOutlined, CreditCardOutlined, EyeOutlined, DeleteOutlined,
+  PlusCircleOutlined, EyeOutlined, DeleteOutlined,
   UserOutlined, DollarOutlined, CalendarOutlined, FilePdfOutlined,
-  FileExcelOutlined, PrinterOutlined, SearchOutlined, BarcodeOutlined
+  FileExcelOutlined, PrinterOutlined, SisternodeOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
@@ -152,15 +152,14 @@ const Dette = () => {
             <div className="client_wrapper_center_bottom">
               <div className="product-bottom-top">
                 <div className="product-bottom-left">
-                  <CreditCardOutlined className='product-icon' />
-                  <div className="product-row-search">
-                    <SearchOutlined className='product-icon-plus' />
-                    <input
+                  <Button icon={<SisternodeOutlined />}/>
+                  <div className="product-row-searchs">
+                    <Input
                       type="search"
                       value={searchValue}
                       onChange={(e) => setSearchValue(e.target.value)}
-                      placeholder='Recherche...'
-                      className='product-search'
+                      placeholder="Recherche..."
+                      className="product-search"
                     />
                   </div>
                 </div>
