@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Table, Tag, message, Input, Button, Modal } from 'antd';
-import { UserOutlined, PhoneOutlined, SisternodeOutlined, HourglassOutlined, SearchOutlined } from '@ant-design/icons';
+import { PhoneOutlined, SisternodeOutlined, HourglassOutlined, SearchOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -187,15 +187,14 @@ const RechargeOne = () => {
           <div className="client_wrapper_center_bottom">
             <div className="product-bottom-top">
               <div className="product-bottom-left">
-                <SisternodeOutlined className='product-icon' />
-                <div className="product-row-search">
-                  <SearchOutlined className='product-icon-plus' />
-                  <input
+                <Button icon={<SisternodeOutlined />}/>
+                <div className="product-row-searchs">
+                  <Input
                     type="search"
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    placeholder='Recherche...'
-                    className='product-search'
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      placeholder="Recherche..."
+                      className="product-search"
                   />
                 </div>
               </div>
