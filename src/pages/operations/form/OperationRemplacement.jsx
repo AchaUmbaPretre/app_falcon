@@ -80,6 +80,8 @@ const OperationRemplacement = ({ id_type_operation }) => {
     fetchData();
   }, [DOMAIN]);
 
+  console.log(data)
+
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -343,7 +345,7 @@ const OperationRemplacement = ({ id_type_operation }) => {
                     name="traceur_echange"
                     options={traceur?.map((item) => ({
                       value: item.id_traceur,
-                      label: item.numero_serie,
+                      label: item.code,
                     }))}
                     onChange={(selectedOption) =>
                       handleInputChange({
