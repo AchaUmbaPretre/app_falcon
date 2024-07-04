@@ -2,8 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Drawer, Input, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag } from 'antd';
 import {
   PlusCircleOutlined, SisternodeOutlined, UserOutlined, CloseOutlined,
-  ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined,
-  EnvironmentOutlined, CalendarOutlined, FilePdfOutlined, FileExcelOutlined,
+  ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined, CalendarOutlined, FilePdfOutlined, FileExcelOutlined,
   PrinterOutlined, BarcodeOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
@@ -16,7 +15,6 @@ import CountUp from 'react-countup';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
-
 
 const Operations = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
