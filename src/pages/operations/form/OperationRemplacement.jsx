@@ -197,8 +197,6 @@ const OperationRemplacement = ({ id_type_operation }) => {
       label: tc.code
     }));
 
-    console.log(data)
-
 
   return (
     <>
