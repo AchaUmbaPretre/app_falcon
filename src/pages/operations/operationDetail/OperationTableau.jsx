@@ -114,8 +114,6 @@ const OperationDetail = ({ selectedOperations }) => {
   }, [selectedOperations, email, DOMAIN]);
 
 
-
-  console.log(email)
   
   
 
