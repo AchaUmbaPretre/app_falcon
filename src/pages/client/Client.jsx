@@ -144,17 +144,6 @@ const Client = () => {
       )
     },
     {
-      title: 'Adresse',
-      dataIndex: 'adresse',
-      key: 'adresse',
-      render: (text, record) => (
-        <Tag color={'volcano'}>
-          <EnvironmentOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Tag>
-      )
-    },
-    {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
