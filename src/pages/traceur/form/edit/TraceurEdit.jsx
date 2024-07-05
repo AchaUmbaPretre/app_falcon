@@ -88,7 +88,7 @@ const TraceurEdit = () => {
         <div className="product-wrapper">
           <div>
             <form onSubmit={handleSubmit} className="product-container-bottom">
-              {['model', 'numero_serie', 'traceur_id', 'numero', 'code'].map((field) => (
+              {['model', 'numero_serie', 'traceur_id', 'code'].map((field) => (
                 <div key={field} className="form-controle">
                   <label htmlFor={field}>
                     {field.replace('_', ' ')} <span style={{ color: 'red' }}>*</span>
