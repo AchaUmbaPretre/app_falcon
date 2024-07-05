@@ -44,7 +44,7 @@ const TraceurEdit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/traceur?id_traceur=${traceurId}`);
+        const { data } = await axios.get(`${DOMAIN}/traceur/traceurOne?id_traceur=${traceurId}`);
         setData(data[0]);
       } catch (error) {
         console.log(error);
@@ -96,6 +96,7 @@ const TraceurEdit = () => {
                   <input
                     type={field === 'email' ? 'email' : 'text'}
                     name={field}
+                    value={data[field] || ''}
                     className="form-input"
                     onChange={handleInputChange}
                     required={field !== 'numero' && field !== 'code'}
