@@ -58,7 +58,7 @@ const TraceurEdit = () => {
       setModalConfirmLoading(true);
       await axios.put(`${DOMAIN}/traceur?id_traceur=${traceurId}`, data);
       toast.success('Le traceur a ete modifié avec succès!');
-      navigate('/traceur');
+      navigate('/traceurs');
       window.location.reload();
     } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.error) {
@@ -99,7 +99,6 @@ const TraceurEdit = () => {
                     value={data[field] || ''}
                     className="form-input"
                     onChange={handleInputChange}
-                    required={field !== 'numero' && field !== 'code'}
                   />
                 </div>
               ))}
