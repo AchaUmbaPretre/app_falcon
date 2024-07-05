@@ -133,7 +133,7 @@ const Traceur = () => {
   };
 
   const handleEdit = (id) => {
-    navigate(`/traceurEdit?id_client=${id}`);
+    navigate(`/traceurEdit?id_traceur=${id}`);
   };
 
 
@@ -275,7 +275,7 @@ const Traceur = () => {
             </Link>
           </Popover>
           <Popover title="Modifier" trigger="hover">
-            <Button icon={<EditOutlined />} style={{ color: 'geekblue' }} onClick={()=> handleEdit(record.id_client)} />
+            <Button icon={<EditOutlined />} style={{ color: 'geekblue' }} onClick={()=> handleEdit(record.id_traceur)} />
           </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
