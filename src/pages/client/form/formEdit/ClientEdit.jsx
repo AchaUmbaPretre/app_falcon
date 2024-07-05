@@ -56,8 +56,8 @@ const ClientEdit = () => {
   const handleConfirmSend = useCallback(async () => {
     try {
       setModalConfirmLoading(true);
-      await axios.put(`${DOMAIN}/client/client`, data);
-      toast.success('Client créé avec succès!');
+      await axios.put(`${DOMAIN}/client/client?id_client=${clientId}`, data);
+      toast.success('Client a ete modifié avec succès!');
       navigate('/client');
       window.location.reload();
     } catch (err) {
@@ -73,7 +73,7 @@ const ClientEdit = () => {
       setModalVisible(false);
       setIsLoading(false);
     }
-  }, [data, DOMAIN, navigate]);
+  }, [data, DOMAIN, navigate,clientId]);
 
   return (
     <div className="clientForms">
