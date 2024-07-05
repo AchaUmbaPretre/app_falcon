@@ -33,7 +33,7 @@ const TraceurEdit = () => {
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     
-    if (!data.nom_client || !data.telephone) {
+    if (!data.code) {
       toast.error('Veuillez remplir tous les champs requis');
       return;
     }
@@ -44,7 +44,7 @@ const TraceurEdit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/client/clientOne?id_client=${clientId}`);
+        const { data } = await axios.get(`${DOMAIN}/traceur?id_client=${clientId}`);
         setData(data[0]);
       } catch (error) {
         console.log(error);
@@ -56,7 +56,7 @@ const TraceurEdit = () => {
   const handleConfirmSend = useCallback(async () => {
     try {
       setModalConfirmLoading(true);
-      await axios.put(`${DOMAIN}/client/client?id_client=${clientId}`, data);
+      await axios.put(`${DOMAIN}/traceur?id_traceur=${clientId}`, data);
       toast.success('Client a ete modifié avec succès!');
       navigate('/client');
       window.location.reload();
@@ -128,12 +128,11 @@ const TraceurEdit = () => {
       >
         <p className="modal-text">Voulez-vous envoyer les informations suivantes ?</p>
         <ul>
-          <li><strong>Nom du client :</strong> {data.nom_client}</li>
-          <li><strong>Nom principal :</strong> {data.nom_principal}</li>
-          <li><strong>Poste :</strong> {data.poste}</li>
-          <li><strong>Téléphone :</strong> {data.telephone}</li>
-          <li><strong>Adresse :</strong> {data.adresse}</li>
-          <li><strong>Email :</strong> {data.email}</li>
+          <li><strong>Model :</strong> {data.model}</li>
+          <li><strong>Numero de serie :</strong> {data.numero_serie}</li>
+          <li><strong>ID Traceur :</strong> {data.traceur_id}</li>
+          <li><strong>Telephone :</strong> {data.numero}</li>
+          <li><strong>Code :</strong> {data.code}</li>
         </ul>
       </Modal>
     </div>

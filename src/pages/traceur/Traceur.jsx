@@ -133,7 +133,7 @@ const Traceur = () => {
   };
 
   const handleEdit = (id) => {
-    navigate(`/clientEdit?id_client=${id}`);
+    navigate(`/traceurEdit?id_client=${id}`);
   };
 
 
