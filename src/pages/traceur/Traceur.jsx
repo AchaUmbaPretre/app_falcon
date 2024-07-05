@@ -26,11 +26,12 @@ import {
   PrinterOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  EditOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TraceurForm from './form/TraceurForm';
 import TraceurDetail from './detail/TraceurDetail';
 import TraceurHistorique from './historique/TraceurHistorique';
@@ -54,6 +55,7 @@ const Traceur = () => {
   const [endDate, setEndDate] = useState('');
   const [openTrie, setOpenTrie] = useState(false);
   const [traceur, setTraceur] = useState('');
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -129,6 +131,11 @@ const Traceur = () => {
       console.error('Error deleting record:', err);
     }
   };
+
+  const handleEdit = (id) => {
+    navigate(`/clientEdit?id_client=${id}`);
+  };
+
 
   const exportToPDF = () => {
     const doc = new jsPDF();
@@ -266,6 +273,9 @@ const Traceur = () => {
             <Link onClick={() => showDrawer(record.id_traceur)}>
               <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
             </Link>
+          </Popover>
+          <Popover title="Modifier" trigger="hover">
+            <Button icon={<EditOutlined />} style={{ color: 'geekblue' }} onClick={()=> handleEdit(record.id_client)} />
           </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
