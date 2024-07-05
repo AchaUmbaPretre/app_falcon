@@ -1,17 +1,21 @@
-import React, { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { Spin, Modal } from 'antd';
 import config from '../../../../config';
+import useQuery from './../../../../useQuery';
 
 const ClientEdit = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [data, setData] = useState({});
   const navigate = useNavigate();
+  const query = useQuery();
+  const clientId = query.get('id_client');
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalConfirmLoading, setModalConfirmLoading] = useState(false);
+
 
   const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -37,10 +41,22 @@ const ClientEdit = () => {
     setModalVisible(true);
   }, [data]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${DOMAIN}/client/clientOne?id_client=${clientId}`);
+        setData(data[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [DOMAIN,clientId]);
+
   const handleConfirmSend = useCallback(async () => {
     try {
       setModalConfirmLoading(true);
-      await axios.post(`${DOMAIN}/client/client`, data);
+      await axios.put(`${DOMAIN}/client/client`, data);
       toast.success('Client créé avec succès!');
       navigate('/client');
       window.location.reload();
@@ -66,7 +82,7 @@ const ClientEdit = () => {
         <div className="product-container-top">
           <div className="product-left">
             <h2 className="product-h2">Modification</h2>
-            <span>Modifier les informations du client</span>
+            <span>Mettre à jour les informations du client</span>
           </div>
         </div>
         <div className="product-wrapper">
@@ -80,6 +96,7 @@ const ClientEdit = () => {
                   <input
                     type={field === 'email' ? 'email' : 'text'}
                     name={field}
+                    value={data[field] || ''} 
                     className="form-input"
                     onChange={handleInputChange}
                     required={field !== 'poste' && field !== 'telephone' && field !== 'adresse' && field !== 'email'}
