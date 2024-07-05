@@ -113,7 +113,7 @@ const Client = () => {
   };
 
   const handleEdit = (id) => {
-    navigate(`/clientEdit/${id}`);
+    navigate(`/clientEdit?id_client=${id}`);
   };
 
   const columns = [

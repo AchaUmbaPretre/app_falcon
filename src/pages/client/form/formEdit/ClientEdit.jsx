@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { Spin, Modal } from 'antd';
-import config from '../../../config';
-import './clientForms.scss';
+import config from '../../../../config';
 
 const ClientEdit = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
