@@ -173,7 +173,7 @@ const Client = () => {
             <Button icon={<PlusCircleOutlined />} onClick={() => showModalContact(record.id_client)} style={{ color: 'blue' }} />
           </Popover>
           <Popover title="Modifier" trigger="hover">
-            <Button icon={<EditOutlined />} style={{ color: 'cyan' }} onClick={()=> handleEdit(record.id_client)} />
+            <Button icon={<EditOutlined />} style={{ color: 'geekblue' }} onClick={()=> handleEdit(record.id_client)} />
           </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
