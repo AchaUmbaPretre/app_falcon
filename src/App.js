@@ -50,6 +50,7 @@ import PassWordForgot from './pages/passwordForgot/PassWordForgot';
 import RapportGlobal from './pages/rapport/rapportGlobal/RapportGlobal';
 import Facturation from './pages/facturation/Facturation';
 import ClientEdit from './pages/client/form/formEdit/ClientEdit';
+import TraceurEdit from './pages/traceur/form/edit/TraceurEdit';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -120,6 +121,7 @@ function App() {
         { path: '/sites', element: <Sites /> },
         { path: '/traceurs', element: <Traceur /> },
         { path: '/traceurs_form', element: <TraceurForm /> },
+        { path: '/traceurEdit', element: <TraceurEdit /> },
         { path: '/operations', element: <Operations /> },
         { path: '/operations_form', element: <OperationGen /> },
         { path: '/affectation', element: <Affectations /> },
