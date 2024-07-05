@@ -11,7 +11,7 @@ const TraceurEdit = () => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
   const query = useQuery();
-  const clientId = query.get('id_client');
+  const traceurId = query.get('id_traceur');
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalConfirmLoading, setModalConfirmLoading] = useState(false);
@@ -44,21 +44,21 @@ const TraceurEdit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/traceur?id_client=${clientId}`);
+        const { data } = await axios.get(`${DOMAIN}/traceur?id_traceur=${traceurId}`);
         setData(data[0]);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, [DOMAIN,clientId]);
+  }, [DOMAIN,traceurId]);
 
   const handleConfirmSend = useCallback(async () => {
     try {
       setModalConfirmLoading(true);
-      await axios.put(`${DOMAIN}/traceur?id_traceur=${clientId}`, data);
-      toast.success('Client a ete modifié avec succès!');
-      navigate('/client');
+      await axios.put(`${DOMAIN}/traceur?id_traceur=${traceurId}`, data);
+      toast.success('Le traceur a ete modifié avec succès!');
+      navigate('/traceur');
       window.location.reload();
     } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.error) {
@@ -73,7 +73,7 @@ const TraceurEdit = () => {
       setModalVisible(false);
       setIsLoading(false);
     }
-  }, [data, DOMAIN, navigate,clientId]);
+  }, [data, DOMAIN, navigate,traceurId]);
 
   return (
     <div className="clientForms">
@@ -96,7 +96,6 @@ const TraceurEdit = () => {
                   <input
                     type={field === 'email' ? 'email' : 'text'}
                     name={field}
-                    value={data[field] || ''} 
                     className="form-input"
                     onChange={handleInputChange}
                     required={field !== 'numero' && field !== 'code'}
@@ -105,7 +104,7 @@ const TraceurEdit = () => {
               ))}
               <div className="form-submit">
                 <button type="submit" className="btn-submit" disabled={isLoading}>
-                  Envoyer
+                  Modifier
                 </button>
                 {isLoading && (
                   <div className="loader-container loader-container-center">
@@ -128,11 +127,11 @@ const TraceurEdit = () => {
       >
         <p className="modal-text">Voulez-vous envoyer les informations suivantes ?</p>
         <ul>
-          <li><strong>Model :</strong> {data.model}</li>
-          <li><strong>Numero de serie :</strong> {data.numero_serie}</li>
-          <li><strong>ID Traceur :</strong> {data.traceur_id}</li>
-          <li><strong>Telephone :</strong> {data.numero}</li>
-          <li><strong>Code :</strong> {data.code}</li>
+          <li><strong>Model :</strong> {data?.model}</li>
+          <li><strong>Numero de serie :</strong> {data?.numero_serie}</li>
+          <li><strong>ID Traceur :</strong> {data?.traceur_id}</li>
+          <li><strong>Telephone :</strong> {data?.numero}</li>
+          <li><strong>Code :</strong> {data?.code}</li>
         </ul>
       </Modal>
     </div>
