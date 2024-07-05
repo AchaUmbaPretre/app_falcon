@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './client.scss';
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
-import { PlusCircleOutlined, UserOutlined, EyeOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, UserOutlined, EyeOutlined,EditOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import ClientForm from './form/ClientForm';
 import config from '../../config';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ClientContact from './clientContact/ClientContact';
 import ClientDetail from './clientDetail/ClientDetail';
 import * as XLSX from 'xlsx';
@@ -27,6 +27,7 @@ const Client = () => {
   });
   const scroll = { x: 400 };
   const [client, setClient] = useState([]);
+  const navigate = useNavigate();
 
   const showDrawer = (e) => {
     setOpenDetail(true);
@@ -111,6 +112,10 @@ const Client = () => {
     XLSX.writeFile(wb, "client.xlsx");
   };
 
+  const handleEdit = (id) => {
+    navigate(`/clientEdit/${id}`);
+  };
+
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
@@ -166,6 +171,9 @@ const Client = () => {
           </Popover>
           <Popover title="Ajouter les contacts" trigger="hover">
             <Button icon={<PlusCircleOutlined />} onClick={() => showModalContact(record.id_client)} style={{ color: 'blue' }} />
+          </Popover>
+          <Popover title="Modifier" trigger="hover">
+            <Button icon={<EditOutlined />} style={{ color: 'green' }} onClick={()=> handleEdit(record.id_client)} />
           </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
