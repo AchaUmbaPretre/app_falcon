@@ -22,6 +22,7 @@ const OperationDetail = ({ selectedOperations }) => {
   const pdfRef = useRef();
   const [idClient, setIdClient] = useState('');
   const [signatureUrl, setSignatureUrl] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -98,24 +99,30 @@ const OperationDetail = ({ selectedOperations }) => {
   
 
   const sendEmail = useCallback(async () => {
-    console.log('Envoyer par e-mail :', operationsDetails);
-  
+    console.log('Envoyer par e-mail :', selectedOperations);
+
+    if (isSending) {
+      return;
+    }
+
+    setIsSending(true);
+
     try {
       await axios.post(`${DOMAIN}/operation/send-operation-email`, {
         id_operations: selectedOperations,
         email: email
       });
-  
+
       toast.success('Email envoyé avec succès!');
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message;
       toast.error(errorMessage);
+    } finally {
+      setIsSending(false);
     }
-  }, [selectedOperations, email, DOMAIN]);
+  }, [selectedOperations, email, DOMAIN, isSending]);
 
 
-  
-  
 
   const generatePDF = () => {
     setIsGeneratingPDF(true);
@@ -265,7 +272,7 @@ const OperationDetail = ({ selectedOperations }) => {
               <SaveOutlined onClick={saveSignature} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: 'green', border: '1px solid green', borderRadius: '50%', padding: '3px' }} />
             </Popover>
             <Popover title="Envoyer par mail" trigger="hover">
-              <MailOutlined onClick={sendEmail} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: '#0056b3', border: '1px solid #0056b3', borderRadius: '50%', padding: '3px' }} />
+              {isSending ? 'Envoi en cours...' :  <MailOutlined onClick={sendEmail} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: '#0056b3', border: '1px solid #0056b3', borderRadius: '50%', padding: '3px' }} />}
             </Popover>
             <Popover title="Exporter en PDF" trigger="hover">
               <FilePdfOutlined onClick={generatePDF} style={{ fontSize: '19px', cursor: 'pointer', margin: '0 10px', color: '#b35a00', border: '1px solid #b35a00', borderRadius: '50%', padding: '3px' }} />
