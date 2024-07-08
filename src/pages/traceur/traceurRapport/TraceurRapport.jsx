@@ -110,10 +110,6 @@ const TraceurRapport = () => {
     }
   };
 
-  const handleEdit = (id) => {
-    navigate(`/traceurEdit?id_traceur=${id}`);
-  };
-
 
   const exportToPDF = () => {
     const doc = new jsPDF();
