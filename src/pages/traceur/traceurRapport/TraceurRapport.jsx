@@ -2,20 +2,15 @@ import React, { useEffect, useState, useCallback } from 'react';
 import {
   Breadcrumb,
   Button,
-  Popconfirm,
   Popover,
   Skeleton,
-  Space,
   Table,
   Tag,
   Input
 } from 'antd';
 import {
-  PlusCircleOutlined,
   SisternodeOutlined,
-  EyeOutlined,
   CloseOutlined,
-  DeleteOutlined,
   CarOutlined,
   BarcodeOutlined,
   CalendarOutlined,
@@ -23,91 +18,48 @@ import {
   FileExcelOutlined,
   PrinterOutlined,
   CheckCircleOutlined,
-  CloseCircleOutlined,
-  EditOutlined
+  CloseCircleOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../../config';
 import moment from 'moment';
-import { Link, useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
-import CountUp from 'react-countup';
 
 const TraceurRapport = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
-  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [openDetail, setOpenDetail] = useState(false);
-  const [idTraceur, setIdTraceur] = useState('');
   const [historiqueDetail, setHistoriqueDetail] = useState(false);
   const [historique, setHistorique] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
   const [openTrie, setOpenTrie] = useState(false);
-  const [traceur, setTraceur] = useState('');
-  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
 
-  
-  
-
-
   const fetchData = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/traceur`, {
-        params: {
-          start_date: startDate,
-          end_date: endDate,
-          searchValue,
-          page: currentPage,
-          pageSize,
-        },
-      });
-      setData(data.rows); // Assurez-vous que votre backend renvoie les données sous cette forme
-      setTotalItems(data.total); // Assurez-vous que votre backend renvoie le nombre total d'éléments
+      const { data } = await axios.get(`${DOMAIN}/traceurAll`);
+      setData(data);
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
       setIsLoading(false);
     }
-  }, [DOMAIN, startDate, endDate, searchValue, currentPage, pageSize]);
+  }, [DOMAIN]);
   
 
-  const fetchTraceur= useCallback(async () => {
-    try {
-      const { data } = await axios.get(`${DOMAIN}/traceur/count?searchValue=${searchValue}`);
-      setTraceur(data[0]?.nbre_traceur);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [DOMAIN,searchValue]);
-
   useEffect(() => {
-    fetchData();
-    fetchTraceur()
-  }, [fetchData, fetchTraceur]);
+    fetchData()
+  }, [fetchData]);
 
   const handleTableChange = (pagination) => {
     setCurrentPage(pagination.current);
     setPageSize(pagination.pageSize);
     fetchData();
-  };
-  
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${DOMAIN}/commande/commande/${id}`);
-      fetchData();
-    } catch (err) {
-      console.error('Error deleting record:', err);
-    }
   };
 
 

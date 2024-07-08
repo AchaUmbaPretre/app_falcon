@@ -10,7 +10,6 @@ import 'jspdf-autotable';
 const VehiculeRapport = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
-  const [vehicule, setVehicule] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -139,7 +138,7 @@ const VehiculeRapport = () => {
         <div className="client_wrapper_top">
           <div className="client_text_row">
             <div className="client_text_left">
-              <h2 className="client_h2">Véhicule</h2>
+              <h2 className="client_h2">Rapport véhicule</h2>
               <span className="client_span">Liste des véhicules</span>
             </div>
             <div className="client_text_right">
