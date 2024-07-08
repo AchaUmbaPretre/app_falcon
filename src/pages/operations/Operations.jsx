@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Drawer, Input, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag } from 'antd';
+import { Breadcrumb, Button, Drawer, Input, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag, Dropdown, Menu } from 'antd';
 import {
-  PlusCircleOutlined, SisternodeOutlined, UserOutlined, CloseOutlined,
+  PlusCircleOutlined, SisternodeOutlined,DownOutlined, UserOutlined, CloseOutlined,
   ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined, CalendarOutlined, FilePdfOutlined, FileExcelOutlined,
-  PrinterOutlined, BarcodeOutlined
+  PrinterOutlined, BarcodeOutlined, MenuOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
@@ -30,6 +30,17 @@ const Operations = () => {
   const [openTrie, setOpenTrie] = useState(false);
   const scroll = { x: 400 };
   const [operation, setOperation] = useState(null);
+  const [columnsVisibility, setColumnsVisibility] = useState({
+    '#': true,
+    'Client': true,
+    'Matricule': true,
+    'Tag(Traceur)': true,
+    "Type d'opération": true,
+    'Superviseur': true,
+    'Technicien': true,
+    "Date d'opération": true,
+    'Crée(e) par': true,
+  });
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -58,7 +69,6 @@ const Operations = () => {
       setLoading(false);
     }
   }, [DOMAIN, start_date, end_date, searchValue]);
-
 
   const fetchNbreOperation = useCallback(async () => {
     try {
@@ -112,7 +122,7 @@ const Operations = () => {
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.text("Liste d'opérations", 14, 22);
-    const tableColumn = ["#", "Client", "Site", "Type d'opération", "Superviseur", "Technicien", "Date"];
+    const tableColumn = ["#", "Client", "Matricule", "Tag(Traceur)", "Type d'opération", "Superviseur", "Technicien", "Date"];
     const tableRows = [];
 
     data.forEach((record, index) => {
@@ -121,7 +131,8 @@ const Operations = () => {
       const tableRow = [
         index + 1,
         record.nom_client,
-        record.nom_site,
+        record.matricule,
+        record.code,
         record.type_operations,
         record.superviseur,
         record.technicien,
@@ -145,8 +156,44 @@ const Operations = () => {
     XLSX.writeFile(wb, "opérations.xlsx");
   };
 
+  const toggleColumnVisibility = (columnName) => {
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
+
+  const menu = (
+    <Menu>
+      {Object.keys(columnsVisibility).map(columnName => (
+        <Menu.Item key={columnName}>
+          <span onClick={() => toggleColumnVisibility(columnName)}>
+            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+            <span style={{ marginLeft: 8 }}>{columnName}</span>
+          </span>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+
+  const filteredData = data?.filter((item) =>
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_site?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.superviseur?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.type_operations?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.technicien?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.matricule.toLowerCase().includes(searchValue.toLowerCase()) 
+  );
+
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (_, __, index) => index + 1, width: "3%" },
+    { 
+      title: '#', 
+      dataIndex: 'id', 
+      key: 'id', 
+      render: (_, __, index) => index + 1, 
+      width: "3%", 
+      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
+    },
     {
       title: 'Client',
       dataIndex: 'nom_client',
@@ -157,6 +204,7 @@ const Operations = () => {
           {text}
         </Tag>
       ),
+      ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Matricule',
@@ -168,6 +216,7 @@ const Operations = () => {
           {text}
         </Tag>
       ),
+      ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Tag(Traceur)',
@@ -179,6 +228,7 @@ const Operations = () => {
           {text}
         </Tag>
       ),
+      ...(columnsVisibility['Tag(Traceur)'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Type d'opération",
@@ -190,6 +240,7 @@ const Operations = () => {
           {text}
         </Tag>
       ),
+      ...(columnsVisibility["Type d'opération"] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Superviseur',
@@ -201,6 +252,7 @@ const Operations = () => {
           {text}
         </Tag>
       ),
+      ...(columnsVisibility['Superviseur'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Technicien',
@@ -212,6 +264,7 @@ const Operations = () => {
           {text}
         </Tag>
       ),
+      ...(columnsVisibility['Technicien'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Date d'opération",
@@ -224,6 +277,7 @@ const Operations = () => {
           {moment(text).format('DD-MM-yyyy')}
         </Tag>
       ),
+      ...(columnsVisibility["Date d'opération"] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Crée(e) par',
@@ -235,6 +289,7 @@ const Operations = () => {
           {text}
         </Tag>
       ),
+      ...(columnsVisibility['Crée(e) par'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Action',
@@ -258,15 +313,6 @@ const Operations = () => {
       ),
     },
   ];
-
-  const filteredData = data?.filter((item) =>
-    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom_site?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.superviseur?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.type_operations?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.technicien?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.matricule.toLowerCase().includes(searchValue.toLowerCase()) 
-  );
 
   return (
     <div className="client">
@@ -298,15 +344,20 @@ const Operations = () => {
                   icon={openTrie ? <CloseOutlined /> : <SisternodeOutlined />}
                   onClick={() => setOpenTrie(!openTrie)}
                 />
-                  <Input
-                      type="search"
-                      value={searchValue}
-                      onChange={(e) => setSearchValue(e.target.value)}
-                      placeholder="Recherche..."
-                      className="product-search"
-                    />
+                <Input
+                  type="search"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  placeholder="Recherche..."
+                  className="product-search"
+                />
               </div>
               <div className="product-bottom-right">
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                    Colonnes <DownOutlined />
+                  </Button>
+                </Dropdown>
                 <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
                 <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
                 <Button className="product-icon-printer" icon={<PrinterOutlined />} />
@@ -319,16 +370,16 @@ const Operations = () => {
               <Skeleton active />
             ) : (
               <Table
-              dataSource={filteredData}
-              columns={columns}
-              rowSelection={rowSelection}
-              loading={loading}
-              rowKey="id_operations"
-              className='table_client'
-              scroll={scroll}
-            />
+                dataSource={filteredData}
+                columns={columns}
+                rowSelection={rowSelection}
+                loading={loading}
+                rowKey="id_operations"
+                className='table_client'
+                scroll={scroll}
+              />
             )}
-            
+
             <Modal
               title=""
               centered

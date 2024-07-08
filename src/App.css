@@ -156,6 +156,10 @@ li{
   height: 100%;
 }
 
+.hidden-column {
+  display: none;
+}
+
 
 @media print {
   .no-print {
