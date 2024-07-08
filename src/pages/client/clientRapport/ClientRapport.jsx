@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Table, Tag, Skeleton, Input } from 'antd';
+import { Breadcrumb, Button, Table, Tag, Skeleton, Input, Select } from 'antd';
 import { UserOutlined, PhoneOutlined, MailOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+
+const { Option } = Select;
 
 const ClientRapport = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -17,6 +19,7 @@ const ClientRapport = () => {
     pageSize: 10,
   });
   const scroll = { x: 400 };
+  const [dateFilter, setDateFilter] = useState('today');
 
   const fetchData = async () => {
     try {
@@ -34,6 +37,11 @@ const ClientRapport = () => {
 
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
+  };
+
+  const handleDateFilterChange = (value) => {
+    setDateFilter(value);
+    fetchData(value);
   };
 
   const exportToPDF = () => {
@@ -134,7 +142,13 @@ const ClientRapport = () => {
                 <span className="client_span">Liste des clients</span>
               </div>
               <div className="client_text_right">
-                
+                <Select value={dateFilter} onChange={handleDateFilterChange} style={{ width: 200 }}>
+                    <Option value="today">Aujourd'hui</Option>
+                    <Option value="yesterday">Hier</Option>
+                    <Option value="last7days">7 derniers jours</Option>
+                    <Option value="last30days">30 derniers jours</Option>
+                    <Option value="last1year">1 an</Option>
+                </Select>
               </div>
             </div>
           </div>
