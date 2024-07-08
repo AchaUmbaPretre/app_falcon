@@ -51,6 +51,9 @@ import RapportGlobal from './pages/rapport/rapportGlobal/RapportGlobal';
 import Facturation from './pages/facturation/Facturation';
 import ClientEdit from './pages/client/form/formEdit/ClientEdit';
 import TraceurEdit from './pages/traceur/form/edit/TraceurEdit';
+import TraceurRapport from './pages/traceur/traceurRapport/TraceurRapport';
+import OperationRapport from './pages/operations/operationRapport/OperationRapport';
+import VehiculeRapport from './pages/vehicules/vehiculeRapport/VehiculeRapport';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -120,15 +123,18 @@ function App() {
         { path: '/clientEdit', element: <ClientEdit /> },
         { path: '/sites', element: <Sites /> },
         { path: '/traceurs', element: <Traceur /> },
+        { path: '/traceurRapport', element: <TraceurRapport /> },
         { path: '/traceurs_form', element: <TraceurForm /> },
         { path: '/traceurEdit', element: <TraceurEdit /> },
         { path: '/operations', element: <Operations /> },
+        { path: '/operationRapport', element: <OperationRapport /> },
         { path: '/operations_form', element: <OperationGen /> },
         { path: '/affectation', element: <Affectations /> },
         { path: '/affectation_form', element: <AffectationForm /> },
         { path: '/numero', element: <Numero /> },
         { path: '/numero_form', element: <NumeroForm /> },
         { path: '/vehicules', element: <Vehicules /> },
+        { path: '/vehiculeRapport', element: <VehiculeRapport /> },
         { path: '/vehicule_form', element: <Vehicules_form /> },
         { path: '/marques', element: <Marques /> },
         { path: '/marque_form', element: <Marque_form /> },
