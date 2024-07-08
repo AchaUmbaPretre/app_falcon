@@ -156,7 +156,7 @@ const ClientRapport = () => {
           <div className="client_wrapper_top">
             <div className="client_text_row">
               <div className="client_text_left">
-                <h2 className="client_h2">Client</h2>
+                <h2 className="client_h2">Rapport client</h2>
                 <span className="client_span">Liste des clients</span>
               </div>
               <div className="client_text_right">
