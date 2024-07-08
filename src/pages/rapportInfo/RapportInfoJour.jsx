@@ -73,7 +73,7 @@ const RapportInfoJour = () => {
     return (
         <div className="pageViews">
             <div className="pageViews_rows">
-                <div className="pageViews_row" onClick={() => navigate('/client')}>
+                <div className="pageViews_row" onClick={() => navigate('/clientRapport')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rond"></span>
@@ -88,7 +88,7 @@ const RapportInfoJour = () => {
                         <img src={clientImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-                <div className="pageViews_row" onClick={() => navigate('/operations')}>
+                <div className="pageViews_row" onClick={() => navigate('/operationRapport')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rondOp"></span>
@@ -103,7 +103,7 @@ const RapportInfoJour = () => {
                         <img src={operationImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-                <div className="pageViews_row" onClick={() => navigate('/traceurs')}>
+                <div className="pageViews_row" onClick={() => navigate('/traceurRapport')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rondTr"></span>
@@ -118,7 +118,7 @@ const RapportInfoJour = () => {
                         <img src={traceurImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-                <div className="pageViews_row" onClick={() => navigate('/vehicules')}>
+                <div className="pageViews_row" onClick={() => navigate('/vehiculeRapport')}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rondV"></span>

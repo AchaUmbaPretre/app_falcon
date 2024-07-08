@@ -54,6 +54,7 @@ import TraceurEdit from './pages/traceur/form/edit/TraceurEdit';
 import TraceurRapport from './pages/traceur/traceurRapport/TraceurRapport';
 import OperationRapport from './pages/operations/operationRapport/OperationRapport';
 import VehiculeRapport from './pages/vehicules/vehiculeRapport/VehiculeRapport';
+import ClientRapport from './pages/client/clientRapport/ClientRapport';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -119,6 +120,7 @@ function App() {
       children: [
         { path: '/', element: <Rightbar /> },
         { path: '/client', element: <Client /> },
+        { path: '/clientRapport', element: <ClientRapport /> },
         { path: '/client_form', element: <ClientForm /> },
         { path: '/clientEdit', element: <ClientEdit /> },
         { path: '/sites', element: <Sites /> },

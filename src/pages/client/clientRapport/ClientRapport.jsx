@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import './client.scss';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
-import { PlusCircleOutlined, UserOutlined, EyeOutlined,EditOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
-import ClientForm from './form/ClientForm';
-import config from '../../config';
+import { Breadcrumb, Button, Table, Tag, Skeleton, Input } from 'antd';
+import { PlusCircleOutlined, UserOutlined, PhoneOutlined, MailOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import config from '../../../config';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import ClientContact from './clientContact/ClientContact';
-import ClientDetail from './clientDetail/ClientDetail';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
@@ -16,8 +11,6 @@ const ClientRapport = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
-  const [opens, setOpens] = useState(false);
-  const [idClient, setIdClient] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
@@ -27,7 +20,6 @@ const ClientRapport = () => {
   });
   const scroll = { x: 400 };
   const [client, setClient] = useState([]);
-  const navigate = useNavigate();
 
 
   const onClose = () => {
@@ -99,9 +91,6 @@ const ClientRapport = () => {
     XLSX.writeFile(wb, "client.xlsx");
   };
 
-  const handleEdit = (id) => {
-    navigate(`/clientEdit?id_client=${id}`);
-  };
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
@@ -152,10 +141,6 @@ const ClientRapport = () => {
     setOpen(true);
   };
 
-  const showModalContact = (e) => {
-    setOpens(true);
-    setIdClient(e);
-  };
 
   const filteredData = data?.filter((item) =>
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -174,11 +159,8 @@ const ClientRapport = () => {
                 <h2 className="client_h2">Client</h2>
                 <span className="client_span">Liste des clients</span>
               </div>
-              <div className="client_row_number">
-                <span className="client_span_title">Total : {client}</span>
-              </div>
               <div className="client_text_right">
-                <button onClick={showModal}><PlusCircleOutlined /></button>
+                
               </div>
             </div>
           </div>
@@ -215,32 +197,6 @@ const ClientRapport = () => {
                   <Button className="product-icon-printer" icon={<PrinterOutlined />} />
                 </div>
               </div>
-
-              <Modal
-                title=""
-                centered
-                open={open}
-                onCancel={() => setOpen(false)}
-                width={1000}
-                footer={[]}
-              >
-                <ClientForm />
-              </Modal>
-
-              <Modal
-                title=""
-                centered
-                open={opens}
-                onCancel={() => setOpens(false)}
-                width={1000}
-                footer={[]}
-              >
-                <ClientContact id_client={idClient} />
-              </Modal>
-
-              <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
-                <ClientDetail id_client={idClient} />
-              </Drawer>
               
               {loading ? (
                 <Skeleton active />
