@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Breadcrumb, Button, Table, Tag, Skeleton, Input, Select } from 'antd';
 import { UserOutlined, PhoneOutlined, MailOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import config from '../../../config';
@@ -21,19 +21,20 @@ const ClientRapport = () => {
   const scroll = { x: 400 };
   const [dateFilter, setDateFilter] = useState('today');
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async (filter) => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/client`);
+      const { data } = await axios.get(`${DOMAIN}/client/client_rapport`, { params: { filter } });
       setData(data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error('Error fetching data:', error);
+      setLoading(false);
     }
-  };
+  }, [DOMAIN]);
 
   useEffect(() => {
-    fetchData(pagination.current, pagination.pageSize);
-  }, [DOMAIN, pagination.current, pagination.pageSize, searchValue]);
+    fetchData(dateFilter);
+  }, [fetchData, dateFilter]);
 
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
