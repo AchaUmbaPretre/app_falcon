@@ -6,7 +6,8 @@ import {
   Skeleton,
   Table,
   Tag,
-  Input
+  Input,
+  Select,
 } from 'antd';
 import {
   SisternodeOutlined,
@@ -27,6 +28,8 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
+const { Option } = Select;
+
 const TraceurRapport = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
@@ -37,29 +40,34 @@ const TraceurRapport = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
+  const [dateFilter, setDateFilter] = useState('today');
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (filter) => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/traceurAll`);
+      const { data } = await axios.get(`${DOMAIN}/traceurAll`, { params: { filter } });
       setData(data);
+      setTotalItems(data.length); // Assuming the backend sends the correct length
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
       setIsLoading(false);
     }
   }, [DOMAIN]);
-  
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData]);
+    fetchData(dateFilter);
+  }, [fetchData, dateFilter]);
+
+  const handleDateFilterChange = (value) => {
+    setDateFilter(value);
+    fetchData(value);
+  };
 
   const handleTableChange = (pagination) => {
     setCurrentPage(pagination.current);
     setPageSize(pagination.pageSize);
-    fetchData();
+    fetchData(dateFilter);
   };
-
 
   const exportToPDF = () => {
     const doc = new jsPDF();
@@ -117,7 +125,7 @@ const TraceurRapport = () => {
       key: 'model',
       render: (text) => (
         <Tag color={text ? 'blue' : 'red'}>
-          <BarcodeOutlined  style={{ marginRight: '5px' }} />
+          <BarcodeOutlined style={{ marginRight: '5px' }} />
           {text || 'Aucun'}
         </Tag>
       ),
@@ -128,10 +136,10 @@ const TraceurRapport = () => {
       key: 'code',
       render: (text, record) => (
         <Popover content={`Voir l'historique du traceur ${record.code}`} placement="top">
-            <Tag color={text ? 'blue' : 'red'}>
-              <BarcodeOutlined style={{ marginRight: '5px' }} />
-              {text || 'Aucun'}
-            </Tag>
+          <Tag color={text ? 'blue' : 'red'}>
+            <BarcodeOutlined style={{ marginRight: '5px' }} />
+            {text || 'Aucun'}
+          </Tag>
         </Popover>
       ),
     },
@@ -140,12 +148,12 @@ const TraceurRapport = () => {
       dataIndex: 'numero_serie',
       key: 'numero_serie',
       render: (text, record) => (
-          <div>
-            <Tag color={text ? 'blue' : 'red'}>
-              <BarcodeOutlined style={{ marginRight: '5px' }} />
-              {text || 'Aucun'}
-            </Tag>
-          </div>
+        <div>
+          <Tag color={text ? 'blue' : 'red'}>
+            <BarcodeOutlined style={{ marginRight: '5px' }} />
+            {text || 'Aucun'}
+          </Tag>
+        </div>
       ),
     },
     {
@@ -188,7 +196,7 @@ const TraceurRapport = () => {
     }
   ];
 
-  const filteredData = data?.filter(
+  const filteredData = data.filter(
     (item) =>
       item.nom_model?.toLowerCase().includes(searchValue.toLowerCase()) ||
       item.code?.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -206,7 +214,13 @@ const TraceurRapport = () => {
               <span className="client_span">Liste des traceurs</span>
             </div>
             <div className="client_text_right">
-              
+              <Select value={dateFilter} onChange={handleDateFilterChange} style={{ width: 200 }}>
+                <Option value="today">Aujourd'hui</Option>
+                <Option value="yesterday">Hier</Option>
+                <Option value="last7days">7 derniers jours</Option>
+                <Option value="last30days">30 derniers jours</Option>
+                <Option value="last1year">1 an</Option>
+              </Select>
             </div>
           </div>
         </div>
@@ -249,25 +263,24 @@ const TraceurRapport = () => {
               <Skeleton active />
             ) : (
               <Table
-              dataSource={filteredData}
-              columns={columns}
-              pagination={{
-                current: currentPage,
-                pageSize: pageSize,
-                total: totalItems,
-                showSizeChanger: true,
-                pageSizeOptions: ['10', '20', '50', '100'],
-              }}
-              onChange={handleTableChange}
-              className="table_client"
-            />
+                dataSource={filteredData}
+                columns={columns}
+                pagination={{
+                  current: currentPage,
+                  pageSize: pageSize,
+                  total: totalItems,
+                  showSizeChanger: true,
+                  pageSizeOptions: ['10', '20', '50', '100'],
+                }}
+                onChange={handleTableChange}
+                className="table_client"
+              />
             )}
           </div>
         </div>
       </div>
     </div>
   );
-  
 };
 
 export default TraceurRapport;
