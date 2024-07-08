@@ -32,8 +32,6 @@ const TraceurRapport = () => {
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [historiqueDetail, setHistoriqueDetail] = useState(false);
-  const [historique, setHistorique] = useState('');
   const [openTrie, setOpenTrie] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -130,12 +128,10 @@ const TraceurRapport = () => {
       key: 'code',
       render: (text, record) => (
         <Popover content={`Voir l'historique du traceur ${record.code}`} placement="top">
-          <div onClick={() => setHistoriqueDetail(true) || setHistorique(record.id_traceur)}>
             <Tag color={text ? 'blue' : 'red'}>
               <BarcodeOutlined style={{ marginRight: '5px' }} />
               {text || 'Aucun'}
             </Tag>
-          </div>
         </Popover>
       ),
     },
