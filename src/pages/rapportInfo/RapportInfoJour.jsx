@@ -60,14 +60,6 @@ const RapportInfoJour = () => {
 
         fetchData();
     }, [DOMAIN]);
-
-    const showModal = () => {
-        setOpen(true);
-      };
-
-      const onClose = () => {
-        setOpen(false);
-      };
   
 
     return (
