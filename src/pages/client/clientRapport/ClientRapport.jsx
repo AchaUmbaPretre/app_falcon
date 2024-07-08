@@ -10,48 +10,26 @@ import 'jspdf-autotable';
 const ClientRapport = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
-  const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openDetail, setOpenDetail] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
   });
   const scroll = { x: 400 };
-  const [client, setClient] = useState([]);
 
-
-  const onClose = () => {
-    setOpenDetail(false);
-  };
-
-  const fetchData = async (page, pageSize) => {
+  const fetchData = async () => {
     try {
       const { data } = await axios.get(`${DOMAIN}/client`);
       setData(data);
       setLoading(false);
-      setPagination((prevPagination) => ({
-        ...prevPagination
-      }));
     } catch (error) {
       console.log(error);
     }
   };
 
-
-  const fetchClient = async () => {
-    try {
-        const { data } = await axios.get(`${DOMAIN}/client/count?searchValue=${searchValue}`);
-        setClient(data[0].nbre_client);
-    } catch (error) {
-        console.log(error);
-    }
-};
-
   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
-    fetchClient()
   }, [DOMAIN, pagination.current, pagination.pageSize, searchValue]);
 
   const handleTableChange = (newPagination) => {
@@ -136,10 +114,6 @@ const ClientRapport = () => {
       )
     }
   ];
-
-  const showModal = (e) => {
-    setOpen(true);
-  };
 
 
   const filteredData = data?.filter((item) =>
