@@ -27,21 +27,11 @@ const VehiculeRapport = () => {
     }
   }, [DOMAIN]);
 
-  const fetchVehicule = useCallback(async () => {
-    try {
-      const { data } = await axios.get(`${DOMAIN}/vehicule/count?searchValue=${searchValue}`);
-      setVehicule(data[0]?.nbre_vehicule);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [DOMAIN,searchValue]);
-
 
 
   useEffect(() => {
     fetchData();
-    fetchVehicule();
-  }, [fetchData, fetchVehicule, searchValue]);
+  }, [fetchData, searchValue]);
 
 
   const columns = [
