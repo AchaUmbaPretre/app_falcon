@@ -44,9 +44,8 @@ const TraceurRapport = () => {
 
   const fetchData = useCallback(async (filter) => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/traceurAll`, { params: { filter } });
+      const { data } = await axios.get(`${DOMAIN}/traceur/traceurAll`, { params: { filter } });
       setData(data);
-      setTotalItems(data.length); // Assuming the backend sends the correct length
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
