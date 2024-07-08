@@ -23,12 +23,6 @@ const TraceurForm = () => {
     setTraceurs(newTraceurs);
   };
 
-  const handleModelChange = (index, selectedOption) => {
-    const newTraceurs = [...traceurs];
-    newTraceurs[index].model = selectedOption.value;
-    setTraceurs(newTraceurs);
-  };
-
   const addTraceur = () => {
     setTraceurs([...traceurs, { model: '', numero_serie: '', traceur_id:'', code: '', numero: '' }]);
   };
