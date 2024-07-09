@@ -127,8 +127,6 @@ const VehiculesForm = () => {
     setIsConfirmVisible(false);
   };
 
-  console.log(vehicles)
-
   const columns = [
     {
       title: 'Client ou société',
@@ -139,6 +137,19 @@ const VehiculesForm = () => {
           options={client.map(item => ({ value: item.id_client, label: item.nom_client }))}
           onChange={selectedOption => handleSelectChange(index, 'id_client', selectedOption)}
           placeholder="Sélectionnez un client..."
+        />
+      ),
+    },
+    {
+      title: 'Nom vehicule',
+      dataIndex: 'nom_vehicule',
+      render: (text, record, index) => (
+        <Input
+          type="text"
+          name="nom_vehicule"
+          value={record.nom_vehicule}
+          onChange={e => handleInputChange(index, e)}
+          required
         />
       ),
     },
