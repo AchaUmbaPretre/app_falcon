@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Input, Popconfirm, Popover, Skeleton, Space, Table, Tag, Dropdown, Menu,Select } from 'antd';
+import { Breadcrumb, Button, Input, Skeleton, Table, Tag, Dropdown, Menu,Select } from 'antd';
 import {
   SisternodeOutlined,DownOutlined, UserOutlined, CloseOutlined,
-  ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined, CalendarOutlined, FilePdfOutlined, FileExcelOutlined,
+  ThunderboltOutlined, ToolOutlined, CalendarOutlined, FilePdfOutlined, FileExcelOutlined,
   PrinterOutlined, BarcodeOutlined, MenuOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
 import config from '../../../config';
-import CountUp from 'react-countup';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
@@ -19,12 +18,10 @@ const OperationRapport = () => {
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openDetail, setOpenDetail] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedOperationIds, setSelectedOperationIds] = useState([]);
   const [openTrie, setOpenTrie] = useState(false);
   const scroll = { x: 400 };
-  const [operation, setOperation] = useState(null);
   const [columnsVisibility, setColumnsVisibility] = useState({
     '#': true,
     'Client': true,
@@ -65,8 +62,8 @@ const OperationRapport = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchData(dateFilter);
+  }, [fetchData,dateFilter]);
 
 
   const handleDelete = async (id) => {
