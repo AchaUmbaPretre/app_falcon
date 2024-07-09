@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Input, Popconfirm, Popover, Skeleton, Space, Table, Tag, Dropdown, Menu } from 'antd';
+import { Breadcrumb, Button, Input, Popconfirm, Popover, Skeleton, Space, Table, Tag, Dropdown, Menu,Select } from 'antd';
 import {
-  PlusCircleOutlined, SisternodeOutlined,DownOutlined, UserOutlined, CloseOutlined,
+  SisternodeOutlined,DownOutlined, UserOutlined, CloseOutlined,
   ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined, CalendarOutlined, FilePdfOutlined, FileExcelOutlined,
   PrinterOutlined, BarcodeOutlined, MenuOutlined
 } from '@ant-design/icons';
@@ -12,6 +12,7 @@ import CountUp from 'react-countup';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+const { Option } = Select;
 
 const OperationRapport = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -19,11 +20,8 @@ const OperationRapport = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
-  const [open, setOpen] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedOperationIds, setSelectedOperationIds] = useState([]);
-  const [start_date, setStartDate] = useState('');
-  const [end_date, setEndDate] = useState('');
   const [openTrie, setOpenTrie] = useState(false);
   const scroll = { x: 400 };
   const [operation, setOperation] = useState(null);
@@ -38,6 +36,7 @@ const OperationRapport = () => {
     "Date d'opération": true,
     'Crée(e) par': true,
   });
+  const [dateFilter, setDateFilter] = useState('today');
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -49,45 +48,31 @@ const OperationRapport = () => {
     onChange: onSelectChange,
   };
 
-  const fetchOperations = useCallback(async () => {
-    setLoading(true);
+  const fetchData = useCallback(async (filter) => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/operation`, {
-        params: {
-          start_date,
-          end_date,
-          searchValue,
-        },
-      });
+      const { data } = await axios.get(`${DOMAIN}/operation/operation_rapport`, { params: { filter } });
       setData(data);
+      setLoading(false);
     } catch (error) {
-      console.error('Failed to fetch operations:', error);
-    } finally {
+      console.error('Error fetching data:', error);
       setLoading(false);
     }
-  }, [DOMAIN, start_date, end_date, searchValue]);
+  }, [DOMAIN]);
 
-  const fetchNbreOperation = useCallback(async () => {
-    try {
-      const { data } = await axios.get(`${DOMAIN}/operation/count?searchValue=${searchValue}`);
-      setOperation(data[0].nbre_operation);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [DOMAIN, searchValue]);
+  const handleDateFilterChange = (value) => {
+    setDateFilter(value);
+    fetchData(value);
+  };
 
   useEffect(() => {
-    fetchOperations();
-  }, [fetchOperations]);
+    fetchData();
+  }, [fetchData]);
 
-  useEffect(() => {
-    fetchNbreOperation()
-  }, [fetchNbreOperation]);
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
-      fetchOperations();
+      fetchData();
     } catch (error) {
       console.error('Failed to delete operation:', error);
     }
@@ -106,10 +91,6 @@ const OperationRapport = () => {
       default:
         return 'default';
     }
-  };
-
-  const showDrawer = () => {
-    setOpenDetail(true);
   };
 
   const exportToPDF = () => {
@@ -283,28 +264,7 @@ const OperationRapport = () => {
         </Tag>
       ),
       ...(columnsVisibility['Crée(e) par'] ? {} : { className: 'hidden-column' })
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <Space size="middle">
-          <Popover title="Voir les détails" trigger="hover">
-            <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={showDrawer} disabled={selectedRowKeys.length === 0} />
-          </Popover>
-          <Popover title="Supprimer" trigger="hover">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer?"
-              onConfirm={() => handleDelete(record.id_client)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
-            </Popconfirm>
-          </Popover>
-        </Space>
-      ),
-    },
+    }
   ];
 
   return (
@@ -316,15 +276,14 @@ const OperationRapport = () => {
               <h2 className="client_h2">Rapport d'opérations</h2>
               <span className="client_span">Liste des opérations</span>
             </div>
-            <div className="client_row_number">
-                {operation !== null ? (
-                  <span className="client_span_title">Total : <CountUp end={operation} /></span>
-                ) : (
-                  <Skeleton.Input style={{ width: 120 }} active />
-                )}
-            </div>
             <div className="client_text_right">
-              <Button icon={<PlusCircleOutlined />} onClick={() => setOpen(true)} />
+              <Select value={dateFilter} onChange={handleDateFilterChange} style={{ width: 200 }}>
+                <Option value="today">Aujourd'hui</Option>
+                <Option value="yesterday">Hier</Option>
+                <Option value="last7days">7 derniers jours</Option>
+                <Option value="last30days">30 derniers jours</Option>
+                <Option value="last1year">1 an</Option>
+              </Select>
             </div>
           </div>
         </div>
