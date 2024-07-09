@@ -68,13 +68,24 @@ const Vehicules = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
-      title: 'Nom',
+      title: 'Client',
       dataIndex: 'nom_client',
       key: 'nom_client',
       render: (text) => (
         <Tag color='blue'>
           <UserOutlined style={{ marginRight: "5px" }} />
           {text}
+        </Tag>
+      )
+    },
+    {
+      title: 'Nom vehicule',
+      dataIndex: 'nom_vehicule',
+      key: 'nom_vehicule',
+      render: (text) => (
+        <Tag color= { text ? 'blue' : 'red'}>
+          <CarOutlined style={{ marginRight: "5px" }} />
+          {text || 'Aucun'}
         </Tag>
       )
     },
