@@ -16,7 +16,6 @@ const RapportInfoJour = () => {
     const [traceur, setTraceur] = useState(null);
     const [vehicule, setVehicule] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
