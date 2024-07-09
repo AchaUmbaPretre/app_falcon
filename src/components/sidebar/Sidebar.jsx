@@ -243,12 +243,12 @@ const Sidebar = () => {
               Rapport
             </Link>
           </Item>
-          <Item key="24">
+{/*           <Item key="24">
             <Link to={'/rapport_global'} style={{display:'flex', alignItems:'center'}} onClick={handleLinkClick}>
               <Timeline.Item dot={<span className="custom-dot" />} />
               Rapport global
             </Link>
-          </Item>
+          </Item> */}
         </SubMenu>
         <SubMenu key="settings" icon={<SettingOutlined style={{ fontSize: '17px' }} />} title="Paramètres" style={{ fontSize: '14px', letterSpacing: '1px' }}>
           <Item key="25">

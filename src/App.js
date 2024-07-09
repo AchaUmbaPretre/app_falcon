@@ -55,6 +55,7 @@ import TraceurRapport from './pages/traceur/traceurRapport/TraceurRapport';
 import OperationRapport from './pages/operations/operationRapport/OperationRapport';
 import VehiculeRapport from './pages/vehicules/vehiculeRapport/VehiculeRapport';
 import ClientRapport from './pages/client/clientRapport/ClientRapport';
+import Permission from './pages/permissions/Permission';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -151,7 +152,7 @@ function App() {
         { path: '/rapport_global', element: <RapportGlobal /> },
         { path: '/dette', element: <Dette /> },
         { path: '/depense', element: <Depenses /> },
-        { path: '/permissions', element: <Permissions /> },
+        { path: '/permissions', element: <Permission /> },
       ]
     }
   ] : [];
