@@ -66,15 +66,6 @@ const OperationRapport = () => {
   }, [fetchData,dateFilter]);
 
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
-      fetchData();
-    } catch (error) {
-      console.error('Failed to delete operation:', error);
-    }
-  };
-
   const getColorForOperationType = (type) => {
     switch (type) {
       case 'Installation':

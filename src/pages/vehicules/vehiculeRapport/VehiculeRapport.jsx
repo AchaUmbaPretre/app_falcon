@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Input, Table, Tag, message } from 'antd';
+import { Breadcrumb, Button, Input, Table, Tag, message, Select } from 'antd';
 import { CarOutlined, UserOutlined,BarcodeOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../../config';
@@ -7,30 +7,37 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
+const { Option } = Select;
+
+
 const VehiculeRapport = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [dateFilter, setDateFilter] = useState('today');
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
+
+  const fetchData = useCallback(async (filter) => {
     try {
-      const response = await axios.get(`${DOMAIN}/vehicule`);
-      setData(response.data);
+      const { data } = await axios.get(`${DOMAIN}/vehicule/vehicule_rapport`, { params: { filter } });
+      setData(data);
+      setLoading(false);
     } catch (error) {
-      console.error(error);
-      message.error('Failed to fetch data');
-    } finally {
+      console.error('Error fetching data:', error);
       setLoading(false);
     }
   }, [DOMAIN]);
 
+  const handleDateFilterChange = (value) => {
+    setDateFilter(value);
+    fetchData(value);
+  };
 
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData, searchValue]);
+    fetchData(dateFilter);
+  }, [fetchData, dateFilter]);
 
 
   const columns = [
@@ -142,7 +149,13 @@ const VehiculeRapport = () => {
               <span className="client_span">Liste des véhicules</span>
             </div>
             <div className="client_text_right">
-              
+              <Select value={dateFilter} onChange={handleDateFilterChange} style={{ width: 200 }}>
+                <Option value="today">Aujourd'hui</Option>
+                <Option value="yesterday">Hier</Option>
+                <Option value="last7days">7 derniers jours</Option>
+                <Option value="last30days">30 derniers jours</Option>
+                <Option value="last1year">1 an</Option>
+              </Select>
             </div>
           </div>
         </div>
