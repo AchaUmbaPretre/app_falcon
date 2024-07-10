@@ -16,6 +16,7 @@ const RechargeOne = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [clientName, setClientName] = useState('');
+  const [defaultDays, setDefaultDays] = useState(0); // State for default number of days
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +28,7 @@ const RechargeOne = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${DOMAIN}/recharge/rechargerClientOne?id_client=${id_client}`);
-        setData(response.data);
+        setData(response.data.map(row => ({ ...row, days: defaultDays }))); // Initialize days with default value
         setClientName(response.data[0].nom_client);
         setLoading(false);
       } catch (error) {
@@ -38,6 +39,11 @@ const RechargeOne = () => {
     fetchData();
   }, [DOMAIN, id_client]);
 
+  useEffect(() => {
+    setData(prevData => prevData.map(row => ({ ...row, days: defaultDays })));
+    setSelectedRows(prevSelectedRows => prevSelectedRows.map(row => ({ ...row, days: defaultDays })));
+  }, [defaultDays]);
+
   const onSelectChange = (selectedRowKeys, selectedRows) => {
     setSelectedRows(selectedRows);
   };
@@ -45,6 +51,11 @@ const RechargeOne = () => {
   const handleDaysChange = (id, days) => {
     setSelectedRows((prevSelectedRows) =>
       prevSelectedRows.map((row) =>
+        row.id_numero === id ? { ...row, days } : row
+      )
+    );
+    setData((prevData) =>
+      prevData.map((row) =>
         row.id_numero === id ? { ...row, days } : row
       )
     );
@@ -144,6 +155,7 @@ const RechargeOne = () => {
             type="number"
             min="1"
             onChange={(e) => handleDaysChange(record.id_numero, Number(e.target.value))}
+            value={record.days || ''}
             placeholder="Nombre de jours"
             className='days-input'
             style={{ width: "100px" }}
@@ -174,6 +186,9 @@ const RechargeOne = () => {
               <h2 className="client_h2">Recharge {clientName}</h2>
               <span className="client_span"></span>
             </div>
+            <div className="client_text_right">
+
+            </div>
           </div>
         </div>
         <div className="client_wrapper_center">
@@ -191,13 +206,24 @@ const RechargeOne = () => {
                 <div className="product-row-searchs">
                   <Input
                     type="search"
-                      value={searchValue}
-                      onChange={(e) => setSearchValue(e.target.value)}
-                      placeholder="Recherche..."
-                      className="product-search"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder="Recherche..."
+                    className="product-search"
                   />
                 </div>
               </div>
+              <div className="default-days-input">
+              <div style={{fontSize:'13px', color:'#555',marginBottom:'10px'}}>Nbre de jour</div>
+              <Input
+                type="number"
+                min="1"
+                value={defaultDays}
+                onChange={(e) => setDefaultDays(Number(e.target.value))}
+                placeholder="Nombre de jours par défaut"
+                style={{ width: "200px", marginRight: "10px" }}
+              />
+            </div>
             </div>
             <Table
               dataSource={filteredData}
@@ -207,9 +233,6 @@ const RechargeOne = () => {
               rowKey="id_numero"
               className='table_client'
             />
-{/*             <Button type="primary" onClick={showModal} disabled={loading}>
-              Recharger
-            </Button> */}
             <Modal
               title="Confirmation de Recharge"
               visible={isModalVisible}
