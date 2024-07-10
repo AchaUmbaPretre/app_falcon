@@ -56,6 +56,7 @@ import OperationRapport from './pages/operations/operationRapport/OperationRappo
 import VehiculeRapport from './pages/vehicules/vehiculeRapport/VehiculeRapport';
 import ClientRapport from './pages/client/clientRapport/ClientRapport';
 import Permission from './pages/permissions/Permission';
+import PermissionOne from './pages/permissions/permissionOne/PermissionOne';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -153,6 +154,7 @@ function App() {
         { path: '/dette', element: <Dette /> },
         { path: '/depense', element: <Depenses /> },
         { path: '/permissions', element: <Permission /> },
+        { path: '/permissionOne', element: <PermissionOne /> },
       ]
     }
   ] : [];

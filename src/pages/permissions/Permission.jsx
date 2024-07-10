@@ -4,11 +4,12 @@ import { Table, Button, Space, Popover, Tag } from 'antd';
 import { EyeOutlined, UserOutlined, SolutionOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Permission = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [users, setUsers] = useState([]);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -18,8 +19,8 @@ const Permission = () => {
         fetchUsers();
     }, [DOMAIN]);
 
-    const showDrawer = (userId) => {
-        // Logique pour afficher les permissions de l'utilisateur
+    const showDrawer = (id) => {
+        navigate(`/permissionOne?userId=${id}`)
     };
 
     const columns = [
