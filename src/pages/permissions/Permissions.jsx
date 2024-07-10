@@ -112,7 +112,7 @@ const Permissions = () => {
 
   return (
     <div className="permission-page">
-      <h1>Gestion des permissions</h1>
+      <h1>Gestion des permissions pour</h1>
       <Table dataSource={users} columns={columns} rowKey="id" />
       <Button type="primary" onClick={handleSave}>Enregistrer les modifications</Button>
     </div>

@@ -111,12 +111,19 @@ const PermissionOne = () => {
   ];
 
   return (
-    <Table
-      dataSource={options}
-      columns={columns}
-      rowKey="id"
-      pagination={false}
-    />
+    <>
+        <div className="permission-page">
+            <div>
+                <h1>Gestion des permissions</h1>
+            </div>
+                <Table
+            dataSource={options}
+            columns={columns}
+            rowKey="id"
+            pagination={false}
+            />
+        </div>
+    </>
   );
 };
 
