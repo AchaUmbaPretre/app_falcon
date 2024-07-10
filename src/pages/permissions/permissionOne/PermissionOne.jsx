@@ -13,14 +13,12 @@ const PermissionOne = () => {
   const [options, setOptions] = useState([]);
   const [permissions, setPermissions] = useState({});
 
-  console.log(userId)
-
   useEffect(() => {
     const fetchOptionsAndPermissions = async () => {
       try {
         const [optionsRes, permissionsRes] = await Promise.all([
           axios.get(`${DOMAIN}/menu/menuAll`),
-          axios.get(`${DOMAIN}/users/${userId}/permissions`)
+          axios.get(`${DOMAIN}/menu/permissions?userId=${userId}`)
         ]);
 
         setOptions(optionsRes.data);
@@ -45,9 +43,17 @@ const PermissionOne = () => {
         [permType]: value
       }
     };
+
+    const finalPermissions = {
+        ...updatedPermissions[optionId],
+        can_read: updatedPermissions[optionId].can_read ?? false,
+        can_edit: updatedPermissions[optionId].can_edit ?? false,
+        can_delete: updatedPermissions[optionId].can_delete ?? false,
+      };
+
     setPermissions(updatedPermissions);
 
-    axios.put(`/api/users/${userId}/permissions/${optionId}`, updatedPermissions[optionId])
+    axios.put(`${DOMAIN}/menu/${userId}/permissions/${optionId}`, finalPermissions)
       .then(() => {
         message.success('Permissions updated successfully');
       })
@@ -57,41 +63,48 @@ const PermissionOne = () => {
   };
 
   const columns = [
+    { 
+        title: <span>#</span>, 
+        dataIndex: 'id', 
+        key: 'id', 
+        render: (text, record, index) => index + 1, 
+        width: "3%" 
+    },
     {
       title: 'Option',
       dataIndex: 'menu_title',
       key: 'menu_title',
     },
     {
-      title: 'Read',
+      title: 'Lire',
       dataIndex: 'can_read',
       key: 'can_read',
       render: (text, record) => (
         <Checkbox
-          checked={permissions[record.id]?.can_read || false}
-          onChange={e => handlePermissionChange(record.id, 'can_read', e.target.checked)}
+          checked={permissions[record.menu_id]?.can_read || false}
+          onChange={e => handlePermissionChange(record.menu_id, 'can_read', e.target.checked)}
         />
       )
     },
     {
-      title: 'Edit',
+      title: 'Modifier',
       dataIndex: 'can_edit',
       key: 'can_edit',
       render: (text, record) => (
         <Checkbox
-          checked={permissions[record.id]?.can_edit || false}
-          onChange={e => handlePermissionChange(record.id, 'can_edit', e.target.checked)}
+          checked={permissions[record.menu_id]?.can_edit || false}
+          onChange={e => handlePermissionChange(record.menu_id, 'can_edit', e.target.checked)}
         />
       )
     },
     {
-      title: 'Delete',
+      title: 'Supprimer',
       dataIndex: 'can_delete',
       key: 'can_delete',
       render: (text, record) => (
         <Checkbox
-          checked={permissions[record.id]?.can_delete || false}
-          onChange={e => handlePermissionChange(record.id, 'can_delete', e.target.checked)}
+          checked={permissions[record.menu_id]?.can_delete || false}
+          onChange={e => handlePermissionChange(record.menu_id, 'can_delete', e.target.checked)}
         />
       )
     }
