@@ -4,12 +4,20 @@
   }
   
   .permission-page h1 {
-    margin-bottom: 20px;
-    font-size: 16px;
+    margin-bottom: 10px;
+    font-size: 17px;
     text-transform: uppercase;
   }
   
   .permission-page .ant-table {
     margin-bottom: 20px;
   }
-  
+  .permission_h1{
+    font-size: 1.5rem;
+    padding: 0;
+  }
+  .permission_desc{
+    color: #555;
+    font-size: .8rem;
+    padding: 20px 0;
+  }

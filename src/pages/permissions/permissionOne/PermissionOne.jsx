@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Checkbox, message } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
+import './../permissions.css'
 
 const PermissionOne = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const navigate = useNavigate();
   const query = useQuery();
   const userId = query.get('userId');
   const [options, setOptions] = useState([]);
   const [permissions, setPermissions] = useState({});
+  const [name, setName] = useState('')
 
   useEffect(() => {
     const fetchOptionsAndPermissions = async () => {
@@ -22,6 +22,7 @@ const PermissionOne = () => {
         ]);
 
         setOptions(optionsRes.data);
+        setName(permissionsRes.data[0].username);
         const perms = {};
         permissionsRes.data.forEach(p => {
           perms[p.menus_id] = { can_read: p.can_read, can_edit: p.can_edit, can_delete: p.can_delete };
@@ -55,10 +56,10 @@ const PermissionOne = () => {
 
     axios.put(`${DOMAIN}/menu/${userId}/permissions/${optionId}`, finalPermissions)
       .then(() => {
-        message.success('Permissions updated successfully');
+        message.success('Autorisations mises à jour avec succès');
       })
       .catch(() => {
-        message.error('Failed to update permissions');
+        message.error('Échec de la mise à jour des autorisations');
       });
   };
 
@@ -113,8 +114,9 @@ const PermissionOne = () => {
   return (
     <>
         <div className="permission-page">
-            <div>
-                <h1>Gestion des permissions</h1>
+            <div className='permission_wrapper'>
+                <h1 className='permission_h1'>Gestion des permissions pour l'utilisateur {name}</h1>
+                <p className='permission_desc'>Bienvenue dans la gestion des permissions. Cette page vous permet de définir les autorisations spécifiques pour chaque utilisateur</p>
             </div>
                 <Table
             dataSource={options}
