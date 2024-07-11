@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, Checkbox, message } from 'antd';
+import { Table, Switch, message } from 'antd';
+import { ReadOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
-import './../permissions.css'
+import './../permissions.css';
 
 const PermissionOne = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -11,7 +12,7 @@ const PermissionOne = () => {
   const userId = query.get('userId');
   const [options, setOptions] = useState([]);
   const [permissions, setPermissions] = useState({});
-  const [name, setName] = useState('')
+  const [name, setName] = useState('');
 
   useEffect(() => {
     const fetchOptionsAndPermissions = async () => {
@@ -46,11 +47,11 @@ const PermissionOne = () => {
     };
 
     const finalPermissions = {
-        ...updatedPermissions[optionId],
-        can_read: updatedPermissions[optionId].can_read ?? false,
-        can_edit: updatedPermissions[optionId].can_edit ?? false,
-        can_delete: updatedPermissions[optionId].can_delete ?? false,
-      };
+      ...updatedPermissions[optionId],
+      can_read: updatedPermissions[optionId].can_read ?? false,
+      can_edit: updatedPermissions[optionId].can_edit ?? false,
+      can_delete: updatedPermissions[optionId].can_delete ?? false,
+    };
 
     setPermissions(updatedPermissions);
 
@@ -65,11 +66,11 @@ const PermissionOne = () => {
 
   const columns = [
     { 
-        title: <span>#</span>, 
-        dataIndex: 'id', 
-        key: 'id', 
-        render: (text, record, index) => index + 1, 
-        width: "3%" 
+      title: <span>#</span>, 
+      dataIndex: 'id', 
+      key: 'id', 
+      render: (text, record, index) => index + 1, 
+      width: "3%" 
     },
     {
       title: 'Option',
@@ -77,55 +78,53 @@ const PermissionOne = () => {
       key: 'menu_title',
     },
     {
-      title: 'Lire',
+      title: <span style={{ color: '#52c41a' }}><ReadOutlined /> Lire</span>,
       dataIndex: 'can_read',
       key: 'can_read',
       render: (text, record) => (
-        <Checkbox
+        <Switch
           checked={permissions[record.menu_id]?.can_read || false}
-          onChange={e => handlePermissionChange(record.menu_id, 'can_read', e.target.checked)}
+          onChange={value => handlePermissionChange(record.menu_id, 'can_read', value)}
         />
       )
     },
     {
-      title: 'Modifier',
+      title: <span style={{ color: '#1890ff' }}><EditOutlined /> Modifier</span>,
       dataIndex: 'can_edit',
       key: 'can_edit',
       render: (text, record) => (
-        <Checkbox
+        <Switch
           checked={permissions[record.menu_id]?.can_edit || false}
-          onChange={e => handlePermissionChange(record.menu_id, 'can_edit', e.target.checked)}
+          onChange={value => handlePermissionChange(record.menu_id, 'can_edit', value)}
         />
       )
     },
     {
-      title: 'Supprimer',
+      title: <span style={{ color: '#ff4d4f' }}><DeleteOutlined /> Supprimer</span>,
       dataIndex: 'can_delete',
       key: 'can_delete',
       render: (text, record) => (
-        <Checkbox
+        <Switch
           checked={permissions[record.menu_id]?.can_delete || false}
-          onChange={e => handlePermissionChange(record.menu_id, 'can_delete', e.target.checked)}
+          onChange={value => handlePermissionChange(record.menu_id, 'can_delete', value)}
         />
       )
     }
   ];
 
   return (
-    <>
-        <div className="permission-page">
-            <div className='permission_wrapper'>
-                <h1 className='permission_h1'>Gestion des permissions pour l'utilisateur {name}</h1>
-                <p className='permission_desc'>Bienvenue dans la gestion des permissions. Cette page vous permet de définir les autorisations spécifiques pour chaque utilisateur</p>
-            </div>
-                <Table
-            dataSource={options}
-            columns={columns}
-            rowKey="id"
-            pagination={false}
-            />
-        </div>
-    </>
+    <div className="permission-page">
+      <div className='permission_wrapper'>
+        <h1 className='permission_h1'>Gestion des permissions pour l'utilisateur {name}</h1>
+        <p className='permission_desc'>Bienvenue dans la gestion des permissions. Cette page vous permet de définir les autorisations spécifiques pour chaque utilisateur</p>
+      </div>
+      <Table
+        dataSource={options}
+        columns={columns}
+        rowKey="id"
+        pagination={false}
+      />
+    </div>
   );
 };
 
