@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, Switch, message } from 'antd';
+import { Table, Switch, message, Tag } from 'antd';
 import { ReadOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
@@ -76,6 +76,11 @@ const PermissionOne = () => {
       title: 'Option',
       dataIndex: 'menu_title',
       key: 'menu_title',
+      render: (text, record) => (
+        <Tag color='blue'>
+            {text}
+        </Tag>
+        ),
     },
     {
       title: <span style={{ color: '#52c41a' }}><ReadOutlined /> Lire</span>,
