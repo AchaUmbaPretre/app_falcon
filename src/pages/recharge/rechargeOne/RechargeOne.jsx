@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Table, Tag, message, Input, Button, Modal } from 'antd';
+import { Breadcrumb, Table, Tag, message, Input, Button, Modal, Spin } from 'antd';
 import { PhoneOutlined, SisternodeOutlined, HourglassOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -92,7 +92,6 @@ const RechargeOne = () => {
 
       message.success('Produit rechargé avec succès !');
       setIsModalVisible(false);
-      navigate('/recharge');
       window.location.reload();
     } catch (err) {
       message.error(`Erreur lors du rechargement : ${err.message}`);
@@ -242,6 +241,11 @@ const RechargeOne = () => {
               centered
             >
               <p>Voulez-vous vraiment recharger les numéros sélectionnés ?</p>
+              {loading && (
+                <div className="loader-container loader-container-center">
+                   <Spin size="large" />
+                </div>
+            )}
             </Modal>
           </div>
         </div>

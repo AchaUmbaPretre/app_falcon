@@ -231,7 +231,7 @@ const Recharge = () => {
         render: (text, record, index) => index + 1, 
         width: "3%" 
       },
-      {
+/*       {
         title: 'Client',
         dataIndex: 'nom_client',
         key: 'nom_client',
@@ -241,7 +241,7 @@ const Recharge = () => {
             {text}
           </Tag>
         ),
-      },
+      }, */
       {
         title: 'Numero',
         dataIndex: 'numero',
@@ -277,8 +277,8 @@ const Recharge = () => {
       }, */
       {
         title: 'Traceur',
-        dataIndex: 'numero_serie',
-        key: 'numero_serie',
+        dataIndex: 'code',
+        key: 'code',
         render: (text) => (
           <Tag color='cyan'>
             <BarcodeOutlined style={{ marginRight: 5 }} />
