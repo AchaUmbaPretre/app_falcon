@@ -11,13 +11,18 @@ import ClientDetail from './clientDetail/ClientDetail';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import { getMenuPermissions } from '../../api/services/menuService';
+import { useSelector } from 'react-redux';
+
 
 const Client = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
+  const userId = useSelector((state) => state.user.currentUser.id);
   const [open, setOpen] = useState(false);
   const [opens, setOpens] = useState(false);
   const [idClient, setIdClient] = useState([]);
+  const [permission, setPermission] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
@@ -46,6 +51,19 @@ const Client = () => {
       console.log(err);
     }
   };
+useEffect(()=>{
+  const fetchPermission = async () => {
+    try {
+      const menuPermissions = await getMenuPermissions(userId);
+      setPermission(data);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  fetchPermission()
+
+}, [DOMAIN,userId])
 
   const fetchData = async (page, pageSize) => {
     try {

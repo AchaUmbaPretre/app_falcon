@@ -115,7 +115,7 @@ function App() {
     </div>
   );
 
-  const adminOrSecretaireRoutes = (user?.role === 'admin' || user?.role === 'secretaire') ? [
+  const adminOrSecretaireRoutes = (user) ? [
     {
       path: '/',
       element: <SecuriteRoute><Layout /></SecuriteRoute>,
