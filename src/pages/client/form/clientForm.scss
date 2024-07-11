@@ -1,7 +1,10 @@
 @import '../../../style.scss';
 
 .clientForm{
+    width: 100%;
+    overflow-x: scroll;
     .product-container{
+        width: 100%;
         .product-container-top{
             display: flex;
             align-items: center;
@@ -50,6 +53,10 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
+            @include miniTablette{
+                width: 100%;
+                overflow-x: scroll;
+            }
             @include mobileXR{
                 grid-template-columns: repeat(1, 1fr);
                 gap: 15px;
@@ -80,6 +87,7 @@
                     outline: none;
                     border: 1px solid #c5c5c5;
                     border-radius: 5px;
+                    font-size: 12px;
                     &:focus{
                         border: 3px solid rgba(125, 177, 236, 0.842);
                     }
