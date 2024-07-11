@@ -40,6 +40,8 @@ const AddSites = () => {
     fetchData();
   }, [DOMAIN]);
 
+  console.log(data)
+
   const handleClick = async (e) => {
     e.preventDefault();
     
@@ -53,7 +55,9 @@ const AddSites = () => {
       await axios.post(`${DOMAIN}/operation/site`,{
         ...data
       })
+
       toast.success('Site créé avec succès!');
+      navigate('/sites')
       window.location.reload();
 
     }catch(err) {
@@ -71,8 +75,8 @@ const AddSites = () => {
   
   return (
     <>
-     <ToastContainer />
         <div className="clientForm">
+        <ToastContainer />
           <div className="product-container">
             <div className="product-container-top">
               <div className="product-left">
