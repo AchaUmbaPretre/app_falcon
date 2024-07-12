@@ -3,6 +3,7 @@ import { Breadcrumb, Button, Input, Skeleton, Table, Tag } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,SettingOutlined,PhoneOutlined,MailOutlined,UserOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Personnel = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -11,6 +12,8 @@ const Personnel = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const scroll = { x: 400 };
+  const navigate = useNavigate();
+
 
 
   useEffect(() => {
@@ -25,6 +28,10 @@ const Personnel = () => {
     };
     fetchData();
   }, [DOMAIN]);
+
+  const handleEdit = (id) => {
+    navigate(`/personnel_edit?userId=${id}`);
+  };
 
 
   const columns = [
@@ -85,8 +92,7 @@ const Personnel = () => {
       key: 'actions',
       render: (text, record) => (
         <div>
-          {/* Exemple d'actions possibles */}
-          <Tag color={'purple'}>Edit</Tag>
+          <Tag color={'purple'} style={{cursor:'pointer'}} onClick={()=> handleEdit(record.id)}>Edit</Tag>
           <Tag color={'red'}>Delete</Tag>
         </div>
       ),

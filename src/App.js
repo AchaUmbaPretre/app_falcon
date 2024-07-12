@@ -57,6 +57,7 @@ import VehiculeRapport from './pages/vehicules/vehiculeRapport/VehiculeRapport';
 import ClientRapport from './pages/client/clientRapport/ClientRapport';
 import Permission from './pages/permissions/Permission';
 import PermissionOne from './pages/permissions/permissionOne/PermissionOne';
+import PersonnelEdit from './pages/personnel/form/PersonnelEdit';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -147,6 +148,7 @@ function App() {
         { path: '/rechargeOne', element: <RechargeOne /> },
         { path: '/personnel', element: <Personnel /> },
         { path: '/personnel_form', element: <PersonnelForm /> },
+        { path: '/personnel_edit', element: <PersonnelEdit /> },
         { path: '/paiement', element: <Paiement /> },
         { path: '/facturation', element: <Facturation /> },
         { path: '/rapport', element: <Rapport /> },
