@@ -18,7 +18,7 @@ const VehiculesForm = () => {
   const [modele, setModele] = useState([]);
   const [IdMarque, setIdMarque] = useState('');
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
-  const scroll = { x: 400 };
+  const scroll = { x: 450 };
 
   const handleInputChange = (index, e) => {
     const fieldName = e.target.name;
@@ -91,8 +91,6 @@ const VehiculesForm = () => {
     }
   }, [DOMAIN, IdMarque]);
 
-  console.log(IdMarque)
-
   const handleClick = (e) => {
     e.preventDefault();
     setIsConfirmVisible(true);
@@ -130,14 +128,15 @@ const VehiculesForm = () => {
 
   const columns = [
     {
-      title: 'Client ou société',
+      title: 'Client',
       dataIndex: 'id_client',
       render: (text, record, index) => (
         <Select
+          styles={{ zIndex: 999 }}
           name="id_client"
           options={client.map(item => ({ value: item.id_client, label: item.nom_client }))}
           onChange={selectedOption => handleSelectChange(index, 'id_client', selectedOption)}
-          placeholder="Sélectionnez un client..."
+          placeholder="Sélectionnez..."
         />
       ),
     },
@@ -162,7 +161,7 @@ const VehiculesForm = () => {
           name="id_marque"
           options={marque.map(item => ({ value: item.id_marque, label: item.nom_marque }))}
           onChange={selectedOption => handleSelectChange(index, 'id_marque', selectedOption)}
-          placeholder="Sélectionnez une marque..."
+          placeholder="Sélectionnez..."
         />
       ),
     },
@@ -174,7 +173,7 @@ const VehiculesForm = () => {
           name="id_modele"
           options={modele.map(item => ({ value: item.id_modele, label: item.modele }))}
           onChange={selectedOption => handleSelectChange(index, 'id_modele', selectedOption)}
-          placeholder="Sélectionnez un modèle..."
+          placeholder="Sélectionnez.."
         />
       ),
     },

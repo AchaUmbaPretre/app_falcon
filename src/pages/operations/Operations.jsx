@@ -233,7 +233,7 @@ const Operations = () => {
       ...(columnsVisibility['Tag(Traceur)'] ? {} : { className: 'hidden-column' })
     },
     {
-      title: "Type d'opération",
+      title: "Opération",
       dataIndex: 'type_operations',
       key: 'type_operations',
       render: (text) => (
