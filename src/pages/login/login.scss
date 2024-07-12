@@ -29,7 +29,8 @@
             background: #fff;
         }
         @include mobileXR{
-            padding: 2px;
+            padding: 10px;
+            height: 100%;
         }
         .login_left{
             flex: 2;
@@ -45,9 +46,10 @@
                 flex: 4;
                 padding: 20px;
                 box-shadow: none;
+                gap: 10px;
             }
             @include mobileXR{
-                gap: 15px;
+                gap: 10px;
             }
             .login_left_top{
                 display: flex;
