@@ -8,6 +8,7 @@ import CountUp from 'react-countup';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import { useSelector } from 'react-redux';
 
 const Vehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -16,6 +17,7 @@ const Vehicules = () => {
   const [vehicule, setVehicule] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const role = useSelector((state) => state.user.currentUser.role);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -133,7 +135,7 @@ const Vehicules = () => {
         </Tag>
       )
     },
-    {
+    role === 'admin' &&{
       title: 'Action',
       key: 'action',
       width: "160px",
@@ -152,7 +154,7 @@ const Vehicules = () => {
         </Space>
       )
     }
-  ];
+  ].filter(Boolean);
 
   const exportToPDF = () => {
     const doc = new jsPDF();

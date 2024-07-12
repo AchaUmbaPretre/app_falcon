@@ -40,6 +40,7 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import CountUp from 'react-countup';
+import { useSelector } from 'react-redux';
 
 const Traceur = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -60,10 +61,7 @@ const Traceur = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
-
-  
-  
-
+  const role = useSelector((state) => state.user.currentUser.role);
 
   const fetchData = useCallback(async () => {
     try {
@@ -76,8 +74,8 @@ const Traceur = () => {
           pageSize,
         },
       });
-      setData(data.rows); // Assurez-vous que votre backend renvoie les données sous cette forme
-      setTotalItems(data.total); // Assurez-vous que votre backend renvoie le nombre total d'éléments
+      setData(data.rows); 
+      setTotalItems(data.total);
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -277,16 +275,18 @@ const Traceur = () => {
           <Popover title="Modifier" trigger="hover">
             <Button icon={<EditOutlined />} style={{ color: 'geekblue' }} onClick={()=> handleEdit(record.id_traceur)} />
           </Popover>
-          <Popover title="Supprimer" trigger="hover">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer?"
-              onConfirm={() => handleDelete(record.id_client)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
-            </Popconfirm>
-          </Popover>
+          {role === 'admin' &&
+            <Popover title="Supprimer" trigger="hover">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer?"
+                onConfirm={() => handleDelete(record.id_client)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+              </Popconfirm>
+            </Popover>
+          }
         </Space>
       ),
     },

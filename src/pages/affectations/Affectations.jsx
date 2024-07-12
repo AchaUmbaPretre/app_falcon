@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, DatePicker, notification, Input } from 'antd';
-import { PlusCircleOutlined, SisternodeOutlined, CloseOutlined, PhoneOutlined, BarcodeOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined, SearchOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SisternodeOutlined, CloseOutlined, PhoneOutlined, BarcodeOutlined, DeleteOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import AffectationForm from './form/AffectationForm';
@@ -8,11 +8,13 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import CountUp from 'react-countup';
+import { useSelector } from 'react-redux';
 
 const { RangePicker } = DatePicker;
 
 const Affectations = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const role = useSelector((state) => state.user.currentUser.role);
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -23,14 +25,14 @@ const Affectations = () => {
   const [affect, setAffect] = useState('');
 
   useEffect(() => {
-    fetchData(pagination.current, pagination.pageSize, filters);
-  }, [DOMAIN, pagination.current, pagination.pageSize, filters, searchValue]);
+    fetchData();
+  }, [pagination.current, pagination.pageSize, filters, searchValue]);
 
-  const fetchData = async (page, pageSize, filters) => {
+  const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(`${DOMAIN}/affectation`, {
-        params: { page, limit: pageSize, ...filters, search: searchValue }
+        params: { page: pagination.current, limit: pagination.pageSize, ...filters, search: searchValue }
       });
       const { data: records, total } = response.data;
       setData(records);
@@ -46,7 +48,7 @@ const Affectations = () => {
     try {
       await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
       notification.success({ message: 'Suppression réussie' });
-      fetchData(pagination.current, pagination.pageSize, filters);
+      fetchData();
     } catch (err) {
       console.error(err);
       notification.error({ message: 'Échec de la suppression' });
@@ -97,26 +99,25 @@ const Affectations = () => {
       title: 'Numero',
       dataIndex: 'numero',
       key: 'numero',
-      render: (text, record) => (
-        <div>
-          <Tag color={'blue'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
-        </div>
+      render: (text) => (
+        <Tag color='blue'>
+          <PhoneOutlined style={{ marginRight: "5px" }} />
+          {text}
+        </Tag>
       )
     },
     {
       title: 'Traceur',
       dataIndex: 'code',
       key: 'code',
-      render: (text, record) => (
-        <div>
-          <Tag color={'blue'}>
-            <BarcodeOutlined style={{ marginRight: "5px" }} />
-            {text}
-          </Tag>
-        </div>
+      render: (text) => (
+        <Tag color='blue'>
+          <BarcodeOutlined style={{ marginRight: "5px" }} />
+          {text}
+        </Tag>
       )
     },
-    {
+    role === 'admin' && {
       title: 'Action',
       key: 'action',
       width: "160px",
@@ -135,7 +136,7 @@ const Affectations = () => {
         </Space>
       )
     }
-  ];
+  ].filter(Boolean);
 
   const fetchAffectation = useCallback(async () => {
     try {
@@ -144,7 +145,7 @@ const Affectations = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [DOMAIN,searchValue]);
+  }, [DOMAIN, searchValue]);
 
   useEffect(() => {
     fetchAffectation();
@@ -158,101 +159,94 @@ const Affectations = () => {
     setShowFilters(!showFilters);
   };
 
-  const filteredData = data?.filter((item) =>
+  const filteredData = data.filter((item) =>
     item.numero?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.numero_serie?.toLowerCase().includes(searchValue.toLowerCase()) 
+    item.numero_serie?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
-    <>
-      <div className="client">
-        <div className="client_wrapper">
-          <div className="client_wrapper_top">
-            <div className="client_text_row">
-              <div className="client_text_left">
-                <h2 className="client_h2">Affectations</h2>
-                <span className="client_span">Liste d'affectations</span>
-              </div>
-              <div className="client_row_number">
-                {affect ? (
-                  <span className="client_span_title">Total : <CountUp end={affect} /></span>
-                ) : (
-                  <Skeleton.Input style={{ width: 120 }} active />
-                )}
+    <div className="client">
+      <div className="client_wrapper">
+        <div className="client_wrapper_top">
+          <div className="client_text_row">
+            <div className="client_text_left">
+              <h2 className="client_h2">Affectations</h2>
+              <span className="client_span">Liste d'affectations</span>
             </div>
-              <div className="client_text_right">
-                <button onClick={showModal}><PlusCircleOutlined /></button>
-              </div>
-            </div>
-          </div>
-          <div className="client_wrapper_center">
-            <Breadcrumb
-              separator=">"
-              items={[
-                {
-                  title: 'Accueil',
-                  href: '/',
-                },
-                {
-                  title: 'Affectations',
-                }
-              ]}
-            />
-            <div className="client_wrapper_center_bottom">
-              <div className="product-bottom-top">
-                <div className="product-bottom-left">
-                  <Button
-                    icon={showFilters ? <CloseOutlined /> : <SisternodeOutlined />}
-                    onClick={toggleFilters}
-                  />
-                  <div className="product-row-searchs">
-                    <Input
-                      type="search"
-                      value={searchValue}
-                      onChange={(e) => setSearchValue(e.target.value)}
-                      placeholder="Recherche..."
-                      className="product-search"
-                    />
-                  </div>
-                </div>
-                <div className="product-bottom-right">
-                  <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
-                  <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
-                  <Button className="product-icon-printer" icon={<PrinterOutlined />} />
-                </div>
-              </div>
-              {showFilters && (
-                <div className="filters">
-                  <RangePicker onChange={handleDateFilterChange} />
-                </div>
-              )}
-              <Modal
-                title=""
-                centered
-                open={open}
-                onCancel={() => setOpen(false)}
-                width={1100}
-                footer={[]}
-              >
-                <AffectationForm />
-              </Modal>
-              {loading ? (
-                <Skeleton active />
+            <div className="client_row_number">
+              {affect ? (
+                <span className="client_span_title">Total : <CountUp end={affect} /></span>
               ) : (
-                <Table
-                  dataSource={filteredData}
-                  columns={columns}
-                  className='table_client'
-                  pagination={pagination}
-                  onChange={handleTableChange}
-                  rowKey="id" // Ajouter une clé unique pour chaque ligne
-                />
+                <Skeleton.Input style={{ width: 120 }} active />
               )}
+            </div>
+            <div className="client_text_right">
+              <button onClick={showModal}><PlusCircleOutlined /></button>
             </div>
           </div>
         </div>
+        <div className="client_wrapper_center">
+          <Breadcrumb
+            separator=">"
+            items={[
+              { title: 'Accueil', href: '/' },
+              { title: 'Affectations' }
+            ]}
+          />
+          <div className="client_wrapper_center_bottom">
+            <div className="product-bottom-top">
+              <div className="product-bottom-left">
+                <Button
+                  icon={showFilters ? <CloseOutlined /> : <SisternodeOutlined />}
+                  onClick={toggleFilters}
+                />
+                <div className="product-row-searchs">
+                  <Input
+                    type="search"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder="Recherche..."
+                    className="product-search"
+                  />
+                </div>
+              </div>
+              <div className="product-bottom-right">
+                <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
+                <Button className="product-icon-printer" icon={<PrinterOutlined />} />
+              </div>
+            </div>
+            {showFilters && (
+              <div className="filters">
+                <RangePicker onChange={handleDateFilterChange} />
+              </div>
+            )}
+            <Modal
+              title=""
+              centered
+              open={open}
+              onCancel={() => setOpen(false)}
+              width={1100}
+              footer={[]}
+            >
+              <AffectationForm />
+            </Modal>
+            {loading ? (
+              <Skeleton active />
+            ) : (
+              <Table
+                dataSource={filteredData}
+                columns={columns}
+                className='table_client'
+                pagination={pagination}
+                onChange={handleTableChange}
+                rowKey="id"
+              />
+            )}
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

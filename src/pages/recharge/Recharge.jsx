@@ -26,6 +26,7 @@ import config from '../../config';
 import './recharge.scss';
 import RechargeTrie from './rechargeTrie/RechargeTrie';
 import Recharge_form from './form/Recharge_form';
+import { useSelector } from 'react-redux';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 const scroll = { x: 400 };
@@ -38,6 +39,7 @@ const deleteRecharge = async (id) => {
 const Recharge = () => {
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
+  const role = useSelector((state) => state.user.currentUser.role);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openTrie, setOpenTrie] = useState(false);
@@ -264,17 +266,6 @@ const Recharge = () => {
           </Tag>
         ),
       },
-/*       {
-        title: 'Marque',
-        dataIndex: 'nom_marque',
-        key: 'nom_marque',
-        render: (text) => (
-          <Tag color='blue'>
-            <CarOutlined style={{ marginRight: "5px" }} />
-            {text}
-          </Tag>
-        ),
-      }, */
       {
         title: 'Traceur',
         dataIndex: 'code',
@@ -361,7 +352,7 @@ const Recharge = () => {
           </Tag>
         ),
       },
-      {
+      role === 'admin' && {
         title: 'Action',
         key: 'action',
         width: "160px",
@@ -380,7 +371,7 @@ const Recharge = () => {
           </Space>
         ),
       },
-    ];
+    ].filter(Boolean);
 
     return <Table columns={columns} dataSource={record.records} scroll={scroll} pagination={{ pageSize: 15 }} rowKey="id_recharge" />;
   };

@@ -23,10 +23,6 @@
     padding: 20px 0;
   }
 
-  .table_permission{
-
-  }
-
   @media screen and (max-width: 568px){
     .table_permission{
       overflow: auto;

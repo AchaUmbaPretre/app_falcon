@@ -15,11 +15,13 @@ import CountUp from 'react-countup';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import { useSelector } from 'react-redux';
 
 const Operations = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
+  const role = useSelector((state) => state.user.currentUser.role);
   const [loading, setLoading] = useState(true);
   const [openDetail, setOpenDetail] = useState(false);
   const [open, setOpen] = useState(false);
@@ -299,16 +301,18 @@ const Operations = () => {
           <Popover title="Voir les détails" trigger="hover">
             <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={showDrawer} disabled={selectedRowKeys.length === 0} />
           </Popover>
-          <Popover title="Supprimer" trigger="hover">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer?"
-              onConfirm={() => handleDelete(record.id_client)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
-            </Popconfirm>
+          {role === 'admin' &&
+            <Popover title="Supprimer" trigger="hover">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer?"
+                onConfirm={() => handleDelete(record.id_client)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+              </Popconfirm>
           </Popover>
+          }
         </Space>
       ),
     },

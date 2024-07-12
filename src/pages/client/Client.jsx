@@ -19,6 +19,7 @@ const Client = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const userId = useSelector((state) => state.user.currentUser.id);
+  const role = useSelector((state) => state.user.currentUser.role);
   const [open, setOpen] = useState(false);
   const [opens, setOpens] = useState(false);
   const [idClient, setIdClient] = useState([]);
@@ -55,7 +56,7 @@ useEffect(()=>{
   const fetchPermission = async () => {
     try {
       const menuPermissions = await getMenuPermissions(userId);
-      setPermission(data);
+      setPermission(menuPermissions);
 
     } catch (error) {
       console.log(error);
@@ -187,22 +188,26 @@ useEffect(()=>{
               <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
             </Link>
           </Popover>
+          { role === 'admin' || role === 'secretaire'}
           <Popover title="Ajouter les contacts" trigger="hover">
             <Button icon={<PlusCircleOutlined />} onClick={() => showModalContact(record.id_client)} style={{ color: 'blue' }} />
           </Popover>
           <Popover title="Modifier" trigger="hover">
             <Button icon={<EditOutlined />} style={{ color: 'geekblue' }} onClick={()=> handleEdit(record.id_client)} />
           </Popover>
-          <Popover title="Supprimer" trigger="hover">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer?"
-              onConfirm={() => handleDelete(record.id_client)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
-            </Popconfirm>
+          {
+            role === 'admin' &&
+            <Popover title="Supprimer" trigger="hover">
+              <Popconfirm
+                title="Êtes-vous sûr de vouloir supprimer?"
+                onConfirm={() => handleDelete(record.id_client)}
+                okText="Oui"
+                cancelText="Non"
+              >
+                <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
+              </Popconfirm>
           </Popover>
+          }
         </Space>
       )
     }
