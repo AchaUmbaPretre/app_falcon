@@ -136,7 +136,7 @@ const PermissionOne = () => {
         rowKey="id"
         pagination={false}
         loading={loading}
-        className='table_client' 
+        className='table_permission' 
       />
     </div>
   );
