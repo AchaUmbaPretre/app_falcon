@@ -13,9 +13,11 @@ const PermissionOne = () => {
   const [options, setOptions] = useState([]);
   const [permissions, setPermissions] = useState({});
   const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchOptionsAndPermissions = async () => {
+      setLoading(true);
       try {
         const [optionsRes, permissionsRes] = await Promise.all([
           axios.get(`${DOMAIN}/menu/menuAll`),
@@ -23,19 +25,26 @@ const PermissionOne = () => {
         ]);
 
         setOptions(optionsRes.data);
-        setName(permissionsRes.data[0].username);
+        setName(permissionsRes.data[0]?.username || ''); // Correction here
+        setLoading(false);
+
         const perms = {};
         permissionsRes.data.forEach(p => {
-          perms[p.menus_id] = { can_read: p.can_read, can_edit: p.can_edit, can_delete: p.can_delete };
+          perms[p.menus_id] = {
+            can_read: p.can_read,
+            can_edit: p.can_edit,
+            can_delete: p.can_delete
+          };
         });
         setPermissions(perms);
       } catch (error) {
         message.error('Failed to fetch data');
+        setLoading(false); // Ensure loading state is reset on error
       }
     };
 
     fetchOptionsAndPermissions();
-  }, [userId]);
+  }, [userId, DOMAIN]);
 
   const handlePermissionChange = (optionId, permType, value) => {
     const updatedPermissions = {
@@ -76,11 +85,9 @@ const PermissionOne = () => {
       title: 'Option',
       dataIndex: 'menu_title',
       key: 'menu_title',
-      render: (text, record) => (
-        <Tag color='blue'>
-            {text}
-        </Tag>
-        ),
+      render: (text) => (
+        <Tag color='blue'>{text}</Tag>
+      ),
     },
     {
       title: <span style={{ color: '#52c41a' }}><ReadOutlined /> Lire</span>,
@@ -121,13 +128,15 @@ const PermissionOne = () => {
     <div className="permission-page">
       <div className='permission_wrapper'>
         <h1 className='permission_h1'>Gestion des permissions pour l'utilisateur {name}</h1>
-        <p className='permission_desc'>Bienvenue dans la gestion des permissions. Cette page vous permet de définir les autorisations spécifiques pour chaque utilisateur</p>
+        <p className='permission_desc'>Bienvenue dans la gestion des permissions. Cette page vous permet de définir les autorisations spécifiques pour chaque utilisateur.</p>
       </div>
       <Table
         dataSource={options}
         columns={columns}
         rowKey="id"
         pagination={false}
+        loading={loading}
+        className='table_client' 
       />
     </div>
   );

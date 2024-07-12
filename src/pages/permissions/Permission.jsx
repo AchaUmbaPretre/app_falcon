@@ -10,11 +10,14 @@ const Permission = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [users, setUsers] = useState([]);
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUsers = async () => {
             const { data } = await axios.get(`${DOMAIN}/users`);
             setUsers(data);
+            setLoading(false)
+            
         };
         fetchUsers();
     }, [DOMAIN]);
@@ -72,7 +75,7 @@ const Permission = () => {
         <div className="permission-page">
             <h1>Gestion des permissions</h1>
             <div className="permission-wrapper">
-                <Table dataSource={users} columns={columns} rowKey="id" />
+                <Table dataSource={users} columns={columns} rowKey="id" loading={loading}  />
             </div>
         </div>
     );

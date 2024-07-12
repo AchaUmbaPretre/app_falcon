@@ -191,7 +191,8 @@ const Vehicules = () => {
     item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.matricule?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.modele?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.code?.toLowerCase().includes(searchValue.toLowerCase())
+    item.code?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nom_vehicule?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
