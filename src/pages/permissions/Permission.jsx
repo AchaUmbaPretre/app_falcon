@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './permissions.css';
-import { Table, Button, Space, Popover, Tag } from 'antd';
+import { Table, Button, Space, Popover, Tag, Skeleton } from 'antd';
 import { EyeOutlined, UserOutlined, SolutionOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
@@ -9,21 +9,25 @@ import { Link, useNavigate } from 'react-router-dom';
 const Permission = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [users, setUsers] = useState([]);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUsers = async () => {
-            const { data } = await axios.get(`${DOMAIN}/users`);
-            setUsers(data);
-            setLoading(false)
-            
+            try {
+                const { data } = await axios.get(`${DOMAIN}/users`);
+                setUsers(data);
+            } catch (error) {
+                console.error('Failed to fetch users:', error);
+            } finally {
+                setLoading(false);
+            }
         };
         fetchUsers();
     }, [DOMAIN]);
 
     const showDrawer = (id) => {
-        navigate(`/permissionOne?userId=${id}`)
+        navigate(`/permissionOne?userId=${id}`);
     };
 
     const columns = [
@@ -75,7 +79,11 @@ const Permission = () => {
         <div className="permission-page">
             <h1>Gestion des permissions</h1>
             <div className="permission-wrapper">
-                <Table dataSource={users} columns={columns} rowKey="id" loading={loading}  />
+                {loading ? (
+                    <Skeleton active />
+                ) : (
+                    <Table dataSource={users} columns={columns} rowKey="id" />
+                )}
             </div>
         </div>
     );

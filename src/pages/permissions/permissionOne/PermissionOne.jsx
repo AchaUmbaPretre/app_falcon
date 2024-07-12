@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, Switch, message, Tag } from 'antd';
+import { Table, Switch, message, Tag, Skeleton } from 'antd';
 import { ReadOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
@@ -13,7 +13,7 @@ const PermissionOne = () => {
   const [options, setOptions] = useState([]);
   const [permissions, setPermissions] = useState({});
   const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchOptionsAndPermissions = async () => {
@@ -127,11 +127,19 @@ const PermissionOne = () => {
   return (
     <div className="permission-page">
       <div className='permission_wrapper'>
-        <h1 className='permission_h1'>Gestion des permissions pour l'utilisateur {name}</h1>
-        <p className='permission_desc'>Bienvenue dans la gestion des permissions. Cette page vous permet de définir les autorisations spécifiques pour chaque utilisateur.</p>
+        {loading ? (
+          <Skeleton active title={false} paragraph={{ rows: 1 }} />
+        ) : (
+          <h1 className='permission_h1'>Gestion des permissions pour l'utilisateur {name}</h1>
+        )}
+        {loading ? (
+          <Skeleton active title={false} paragraph={{ rows: 2 }} />
+        ) : (
+          <p className='permission_desc'>Bienvenue dans la gestion des permissions. Cette page vous permet de définir les autorisations spécifiques pour chaque utilisateur.</p>
+        )}
       </div>
       <Table
-        dataSource={options}
+        dataSource={loading ? [] : options}
         columns={columns}
         rowKey="id"
         pagination={false}
