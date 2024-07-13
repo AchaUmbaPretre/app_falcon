@@ -66,7 +66,7 @@ const AddTraceur = () => {
       setIsLoading(true);
       await Promise.all(traceurs.map((traceur) => axios.post(`${DOMAIN}/traceur`, traceur)));
       toast.success('Traceurs créés avec succès!');
-      navigate('/traceurs');
+      navigate('/');
       window.location.reload();
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.message;

@@ -57,7 +57,7 @@ const AddSites = () => {
       })
 
       toast.success('Site créé avec succès!');
-      navigate('/sites')
+      navigate('/')
       window.location.reload();
 
     }catch(err) {

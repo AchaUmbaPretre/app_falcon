@@ -90,8 +90,6 @@ const AddVehicules = () => {
     }
   }, [DOMAIN, IdMarque]);
 
-  console.log(IdMarque)
-
   const handleClick = (e) => {
     e.preventDefault();
     setIsConfirmVisible(true);
@@ -109,7 +107,7 @@ const AddVehicules = () => {
       setIsLoading(true);
       await axios.post(`${DOMAIN}/vehicule`, { vehicles });
       toast.success('Véhicules créés avec succès!');
-      navigate('/vehicules');
+      navigate('/');
       window.location.reload();
     } catch (err) {
       if (err.response && err.response.status === 400 && err.response.data && err.response.data.error) {
