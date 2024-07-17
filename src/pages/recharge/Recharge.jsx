@@ -8,10 +8,6 @@ import {
   PhoneOutlined, 
   BarcodeOutlined, 
   DeleteOutlined, 
-  SearchOutlined, 
-  FilePdfOutlined, 
-  FileExcelOutlined, 
-  PrinterOutlined,
   CarOutlined,
   CheckCircleOutlined,
   ExclamationCircleOutlined,
@@ -233,17 +229,6 @@ const Recharge = () => {
         render: (text, record, index) => index + 1, 
         width: "3%" 
       },
-/*       {
-        title: 'Client',
-        dataIndex: 'nom_client',
-        key: 'nom_client',
-        render: (text) => (
-          <Tag color='blue'>
-            <UserOutlined style={{ marginRight: 5 }} />
-            {text}
-          </Tag>
-        ),
-      }, */
       {
         title: 'Numero',
         dataIndex: 'numero',
@@ -421,9 +406,7 @@ const Recharge = () => {
                 </div>
               </div>
               <div className="product-bottom-right">
-                <FilePdfOutlined className='product-icon-pdf' />
-                <FileExcelOutlined className='product-icon-excel' />
-                <PrinterOutlined className='product-icon-printer' />
+                
               </div>
             </div>
             {openTrie && (
