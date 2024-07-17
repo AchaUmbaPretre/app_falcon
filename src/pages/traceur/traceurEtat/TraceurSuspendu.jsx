@@ -10,16 +10,10 @@ import {
   Space,
   Table,
   Tag,
-  Input,
-  Tabs,
-  Menu,
-  Dropdown
+  Input
 } from 'antd';
 import {
-  MenuOutlined,
-  PlusCircleOutlined,
   SisternodeOutlined,
-  DownOutlined,
   EyeOutlined,
   CloseOutlined,
   DeleteOutlined,
@@ -34,23 +28,19 @@ import {
   EditOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
-import config from '../../config';
+import config from '../../../config';
 import moment from 'moment';
 import { Link, useNavigate } from 'react-router-dom';
-import TraceurForm from './form/TraceurForm';
-import TraceurDetail from './detail/TraceurDetail';
-import TraceurHistorique from './historique/TraceurHistorique';
-import TraceurTrie from './traceurTrie/TraceurTrie';
+import TraceurForm from '../form/TraceurForm';
+import TraceurDetail from '../detail/TraceurDetail';
+import TraceurHistorique from '../historique/TraceurHistorique';
+import TraceurTrie from '../traceurTrie/TraceurTrie';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
-import CountUp from 'react-countup';
 import { useSelector } from 'react-redux';
-import TraceurDemente from './traceurEtat/TraceurDemente';
-import TraceurNeuf from './traceurEtat/TraceurNeuf';
-import TraceurSuspendu from './traceurEtat/TraceurSuspendu';
 
-const Traceur = () => {
+const TraceurSuspendu = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
@@ -70,20 +60,10 @@ const Traceur = () => {
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
   const role = useSelector((state) => state.user.currentUser.role);
-  const [columnsVisibility, setColumnsVisibility] = useState({
-    '#': true,
-    'ID traceur': true,
-    'Tag': true,
-    "N° série": true,
-    'Etat traceur': true,
-    'Client': true,
-    "Date d\'entrée": true
-  });
-
 
   const fetchData = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/traceur`, {
+      const { data } = await axios.get(`${DOMAIN}/traceur/traceur_suspendu`, {
         params: {
           start_date: startDate,
           end_date: endDate,
@@ -185,26 +165,6 @@ const Traceur = () => {
     XLSX.writeFile(wb, "traceur.xlsx");
   };
 
-  const toggleColumnVisibility = (columnName) => {
-    setColumnsVisibility(prev => ({
-      ...prev,
-      [columnName]: !prev[columnName]
-    }));
-  };
-
-  const menu = (
-    <Menu>
-      {Object.keys(columnsVisibility).map(columnName => (
-        <Menu.Item key={columnName}>
-          <span onClick={() => toggleColumnVisibility(columnName)}>
-            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
-            <span style={{ marginLeft: 8 }}>{columnName}</span>
-          </span>
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
-
   const columns = [
     {
       title: '#',
@@ -212,19 +172,17 @@ const Traceur = () => {
       key: 'id',
       render: (text, record, index) => index + 1,
       width: '3%',
-      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
     {
-      title: 'ID traceur',
-      dataIndex: 'traceur_id',
-      key: 'traceur_id',
-      render: (text) => (
-        <Tag color={text ? 'blue' : 'red'}>
-          {text || 'Aucun'}
-        </Tag>
-      ),
-      ...(columnsVisibility['ID traceur'] ? {} : { className: 'hidden-column' })
-    },
+        title: 'ID traceur',
+        dataIndex: 'traceur_id',
+        key: 'traceur_id',
+        render: (text) => (
+          <Tag color={text ? 'blue' : 'red'}>
+            {text || 'Aucun'}
+          </Tag>
+        )
+      },
     {
       title: 'Tag',
       dataIndex: 'code',
@@ -239,7 +197,6 @@ const Traceur = () => {
           </div>
         </Popover>
       ),
-      ...(columnsVisibility['Tag'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'N° série',
@@ -253,7 +210,6 @@ const Traceur = () => {
             </Tag>
           </div>
       ),
-      ...(columnsVisibility['N° série'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Etat traceur',
@@ -269,7 +225,6 @@ const Traceur = () => {
           {text}
         </Tag>
       ),
-      ...(columnsVisibility['Etat traceur'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Client',
@@ -281,7 +236,6 @@ const Traceur = () => {
           {text || 'Aucun'}
         </Tag>
       ),
-      ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Date d\'entrée',
@@ -294,7 +248,6 @@ const Traceur = () => {
           {moment(text).format('DD-MM-yyyy')}
         </Tag>
       ),
-      ...(columnsVisibility['Date d\'entrée'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Action',
@@ -335,121 +288,82 @@ const Traceur = () => {
   );
 
   return (
-    <>
-      <Tabs defaultActiveKey="0" tabBarStyle={{ background: '#f0f2f5', padding: '10px 15px' }}>
-        <Tabs.TabPane tab='Traceur' key={0}>
-          <div className="client">
-            <div className="client_wrapper">
-              <div className="client_wrapper_top">
-                <div className="client_text_row">
-                  <div className="client_text_left">
-                    <h2 className="client_h2">Traceur</h2>
-                    <span className="client_span">Liste des traceurs</span>
-                  </div>
-                  <div className="client_row_number">
-                    {traceur ? (
-                      <span className="client_span_title">Total : <CountUp end={traceur} /></span>
-                    ) : (
-                      <Skeleton.Input active />
-                    )}
-                  </div>
-                  <div className="client_text_right">
-                    <Button onClick={showModal} icon={<PlusCircleOutlined />} />
-                  </div>
+    <div className="client">
+      <div className="client_wrapper">
+        <div className="client_wrapper_center">
+          <Breadcrumb
+            separator=">"
+            items={[
+              {
+                title: 'Accueil',
+                href: '/',
+              },
+              {
+                title: 'Démanteler',
+              },
+            ]}
+          />
+          <div className="client_wrapper_center_bottom">
+            <div className="product-bottom-top">
+              <div className="product-bottom-left">
+                <Button
+                  icon={openTrie ? <CloseOutlined /> : <SisternodeOutlined />}
+                  onClick={() => setOpenTrie(!openTrie)}
+                />
+                <div className="">
+                  <Input
+                    type="search"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder="Recherche..."
+                  />
                 </div>
               </div>
-              <div className="client_wrapper_center">
-                <Breadcrumb
-                  separator=">"
-                  items={[
-                    {
-                      title: 'Accueil',
-                      href: '/',
-                    },
-                    {
-                      title: 'Traceur',
-                    },
-                  ]}
-                />
-                <div className="client_wrapper_center_bottom">
-                  <div className="product-bottom-top">
-                    <div className="product-bottom-left">
-                      <Button
-                        icon={openTrie ? <CloseOutlined /> : <SisternodeOutlined />}
-                        onClick={() => setOpenTrie(!openTrie)}
-                      />
-                      <div className="">
-                        <Input
-                          type="search"
-                          value={searchValue}
-                          onChange={(e) => setSearchValue(e.target.value)}
-                          placeholder="Recherche..."
-                        />
-                      </div>
-                    </div>
-                    <div className="product-bottom-right">
-                      <Dropdown overlay={menu} trigger={['click']}>
-                        <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                          Colonnes <DownOutlined />
-                        </Button>
-                      </Dropdown>
-                      <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
-                      <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
-                      <Button className="product-icon-printer" icon={<PrinterOutlined />} />
-                    </div>
-                  </div>
-                  {openTrie && <TraceurTrie start_date={setStartDate} end_date={setEndDate} />}
-                  <Modal
-                    title=""
-                    centered
-                    open={open}
-                    onCancel={() => setOpen(false)}
-                    width={1200}
-                    footer={null}
-                  >
-                    <TraceurForm />
-                  </Modal>
-                  <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
-                    <TraceurDetail id_traceur={idTraceur} />
-                  </Drawer>
-                  <Drawer title="Historique" onClose={onClose} visible={historiqueDetail} width={750}>
-                    <TraceurHistorique id_traceur={historique} />
-                  </Drawer>
-                  {isLoading ? (
-                    <Skeleton active />
-                  ) : (
-                    <Table
-                    dataSource={filteredData}
-                    columns={columns}
-                    pagination={{
-                      current: currentPage,
-                      pageSize: pageSize,
-                      total: totalItems,
-                      showSizeChanger: true,
-                      pageSizeOptions: ['10', '20', '50', '100'],
-                    }}
-                    onChange={handleTableChange}
-                    className="table_client"
-                  />
-                  )}
-                </div>
+              <div className="product-bottom-right">
+                <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
+                <Button className="product-icon-printer" icon={<PrinterOutlined />} />
               </div>
             </div>
+            {openTrie && <TraceurTrie start_date={setStartDate} end_date={setEndDate} />}
+            <Modal
+              title=""
+              centered
+              open={open}
+              onCancel={() => setOpen(false)}
+              width={1200}
+              footer={null}
+            >
+              <TraceurForm />
+            </Modal>
+            <Drawer title="Détail" onClose={onClose} visible={openDetail} width={600}>
+              <TraceurDetail id_traceur={idTraceur} />
+            </Drawer>
+            <Drawer title="Historique" onClose={onClose} visible={historiqueDetail} width={750}>
+              <TraceurHistorique id_traceur={historique} />
+            </Drawer>
+            {isLoading ? (
+              <Skeleton active />
+            ) : (
+              <Table
+              dataSource={filteredData}
+              columns={columns}
+              pagination={{
+                current: currentPage,
+                pageSize: pageSize,
+                total: totalItems,
+                showSizeChanger: true,
+                pageSizeOptions: ['10', '20', '50', '100'],
+              }}
+              onChange={handleTableChange}
+              className="table_client"
+            />
+            )}
           </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Démanteler' key={1}>
-          <TraceurDemente />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Neuf' key={2}>
-          <TraceurNeuf />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab='Suspendu' key={3}>
-          <TraceurSuspendu />
-        </Tabs.TabPane>
-      </Tabs>
-    </>
+        </div>
+      </div>
+    </div>
   );
-  
 };
 
-export default Traceur;
+export default TraceurSuspendu;

@@ -233,6 +233,18 @@ const Operations = () => {
       ...(columnsVisibility['Tag(Traceur)'] ? {} : { className: 'hidden-column' })
     },
     {
+      title: 'Nomenclature',
+      dataIndex: 'nomenclature',
+      key: 'nomenclature',
+      render: (text) => (
+        <Tag color='green'>
+          <BarcodeOutlined  style={{ marginRight: '5px' }} />
+          {text}
+        </Tag>
+      ),
+      ...(columnsVisibility['Tag(Traceur)'] ? {} : { className: 'hidden-column' })
+    },
+    {
       title: "Opération",
       dataIndex: 'type_operations',
       key: 'type_operations',

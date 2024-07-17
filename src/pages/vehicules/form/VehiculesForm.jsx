@@ -8,6 +8,27 @@ import { Spin, Modal, Table, Button, Input, Space } from 'antd';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import './vehiculesForm.scss';
 
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    minHeight: '40px',
+    height: '40px',
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    height: '40px',
+    padding: '0 6px',
+  }),
+  input: (provided) => ({
+    ...provided,
+    margin: '0px',
+  }),
+  indicatorsContainer: (provided) => ({
+    ...provided,
+    height: '40px',
+  }),
+};
+
 const VehiculesForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [vehicles, setVehicles] = useState([{}]);
@@ -18,7 +39,6 @@ const VehiculesForm = () => {
   const [modele, setModele] = useState([]);
   const [IdMarque, setIdMarque] = useState('');
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
-  const scroll = { x: 450 };
 
   const handleInputChange = (index, e) => {
     const fieldName = e.target.name;
@@ -132,11 +152,13 @@ const VehiculesForm = () => {
       dataIndex: 'id_client',
       render: (text, record, index) => (
         <Select
-          styles={{ zIndex: 999 }}
           name="id_client"
           options={client.map(item => ({ value: item.id_client, label: item.nom_client }))}
           onChange={selectedOption => handleSelectChange(index, 'id_client', selectedOption)}
           placeholder="Sélectionnez..."
+          styles={customStyles}
+          className="react-select-container"
+          classNamePrefix="react-select"
         />
       ),
     },
@@ -162,6 +184,9 @@ const VehiculesForm = () => {
           options={marque.map(item => ({ value: item.id_marque, label: item.nom_marque }))}
           onChange={selectedOption => handleSelectChange(index, 'id_marque', selectedOption)}
           placeholder="Sélectionnez..."
+          styles={customStyles}
+          className="react-select-container"
+          classNamePrefix="react-select"
         />
       ),
     },
@@ -173,7 +198,10 @@ const VehiculesForm = () => {
           name="id_modele"
           options={modele.map(item => ({ value: item.id_modele, label: item.modele }))}
           onChange={selectedOption => handleSelectChange(index, 'id_modele', selectedOption)}
-          placeholder="Sélectionnez.."
+          placeholder="Sélectionnez..."
+          styles={customStyles}
+          className="react-select-container"
+          classNamePrefix="react-select"
         />
       ),
     },
@@ -225,16 +253,15 @@ const VehiculesForm = () => {
               <Table
                 dataSource={vehicles}
                 columns={columns}
-                scroll={scroll}
                 pagination={false}
                 rowKey={(record, index) => index}
                 className='tableau_add'
               />
             </div>
             <div className="form-submit">
-            <button className="btn-submit" onClick={handleClick} disabled={isLoading} classNames='btn-submit' style={{marginTop:'20px'}}>
-              Envoyer
-            </button>
+              <button className="btn-submit" onClick={handleClick} disabled={isLoading} style={{marginTop:'20px'}}>
+                Envoyer
+              </button>
               {isLoading && (
                 <div className="loader-container loader-container-center">
                   <Spin size="large" />
