@@ -6,7 +6,7 @@ import { toast, ToastContainer} from 'react-toastify';
 import { Button, Input, Modal, Space, Spin, Table } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
-
+import './addVehicules.scss'
 
 const AddVehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -210,7 +210,7 @@ const AddVehicules = () => {
   return (
     <>
       <ToastContainer />
-      <div className="clientForm">
+      <div className="clientFormAdd">
         <div className="product-container">
           <div className="product-container-top">
             <div className="product-left">
