@@ -18,7 +18,7 @@
         background: #f5f5f5f3;
         -webkit-box-shadow: 0px 0px 15px -10px rgba(26, 26, 26, 0.75);
         box-shadow: 0px 0px 15px -10px rgba(20, 20, 20, 0.75);
-        padding: 40px;
+        padding: 30px;
         border-radius: 3px;
         @include miniTablette{
             flex-direction: column-reverse;
@@ -29,7 +29,7 @@
             background: #fff;
         }
         @include mobileXR{
-            padding: 10px;
+            padding: 20px;
             height: 100%;
         }
         .login_left{
@@ -40,7 +40,7 @@
             background: #fff;
             -webkit-box-shadow: 0px 0px 15px -10px rgba(26, 26, 26, 0.75);
             box-shadow: 0px 0px 15px -10px rgba(20, 20, 20, 0.75);
-            padding: 30px;
+            padding: 25px;
             border-radius: 3px;
             @include miniTablette{
                 flex: 4;
@@ -58,7 +58,7 @@
                 .login_h2{
                     padding: 0;
                     margin: 0;
-                    font-size: 2rem;
+                    font-size: 1.7rem;
                     font-weight:800;
                     color: rgb(7, 44, 77);
                     @include mobileXR{
@@ -101,7 +101,7 @@
                 }
                 .login_input{
                     width: 100%;
-                    padding: 15px 10px;
+                    padding: 10px 8px;
                     border: none;
                     outline: none;
                     border: 1px solid #c5c5c5;
@@ -137,7 +137,7 @@
                     align-items: center;
                     gap: 5px;
                     .login_checkbox{
-                        font-size: .8rem;
+                        font-size: .7rem;
                         letter-spacing: 1px;
                         @include mobileXR{
                             font-size: .7rem;
@@ -145,7 +145,7 @@
                     }
                 }
                 .login_forgot{
-                    font-size: .8rem;
+                    font-size: .7rem;
                         @include mobileXR{
                             font-size: .7rem;
                         }
@@ -158,7 +158,7 @@
                 .btn{
                     width: 100%;
                     border: none;
-                    padding: 15px;
+                    padding: 10px;
                     background: rgba(78, 78, 228, 0.938);
                     color: #fff;
                     border-radius: 5px;
@@ -166,6 +166,10 @@
                     font-size: .899rem;
                     font-weight: 800;
                     cursor: pointer;
+                    &:hover{
+                        transition: 0.5s;
+                        background: rgba(31, 31, 192, 0.938);
+                    }
                     @include miniTablette{
                         padding: 12px;
                         font-size: .7rem;
@@ -199,7 +203,7 @@
                     justify-content: center;
                     gap: 10px;
                     border: none;
-                    padding: 15px;
+                    padding: 10px;
                     background: #fff;
                     @include miniTablette{
                         padding: 10px;
@@ -209,23 +213,33 @@
                     border: 1px solid rgb(38, 38, 247);
                     color: rgb(38, 38, 247);
                     border-radius: 5px;
-                    font-size: .9rem;
+                    font-size: .7rem;
                 }
                 .google{
                     border: 1px solid rgb(170, 30, 30);
                     color: rgb(170, 30, 30);
                     border-radius: 5px;
-                    font-size: .9rem;
+                    font-size: .7rem;
                 }
             }
         }
         .login_right{
             flex: 3;
             width: 100%;
+            @include mobileXR{
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
             .login-img{
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                @include mobileXR{
+                    width: 90%;
+                    height: 90%;
+                }
             }
         }
     }
