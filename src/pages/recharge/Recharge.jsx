@@ -27,7 +27,6 @@ import { useSelector } from 'react-redux';
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 const scroll = { x: 400 };
 
-
 const deleteRecharge = async (id) => {
   await axios.delete(`${DOMAIN}/recharge/${id}`);
 };
@@ -42,11 +41,9 @@ const Recharge = () => {
   const [start_date, setStartDate] = useState('');
   const [end_date, setEndDate] = useState('');
 
-
   const closeModal = () => {
     setOpen(false);
   };
-
 
   const fetchRecharge = useCallback(async () => {
     setLoading(true);
@@ -81,24 +78,32 @@ const Recharge = () => {
     }
   };
 
-  const groupByClient = (data) => {
+  const groupByClientAndDate = (data) => {
     return data.reduce((result, item) => {
-      const { id_client } = item;
+      const { id_client, date_recharge } = item;
+      const date = moment(date_recharge).format('YYYY-MM-DD');
+
       if (!result[id_client]) {
-        result[id_client] = [];
+        result[id_client] = {};
       }
-      result[id_client].push(item);
+      if (!result[id_client][date]) {
+        result[id_client][date] = [];
+      }
+      result[id_client][date].push(item);
       return result;
     }, {});
   };
 
-  const groupedData = Object.entries(groupByClient(data)).map(([id_client, records]) => ({
-    id_client,
-    key: id_client,
-    ...records[0],
-    records,
-    numberCount: records.length, // Adding the count of numbers recharged
-  }));
+  const groupedData = Object.entries(groupByClientAndDate(data)).flatMap(([id_client, dateRecords]) =>
+    Object.entries(dateRecords).map(([date, records]) => ({
+      id_client,
+      key: `${id_client}-${date}`,
+      date,
+      ...records[0],
+      records,
+      numberCount: records.length, // Adding the count of numbers recharged
+    }))
+  );
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -118,6 +123,16 @@ const Recharge = () => {
         <Tag color='blue'>
           <UserOutlined style={{ marginRight: 5 }} />
           {text}
+        </Tag>
+      ),
+    },
+    {
+      title: 'Date de Recharge',
+      dataIndex: 'date',
+      key: 'date',
+      render: (text) => (
+        <Tag icon={<CalendarOutlined />} color='blue'>
+          {moment(text).format('DD-MM-YYYY')}
         </Tag>
       ),
     },
@@ -208,16 +223,16 @@ const Recharge = () => {
       ),
     },
     {
-        title: 'Réchargé par',
-        dataIndex: 'username',
-        key: 'username',
-        render: (text) => (
-          <Tag color='blue'>
-            <UserOutlined style={{ marginRight: 5 }} />
-            {text}
-          </Tag>
-        ),
-      },
+      title: 'Réchargé par',
+      dataIndex: 'username',
+      key: 'username',
+      render: (text) => (
+        <Tag color='blue'>
+          <UserOutlined style={{ marginRight: 5 }} />
+          {text}
+        </Tag>
+      ),
+    },
   ];
 
   const expandedRowRender = (record) => {
@@ -273,7 +288,7 @@ const Recharge = () => {
             color = 'red';
             icon = <StopOutlined />;
           }
-  
+
           return (
             <Tag icon={icon} color={color}>
               {status}
@@ -282,89 +297,30 @@ const Recharge = () => {
         },
       },
       {
-        title: 'Validité',
-        dataIndex: 'days',
-        key: 'days',
-        render: (days) => {
-          let color = 'blue';
-          let icon = <CheckCircleOutlined />;
-          if (days <= 0) {
-            color = 'red';
-            icon = <ExclamationCircleOutlined />;
-          } else if (days <= 7) {
-            color = 'orange';
-            icon = <ExclamationCircleOutlined />;
-          }
-  
-          return (
-            <Tag icon={icon} color={color}>
-              {days} jours
-            </Tag>
-          );
-        },
-      },
-      {
-        title: 'Reste(s)',
-        dataIndex: 'days_restant',
-        key: 'days_restant',
-        render: (days_restant) => {
-          let color = 'green';
-          let icon = <CheckCircleOutlined />;
-          if (days_restant === 0) {
-            color = 'red';
-            icon = <ExclamationCircleOutlined />;
-          } else if (days_restant <= 7) {
-            color = 'orange';
-            icon = <ClockCircleOutlined />;
-          }
-  
-          return (
-            <Tag icon={icon} color={color}>
-              {days_restant} jours
-            </Tag>
-          );
-        },
-      },
-      {
-        title: 'Date & heure',
-        dataIndex: 'date_recharge',
-        key: 'date_recharge',
-        sorter: (a, b) => moment(a.date_recharge) - moment(b.date_recharge),
-        sortDirections: ['descend', 'ascend'],
-        render: (text) => (
-          <Tag icon={<CalendarOutlined />} color='blue'>
-            {moment(text).format('DD-MM-YYYY HH:mm')}
-          </Tag>
-        ),
-      },
-      role === 'admin' && {
-        title: 'Action',
+        title: 'Supprimer',
         key: 'action',
-        width: "160px",
-        render: (text, record) => (
+        render: (_, record) => (
           <Space size="middle">
-            <Popover title="Supprimer" trigger="hover">
-              <Popconfirm
-                title="Êtes-vous sûr de vouloir supprimer?"
-                onConfirm={() => handleDelete(record.id_recharge)}
-                okText="Oui"
-                cancelText="Non"
-              >
-                <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
-              </Popconfirm>
-            </Popover>
+            <Popconfirm
+              title="Êtes-vous sûr de vouloir supprimer ce numéro?"
+              onConfirm={() => handleDelete(record.id_recharge)}
+              okText="Oui"
+              cancelText="Non"
+            >
+              <Button
+                disabled={role !== 'admin'}
+                type='link'
+                size='small'
+                icon={<DeleteOutlined style={{ color: "red" }} />}
+              />
+            </Popconfirm>
           </Space>
         ),
       },
-    ].filter(Boolean);
+    ];
 
-    return <Table columns={columns} dataSource={record.records} scroll={scroll} pagination={{ pageSize: 15 }} rowKey="id_recharge" />;
+    return <Table columns={columns} dataSource={record.records} pagination={false} scroll={scroll} />;
   };
-
-  const filteredData = groupedData.filter((item) =>
-    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.numero?.toLowerCase().includes(searchValue.toLowerCase())
-  );
 
   return (
     <div className="client">
@@ -415,14 +371,16 @@ const Recharge = () => {
             { loading ? (
                 <Skeleton active />
             ) : (
-                <Table
+              <Table
                 columns={columns}
-                expandable={{ expandedRowRender }}
-                dataSource={filteredData}
-                loading={loading}
-                rowKey="id_client"
-                className='table_client'
-                />
+                dataSource={groupedData}
+                pagination={true}
+                scroll={scroll}
+                expandable={{
+                expandedRowRender,
+                rowExpandable: (record) => record.records.length > 0,
+                }}
+              />
             )
 
             }

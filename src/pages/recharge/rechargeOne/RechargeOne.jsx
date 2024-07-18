@@ -90,9 +90,8 @@ const RechargeOne = () => {
         )
       );
 
-      message.success('Produit rechargé avec succès !');
+      message.success('Numero rechargé avec succès !');
       setIsModalVisible(false);
-      window.location.reload();
     } catch (err) {
       message.error(`Erreur lors du rechargement : ${err.message}`);
     } finally {
