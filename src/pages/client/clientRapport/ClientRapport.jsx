@@ -6,6 +6,7 @@ import axios from 'axios';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import useQuery from '../../../useQuery';
 
 const { Option } = Select;
 
@@ -18,8 +19,11 @@ const ClientRapport = () => {
     current: 1,
     pageSize: 10,
   });
+  const period = useQuery().get('period');
   const scroll = { x: 400 };
-  const [dateFilter, setDateFilter] = useState('today');
+  const [dateFilter, setDateFilter] = useState(period);
+
+  console.log(period)
 
   const fetchData = useCallback(async (filter) => {
     try {

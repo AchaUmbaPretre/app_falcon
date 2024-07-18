@@ -9,7 +9,7 @@ import CountUp from 'react-countup';
 import { useNavigate } from 'react-router-dom'
 import { Skeleton } from 'antd'
 
-const RapportInfo1an = () => {
+const RapportInfo1an = ({ period }) => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [client, setClient] = useState(null);
     const [operation, setOperation] = useState(null);
@@ -64,7 +64,7 @@ const RapportInfo1an = () => {
     return (
         <div className="pageViews">
             <div className="pageViews_rows">
-                <div className="pageViews_row" onClick={() => navigate('/clientRapport')}>
+                <div className="pageViews_row" onClick={() => navigate(`/clientRapport?period=${period}`)}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rond"></span>

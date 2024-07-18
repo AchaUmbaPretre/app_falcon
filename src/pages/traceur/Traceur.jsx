@@ -423,7 +423,7 @@ const Traceur = () => {
             </div>
           </div>
         </Tabs.TabPane>
-        <Tabs.TabPane tab='Démanteler' key={1}>
+        <Tabs.TabPane tab='Démantelé' key={1}>
           <TraceurDemente />
         </Tabs.TabPane>
         <Tabs.TabPane tab='Neuf' key={2}>
