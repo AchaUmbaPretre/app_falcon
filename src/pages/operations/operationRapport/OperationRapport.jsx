@@ -11,6 +11,7 @@ import config from '../../../config';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import useQuery from '../../../useQuery';
 const { Option } = Select;
 
 const OperationRapport = () => {
@@ -33,7 +34,8 @@ const OperationRapport = () => {
     "Date d'opération": true,
     'Crée(e) par': true,
   });
-  const [dateFilter, setDateFilter] = useState('today');
+  const period = useQuery().get('period');
+  const [dateFilter, setDateFilter] = useState(period);
 
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);

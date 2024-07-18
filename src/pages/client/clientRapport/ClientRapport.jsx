@@ -22,8 +22,7 @@ const ClientRapport = () => {
   const period = useQuery().get('period');
   const scroll = { x: 400 };
   const [dateFilter, setDateFilter] = useState(period);
-
-  console.log(period)
+  
 
   const fetchData = useCallback(async (filter) => {
     try {

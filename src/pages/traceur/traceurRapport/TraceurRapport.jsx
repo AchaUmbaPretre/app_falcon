@@ -27,6 +27,7 @@ import moment from 'moment';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import useQuery from '../../../useQuery';
 
 const { Option } = Select;
 
@@ -40,7 +41,8 @@ const TraceurRapport = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
-  const [dateFilter, setDateFilter] = useState('today');
+  const period = useQuery().get('period');
+  const [dateFilter, setDateFilter] = useState(period);
 
   const fetchData = useCallback(async (filter) => {
     try {

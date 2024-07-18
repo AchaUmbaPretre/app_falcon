@@ -79,7 +79,7 @@ const RapportInfoHier = ({ period }) => {
                         <img src={clientImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-                <div className="pageViews_row" onClick={() => navigate('/operationRapport')}>
+                <div className="pageViews_row" onClick={() => navigate(`/operationRapport?period=${period}`)}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rondOp"></span>
@@ -94,7 +94,7 @@ const RapportInfoHier = ({ period }) => {
                         <img src={operationImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-                <div className="pageViews_row" onClick={() => navigate('/traceurRapport')}>
+                <div className="pageViews_row" onClick={() => navigate(`/traceurRapport?period=${period}`)}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rondTr"></span>
@@ -109,7 +109,7 @@ const RapportInfoHier = ({ period }) => {
                         <img src={traceurImg} alt="" className="pageViews_right_img" />
                     </div>
                 </div>
-                <div className="pageViews_row" onClick={() => navigate('/vehiculeRapport')}>
+                <div className="pageViews_row" onClick={() => navigate(`/vehiculeRapport?period=${period}`)}>
                     <div className="pageViews_left">
                         <div className="pageViews_left_rond">
                             <span className="page_rondV"></span>
