@@ -232,7 +232,7 @@ const Traceur = () => {
       render: (text, record) => (
         <Popover content={`Voir l'historique du traceur ${record.code}`} placement="top">
           <div onClick={() => setHistoriqueDetail(true) || setHistorique(record.id_traceur)}>
-            <Tag color={text ? 'blue' : 'red'}>
+            <Tag color={text ? 'cyan' : 'red'}>
               <BarcodeOutlined style={{ marginRight: '5px' }} />
               {text || 'Aucun'}
             </Tag>
@@ -240,20 +240,6 @@ const Traceur = () => {
         </Popover>
       ),
       ...(columnsVisibility['Tag'] ? {} : { className: 'hidden-column' })
-    },
-    {
-      title: 'N° série',
-      dataIndex: 'numero_serie',
-      key: 'numero_serie',
-      render: (text, record) => (
-          <div>
-            <Tag color={text ? 'blue' : 'red'}>
-              <BarcodeOutlined style={{ marginRight: '5px' }} />
-              {text || 'Aucun'}
-            </Tag>
-          </div>
-      ),
-      ...(columnsVisibility['N° série'] ? {} : { className: 'hidden-column' })
     },
     {
       title: 'Etat traceur',
@@ -290,7 +276,7 @@ const Traceur = () => {
       sorter: (a, b) => moment(a.date_entree) - moment(b.date_entree),
       sortDirections: ['descend', 'ascend'],
       render: (text) => (
-        <Tag icon={<CalendarOutlined />} color="blue">
+        <Tag icon={<CalendarOutlined />} color="gold">
           {moment(text).format('DD-MM-yyyy')}
         </Tag>
       ),

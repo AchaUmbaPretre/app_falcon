@@ -299,7 +299,7 @@ const TraceurSuspendu = () => {
                 href: '/',
               },
               {
-                title: 'Démanteler',
+                title: 'Suspendu',
               },
             ]}
           />

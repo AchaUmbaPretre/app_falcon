@@ -199,19 +199,6 @@ const TraceurNeuf = () => {
       ),
     },
     {
-      title: 'N° série',
-      dataIndex: 'numero_serie',
-      key: 'numero_serie',
-      render: (text, record) => (
-          <div>
-            <Tag color={text ? 'blue' : 'red'}>
-              <BarcodeOutlined style={{ marginRight: '5px' }} />
-              {text || 'Aucun'}
-            </Tag>
-          </div>
-      ),
-    },
-    {
       title: 'Etat traceur',
       dataIndex: 'nom_etat_traceur',
       key: 'nom_etat_traceur',
@@ -299,7 +286,7 @@ const TraceurNeuf = () => {
                 href: '/',
               },
               {
-                title: 'Démanteler',
+                title: 'Neuf',
               },
             ]}
           />

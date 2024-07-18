@@ -246,7 +246,7 @@ const Vehicules = () => {
               rowClassName={() => 'font-size-18'} 
               loading={loading} 
               className='table_client' 
-              pagination={{ pageSize: 10 }}
+              pagination={{ pageSize: 15 }}
             />
             <Modal
               title=""
