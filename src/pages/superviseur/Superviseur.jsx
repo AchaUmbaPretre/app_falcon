@@ -56,53 +56,65 @@ const Superviseur = () => {
               <>
                 <div className="superviseur_row">
                   <Skeleton.Avatar active size="large" shape="square" />
-                  <Skeleton.Input style={{ width: 150 }} active size="small" />
+                  <Skeleton.Input style={{ width: 130 }} active size="small" />
                 </div>
                 <div className="superviseur_row">
                   <Skeleton.Avatar active size="large" shape="square" />
-                  <Skeleton.Input style={{ width: 150 }} active size="small" />
+                  <Skeleton.Input style={{ width: 130 }} active size="small" />
                 </div>
                 <div className="superviseur_row">
                   <Skeleton.Avatar active size="large" shape="square" />
-                  <Skeleton.Input style={{ width: 150 }} active size="small" />
+                  <Skeleton.Input style={{ width: 130 }} active size="small" />
                 </div>
                 <div className="superviseur_row">
                   <Skeleton.Avatar active size="large" shape="square" />
-                  <Skeleton.Input style={{ width: 150 }} active size="small" />
+                  <Skeleton.Input style={{ width: 130 }} active size="small" />
                 </div>
                 <div className="superviseur_row">
                   <Skeleton.Avatar active size="large" shape="square" />
-                  <Skeleton.Input style={{ width: 150 }} active size="small" />
+                  <Skeleton.Input style={{ width: 130 }} active size="small" />
                 </div>
                 <div className="superviseur_row" onClick={Logout}>
                   <Skeleton.Avatar active size="large" shape="square" />
-                  <Skeleton.Input style={{ width: 150 }} active size="small" />
+                  <Skeleton.Input style={{ width: 130 }} active size="small" />
                 </div>
               </>
             ) : (
               <>
                 <div className="superviseur_row" onClick={() => navigate('/installation')}>
-                  <img src={installation} alt="" className="superviseur_img" />
+                  <div className="superviseur_img_rond">
+                    <img src={installation} alt="" className="superviseur_img" />
+                  </div>
                   <span className="superviseur_span">Installation</span>
                 </div>
                 <div className="superviseur_row" onClick={() => navigate('/controle_technique')}>
-                  <img src={controle} alt="" className="superviseur_img" />
+                  <div className="superviseur_img_rond">
+                    <img src={controle} alt="" className="superviseur_img" />
+                  </div>
                   <span className="superviseur_span">Controle technique</span>
                 </div>
                 <div className="superviseur_row" onClick={() => navigate('/demantelement')}>
-                  <img src={dementelement} alt="" className="superviseur_img" />
+                  <div className="superviseur_img_rond">
+                    <img src={dementelement} alt="" className="superviseur_img" />
+                  </div>
                   <span className="superviseur_span">Démentelement</span>
                 </div>
                 <div className="superviseur_row" onClick={() => navigate('/remplacement')}>
-                  <img src={remplacement} alt="" className="superviseur_img" />
+                  <div className="superviseur_img_rond">
+                    <img src={remplacement} alt="" className="superviseur_img" />
+                  </div>
                   <span className="superviseur_span">Remplacement</span>
                 </div>
                 <div className="superviseur_row" onClick={() => navigate('/transfert')}>
-                  <img src={transfert} alt="" className="superviseur_img" />
+                  <div className="superviseur_img_rond">
+                    <img src={transfert} alt="" className="superviseur_img" />
+                  </div>
                   <span className="superviseur_span">Transfert</span>
                 </div>
                 <div className="superviseur_row" onClick={Logout}>
-                  <img src={power} alt="" className="superviseur_img" />
+                  <div className="superviseur_img_rond">
+                    <img src={power} alt="" className="superviseur_img" />
+                  </div>
                   <span className="superviseur_span">Déconnecter</span>
                 </div>
               </>

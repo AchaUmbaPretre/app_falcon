@@ -38,7 +38,7 @@ const SuperviseurRemplace = ({ id_type_operation = 5 }) => {
     fetchData('/traceur/traceur_etat', setEtat);
     fetchData('/client', setClient);
     fetchData('/traceur/traceurInstall', setTraceur);
-    fetchData('/operation/site', setSite);
+    fetchData(`/operation/site?id_client=${idClient}`, setSite);
     fetchData('/users', setUsers);
     fetchData('/affectation/numero', setNumero);
   }, [fetchData]);

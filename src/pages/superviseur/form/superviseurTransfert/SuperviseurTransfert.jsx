@@ -51,7 +51,7 @@ const SuperviseurTransfert = ({ id_type_operation = 2 }) => {
 
   const fetchSites = async () => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/operation/site`);
+      const { data } = await axios.get(`${DOMAIN}/operation/site?id_client=${idClient}`);
       setSites(data);
     } catch (error) {
       console.error(error);

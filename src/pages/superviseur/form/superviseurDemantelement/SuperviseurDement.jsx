@@ -74,8 +74,8 @@ const SuperviseurDement = ({ id_type_operation = 3 }) => {
   }, [DOMAIN, fetchData]);
 
   useEffect(() => {
-    fetchData(`${DOMAIN}/operation/site`, setSite);
-  }, [DOMAIN, fetchData]);
+    fetchData(`${DOMAIN}/operation/site?id_client=${idClient}`, setSite);
+  }, [DOMAIN,idClient, fetchData]);
 
   useEffect(() => {
     fetchData(`${DOMAIN}/users`, setUsers);

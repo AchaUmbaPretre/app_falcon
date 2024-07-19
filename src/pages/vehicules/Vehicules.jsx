@@ -51,11 +51,11 @@ const Vehicules = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
-      message.success('Vehicle deleted successfully');
+      message.success('Véhicule supprimé avec succès');
       fetchData(); 
     } catch (err) {
       console.error(err);
-      message.error('Failed to delete vehicle');
+      message.error('Échec de la suppression du véhicule');
     }
   };
 

@@ -41,13 +41,23 @@
                 &:hover{
                     transform: scale(1.1);
                 }
-                .superviseur_img{
-                    width: 29%;
-                    height: auto;
-                    object-fit: cover;
+                .superviseur_img_rond{
+                    background:#13add828;
+                    width: 70px;
+                    height: 70px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .superviseur_img{
+                        width: 35%;
+                        height: auto;
+                        object-fit: cover;
+                    }
+
                 }
                 .superviseur_span{
-                    font-size: .7rem;
+                    font-size: .8rem;
                     color: rgb(3, 3, 109);
                 }
             }
