@@ -45,7 +45,6 @@ const SuperviseurNavbar = () => {
                             <Badge count={0}>
                                 <BellOutlined className='navbar-icon'/>
                             </Badge>
-                            <PoweroffOutlined className='navbar-icon' onClick={Logout}/>
                             <span className="navbar_username">{user}</span>
                         </div>
                     </div>
