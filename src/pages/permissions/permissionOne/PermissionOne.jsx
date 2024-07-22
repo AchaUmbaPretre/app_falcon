@@ -25,7 +25,7 @@ const PermissionOne = () => {
         ]);
 
         setOptions(optionsRes.data);
-        setName(permissionsRes.data[0]?.username || ''); // Correction here
+        setName(permissionsRes.data[0]?.username || ''); 
         setLoading(false);
 
         const perms = {};
