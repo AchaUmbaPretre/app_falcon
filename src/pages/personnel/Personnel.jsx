@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Input, Skeleton, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Input, Modal, Skeleton, Table, Tag } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,SettingOutlined,PhoneOutlined,MailOutlined,UserOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import PersonnelForm from './form/PersonnelForm';
 
 const Personnel = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -28,6 +29,8 @@ const Personnel = () => {
     };
     fetchData();
   }, [DOMAIN]);
+
+  
 
   const handleEdit = (id) => {
     navigate(`/personnel_edit?userId=${id}`);
@@ -54,12 +57,12 @@ const Personnel = () => {
       ),
     },
     {
-      title: 'Role',
-      dataIndex: 'role',
-      key: 'role',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
       render: (text) => (
-        <Tag color={'geekblue'}>
-          <SettingOutlined style={{ marginRight: "5px" }} />
+        <Tag color={'volcano'}>
+          <MailOutlined style={{ marginRight: "5px" }} />
           {text}
         </Tag>
       ),
@@ -71,17 +74,17 @@ const Personnel = () => {
       render: (text) => (
         <Tag color={'green'}>
           <PhoneOutlined style={{ marginRight: "5px" }} />
-          {text}
+          {text ?? 'Aucun'}
         </Tag>
       ),
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
       render: (text) => (
-        <Tag color={'volcano'}>
-          <MailOutlined style={{ marginRight: "5px" }} />
+        <Tag color={'geekblue'}>
+          <SettingOutlined style={{ marginRight: "5px" }} />
           {text}
         </Tag>
       ),
@@ -102,6 +105,10 @@ const Personnel = () => {
   const showModal = (e) => {
     setOpen(true);
   };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
     
   return (
     <>
@@ -114,7 +121,7 @@ const Personnel = () => {
                 <span className="client_span">Liste du personnel</span>
               </div>
               <div className="client_text_right">
-                <button ><PlusCircleOutlined /></button>
+                <button  onClick={showModal}  ><PlusCircleOutlined /></button>
               </div>
             </div>
           </div>
@@ -158,6 +165,17 @@ const Personnel = () => {
                 ) : (
                   <Table dataSource={data} columns={columns} loading={loading} scroll={scroll} className='table_client' />
                 )}
+
+              <Modal
+                title=""
+                centered
+                open={open}
+                onCancel={handleCancel}
+                width={1000}
+                footer={null}
+              >
+                <PersonnelForm />
+              </Modal>
             </div>
           </div>
         </div>
