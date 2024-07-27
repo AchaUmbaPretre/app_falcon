@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../../config';
-import { toast } from 'react-toastify';
-import { message, Spin } from 'antd';
+import { message, Spin, Modal } from 'antd';
 
 const PersonnelForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -13,28 +12,46 @@ const PersonnelForm = () => {
   const [role, setRole] = useState("");
   const [telephone, setTelephone] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
 
   const roles = ['admin', 'secretaire', 'superviseur', 'technicien'];
 
-  const handleClick = async (e) => {
-    e.preventDefault();
+  const showConfirmationModal = () => {
+    setIsConfirmationModalVisible(true);
+  };
+
+  const handleConfirm = async () => {
+    setIsConfirmationModalVisible(false);
+    setIsLoading(true);
 
     try {
-      setIsLoading(true);
       const res = await axios.post(`${DOMAIN}/users/register`, { username, email, password, role, telephone });
       if (res.data.success) {
-        message.success("Personnel enregistré avec succès");
-        navigate('/personnel');
+        setIsSuccess(true);
+        setModalMessage("Personnel enregistré avec succès");
+        setIsModalVisible(true);
+        setTimeout(() => navigate('/personnel'), 2000);
       } else {
-        message.error(res.data.message);
+        setIsSuccess(false);
+        setModalMessage(res.data.message);
+        setIsModalVisible(true);
       }
     } catch (error) {
-      toast.error("Erreur lors de l'enregistrement.");
+      setIsSuccess(false);
+      setModalMessage("Erreur lors de l'enregistrement.");
+      setIsModalVisible(true);
       console.log(error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleModalOk = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -94,11 +111,22 @@ const PersonnelForm = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+            <div className="form-controle">
+              <label>Mot de passe <span style={{ color: 'red' }}>*</span></label>
+              <input
+                type="password"
+                name="password"
+                className="form-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
           </div>
           <div className="form-submit">
             <button
               className="btn-submit"
-              onClick={handleClick}
+              onClick={showConfirmationModal}
               disabled={isLoading}
             >
               Envoyer
@@ -111,6 +139,31 @@ const PersonnelForm = () => {
           </div>
         </div>
       </div>
+      <Modal
+        title="Confirmation"
+        visible={isConfirmationModalVisible}
+        onOk={handleConfirm}
+        onCancel={() => setIsConfirmationModalVisible(false)}
+        okText="Confirmer"
+        cancelText="Annuler"
+      >
+        <p>Nom : {username}</p>
+        <p>Rôle : {role}</p>
+        <p>Téléphone : {telephone}</p>
+        <p>Email : {email}</p>
+        <p>Mot de passe : {password}</p>
+        <p>Êtes-vous sûr de vouloir enregistrer ces informations ?</p>
+      </Modal>
+      <Modal
+        title={isSuccess ? "Succès" : "Erreur"}
+        visible={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalOk}
+        okText="OK"
+        cancelButtonProps={{ style: { display: 'none' } }}
+      >
+        <p>{modalMessage}</p>
+      </Modal>
     </div>
   );
 };
