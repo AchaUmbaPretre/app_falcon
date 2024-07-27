@@ -3,19 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../../config';
 import { toast } from 'react-toastify';
-import { Spin } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../../redux/apiCalls';
+import { message, Spin } from 'antd';
 
 const PersonnelForm = () => {
-  const [inputs, setInputs] = useState({});
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const roles = ['admin', 'secretaire', 'superviseur', 'technicien'];
 
@@ -24,10 +21,14 @@ const PersonnelForm = () => {
   
     try {
       setIsLoading(true);
-      await register(dispatch, { username, email, password, role });
-      toast.success('Enregistrement réussi !');
-      navigate('/personnel');
-      window.location.reload();
+      const res = await axios.post(`${DOMAIN}/users/register`, { username, email, password, role });
+      if (res.data.success) {
+        message.success("Personnel est enregistré avec succès");
+        navigate('/');
+        window.location.reload();
+      } else {
+        message.error(res.data.message);
+      }
     } catch (error) {
       toast.error('Erreur lors de l\'enregistrement.');
       console.log(error);
