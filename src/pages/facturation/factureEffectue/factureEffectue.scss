@@ -1,5 +1,18 @@
 .factureEffectue{
     width: 100%;
+    .facture_title_date{
+        padding: 20px;
+        background: #fff;
+        -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
+        margin-bottom: 20px;
+        border-radius: 5px;
+        .facture_h1{
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            color: #555;
+        }
+    }
     .factureEffectue_wrapper{
         width: 100%;
         display: flex;
@@ -7,7 +20,7 @@
         justify-content: space-between;
         gap: 20px;
         .factureEffectue_left{
-            flex: 1;
+            flex: 2;
             padding: 20px;
             background: #fff;
             -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);

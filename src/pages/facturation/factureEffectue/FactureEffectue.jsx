@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
-import { CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
+import { BarcodeOutlined, ThunderboltOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
 import { Table, Tag } from 'antd';
 import moment from 'moment';
@@ -13,10 +13,15 @@ const FactureEffectue = () => {
     const dateStart = query.get('start_date');
     const dateEnd = query.get('end_date');
     const idClient = query.get('id_client');
-    const [data, setData] = useState({ etat_7: [], autres: [] }); // Initialize state with an object containing two arrays
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [data, setData] = useState({ actif: [], autres: [] });
+    const [selectedRowKeys, setSelectedRowKeys] = useState({
+        actif: [],  // Initialement vide
+        autres: []  // Initialement vide
+    });
+    
     const [loading, setLoading] = useState(true);
-    const scroll = { x: 400 };
+    const [dataAll, setDataAll] = useState([]);
+    const scroll = { x: 'max-content' };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,6 +30,11 @@ const FactureEffectue = () => {
                     params: { start_date: dateStart, end_date: dateEnd, id_client: idClient }
                 });
                 setData(response.data);
+                const actifKeys = response.data.actif.map(item => item.id_operations);
+                setSelectedRowKeys({
+                    actif: actifKeys,  // Définir les clés sélectionnées pour 'actif'
+                    autres: []        // Assurez-vous que 'autres' est vide par défaut
+                });
             } catch (error) {
                 console.error('Erreur lors de la récupération des données:', error);
             } finally {
@@ -34,16 +44,51 @@ const FactureEffectue = () => {
         fetchData();
     }, [DOMAIN, dateStart, dateEnd, idClient]);
 
-    const onSelectChange = (newSelectedRowKeys) => {
-        setSelectedRowKeys(newSelectedRowKeys);
+    useEffect(() => {
+        setDataAll([
+            ...selectedRowKeys.actif,
+            ...selectedRowKeys.autres
+        ]);
+    }, [selectedRowKeys, data]);
+    
+    
+    
+
+    console.log(dataAll);
+
+    const getColorForOperationType = (type) => {
+        switch (type) {
+            case 'Installation':
+                return 'blue';
+            case 'Démantèlement':
+                return 'red';
+            case 'Contrôle technique':
+                return 'green';
+            case 'Remplacement':
+                return 'orange';
+            default:
+                return 'default';
+        }
     };
 
-    const rowSelection = {
-        selectedRowKeys,
-        onChange: onSelectChange,
+    const onSelectChange = (tableType, newSelectedRowKeys) => {
+        setSelectedRowKeys(prev => ({
+            ...prev,
+            [tableType]: newSelectedRowKeys
+        }));
     };
 
-    const columns = [
+    const rowSelectionActif = {
+        selectedRowKeys: selectedRowKeys.actif,
+        onChange: (newSelectedRowKeys) => onSelectChange('actif', newSelectedRowKeys),
+    };
+
+    const rowSelectionAutres = {
+        selectedRowKeys: selectedRowKeys.autres,
+        onChange: (newSelectedRowKeys) => onSelectChange('autres', newSelectedRowKeys),
+    };
+
+    const columnsCommon = [
         { 
             title: '#', 
             dataIndex: 'id', 
@@ -73,32 +118,43 @@ const FactureEffectue = () => {
                 </Tag>
             )
         },
+    ];
+
+    const columnsWithOperation = [
+        ...columnsCommon,
         {
-            title: "Date d'opération",
-            dataIndex: 'date_operation',
-            key: 'date_operation',
-            sorter: (a, b) => moment(a.date_operation) - moment(b.date_operation),
-            sortDirections: ['descend', 'ascend'],
+            title: "Opération",
+            dataIndex: 'type_operations',
+            key: 'type_operations',
             render: (text) => (
-                <Tag icon={<CalendarOutlined />} color="blue">
-                    {moment(text).format('DD-MM-YYYY')}
+                <Tag color={getColorForOperationType(text)}>
+                    <ThunderboltOutlined style={{ marginRight: 5 }} />
+                    {text}
                 </Tag>
             ),
         }
     ];
 
+    const monthsDifference = moment(dateEnd).diff(moment(dateStart), 'months');
+
     return (
         <>
             <div className="factureEffectue">
+                <div className="facture_title_date">
+                    <h1 className="facture_h1">
+                        Du {moment(dateStart).format('DD-MM-YYYY')} au {moment(dateEnd).format('DD-MM-YYYY')} 
+                        ({monthsDifference} mois)
+                    </h1>
+                </div>
                 <div className="factureEffectue_wrapper">
                     <div className="factureEffectue_left">
                         <h2 className="facture_h2">Liste des véhicules</h2>
                         <div className="facture_tab">
-                            <h3>Etat 7</h3>
+                            <h3>Etat actif</h3>
                             <Table
-                                dataSource={data.etat_7}
-                                columns={columns}
-                                rowSelection={rowSelection}
+                                dataSource={data.actif}
+                                columns={columnsCommon}
+                                rowSelection={rowSelectionActif}
                                 loading={loading}
                                 rowKey="id_operations"
                                 className='table_client'
@@ -107,8 +163,8 @@ const FactureEffectue = () => {
                             <h3>Autres</h3>
                             <Table
                                 dataSource={data.autres}
-                                columns={columns}
-                                rowSelection={rowSelection}
+                                columns={columnsWithOperation}
+                                rowSelection={rowSelectionAutres}
                                 loading={loading}
                                 rowKey="id_operations"
                                 className='table_client'
