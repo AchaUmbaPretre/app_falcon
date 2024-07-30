@@ -60,6 +60,7 @@ import PermissionOne from './pages/permissions/permissionOne/PermissionOne';
 import PersonnelEdit from './pages/personnel/form/PersonnelEdit';
 import FactureForm from './pages/facturation/factureForm/FactureForm';
 import FactureClient from './pages/facturation/factureClient/FactureClient';
+import FactureEffectue from './pages/facturation/factureEffectue/FactureEffectue';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -153,6 +154,7 @@ function App() {
         { path: '/personnel_edit', element: <PersonnelEdit /> },
         { path: '/paiement', element: <Paiement /> },
         { path: '/facturation', element: <Facturation /> },
+        { path: '/factureEffectue', element: <FactureEffectue/> },
         { path: '/facturation_form', element: <FactureClient/> },
         { path: '/rapport', element: <Rapport /> },
         { path: '/rapport_global', element: <RapportGlobal /> },
