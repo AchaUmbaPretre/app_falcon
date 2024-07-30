@@ -58,7 +58,7 @@ const TraceurHistorique = ({ id_traceur }) => {
           </div>
           <div className="operation_row">
             <span className="operation_span">Traceur : </span>
-            <span className="operation_desc">{detail.numero_serie ?? 'N/A'}</span>
+            <span className="operation_desc">{detail.code ?? 'N/A'}</span>
           </div>
           <div className="operation_row">
             <span className="operation_span">Numéro attribué: </span>

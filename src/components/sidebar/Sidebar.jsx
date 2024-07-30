@@ -12,6 +12,7 @@ import {
   ToolOutlined,
   SettingOutlined,
   LogoutOutlined,
+  AuditOutlined
 } from '@ant-design/icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -94,6 +95,8 @@ const Sidebar = () => {
         return <ToolOutlined style={{ fontSize: '17px' }} />;
       case 'SettingOutlined':
         return <SettingOutlined style={{ fontSize: '17px' }} />;
+      case 'AuditOutlined':
+        return <AuditOutlined style={{ fontSize: '17px' }} />;
       default:
         return null;
     }

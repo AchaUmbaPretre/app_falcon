@@ -184,7 +184,8 @@ const Operations = () => {
     item.superviseur?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.type_operations?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.technicien?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.matricule.toLowerCase().includes(searchValue.toLowerCase()) 
+    item.matricule?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.code?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   const columns = [
