@@ -51,7 +51,7 @@ function FactureClient () {
                     filteredData.length > 0 ? (
                         <div className="recharge_form_rows">
                             {filteredData.map(dd => (
-                                <div className="recharge_form_row" key={dd.id_client} onClick={() => navigate(`/rechargeOne?id_client=${dd.id_client}`)}>
+                                <div className="recharge_form_row" key={dd.id_client} onClick={() => navigate(`/factureEffectue?id_client=${dd.id_client}`)}>
                                     <img src={iconClient} alt="" className="recharge_img" />
                                     <div className="recharge_form_bottom">
                                         <span className="recharge_span">Nom : {dd.nom_client}</span>
