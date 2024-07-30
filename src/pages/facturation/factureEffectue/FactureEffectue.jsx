@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
-import { UserOutlined, CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
+import { CalendarOutlined, BarcodeOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
 import { Table, Tag } from 'antd';
 import moment from 'moment';
@@ -12,16 +12,17 @@ const FactureEffectue = () => {
     const query = useQuery();
     const dateStart = query.get('start_date');
     const dateEnd = query.get('end_date');
-    const [data, setData] = useState([]);
-    const scroll = { x: 400 };
+    const idClient = query.get('id_client');
+    const [data, setData] = useState({ etat_7: [], autres: [] }); // Initialize state with an object containing two arrays
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [loading, setLoading] = useState(true);
+    const scroll = { x: 400 };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${DOMAIN}/factures`, {
-                    params: { start_date: dateStart, end_date: dateEnd }
+                const response = await axios.get(`${DOMAIN}/facture/factureOperation`, {
+                    params: { start_date: dateStart, end_date: dateEnd, id_client: idClient }
                 });
                 setData(response.data);
             } catch (error) {
@@ -31,7 +32,7 @@ const FactureEffectue = () => {
             }
         };
         fetchData();
-    }, [DOMAIN, dateStart, dateEnd]);
+    }, [DOMAIN, dateStart, dateEnd, idClient]);
 
     const onSelectChange = (newSelectedRowKeys) => {
         setSelectedRowKeys(newSelectedRowKeys);
@@ -44,45 +45,45 @@ const FactureEffectue = () => {
 
     const columns = [
         { 
-          title: '#', 
-          dataIndex: 'id', 
-          key: 'id', 
-          render: (_, __, index) => index + 1, 
-          width: "3%"
+            title: '#', 
+            dataIndex: 'id', 
+            key: 'id', 
+            render: (_, __, index) => index + 1, 
+            width: "3%"
         },
         {
-          title: 'Matricule',
-          dataIndex: 'matricule',
-          key: 'matricule',
-          render: (text) => (
-            <Tag color='volcano'>
-              <BarcodeOutlined  style={{ marginRight: '5px' }} />
-              {text}
-            </Tag>
-          ),
+            title: 'Vehicule',
+            dataIndex: 'nom_vehicule',
+            key: 'nom_vehicule',
+            render: (text) => (
+                <Tag color='volcano'>
+                    <BarcodeOutlined style={{ marginRight: '5px' }} />
+                    {text}
+                </Tag>
+            ),
         },
         {
-          title: 'Traceur',
-          dataIndex: 'code',
-          key: 'code',
-          render: (text) => (
-            <Tag color='green'>
-              <BarcodeOutlined  style={{ marginRight: '5px' }} />
-              {text}
-            </Tag>
-          )
+            title: 'Traceur',
+            dataIndex: 'code',
+            key: 'code',
+            render: (text) => (
+                <Tag color='green'>
+                    <BarcodeOutlined style={{ marginRight: '5px' }} />
+                    {text}
+                </Tag>
+            )
         },
         {
-          title: "Date d'opération",
-          dataIndex: 'date_operation',
-          key: 'date_operation',
-          sorter: (a, b) => moment(a.date_operation) - moment(b.date_operation),
-          sortDirections: ['descend', 'ascend'],
-          render: (text) => (
-            <Tag icon={<CalendarOutlined />} color="blue">
-              {moment(text).format('DD-MM-YYYY')}
-            </Tag>
-          ),
+            title: "Date d'opération",
+            dataIndex: 'date_operation',
+            key: 'date_operation',
+            sorter: (a, b) => moment(a.date_operation) - moment(b.date_operation),
+            sortDirections: ['descend', 'ascend'],
+            render: (text) => (
+                <Tag icon={<CalendarOutlined />} color="blue">
+                    {moment(text).format('DD-MM-YYYY')}
+                </Tag>
+            ),
         }
     ];
 
@@ -93,8 +94,19 @@ const FactureEffectue = () => {
                     <div className="factureEffectue_left">
                         <h2 className="facture_h2">Liste des véhicules</h2>
                         <div className="facture_tab">
+                            <h3>Etat 7</h3>
                             <Table
-                                dataSource={data}
+                                dataSource={data.etat_7}
+                                columns={columns}
+                                rowSelection={rowSelection}
+                                loading={loading}
+                                rowKey="id_operations"
+                                className='table_client'
+                                scroll={scroll}
+                            />
+                            <h3>Autres</h3>
+                            <Table
+                                dataSource={data.autres}
                                 columns={columns}
                                 rowSelection={rowSelection}
                                 loading={loading}
