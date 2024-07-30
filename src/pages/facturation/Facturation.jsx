@@ -19,7 +19,7 @@ const Facturation = () => {
   const [idFacture, setIdFacture] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [openRecu, setOpenRecu] = useState(true);
+  const [openRecu, setOpenRecu] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 9,
