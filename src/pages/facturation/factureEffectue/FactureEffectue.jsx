@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
 import { BarcodeOutlined, ThunderboltOutlined, CalendarOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
-import { Button, DatePicker, message, Modal, Select, Table, Tag } from 'antd';
+import { Button, DatePicker, Input, message, Modal, Select, Table, Tag } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
-import { toast } from 'react-toastify';
-
+import { toast,ToastContainer } from 'react-toastify';
 const { Option } = Select;
 
 const FactureEffectue = () => {
@@ -28,14 +27,16 @@ const FactureEffectue = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [vehicule, setVehicule] = useState([]);
-    const [date, setDate] = useState(null); // Date initialisée à null
+    const [date, setDate] = useState(null);
+    const [remise, setRemise] = useState(0); 
     const monthsDifference = dateEnd && dateStart ? moment(dateEnd).diff(moment(dateStart), 'months') : 0;
-    const totalMontant = montant * dataAll.length * monthsDifference;
+    const totalMontantBeforeRemise = montant * dataAll.length * monthsDifference;
+    const totalMontant = totalMontantBeforeRemise - remise;
 
-    const handleModalOk = () => {
+/*     const handleModalOk = () => {
         setModalVisible(false);
         toast.success('Facture créée avec succès !');
-    };
+    }; */
 
     const handleModalCancel = () => {
         setModalVisible(false);
@@ -214,10 +215,18 @@ const FactureEffectue = () => {
         setMontant(value);
     };
 
-    const createFacture = async (e) => {
+    const handleRemiseChange = (e) => {
+        setRemise(parseFloat(e.target.value) || 0);
+    };
+
+    const createFacture = useCallback(async (e) => {
         e.preventDefault();
 
         if (isSubmitting) return;
+        if (!date) {
+            toast.error('Veuillez remplir tous les champs requis');
+            return;
+          }
 
         setIsSubmitting(true);
         try {
@@ -230,14 +239,15 @@ const FactureEffectue = () => {
         } finally {
             setIsSubmitting(false);
         }
-    };
+    })
 
     return (
         <div className="factureEffectue">
+            <ToastContainer />
             <div className="facture_title_date">
                 <h1 className="facture_h1">
                     Du {moment(dateStart).format('DD-MM-YYYY')} au {moment(dateEnd).format('DD-MM-YYYY')} 
-                    ({monthsDifference} mois)
+                     ({monthsDifference} mois)
                 </h1>
             </div>
             <div className="factureEffectue_wrapper">
@@ -295,7 +305,18 @@ const FactureEffectue = () => {
                     </div>
                     <div className='facture_montant_rows'>
                         <span className="facture_desc">Montant total pour {monthsDifference} mois  <span>*</span> :</span>
-                        <span>{montant * dataAll.length * monthsDifference} $</span>
+                        <span>{totalMontant} $</span>
+                    </div>
+                    <div className='facture_montant_rows'>
+                        <span className="facture_desc">Remise : <span>*</span> :</span>
+                        <Input
+                            id="remise"
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            value={remise}
+                            onChange={handleRemiseChange}
+                        />
                     </div>
                     <div className='facture_montant_rows'>
                         <span className="facture_desc">Date : <span>*</span></span>
@@ -309,8 +330,8 @@ const FactureEffectue = () => {
             </div>
             <Modal
                 title="Confirmation"
-                visible={modalVisible}
-                onOk={handleModalOk}
+                visible={modalVisible}handleModalOk
+                onOk={createFacture}
                 onCancel={handleModalCancel}
             >
                 <p className="modal-text">Êtes-vous sûr de vouloir effectuer cette action ?</p>
