@@ -3,7 +3,7 @@ import config from '../../../config';
 import useQuery from '../../../useQuery';
 import { BarcodeOutlined, ThunderboltOutlined, CalendarOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
-import { Select, Table, Tag } from 'antd';
+import { Button, Select, Table, Tag } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 
@@ -226,6 +226,7 @@ const FactureEffectue = () => {
                         <span className="facture_desc">Montant total pour {monthsDifference} mois  <span>*</span> :</span>
                         <span> {montant * dataAll.length * monthsDifference} $</span>
                     </div>
+                    <Button type="primary">Envoyer</Button>
                 </div>
             </div>
         </div>
