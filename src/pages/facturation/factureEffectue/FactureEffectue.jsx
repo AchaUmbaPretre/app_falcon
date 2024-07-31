@@ -3,9 +3,10 @@ import config from '../../../config';
 import useQuery from '../../../useQuery';
 import { BarcodeOutlined, ThunderboltOutlined, CalendarOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
-import { Button, Select, Table, Tag } from 'antd';
+import { Button, DatePicker, Modal, Select, Table, Tag } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const { Option } = Select;
 
@@ -24,8 +25,19 @@ const FactureEffectue = () => {
     const [tarifClient, setTarifClient] = useState([]);
     const [montantFilter, setMontantFilter] = useState('');
     const [showTarifClient, setShowTarifClient] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [vehicule, setVehicule] = useState([]);
+    const [date, setDate] = useState(null); // Date initialisée à null
 
-    const scroll = { x: 'max-content' };
+    const handleModalOk = () => {
+        setModalVisible(false);
+        toast.success('Facture créée avec succès !');
+    };
+
+    const handleModalCancel = () => {
+        setModalVisible(false);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +49,7 @@ const FactureEffectue = () => {
                 const actifKeys = response.data.actif.map(item => item.id_operations);
                 setSelectedRowKeys({
                     actif: actifKeys,
-                    autres: []      
+                    autres: []
                 });
             } catch (error) {
                 console.error('Erreur lors de la récupération des données:', error);
@@ -53,13 +65,19 @@ const FactureEffectue = () => {
             ...selectedRowKeys.actif,
             ...selectedRowKeys.autres
         ];
-        const filteredActif = data.actif.filter(item => selectedIds.includes(item.id_operations));
-        const filteredAutres = data.autres.filter(item => selectedIds.includes(item.id_operations));
-
-        setDataAll([
+        const filteredActif = data.actif
+            .filter(item => selectedIds.includes(item.id_operations))
+            .map(item => item.id_vehicule);
+      
+        const filteredAutres = data.autres
+            .filter(item => selectedIds.includes(item.id_operations))
+            .map(item => item.id_vehicule);
+      
+        setVehicule([
             ...filteredActif,
             ...filteredAutres
         ]);
+        setDataAll(selectedIds);
     }, [selectedRowKeys, data]);
 
     useEffect(() => {
@@ -69,8 +87,8 @@ const FactureEffectue = () => {
                 setTarifClient(data);
             
                 if (data.length > 0) {
-                    setMontantFilter(data[1].prixClientTarif);
-                    setMontant(data[1].prixClientTarif);
+                    setMontantFilter(data[0].prixClientTarif);
+                    setMontant(data[0].prixClientTarif);
                 }
             } catch (error) {
                 console.error('Erreur lors de la récupération des tarifs:', error);
@@ -164,14 +182,14 @@ const FactureEffectue = () => {
             title: "Date d'opération",
             dataIndex: 'date_operation',
             key: 'date_operation',
-            sorter: (a, b) => moment(a.date_operation) - moment(b.date_operation),
+            sorter: (a, b) => moment(a.date_operation).unix() - moment(b.date_operation).unix(),
             sortDirections: ['descend', 'ascend'],
             render: (text) => (
-              <Tag icon={<CalendarOutlined />} color="blue">
-                {moment(text).format('DD-MM-yyyy')}
-              </Tag>
+                <Tag icon={<CalendarOutlined />} color="blue">
+                    {moment(text).format('DD-MM-YYYY')}
+                </Tag>
             ),
-          },
+        },
     ];
 
     const columnsWithOperation = [
@@ -194,7 +212,25 @@ const FactureEffectue = () => {
         setMontant(value);
     };
 
-    const monthsDifference = moment(dateEnd).diff(moment(dateStart), 'months');
+    const monthsDifference = dateEnd && dateStart ? moment(dateEnd).diff(moment(dateStart), 'months') : 0;
+
+    const createFacture = async (e) => {
+        e.preventDefault();
+
+        if (isSubmitting) return;
+
+        setIsSubmitting(true);
+        try {
+            const totalMontant = montant * dataAll.length * monthsDifference;
+            await axios.post(`${DOMAIN}/facture`, { id_client: idClient, total: totalMontant, date_facture: date, details: vehicule });
+            setModalVisible(true);
+        } catch (error) {
+            console.error('Erreur lors de la création de la facture:', error);
+            toast.error('Erreur lors de la création de la facture.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <div className="factureEffectue">
@@ -216,7 +252,7 @@ const FactureEffectue = () => {
                             loading={loading}
                             rowKey="id_operations"
                             className='table_client'
-                            scroll={scroll}
+                            scroll={{ x: 'max-content' }}
                         />
                         <h3>Autres</h3>
                         <Table
@@ -226,43 +262,62 @@ const FactureEffectue = () => {
                             loading={loading}
                             rowKey="id_operations"
                             className='table_client'
-                            scroll={scroll}
+                            scroll={{ x: 'max-content' }}
                         />
                     </div>
                 </div>
                 <div className="factureEffectue_right">
                     <div className="factureEffectue_rows">
-                        <span className="facture_desc">Sélectionnez le tarif <span>*</span></span>
-                        <Select value={montantFilter} onChange={handleTarifChange} style={{ width: 200 }}>
-                            {tarif.map((item) => (
-                                <Option key={item.id_tarif} value={item.prix}>{item.type}</Option>
-                            ))}
-                        </Select>
-                    </div>
-                    {showTarifClient && (
-                        <div className="factureEffectue_rows">
-                            <span className="facture_desc">Sélectionnez le tarif personnel <span>*</span></span>
+                        <span className="facture_desc">Sélectionnez le tarif {showTarifClient && 'personnel'} <span>*</span></span>
+                        {!showTarifClient && (
+                            <Select value={montantFilter} onChange={handleTarifChange} style={{ width: 200 }}>
+                                {tarif.map((item) => (
+                                    <Option key={item.id_tarif} value={item.prix}>{item.type}</Option>
+                                ))}
+                            </Select>
+                        )}
+                        {showTarifClient && (
                             <Select value={montantFilter} onChange={handleTarifChange} style={{ width: 200 }}>
                                 {tarifClient.map((item) => (
                                     <Option key={item.id_clientTarif} value={item.prixClientTarif}>{item.typeClientTarif}</Option>
                                 ))}
                             </Select>
-                        </div>
-                    )}
+                        )}
+                    </div>
                     <Button onClick={() => setShowTarifClient(prev => !prev)}> 
                         {showTarifClient ? 'Cacher le tarif personnel' : 'Afficher le tarif personnel'}
                     </Button>
+                    
                     <div className='facture_montant_rows'>
-                        <span className="facture_desc">Montant à payer pour {dataAll.length} vehicule(s) : <span>*</span></span>
-                        <span> {montant * dataAll.length} $</span>
+                        <span className="facture_desc">Montant à payer pour {dataAll.length} véhicule(s) : <span>*</span></span>
+                        <span>{montant * dataAll.length} $</span>
                     </div>
                     <div className='facture_montant_rows'>
                         <span className="facture_desc">Montant total pour {monthsDifference} mois  <span>*</span> :</span>
-                        <span> {montant * dataAll.length * monthsDifference} $</span>
+                        <span>{montant * dataAll.length * monthsDifference} $</span>
                     </div>
-                    <Button type="primary">Envoyer</Button>
+                    <div className='facture_montant_rows'>
+                        <span className="facture_desc">Date : <span>*</span></span>
+                        <DatePicker 
+                            value={date ? moment(date) : null} 
+                            onChange={(date) => setDate(date ? date.format('YYYY-MM-DD') : '')}
+                        />
+                    </div>
+                    <Button type="primary" onClick={createFacture} loading={isSubmitting}>Envoyer</Button>
                 </div>
             </div>
+            <Modal
+                title="Confirmation"
+                visible={modalVisible}
+                onOk={handleModalOk}
+                onCancel={handleModalCancel}
+            >
+                <p className="modal-text">Êtes-vous sûr de vouloir effectuer cette action ?</p>
+                <div className="modal-data">
+                    <p><strong>Montant:</strong> {montant * dataAll.length * monthsDifference} $</p>
+                    <p><strong>Date de paiement:</strong> {moment().format('DD-MM-YYYY')}</p>
+                </div>
+            </Modal>
         </div>
     );
 };

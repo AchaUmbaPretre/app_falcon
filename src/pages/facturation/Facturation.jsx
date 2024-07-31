@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
-import { PlusCircleOutlined, DollarOutlined, UserOutlined, EyeOutlined, DeleteOutlined, AuditOutlined, SearchOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, DollarOutlined,CalendarOutlined, UserOutlined, EyeOutlined, DeleteOutlined, AuditOutlined, SearchOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,7 @@ import 'jspdf-autotable';
 import FactureForm from './factureForm/FactureForm';
 import PaiementFacture from './factureForm/PaiementFacture';
 import FacturationRecu from './facturationRecu/FacturationRecu';
+import moment from 'moment';
 
 const Facturation = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -101,15 +102,15 @@ const Facturation = () => {
         <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
       )
     },
-    {
+/*     {
       title: 'Quantité',
       dataIndex: 'quantite',
       key: 'quantite',
       render: (text) => (
         <Tag color={'green'}>{text}</Tag>
       )
-    },
-    {
+    }, */
+/*     {
       title: 'Prix unitaire',
       dataIndex: 'prix_unitaire',
       key: 'prix_unitaire',
@@ -120,12 +121,12 @@ const Facturation = () => {
           {text ? `${text} $` : '0'}
         </Tag>
       ),
-    },
+    }, */
     {
       title: 'Montant',
-      dataIndex: 'montant',
-      key: 'montant',
-      sorter: (a, b) => a.montant - b.montant,
+      dataIndex: 'total',
+      key: 'total',
+      sorter: (a, b) => a.total - b.total,
       sortDirections: ['descend', 'ascend'],
       render: (text) => (
         <Tag color={text !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
@@ -145,20 +146,32 @@ const Facturation = () => {
         </Tag>
       ),
     },
-    {
+/*     {
       title: 'Remise',
       dataIndex: 'description',
       key: 'description',
       render: (text) => (
         <Tag color={text ? 'blue' : 'red'}>{text ?? 'Aucune'}</Tag>
       )
-    },
-    {
+    }, */
+/*     {
       title: 'Taxes',
       dataIndex: 'taxes_description',
       key: 'taxes_description',
       render: (text) => (
         <Tag color={'blue'}>{text ?? 'Aucune'}</Tag>
+      )
+    }, */
+    {
+      title: 'Date',
+      dataIndex: 'date_facture',
+      key: 'date_facture',
+      sorter: (a, b) => moment(a.date_facture) - moment(b.date_facture),
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => (
+        <Tag icon={<CalendarOutlined />} color="blue">
+          {moment(text).format('DD-MM-yyyy')}
+        </Tag>
       )
     },
     {
