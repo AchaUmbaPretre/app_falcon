@@ -21,7 +21,9 @@ const FactureEffectue = () => {
     const [loading, setLoading] = useState(true);
     const [dataAll, setDataAll] = useState([]);
     const [tarif, setTarif] = useState([]);
+    const [tarifClient, setTarifClient] = useState([]);
     const [montantFilter, setMontantFilter] = useState('');
+    const [showTarifClient, setShowTarifClient] = useState(false);
 
     const scroll = { x: 'max-content' };
 
@@ -61,14 +63,33 @@ const FactureEffectue = () => {
     }, [selectedRowKeys, data]);
 
     useEffect(() => {
+        const fetchClientTarif = async () => {
+            try {
+                const { data } = await axios.get(`${DOMAIN}/facture/clientTarif`);
+                setTarifClient(data);
+            
+                if (data.length > 0) {
+                    setMontantFilter(data[1].prixClientTarif);
+                    setMontant(data[1].prixClientTarif);
+                }
+            } catch (error) {
+                console.error('Erreur lors de la récupération des tarifs:', error);
+            }
+        };
+        fetchClientTarif();
+    }, [DOMAIN]);
+
+    useEffect(() => {
         const fetchTarif = async () => {
             try {
                 const { data } = await axios.get(`${DOMAIN}/facture/tarif`);
                 setTarif(data);
             
-                if (data.length > 0) {
-                    setMontantFilter(data[1].prix); 
-                    setMontant(data[1].prix);
+                // Trouver la valeur par défaut pour le tarif
+                const defaultTarif = data.find(item => item.type === 'Abonnement mensuel');
+                if (defaultTarif) {
+                    setMontantFilter(defaultTarif.prix);
+                    setMontant(defaultTarif.prix);
                 }
             } catch (error) {
                 console.error('Erreur lors de la récupération des tarifs:', error);
@@ -156,7 +177,7 @@ const FactureEffectue = () => {
     const columnsWithOperation = [
         ...columnsCommon,
         {
-            title: "Opération",
+            title: "Type d'opération",
             dataIndex: 'type_operations',
             key: 'type_operations',
             render: (text) => (
@@ -214,10 +235,23 @@ const FactureEffectue = () => {
                         <span className="facture_desc">Sélectionnez le tarif <span>*</span></span>
                         <Select value={montantFilter} onChange={handleTarifChange} style={{ width: 200 }}>
                             {tarif.map((item) => (
-                                <Option key={item.id} value={item.prix}>{item.type}</Option>
+                                <Option key={item.id_tarif} value={item.prix}>{item.type}</Option>
                             ))}
                         </Select>
                     </div>
+                    {showTarifClient && (
+                        <div className="factureEffectue_rows">
+                            <span className="facture_desc">Sélectionnez le tarif personnel <span>*</span></span>
+                            <Select value={montantFilter} onChange={handleTarifChange} style={{ width: 200 }}>
+                                {tarifClient.map((item) => (
+                                    <Option key={item.id_clientTarif} value={item.prixClientTarif}>{item.typeClientTarif}</Option>
+                                ))}
+                            </Select>
+                        </div>
+                    )}
+                    <Button onClick={() => setShowTarifClient(prev => !prev)}> 
+                        {showTarifClient ? 'Cacher le tarif personnel' : 'Afficher le tarif personnel'}
+                    </Button>
                     <div className='facture_montant_rows'>
                         <span className="facture_desc">Montant à payer pour {dataAll.length} vehicule(s) : <span>*</span></span>
                         <span> {montant * dataAll.length} $</span>
