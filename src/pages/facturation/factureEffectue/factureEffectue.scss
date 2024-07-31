@@ -8,15 +8,16 @@
         margin-bottom: 20px;
         border-radius: 5px;
         .facture_h1{
-            font-size: 1.1rem;
+            font-size: 1rem;
+            background: linear-gradient(90deg, #13add8bd, #000000ee);
+            -webkit-background-clip: text;
+            color: transparent;
             text-transform: uppercase;
-            color: #555;
         }
     }
     .factureEffectue_wrapper{
         width: 100%;
         display: flex;
-        align-items: center;
         justify-content: space-between;
         gap: 20px;
         .factureEffectue_left{
@@ -28,10 +29,19 @@
             margin-bottom: 20px;
             border-radius: 5px;
             .facture_h2{
-                font-size: 1.1rem;
-                color: #555;
+                font-size: 1rem;
+                background: linear-gradient(90deg, #13add8bd, #000000ee);
+                -webkit-background-clip: text;
+                color: transparent;
+                text-transform: uppercase;
                 margin-bottom: 20px;
                 text-transform:uppercase;
+            }
+            .facture_tab{
+                h3{
+                    font-size: .9rem;
+                    color: #020114;
+                }
             }
         }
         .factureEffectue_right{
@@ -42,6 +52,33 @@
             box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
             margin-bottom: 20px;
             border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            .factureEffectue_rows{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                .facture_desc{
+                    font-size: .8rem;
+                    color: #7c7c7c;
+                    span{
+                        color: red;
+                    }
+                }
+            }
+        }
+        .facture_montant_rows{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            .facture_desc{
+                font-size: .8rem;
+                color: #7c7c7c;
+                span{
+                    color: red;
+                }
+            }
         }
     }
 }

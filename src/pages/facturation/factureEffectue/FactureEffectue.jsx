@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
-import { BarcodeOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { BarcodeOutlined, ThunderboltOutlined, CalendarOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
-import { Table, Tag } from 'antd';
+import { Select, Table, Tag } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
+
+const { Option } = Select;
 
 const FactureEffectue = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -14,13 +16,13 @@ const FactureEffectue = () => {
     const dateEnd = query.get('end_date');
     const idClient = query.get('id_client');
     const [data, setData] = useState({ actif: [], autres: [] });
-    const [selectedRowKeys, setSelectedRowKeys] = useState({
-        actif: [],  // Initialement vide
-        autres: []  // Initialement vide
-    });
-    
+    const [selectedRowKeys, setSelectedRowKeys] = useState({ actif: [], autres: [] });
+    const [montant, setMontant] = useState(0);
     const [loading, setLoading] = useState(true);
     const [dataAll, setDataAll] = useState([]);
+    const [tarif, setTarif] = useState([]);
+    const [montantFilter, setMontantFilter] = useState('');
+
     const scroll = { x: 'max-content' };
 
     useEffect(() => {
@@ -32,8 +34,8 @@ const FactureEffectue = () => {
                 setData(response.data);
                 const actifKeys = response.data.actif.map(item => item.id_operations);
                 setSelectedRowKeys({
-                    actif: actifKeys,  // Définir les clés sélectionnées pour 'actif'
-                    autres: []        // Assurez-vous que 'autres' est vide par défaut
+                    actif: actifKeys,
+                    autres: []      
                 });
             } catch (error) {
                 console.error('Erreur lors de la récupération des données:', error);
@@ -45,16 +47,35 @@ const FactureEffectue = () => {
     }, [DOMAIN, dateStart, dateEnd, idClient]);
 
     useEffect(() => {
-        setDataAll([
+        const selectedIds = [
             ...selectedRowKeys.actif,
             ...selectedRowKeys.autres
+        ];
+        const filteredActif = data.actif.filter(item => selectedIds.includes(item.id_operations));
+        const filteredAutres = data.autres.filter(item => selectedIds.includes(item.id_operations));
+
+        setDataAll([
+            ...filteredActif,
+            ...filteredAutres
         ]);
     }, [selectedRowKeys, data]);
-    
-    
-    
 
-    console.log(dataAll);
+    useEffect(() => {
+        const fetchTarif = async () => {
+            try {
+                const { data } = await axios.get(`${DOMAIN}/facture/tarif`);
+                setTarif(data);
+            
+                if (data.length > 0) {
+                    setMontantFilter(data[1].prix); 
+                    setMontant(data[1].prix);
+                }
+            } catch (error) {
+                console.error('Erreur lors de la récupération des tarifs:', error);
+            }
+        };
+        fetchTarif();
+    }, [DOMAIN]);
 
     const getColorForOperationType = (type) => {
         switch (type) {
@@ -97,7 +118,7 @@ const FactureEffectue = () => {
             width: "3%"
         },
         {
-            title: 'Vehicule',
+            title: 'Véhicule',
             dataIndex: 'nom_vehicule',
             key: 'nom_vehicule',
             render: (text) => (
@@ -118,6 +139,18 @@ const FactureEffectue = () => {
                 </Tag>
             )
         },
+        {
+            title: "Date d'opération",
+            dataIndex: 'date_operation',
+            key: 'date_operation',
+            sorter: (a, b) => moment(a.date_operation) - moment(b.date_operation),
+            sortDirections: ['descend', 'ascend'],
+            render: (text) => (
+              <Tag icon={<CalendarOutlined />} color="blue">
+                {moment(text).format('DD-MM-yyyy')}
+              </Tag>
+            ),
+          },
     ];
 
     const columnsWithOperation = [
@@ -135,50 +168,68 @@ const FactureEffectue = () => {
         }
     ];
 
+    const handleTarifChange = (value) => {
+        setMontantFilter(value);
+        setMontant(value);  // Met à jour le montant lorsqu'une nouvelle option est sélectionnée
+    };
+
     const monthsDifference = moment(dateEnd).diff(moment(dateStart), 'months');
 
     return (
-        <>
-            <div className="factureEffectue">
-                <div className="facture_title_date">
-                    <h1 className="facture_h1">
-                        Du {moment(dateStart).format('DD-MM-YYYY')} au {moment(dateEnd).format('DD-MM-YYYY')} 
-                        ({monthsDifference} mois)
-                    </h1>
-                </div>
-                <div className="factureEffectue_wrapper">
-                    <div className="factureEffectue_left">
-                        <h2 className="facture_h2">Liste des véhicules</h2>
-                        <div className="facture_tab">
-                            <h3>Etat actif</h3>
-                            <Table
-                                dataSource={data.actif}
-                                columns={columnsCommon}
-                                rowSelection={rowSelectionActif}
-                                loading={loading}
-                                rowKey="id_operations"
-                                className='table_client'
-                                scroll={scroll}
-                            />
-                            <h3>Autres</h3>
-                            <Table
-                                dataSource={data.autres}
-                                columns={columnsWithOperation}
-                                rowSelection={rowSelectionAutres}
-                                loading={loading}
-                                rowKey="id_operations"
-                                className='table_client'
-                                scroll={scroll}
-                            />
-                        </div>
+        <div className="factureEffectue">
+            <div className="facture_title_date">
+                <h1 className="facture_h1">
+                    Du {moment(dateStart).format('DD-MM-YYYY')} au {moment(dateEnd).format('DD-MM-YYYY')} 
+                    ({monthsDifference} mois)
+                </h1>
+            </div>
+            <div className="factureEffectue_wrapper">
+                <div className="factureEffectue_left">
+                    <h2 className="facture_h2">Liste des véhicules</h2>
+                    <div className="facture_tab">
+                        <h3>Etat actif</h3>
+                        <Table
+                            dataSource={data.actif}
+                            columns={columnsCommon}
+                            rowSelection={rowSelectionActif}
+                            loading={loading}
+                            rowKey="id_operations"
+                            className='table_client'
+                            scroll={scroll}
+                        />
+                        <h3>Autres</h3>
+                        <Table
+                            dataSource={data.autres}
+                            columns={columnsWithOperation}
+                            rowSelection={rowSelectionAutres}
+                            loading={loading}
+                            rowKey="id_operations"
+                            className='table_client'
+                            scroll={scroll}
+                        />
                     </div>
-                    <div className="factureEffectue_right">
-                        Right
+                </div>
+                <div className="factureEffectue_right">
+                    <div className="factureEffectue_rows">
+                        <span className="facture_desc">Sélectionnez le tarif <span>*</span></span>
+                        <Select value={montantFilter} onChange={handleTarifChange} style={{ width: 200 }}>
+                            {tarif.map((item) => (
+                                <Option key={item.id} value={item.prix}>{item.type}</Option>
+                            ))}
+                        </Select>
+                    </div>
+                    <div className='facture_montant_rows'>
+                        <span className="facture_desc">Montant à payer pour {dataAll.length} vehicule(s) : <span>*</span></span>
+                        <span> {montant * dataAll.length} $</span>
+                    </div>
+                    <div className='facture_montant_rows'>
+                        <span className="facture_desc">Montant total pour {monthsDifference} mois  <span>*</span> :</span>
+                        <span> {montant * dataAll.length * monthsDifference} $</span>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
-}
+};
 
 export default FactureEffectue;
