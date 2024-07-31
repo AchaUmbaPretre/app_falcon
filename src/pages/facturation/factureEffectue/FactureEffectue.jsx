@@ -170,7 +170,7 @@ const FactureEffectue = () => {
 
     const handleTarifChange = (value) => {
         setMontantFilter(value);
-        setMontant(value);  // Met à jour le montant lorsqu'une nouvelle option est sélectionnée
+        setMontant(value);
     };
 
     const monthsDifference = moment(dateEnd).diff(moment(dateStart), 'months');
