@@ -56,6 +56,15 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            .facture_h2{
+                font-size: 1rem;
+                background: linear-gradient(90deg, #13add8bd, #000000ee);
+                -webkit-background-clip: text;
+                color: transparent;
+                text-transform: uppercase;
+                margin-bottom: 10px;
+                text-transform:uppercase;
+            }
             .factureEffectue_rows{
                 display: flex;
                 flex-direction: column;

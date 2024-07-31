@@ -3,7 +3,7 @@ import config from '../../../config';
 import useQuery from '../../../useQuery';
 import { BarcodeOutlined, ThunderboltOutlined, CalendarOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
-import { Button, DatePicker, Modal, Select, Table, Tag } from 'antd';
+import { Button, DatePicker, message, Modal, Select, Table, Tag } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -29,6 +29,8 @@ const FactureEffectue = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [vehicule, setVehicule] = useState([]);
     const [date, setDate] = useState(null); // Date initialisée à null
+    const monthsDifference = dateEnd && dateStart ? moment(dateEnd).diff(moment(dateStart), 'months') : 0;
+    const totalMontant = montant * dataAll.length * monthsDifference;
 
     const handleModalOk = () => {
         setModalVisible(false);
@@ -212,8 +214,6 @@ const FactureEffectue = () => {
         setMontant(value);
     };
 
-    const monthsDifference = dateEnd && dateStart ? moment(dateEnd).diff(moment(dateStart), 'months') : 0;
-
     const createFacture = async (e) => {
         e.preventDefault();
 
@@ -221,8 +221,8 @@ const FactureEffectue = () => {
 
         setIsSubmitting(true);
         try {
-            const totalMontant = montant * dataAll.length * monthsDifference;
-            await axios.post(`${DOMAIN}/facture`, { id_client: idClient, total: totalMontant, date_facture: date, details: vehicule });
+            await axios.post(`${DOMAIN}/facture`, { id_client: idClient, total: totalMontant, date_facture: date, details: vehicule, montant: montant });
+            message.success('Facture créee avec succès');
             setModalVisible(true);
         } catch (error) {
             console.error('Erreur lors de la création de la facture:', error);
@@ -267,19 +267,20 @@ const FactureEffectue = () => {
                     </div>
                 </div>
                 <div className="factureEffectue_right">
+                    <h2 className="facture_h2">Détails de la facture</h2>
                     <div className="factureEffectue_rows">
                         <span className="facture_desc">Sélectionnez le tarif {showTarifClient && 'personnel'} <span>*</span></span>
                         {!showTarifClient && (
                             <Select value={montantFilter} onChange={handleTarifChange} style={{ width: 200 }}>
                                 {tarif.map((item) => (
-                                    <Option key={item.id_tarif} value={item.prix}>{item.type}</Option>
+                                    <Option key={item.id_tarif} value={item.prix}>{`${item.type} : ${item.prix}$`}</Option>
                                 ))}
                             </Select>
                         )}
                         {showTarifClient && (
                             <Select value={montantFilter} onChange={handleTarifChange} style={{ width: 200 }}>
                                 {tarifClient.map((item) => (
-                                    <Option key={item.id_clientTarif} value={item.prixClientTarif}>{item.typeClientTarif}</Option>
+                                    <Option key={item.id_clientTarif} value={item.prixClientTarif}>{`${item.typeClientTarif} : ${item.prixClientTarif}`}</Option>
                                 ))}
                             </Select>
                         )}
