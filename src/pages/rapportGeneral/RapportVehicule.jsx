@@ -16,7 +16,6 @@ const RapportVehicule = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -37,78 +36,62 @@ const RapportVehicule = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [DOMAIN,searchValue]);
-
-
+  }, [DOMAIN, searchValue]);
 
   useEffect(() => {
     fetchData();
     fetchVehicule();
   }, [fetchData, fetchVehicule, searchValue]);
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
-      message.success('Véhicule supprimé avec succès');
-      fetchData(); 
-    } catch (err) {
-      console.error(err);
-      message.error('Échec de la suppression du véhicule');
+  const groupedData = data.reduce((acc, item) => {
+    const clientId = item.id_client;
+    if (!acc[clientId]) {
+      acc[clientId] = {
+        key: clientId,
+        nom_client: item.nom_client,
+        vehicles: []
+      };
     }
-  };
+    acc[clientId].vehicles.push(item);
+    return acc;
+  }, {});
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
-    {
-      title: 'Client',
-      dataIndex: 'nom_client',
-      key: 'nom_client',
-      render: (text) => (
-        <Tag color='blue'>
-          <UserOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Tag>
-      )
-    },
-    {
-      title: 'Nom vehicule',
-      dataIndex: 'nom_vehicule',
-      key: 'nom_vehicule',
-      render: (text) => (
-        <Tag color= { text ? 'blue' : 'red'}>
-          <CarOutlined style={{ marginRight: "5px" }} />
-          {text || 'Aucun'}
-        </Tag>
-      )
-    },
-    {
-      title: 'Tag(traceur)',
-      dataIndex: 'code',
-      key: 'code',
-      render: (text) => (
-        <Tag color={text ? 'blue' : 'red'}>
-          <BarcodeOutlined style={{ marginRight: '5px' }} />
-          {text || 'Aucun'}
-        </Tag>
-      )
-    },
-    {
+  const expandedRowRender = (record) => {
+    const columns = [
+      { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
+      {
+        title: 'Nom véhicule',
+        dataIndex: 'nom_vehicule',
+        key: 'nom_vehicule',
+        render: (text) => (
+          <Tag color={text ? 'blue' : 'red'}>
+            <CarOutlined style={{ marginRight: "5px" }} />
+            {text || 'Aucun'}
+          </Tag>
+        )
+      },
+      {
+        title: 'Tag(traceur)',
+        dataIndex: 'code',
+        key: 'code',
+        render: (text) => (
+          <Tag color={text ? 'blue' : 'red'}>
+            <BarcodeOutlined style={{ marginRight: '5px' }} />
+            {text || 'Aucun'}
+          </Tag>
+        )
+      },
+      {
         title: "Nbre de facture",
         dataIndex: 'nbre_facture',
         key: 'nbre_facture',
         sorter: (a, b) => a.nbre_facture - b.nbre_facture,
         sortDirections: ['descend', 'ascend'],
-        render: (text, record) => (
+        render: (text) => (
           <div>
-            <Tag color={text > 0 ? 'green' : 'red'} ><CarryOutOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+            <Tag color={text > 0 ? 'green' : 'red'} >
+              <CarryOutOutlined style={{ marginRight: "5px" }} />{text}
+            </Tag>
           </div>
         )
       },
@@ -117,15 +100,19 @@ const RapportVehicule = () => {
         dataIndex: 'nbre_facture_total',
         key: 'nbre_facture_total',
         render: (text) => (
-            <Tag color={text > 0 ? 'green' : 'red'}>{text}<DollarOutlined style={{ marginLeft: "5px" }} /></Tag>
+          <Tag color={text > 0 ? 'green' : 'red'}>
+            {text}<DollarOutlined style={{ marginLeft: "5px" }} />
+          </Tag>
         )
       },
       {
         title: "Nbre de jour",
         dataIndex: 'nbre_jour',
         key: 'nbre_jour',
-        render: (text, record) => (
-            <Tag color={'blue'}><CalendarOutlined style={{ marginRight: "5px" }} />{text} jour(s)</Tag>
+        render: (text) => (
+          <Tag color={'blue'}>
+            <CalendarOutlined style={{ marginRight: "5px" }} />{text} jour(s)
+          </Tag>
         )
       },
       {
@@ -133,15 +120,28 @@ const RapportVehicule = () => {
         dataIndex: 'nbre_annee',
         key: 'nbre_annee',
         render: (text, record) => (
-            <Tag color={'blue'}><CalendarOutlined style={{ marginRight: "5px" }} />{text > 0 ? `${text} an(s)` : `${record.nbre_mois} mois` }</Tag>
+          <Tag color={'blue'}>
+            <CalendarOutlined style={{ marginRight: "5px" }} />
+            {text > 0 ? `${text} an(s)` : `${record.nbre_mois} mois` }
+          </Tag>
         )
       }
-  ].filter(Boolean);
+    ];
+
+    return (
+      <Table
+        columns={columns}
+        dataSource={record.vehicles}
+        pagination={false}
+        rowClassName={() => 'font-size-18'}
+      />
+    );
+  };
 
   const exportToPDF = () => {
     const doc = new jsPDF();
-    doc.text("Liste des vehicules", 14, 22);
-    const tableColumn = ["#", "nom_client", "nom_marque","modele","matricule"];
+    doc.text("Liste des véhicules", 14, 22);
+    const tableColumn = ["#", "nom_client", "nom_marque", "modele", "matricule"];
     const tableRows = [];
 
     data.forEach((record, index) => {
@@ -166,17 +166,12 @@ const RapportVehicule = () => {
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Vehicule");
+    XLSX.utils.book_append_sheet(wb, ws, "Véhicule");
     XLSX.writeFile(wb, "vehicule.xlsx");
   };
 
-  const filteredData = data?.filter((item) =>
-    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.matricule?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.modele?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.code?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.nom_vehicule?.toLowerCase().includes(searchValue.toLowerCase())
+  const filteredData = Object.values(groupedData).filter((item) =>
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -185,12 +180,12 @@ const RapportVehicule = () => {
         <div className="client_wrapper_top">
           <div className="client_text_row">
             <div className="client_text_left">
-              <h2 className="client_h2">Rapport véhicule</h2>
+              <h2 className="client_h2">Rapport des véhicules</h2>
               <span className="client_span"></span>
             </div>
             <div className="client_row_number">
               {vehicule ? (
-                <span className="client_span_title">Total : <CountUp end={vehicule}/></span>
+                <span className="client_span_title">Total : <CountUp end={vehicule} /></span>
               ) : (
                 <Skeleton.Input active />
               )}
@@ -198,11 +193,11 @@ const RapportVehicule = () => {
           </div>
         </div>
         <div className="client_wrapper_center">
-          <Breadcrumb separator=">" items={[{ title: 'Accueil', href: '/' },{ title: 'vehicules' }]} />
+          <Breadcrumb separator=">" items={[{ title: 'Accueil', href: '/' }, { title: 'véhicules' }]} />
           <div className="client_wrapper_center_bottom">
             <div className="product-bottom-top">
               <div className="product-bottom-left">
-                <Button icon={<SisternodeOutlined />}/>
+                <Button icon={<SisternodeOutlined />} />
                 <div className="product-row-searchs">
                   <Input
                     type="search"
@@ -219,12 +214,26 @@ const RapportVehicule = () => {
                 <Button className="product-icon-printer" icon={<PrinterOutlined />} />
               </div>
             </div>
-            <Table 
-              dataSource={filteredData} 
-              columns={columns} 
-              rowClassName={() => 'font-size-18'} 
-              loading={loading} 
-              className='table_client' 
+            <Table
+              dataSource={filteredData}
+              columns={[
+                { title: '#', dataIndex: 'key', key: 'key', render: (text, record, index) => index + 1, width: "3%" },
+                {
+                  title: 'Client',
+                  dataIndex: 'nom_client',
+                  key: 'nom_client',
+                  render: (text) => (
+                    <Tag color='blue'>
+                      <UserOutlined style={{ marginRight: "5px" }} />
+                      {text}
+                    </Tag>
+                  )
+                }
+              ]}
+              expandable={{ expandedRowRender }}
+              rowClassName={() => 'font-size-18'}
+              loading={loading}
+              className='table_client'
               pagination={{ pageSize: 15 }}
             />
           </div>
@@ -232,6 +241,6 @@ const RapportVehicule = () => {
       </div>
     </div>
   );
-}
+};
 
 export default RapportVehicule;
