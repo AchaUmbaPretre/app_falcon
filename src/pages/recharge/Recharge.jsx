@@ -101,7 +101,7 @@ const Recharge = () => {
       date,
       ...records[0],
       records,
-      numberCount: records.length, // Adding the count of numbers recharged
+      numberCount: records.length,
     }))
   );
 

@@ -43,6 +43,25 @@ const RapportVehicule = () => {
     fetchVehicule();
   }, [fetchData, fetchVehicule, searchValue]);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+      message.success('Véhicule supprimé avec succès');
+      fetchData(); 
+    } catch (err) {
+      console.error(err);
+      message.error('Échec de la suppression du véhicule');
+    }
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const groupedData = data.reduce((acc, item) => {
     const clientId = item.id_client;
     if (!acc[clientId]) {
@@ -180,7 +199,7 @@ const RapportVehicule = () => {
         <div className="client_wrapper_top">
           <div className="client_text_row">
             <div className="client_text_left">
-              <h2 className="client_h2">Rapport des véhicules</h2>
+              <h2 className="client_h2">Rapport véhicule</h2>
               <span className="client_span"></span>
             </div>
             <div className="client_row_number">
@@ -226,6 +245,17 @@ const RapportVehicule = () => {
                     <Tag color='blue'>
                       <UserOutlined style={{ marginRight: "5px" }} />
                       {text}
+                    </Tag>
+                  )
+                },
+                {
+                  title: 'Nombre de véhicules',
+                  dataIndex: 'vehicles',
+                  key: 'vehicles',
+                  render: (text) => (
+                    <Tag color='blue'>
+                      <CarOutlined style={{ marginRight: "5px" }} />
+                      {text.length}
                     </Tag>
                   )
                 }
