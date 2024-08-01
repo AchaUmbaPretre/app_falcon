@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Button, Drawer, Modal, Table, Tag, Skeleton, Input } from 'antd';
-import { UserOutlined, PhoneOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { UserOutlined, CarryOutOutlined,CarOutlined,CalendarOutlined, DollarOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
@@ -21,7 +21,6 @@ const RapportClient = () => {
     pageSize: 10,
   });
   const scroll = { x: 400 };
-  const [client, setClient] = useState([]);
 
   const showDrawer = (e) => {
     setOpenDetail(true);
@@ -32,9 +31,9 @@ const RapportClient = () => {
     setOpenDetail(false);
   };
 
-/*   const fetchData = async (page, pageSize) => {
+ const fetchData = async (page, pageSize) => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/client`);
+      const { data } = await axios.get(`${DOMAIN}/client/client_gen`);
       setData(data);
       setLoading(false);
       setPagination((prevPagination) => ({
@@ -43,30 +42,21 @@ const RapportClient = () => {
     } catch (error) {
       console.log(error);
     }
-  }; */
+  }; 
 
 
-/*   const fetchClient = async () => {
-    try {
-        const { data } = await axios.get(`${DOMAIN}/client/count?searchValue=${searchValue}`);
-        setClient(data[0].nbre_client);
-    } catch (error) {
-        console.log(error);
-    }
-}; */
-
-/*   useEffect(() => {
+   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
-    fetchClient()
+/*     fetchClient() */
   }, [DOMAIN, pagination.current, pagination.pageSize, searchValue]);
- */
+
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
   };
 
   const exportToPDF = () => {
     const doc = new jsPDF();
-    doc.text("Liste des clients", 14, 22);
+    doc.text("Rapport client", 14, 22);
     const tableColumn = ["#", "nom_client", "poste", "telephone", "adresse", "email"];
     const tableRows = [];
 
@@ -111,25 +101,45 @@ const RapportClient = () => {
       )
     },
     {
+        title: "Nbre de vehicule",
+        dataIndex: 'nbre_vehicule',
+        key: 'nbre_vehicule',
+        render: (text, record) => (
+          <div>
+            <Tag color={'green'}><CarOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          </div>
+        )
+      },
+    {
       title: "Nbre d'année",
-      dataIndex: 'poste',
-      key: 'poste',
+      dataIndex: 'nbre_annee',
+      key: 'nbre_annee',
       render: (text, record) => (
         <div>
-          <Tag color={'blue'}><TeamOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          <Tag color={'blue'}><CalendarOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
       )
     },
     {
-      title: "Nbre d'opération",
-      dataIndex: 'nbre_operation',
-      key: 'nbre_operation',
+      title: "Nbre de facture",
+      dataIndex: 'nbre_facture',
+      key: 'nbre_facture',
       render: (text, record) => (
         <div>
-          <Tag color={'green'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          <Tag color={'green'}><CarryOutOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
       )
-    }
+    },
+    {
+        title: "Montant facture",
+        dataIndex: 'montant_facture',
+        key: 'montant_facture',
+        render: (text, record) => (
+          <div>
+            <Tag color={'green'}><DollarOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          </div>
+        )
+      }
   ];
 
   const showModal = (e) => {

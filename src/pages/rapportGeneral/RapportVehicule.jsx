@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Input, Popconfirm, Popover, Space, Table, Tag, message } from 'antd';
-import { PlusCircleOutlined, CarOutlined, UserOutlined,BarcodeOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Input, Table, Tag, message } from 'antd';
+import { PlusCircleOutlined, CarOutlined, UserOutlined,BarcodeOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
-import { useSelector } from 'react-redux';
 
 const RapportVehicule = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -15,7 +14,7 @@ const RapportVehicule = () => {
   const [vehicule, setVehicule] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const role = useSelector((state) => state.user.currentUser.role);
+
 
   const fetchData = useCallback(async () => {
     setLoading(true);
