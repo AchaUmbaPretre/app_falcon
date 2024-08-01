@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Input, Skeleton, Table, Tag, message } from 'antd';
-import { CarOutlined, UserOutlined,BarcodeOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { CarOutlined, UserOutlined, CarryOutOutlined, CalendarOutlined, DollarOutlined, BarcodeOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import CountUp from 'react-countup';
 import config from '../../config';
@@ -90,17 +90,6 @@ const RapportVehicule = () => {
       )
     },
     {
-      title: 'Matricule',
-      dataIndex: 'matricule',
-      key: 'matricule',
-      render: (text) => (
-        <Tag color='blue'>
-          <CarOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Tag>
-      )
-    },
-    {
       title: 'Tag(traceur)',
       dataIndex: 'code',
       key: 'code',
@@ -112,25 +101,39 @@ const RapportVehicule = () => {
       )
     },
     {
-        title: 'Nbre de facture',
+        title: "Nbre de facture",
         dataIndex: 'nbre_facture',
         key: 'nbre_facture',
-        render: (text) => (
-          <Tag color='blue'>
-            <CarOutlined style={{ marginRight: "5px" }} />
-            {text}
-          </Tag>
+        sorter: (a, b) => a.nbre_facture - b.nbre_facture,
+        sortDirections: ['descend', 'ascend'],
+        render: (text, record) => (
+          <div>
+            <Tag color={text > 0 ? 'green' : 'red'} ><CarryOutOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          </div>
         )
       },
       {
-        title: "Nbre d'année",
+        title: 'Facture totale',
+        dataIndex: 'nbre_facture_total',
+        key: 'nbre_facture_total',
+        render: (text) => (
+            <Tag color={text > 0 ? 'green' : 'red'}>{text}<DollarOutlined style={{ marginLeft: "5px" }} /></Tag>
+        )
+      },
+      {
+        title: "Nbre de jour",
+        dataIndex: 'nbre_jour',
+        key: 'nbre_jour',
+        render: (text, record) => (
+            <Tag color={'blue'}><CalendarOutlined style={{ marginRight: "5px" }} />{text} jour(s)</Tag>
+        )
+      },
+      {
+        title: "Nbre d'année ou mois",
         dataIndex: 'nbre_annee',
         key: 'nbre_annee',
-        render: (text) => (
-          <Tag color={text ? 'blue' : 'red'}>
-            <CarOutlined style={{ marginRight: "5px" }} />
-            {text || 'Aucun'}
-          </Tag>
+        render: (text, record) => (
+            <Tag color={'blue'}><CalendarOutlined style={{ marginRight: "5px" }} />{text > 0 ? `${text} an(s)` : `${record.nbre_mois} mois` }</Tag>
         )
       }
   ].filter(Boolean);
