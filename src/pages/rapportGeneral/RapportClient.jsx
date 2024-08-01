@@ -20,6 +20,7 @@ const RapportClient = () => {
     current: 1,
     pageSize: 10,
   });
+  const [client, setClient] = useState([]);
   const scroll = { x: 400 };
 
   const showDrawer = (e) => {
@@ -44,10 +45,19 @@ const RapportClient = () => {
     }
   }; 
 
+  const fetchClient = async () => {
+    try {
+        const { data } = await axios.get(`${DOMAIN}/client/count?searchValue=${searchValue}`);
+        setClient(data[0].nbre_client);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 
    useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
-/*     fetchClient() */
+    fetchClient()
   }, [DOMAIN, pagination.current, pagination.pageSize, searchValue]);
 
   const handleTableChange = (newPagination) => {
@@ -104,17 +114,20 @@ const RapportClient = () => {
         title: "Nbre de vehicule",
         dataIndex: 'nbre_vehicule',
         key: 'nbre_vehicule',
+        sorter: (a, b) => a.nbre_vehicule - b.nbre_vehicule,
+        sortDirections: ['descend', 'ascend'],
         render: (text, record) => (
           <div>
             <Tag color={text > 0 ? 'green' : 'red'}><CarOutlined style={{ marginRight: "5px" }} />{text}</Tag>
           </div>
         )
-      },
-
+    },
     {
       title: "Nbre d'année ou mois",
       dataIndex: 'nbre_annee',
       key: 'nbre_annee',
+      sorter: (a, b) => a.nbre_annee - b.nbre_annee,
+        sortDirections: ['descend', 'ascend'],
       render: (text, record) => (
         <div>
           <Tag color={'blue'}><CalendarOutlined style={{ marginRight: "5px" }} />{text > 0 ? `${text} an(s)` : `${record.nbre_mois} mois` }</Tag>
@@ -125,6 +138,8 @@ const RapportClient = () => {
       title: "Nbre de facture",
       dataIndex: 'nbre_facture',
       key: 'nbre_facture',
+      sorter: (a, b) => a.nbre_facture - b.nbre_facture,
+      sortDirections: ['descend', 'ascend'],
       render: (text, record) => (
         <div>
           <Tag color={text > 0 ? 'green' : 'red'} ><CarryOutOutlined style={{ marginRight: "5px" }} />{text}</Tag>
@@ -135,6 +150,8 @@ const RapportClient = () => {
         title: "Montant total facture",
         dataIndex: 'montant_total_facture',
         key: 'montant_total_facture',
+        sorter: (a, b) => a.montant_total_facture - b.montant_total_facture,
+        sortDirections: ['descend', 'ascend'],
         render: (text, record) => (
           <div>
             <Tag color={text > 0 ? 'green' : 'red'}>{text}<DollarOutlined style={{ marginLeft: "5px" }} /></Tag>
@@ -170,8 +187,8 @@ const RapportClient = () => {
                 <span className="client_span"></span>
               </div>
               
-              <div className="client_text_right">
-               
+              <div className="client_row_number">
+                <span className="client_span_title">Total : {client}</span>
               </div>
             </div>
           </div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Input, Table, Tag, message } from 'antd';
-import { PlusCircleOutlined, CarOutlined, UserOutlined,BarcodeOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Input, Skeleton, Table, Tag, message } from 'antd';
+import { CarOutlined, UserOutlined,BarcodeOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import CountUp from 'react-countup';
 import config from '../../config';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
@@ -19,7 +20,7 @@ const RapportVehicule = () => {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${DOMAIN}/vehicule`);
+      const response = await axios.get(`${DOMAIN}/vehicule/vehicule_gen`);
       setData(response.data);
     } catch (error) {
       console.error(error);
@@ -184,8 +185,12 @@ const RapportVehicule = () => {
               <h2 className="client_h2">Rapport véhicule</h2>
               <span className="client_span"></span>
             </div>
-            <div className="client_text_right">
-              <Button onClick={showModal} icon={<PlusCircleOutlined />} />
+            <div className="client_row_number">
+              {vehicule ? (
+                <span className="client_span_title">Total : <CountUp end={vehicule}/></span>
+              ) : (
+                <Skeleton.Input active />
+              )}
             </div>
           </div>
         </div>
