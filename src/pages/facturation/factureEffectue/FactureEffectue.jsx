@@ -27,16 +27,13 @@ const FactureEffectue = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [vehicule, setVehicule] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
     const [date, setDate] = useState(null);
     const [remise, setRemise] = useState(0); 
     const monthsDifference = dateEnd && dateStart ? moment(dateEnd).diff(moment(dateStart), 'months') : 0;
     const totalMontantBeforeRemise = montant * dataAll.length * monthsDifference;
     const totalMontant = totalMontantBeforeRemise - remise;
 
-/*     const handleModalOk = () => {
-        setModalVisible(false);
-        toast.success('Facture créée avec succès !');
-    }; */
 
     const handleModalCancel = () => {
         setModalVisible(false);
@@ -170,7 +167,7 @@ const FactureEffectue = () => {
                 </Tag>
             ),
         },
-        {
+/*         {
             title: 'Traceur',
             dataIndex: 'code',
             key: 'code',
@@ -180,19 +177,47 @@ const FactureEffectue = () => {
                     {text}
                 </Tag>
             )
-        },
+        }, */
         {
-            title: "Date d'opération",
+            title: "Date début",
             dataIndex: 'date_operation',
             key: 'date_operation',
             sorter: (a, b) => moment(a.date_operation).unix() - moment(b.date_operation).unix(),
             sortDirections: ['descend', 'ascend'],
             render: (text) => (
                 <Tag icon={<CalendarOutlined />} color="blue">
-                    {moment(text).format('DD-MM-YYYY')}
+                    {moment(dateStart).format('DD-MM-YYYY')}
                 </Tag>
             ),
         },
+        {
+            title: "Date fin",
+            dataIndex: 'date_operation',
+            key: 'date_operation',
+            sorter: (a, b) => moment(a.date_operation).unix() - moment(b.date_operation).unix(),
+            sortDirections: ['descend', 'ascend'],
+            render: (text) => (
+                <Tag icon={<CalendarOutlined />} color="blue">
+                    {moment(dateEnd).format('DD-MM-YYYY')}
+                </Tag>
+            ),
+        },
+        {
+            title: "Tarif",
+            render: (text) => (
+                <div>
+                    <Input
+                        type="number"
+                        min="1"
+                        onChange={''}
+                        value={montant || ''}
+                        placeholder="Nombre de jours"
+                        className='days-input'
+                        style={{ width: "100px" }}
+                    />
+                </div>
+            )
+        }
     ];
 
     const columnsWithOperation = [
@@ -241,6 +266,17 @@ const FactureEffectue = () => {
         }
     })
 
+    const dataActif = data.actif;
+    const dataAutres = data.autres
+
+    const filteredActif = dataActif?.filter((item) =>
+        item.nom_vehicule?.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    
+      const filteredAutre = dataAutres?.filter((item) =>
+        item.nom_vehicule?.toLowerCase().includes(searchValue.toLowerCase())
+      );
+
     return (
         <div className="factureEffectue">
             <ToastContainer />
@@ -252,11 +288,23 @@ const FactureEffectue = () => {
             </div>
             <div className="factureEffectue_wrapper">
                 <div className="factureEffectue_left">
-                    <h2 className="facture_h2">Liste des véhicules</h2>
+                    <div className='facture_rows_title'>
+                        <div className="facture_row_title">
+                            <h2 className="facture_h2">Liste des véhicules</h2>
+                            <span>Véhicule selectionné 5</span>
+                        </div>
+                        <div className='row_inputs'>
+                            <Input.Search 
+                                type="search"
+                                value={searchValue}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                            />
+                        </div>
+                    </div>
                     <div className="facture_tab">
                         <h3>Etat actif</h3>
                         <Table
-                            dataSource={data.actif}
+                            dataSource={filteredActif}
                             columns={columnsCommon}
                             rowSelection={rowSelectionActif}
                             loading={loading}
@@ -266,7 +314,7 @@ const FactureEffectue = () => {
                         />
                         <h3>Autres</h3>
                         <Table
-                            dataSource={data.autres}
+                            dataSource={filteredAutre}
                             columns={columnsWithOperation}
                             rowSelection={rowSelectionAutres}
                             loading={loading}

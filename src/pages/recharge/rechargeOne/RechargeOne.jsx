@@ -16,7 +16,7 @@ const RechargeOne = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [clientName, setClientName] = useState('');
-  const [defaultDays, setDefaultDays] = useState(0); // State for default number of days
+  const [defaultDays, setDefaultDays] = useState(0);
 
   const navigate = useNavigate();
   const location = useLocation();

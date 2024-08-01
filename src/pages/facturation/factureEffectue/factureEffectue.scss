@@ -1,6 +1,8 @@
 .factureEffectue{
     width: 100%;
     .facture_title_date{
+        display: flex;
+        justify-content: space-between;
         padding: 20px;
         background: #fff;
         -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
@@ -14,6 +16,9 @@
             -webkit-background-clip: text;
             color: transparent;
             text-transform: uppercase;
+        }
+        span{
+
         }
     }
     .factureEffectue_wrapper{
@@ -29,14 +34,33 @@
             box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
             margin-bottom: 20px;
             border-radius: 5px;
-            .facture_h2{
-                font-size: 1rem;
-                background: linear-gradient(90deg, #13add8bd, #000000ee);
-                -webkit-background-clip: text;
-                color: transparent;
-                text-transform: uppercase;
-                margin-bottom: 20px;
-                text-transform:uppercase;
+            .facture_rows_title{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 10px;
+                .facture_row_title{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .facture_h2{
+                        font-size: 1rem;
+                        background: linear-gradient(90deg, #13add8bd, #000000ee);
+                        -webkit-background-clip: text;
+                        color: transparent;
+                        text-transform: uppercase;
+                    }
+                    span{
+                        font-size: .9rem;
+                        background: linear-gradient(90deg, #13add8bd, #000000ee);
+                        -webkit-background-clip: text;
+                        color: transparent;
+                        text-transform: uppercase;
+                    }
+                }
+                .row_inputs{
+                    width: 250px;
+                }
             }
             .facture_tab{
                 h3{

@@ -12,7 +12,7 @@ function Recharge_form() {
     const [client, setClient] = useState([]);
     const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
-    const [loading, setLoading] = useState(true); // State to manage loading
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,7 +22,7 @@ function Recharge_form() {
           } catch (error) {
             console.log(error);
           } finally {
-            setLoading(false); // Set loading to false after data is fetched
+            setLoading(false);
           }
         };
         fetchData();
