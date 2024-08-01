@@ -106,17 +106,18 @@ const RapportClient = () => {
         key: 'nbre_vehicule',
         render: (text, record) => (
           <div>
-            <Tag color={'green'}><CarOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+            <Tag color={text > 0 ? 'green' : 'red'}><CarOutlined style={{ marginRight: "5px" }} />{text}</Tag>
           </div>
         )
       },
+
     {
-      title: "Nbre d'année",
+      title: "Nbre d'année ou mois",
       dataIndex: 'nbre_annee',
       key: 'nbre_annee',
       render: (text, record) => (
         <div>
-          <Tag color={'blue'}><CalendarOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          <Tag color={'blue'}><CalendarOutlined style={{ marginRight: "5px" }} />{text > 0 ? `${text} an(s)` : `${record.nbre_mois} mois` }</Tag>
         </div>
       )
     },
@@ -126,17 +127,17 @@ const RapportClient = () => {
       key: 'nbre_facture',
       render: (text, record) => (
         <div>
-          <Tag color={'green'}><CarryOutOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          <Tag color={text > 0 ? 'green' : 'red'} ><CarryOutOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
       )
     },
     {
-        title: "Montant facture",
-        dataIndex: 'montant_facture',
-        key: 'montant_facture',
+        title: "Montant total facture",
+        dataIndex: 'montant_total_facture',
+        key: 'montant_total_facture',
         render: (text, record) => (
           <div>
-            <Tag color={'green'}><DollarOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+            <Tag color={text > 0 ? 'green' : 'red'}>{text}<DollarOutlined style={{ marginLeft: "5px" }} /></Tag>
           </div>
         )
       }
