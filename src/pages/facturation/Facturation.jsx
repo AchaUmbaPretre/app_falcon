@@ -29,10 +29,12 @@ const Facturation = () => {
     pageSize: 9,
     total: 0
   });
+  const [factureId, setFactureId] = useState('');
 
   const showDrawer = (e) => {
     setOpenDetail(true);
-    setIdClient(e);
+    setFactureId(e);
+    console.log(e)
   };
 
   const onClose = () => {
@@ -228,12 +230,12 @@ const Facturation = () => {
 
   const showModalPaiment = (idFacture) => {
     setOpens(true);
-    setIdFacture(idFacture);
+/*     setIdFacture(idFacture); */
   };
 
   const showModalRecu = (idFacture) => {
     setOpenRecu(true);
-    setIdFacture(idFacture);
+/*     setIdFacture(idFacture); */
   };
 
   const filteredData = data.filter((item) =>
@@ -339,8 +341,8 @@ const Facturation = () => {
                 />
               )}
 
-              <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
-                <DetailFacture id_client={idClient} />
+              <Drawer title={`Détail de la facture n°${factureId}`} onClose={onClose} visible={openDetail} width={700}>
+                <DetailFacture id_facture={factureId} />
               </Drawer>
             </div>
           </div>

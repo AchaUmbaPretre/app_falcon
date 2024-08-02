@@ -8,7 +8,7 @@ import { Table, Spin, Tag } from 'antd';
 import styles from './detailFacture.scss';
 import moment from 'moment';
 
-const DetailFacture = ({ id_client }) => {
+const DetailFacture = ({ id_facture }) => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ const DetailFacture = ({ id_client }) => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const { data } = await axios.get(`${DOMAIN}/facture/One?id_client=${id_client}`);
+            const { data } = await axios.get(`${DOMAIN}/facture/One?id_facture=${id_facture}`);
             setData(data);
             setLoading(false);
           } catch (error) {
@@ -25,7 +25,7 @@ const DetailFacture = ({ id_client }) => {
           }
         };
         fetchData();
-      }, [DOMAIN, id_client]);
+      }, [DOMAIN, id_facture]);
 
     const columns = [
         { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
