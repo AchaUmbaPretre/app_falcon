@@ -101,7 +101,7 @@ const RapportClient = () => {
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
     {
-      title: 'Nom',
+      title: 'Client',
       dataIndex: 'nom_client',
       key: 'nom_client',
       render: (text, record) => (
@@ -111,7 +111,7 @@ const RapportClient = () => {
       )
     },
     {
-        title: "Nbre de vehicule",
+        title: "Nbre vehicule",
         dataIndex: 'nbre_vehicule',
         key: 'nbre_vehicule',
         sorter: (a, b) => a.nbre_vehicule - b.nbre_vehicule,
@@ -123,7 +123,7 @@ const RapportClient = () => {
         )
     },
     {
-      title: "Nbre d'année ou mois",
+      title: "Nbre d'année",
       dataIndex: 'nbre_annee',
       key: 'nbre_annee',
       sorter: (a, b) => a.nbre_annee - b.nbre_annee,
@@ -135,7 +135,7 @@ const RapportClient = () => {
       )
     },
     {
-      title: "Nbre de facture",
+      title: "Nbre facture",
       dataIndex: 'nbre_facture',
       key: 'nbre_facture',
       sorter: (a, b) => a.nbre_facture - b.nbre_facture,
@@ -147,7 +147,7 @@ const RapportClient = () => {
       )
     },
     {
-        title: "Montant total facture",
+        title: "Montant tot",
         dataIndex: 'montant_total_facture',
         key: 'montant_total_facture',
         sorter: (a, b) => a.montant_total_facture - b.montant_total_facture,

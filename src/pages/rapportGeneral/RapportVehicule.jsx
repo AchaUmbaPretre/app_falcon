@@ -43,24 +43,6 @@ const RapportVehicule = () => {
     fetchVehicule();
   }, [fetchData, fetchVehicule, searchValue]);
 
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
-      message.success('Véhicule supprimé avec succès');
-      fetchData(); 
-    } catch (err) {
-      console.error(err);
-      message.error('Échec de la suppression du véhicule');
-    }
-  };
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   const groupedData = data.reduce((acc, item) => {
     const clientId = item.id_client;
@@ -79,7 +61,7 @@ const RapportVehicule = () => {
     const columns = [
       { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
       {
-        title: 'Nom véhicule',
+        title: 'Véhicule',
         dataIndex: 'nom_vehicule',
         key: 'nom_vehicule',
         render: (text) => (
@@ -101,7 +83,7 @@ const RapportVehicule = () => {
         )
       },
       {
-        title: "Nbre de facture",
+        title: "Nbre facture",
         dataIndex: 'nbre_facture',
         key: 'nbre_facture',
         sorter: (a, b) => a.nbre_facture - b.nbre_facture,
@@ -115,7 +97,7 @@ const RapportVehicule = () => {
         )
       },
       {
-        title: 'Facture totale',
+        title: 'Facture tot',
         dataIndex: 'nbre_facture_total',
         key: 'nbre_facture_total',
         render: (text) => (
@@ -135,7 +117,7 @@ const RapportVehicule = () => {
         )
       },
       {
-        title: "Nbre d'année ou mois",
+        title: "Nbre d'année",
         dataIndex: 'nbre_annee',
         key: 'nbre_annee',
         render: (text, record) => (
