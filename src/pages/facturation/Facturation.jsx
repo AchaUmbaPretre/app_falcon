@@ -146,18 +146,6 @@ const Facturation = () => {
         </Tag>
       ),
     },
-    {
-      title: 'Total (Avec remise)',
-      dataIndex: 'total',
-      key: 'total',
-      sorter: (a, b) => a.total - b.total,
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => (
-        <Tag color={text !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
-          {text ? `${text} $` : '0'}
-        </Tag>
-      ),
-    },
 /*     {
       title: 'Remise',
       dataIndex: 'description',
