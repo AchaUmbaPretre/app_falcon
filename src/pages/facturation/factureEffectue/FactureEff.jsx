@@ -279,7 +279,7 @@ const FactureEff = () => {
           }
 
           if (date === null) {
-            toast.error('Veuillez remplir la date');
+            toast.error('Veuillez indiquer la date');
             return;
           }
 
