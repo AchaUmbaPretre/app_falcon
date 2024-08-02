@@ -31,12 +31,12 @@ const FactureEff = () => {
     const [vehicule, setVehicule] = useState([]);
     const [remise, setRemise] = useState(0);
     const [totalVehicule, setTotalVehicule] = useState('');
+    const [commentaire, setCommentaire] = useState('');
 
     const monthsDifference = dateEnd && dateStart ? moment(dateEnd).diff(moment(dateStart), 'months') : 0;
     const totalMontantBeforeRemise = montant * dataAll.length * monthsDifference;
     const totalMontant = totalMontantBeforeRemise - remise;
 
-    console.log(vehicule)
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -59,8 +59,6 @@ const FactureEff = () => {
         fetchData();
     }, [DOMAIN, dateStart, dateEnd, idClient]);
 
-
-    
 
     useEffect(() => {
         const selectedIds = [
@@ -149,18 +147,30 @@ const FactureEff = () => {
     };
 
     const calculateTotalAmount = () => {
-        // Filtrer les véhicules sélectionnés
+
         const selectedVehicules = vehicule.filter(v => 
             selectedRowKeys.actif.includes(v.id_vehicule) || selectedRowKeys.autres.includes(v.id_vehicule)
         );
         
-        // Calculer le montant total en multipliant le prix par le nombre de mois
         const totalAmount = selectedVehicules.reduce((acc, curr) => acc + (curr.prix * monthsDifference), 0);
-        const totalAmoutVehicule = selectedVehicules.reduce((acc, curr) => acc + curr.prix, 0);
-        
-        // Retourner le montant total moins la remise
         return totalAmount - remise;
     };
+
+    useEffect(()=>{
+        const calculateTotalAmountUse = () => {
+
+            const selectedVehicules = vehicule.filter(v => 
+                selectedRowKeys.actif.includes(v.id_vehicule) || selectedRowKeys.autres.includes(v.id_vehicule)
+            );
+            
+            const totalAmount = selectedVehicules.reduce((acc, curr) => acc + (curr.prix * monthsDifference), 0);
+            setTotalVehicule(totalAmount)
+            return totalAmount - remise;
+        };
+
+        calculateTotalAmountUse()
+    })
+
 
     const calculateTotalAmountVehicule = () => {
         const selectedVehicules = vehicule.filter(v => 
@@ -171,7 +181,6 @@ const FactureEff = () => {
         
         return totalAmoutVehicule;
     };
-    
     
 
     const columnsCommon = [
@@ -264,15 +273,25 @@ const FactureEff = () => {
 
         if (isSubmitting) return;
 
+        if (vehicule.some(vehicle => !vehicle.id_vehicule )) {
+            toast.error('Veuillez remplir tous les champs requis');
+            return;
+          }
+
+          if (date === null) {
+            toast.error('Veuillez remplir la date');
+            return;
+          }
+
         setIsSubmitting(true);
         try {
-            const response = await axios.post(`${DOMAIN}/facture/createFacture`, {
+            const response = await axios.post(`${DOMAIN}/facture`, {
                 id_client: idClient,
-                vehicule: vehicule,
-                date_debut: dateStart,
-                date_fin: dateEnd,
-                montant: totalMontant,
-                remise: remise
+                date_facture: date,
+                total: totalVehicule,
+                remise: remise,
+                details : vehicule,
+                commentaire : commentaire
             });
 
             if (response.status === 200) {
@@ -311,7 +330,7 @@ const FactureEff = () => {
                     <div className='facture_rows_title'>
                         <div className="facture_row_title">
                             <h2 className="facture_h2">Liste des véhicules</h2>
-                            <span>Les véhicules sélectionnés {vehicule.length}</span>
+                            <span>{vehicule.length} véhicule(s) sélectionné(s)</span>
                         </div>
                         <div className='row_inputs'>
                             <Input.Search 
@@ -382,6 +401,13 @@ const FactureEff = () => {
                             step="0.01"
                             value={remise}
                             onChange={handleRemiseChange}
+                        />
+                    </div>
+                    <div className='facture_montant_rows'>
+                        <span className="facture_desc">Commentaire : <span>*</span> :</span>
+                        <Input.TextArea
+                            type="text"
+                            onChange={(e)=> setCommentaire(e.target.value)}
                         />
                     </div>
                     <div className='facture_montant_rows'>

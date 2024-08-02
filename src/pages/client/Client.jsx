@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './client.scss';
 import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
-import { PlusCircleOutlined, UserOutlined, EyeOutlined,EditOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, UserOutlined, FileOutlined, EyeOutlined,EditOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import ClientForm from './form/ClientForm';
 import config from '../../config';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { getMenuPermissions } from '../../api/services/menuService';
 import { useSelector } from 'react-redux';
+import TarifForm from './form/tarifForm/TarifForm';
 
 
 const Client = () => {
@@ -22,6 +23,7 @@ const Client = () => {
   const role = useSelector((state) => state.user.currentUser.role);
   const [open, setOpen] = useState(false);
   const [opens, setOpens] = useState(false);
+  const [openTarif, setOpenTarif] = useState(false);
   const [idClient, setIdClient] = useState([]);
   const [permission, setPermission] = useState([]);
   const [data, setData] = useState([]);
@@ -37,6 +39,11 @@ const Client = () => {
 
   const showDrawer = (e) => {
     setOpenDetail(true);
+    setIdClient(e);
+  };
+
+  const showDrawerTarif = (e) => {
+    setOpenTarif(true);
     setIdClient(e);
   };
 
@@ -192,6 +199,9 @@ useEffect(()=>{
           <Popover title="Ajouter les contacts" trigger="hover">
             <Button icon={<PlusCircleOutlined />} onClick={() => showModalContact(record.id_client)} style={{ color: 'blue' }} />
           </Popover>
+          <Popover title="Ajouter les tarifs" trigger="hover">
+            <Button icon={<FileOutlined />} onClick={() => showDrawerTarif(record.id_client)} style={{ color: 'blue' }} />
+          </Popover>
           <Popover title="Modifier" trigger="hover">
             <Button icon={<EditOutlined />} style={{ color: 'geekblue' }} onClick={()=> handleEdit(record.id_client)} />
           </Popover>
@@ -301,6 +311,17 @@ useEffect(()=>{
                 footer={[]}
               >
                 <ClientContact id_client={idClient} />
+              </Modal>
+
+              <Modal
+                title=""
+                centered
+                open={openTarif}
+                onCancel={() => setOpenTarif(false)}
+                width={500}
+                footer={[]}
+              >
+                <TarifForm id_client={idClient} />
               </Modal>
 
               <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>

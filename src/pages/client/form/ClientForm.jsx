@@ -14,6 +14,7 @@ const ClientForm = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalConfirmLoading, setModalConfirmLoading] = useState(false);
 
+
   const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     let updatedValue = value;
