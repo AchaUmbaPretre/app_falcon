@@ -89,7 +89,7 @@ const FactureEff = () => {
     useEffect(() => {
         const fetchClientTarif = async () => {
             try {
-                const { data } = await axios.get(`${DOMAIN}/facture/clientTarif`);
+                const { data } = await axios.get(`${DOMAIN}/facture/clientTarifOne?id_client=${idClient}`);
                 setTarifClient(data);
             
                 if (data.length > 0) {
@@ -101,7 +101,7 @@ const FactureEff = () => {
             }
         };
         fetchClientTarif();
-    }, [DOMAIN]);
+    }, [DOMAIN, idClient]);
 
     useEffect(() => {
         const fetchTarif = async () => {
