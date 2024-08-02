@@ -172,7 +172,8 @@ const RapportVehicule = () => {
   };
 
   const filteredData = Object.values(groupedData).filter((item) =>
-    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) || 
+    item.nom_vehicule?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
