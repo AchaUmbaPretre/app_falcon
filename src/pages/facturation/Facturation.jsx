@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
+import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input, Drawer } from 'antd';
 import { PlusCircleOutlined, DollarOutlined,CalendarOutlined, UserOutlined, EyeOutlined, DeleteOutlined, AuditOutlined, SearchOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
@@ -11,6 +11,7 @@ import FactureForm from './factureForm/FactureForm';
 import PaiementFacture from './factureForm/PaiementFacture';
 import FacturationRecu from './facturationRecu/FacturationRecu';
 import moment from 'moment';
+import DetailFacture from './detailFactureVehicule/DetailFacture';
 
 const Facturation = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -19,13 +20,24 @@ const Facturation = () => {
   const [opens, setOpens] = useState(false);
   const [idFacture, setIdFacture] = useState(null);
   const [data, setData] = useState([]);
+  const [idClient, setIdClient] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openRecu, setOpenRecu] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 9,
     total: 0
   });
+
+  const showDrawer = (e) => {
+    setOpenDetail(true);
+    setIdClient(e);
+  };
+
+  const onClose = () => {
+    setOpenDetail(false);
+  };
 
   const fetchData = async (page, pageSize) => {
     try {
@@ -194,9 +206,14 @@ const Facturation = () => {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-          <Popover title="Voir les détails" trigger="hover">
+{/*           <Popover title="Voir les détails" trigger="hover">
             <Link>
               <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={() => showModalRecu(record.id_facture)} />
+            </Link>
+          </Popover> */}
+          <Popover title="Voir les détails" trigger="hover">
+            <Link>
+              <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={() => showDrawer(record.id_facture)} />
             </Link>
           </Popover>
           <Popover title="Ajouter le paiement" trigger="hover">
@@ -333,6 +350,10 @@ const Facturation = () => {
                   onChange={handleTableChange}
                 />
               )}
+
+              <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
+                <DetailFacture id_client={idClient} />
+              </Drawer>
             </div>
           </div>
         </div>

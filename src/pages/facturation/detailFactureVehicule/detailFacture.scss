@@ -1,0 +1,33 @@
+// DetailFacture.module.scss
+.detail_facture {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detail_facture_wrapper {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.detail_facture h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.ant-table {
+  border-radius: 8px;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: 500;
+}
+
+.ant-table-tbody > tr > td {
+  color: #555;
+}
