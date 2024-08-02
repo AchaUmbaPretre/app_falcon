@@ -30,11 +30,13 @@ const FactureEff = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [vehicule, setVehicule] = useState([]);
     const [remise, setRemise] = useState(0);
+    const [totalVehicule, setTotalVehicule] = useState('');
 
     const monthsDifference = dateEnd && dateStart ? moment(dateEnd).diff(moment(dateStart), 'months') : 0;
     const totalMontantBeforeRemise = montant * dataAll.length * monthsDifference;
     const totalMontant = totalMontantBeforeRemise - remise;
 
+    console.log(vehicule)
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -42,7 +44,8 @@ const FactureEff = () => {
                     params: { start_date: dateStart, end_date: dateEnd, id_client: idClient }
                 });
                 setData(response.data);
-                const actifKeys = response.data.actif.map(item => item.id_operations);
+                const actifKeys = response.data.actif.map(item => item.id_vehicule);
+                console.log(actifKeys)
                 setSelectedRowKeys({
                     actif: actifKeys,
                     autres: []
@@ -56,18 +59,22 @@ const FactureEff = () => {
         fetchData();
     }, [DOMAIN, dateStart, dateEnd, idClient]);
 
+
+    
+
     useEffect(() => {
         const selectedIds = [
             ...selectedRowKeys.actif,
             ...selectedRowKeys.autres
         ];
+
         const combinedData = [
             ...data.actif,
             ...data.autres
         ];
         
         const uniqueVehicules = Array.from(new Map(combinedData
-            .filter(item => selectedIds.includes(item.id_operations))
+            .filter(item => selectedIds.includes(item.id_vehicule))
             .map(item => [item.id_vehicule, item])) 
             .values()
         );
@@ -140,6 +147,32 @@ const FactureEff = () => {
           )
         );
     };
+
+    const calculateTotalAmount = () => {
+        // Filtrer les véhicules sélectionnés
+        const selectedVehicules = vehicule.filter(v => 
+            selectedRowKeys.actif.includes(v.id_vehicule) || selectedRowKeys.autres.includes(v.id_vehicule)
+        );
+        
+        // Calculer le montant total en multipliant le prix par le nombre de mois
+        const totalAmount = selectedVehicules.reduce((acc, curr) => acc + (curr.prix * monthsDifference), 0);
+        const totalAmoutVehicule = selectedVehicules.reduce((acc, curr) => acc + curr.prix, 0);
+        
+        // Retourner le montant total moins la remise
+        return totalAmount - remise;
+    };
+
+    const calculateTotalAmountVehicule = () => {
+        const selectedVehicules = vehicule.filter(v => 
+            selectedRowKeys.actif.includes(v.id_vehicule) || selectedRowKeys.autres.includes(v.id_vehicule)
+        );
+        
+        const totalAmoutVehicule = selectedVehicules.reduce((acc, curr) => acc + curr.prix, 0);
+        
+        return totalAmoutVehicule;
+    };
+    
+    
 
     const columnsCommon = [
         { 
@@ -278,7 +311,7 @@ const FactureEff = () => {
                     <div className='facture_rows_title'>
                         <div className="facture_row_title">
                             <h2 className="facture_h2">Liste des véhicules</h2>
-                            <span>Véhicule selectionné {vehicule.length}</span>
+                            <span>Les véhicules sélectionnés {vehicule.length}</span>
                         </div>
                         <div className='row_inputs'>
                             <Input.Search 
@@ -296,7 +329,7 @@ const FactureEff = () => {
                             columns={columnsWithOperation}
                             dataSource={filteredActif}
                             loading={loading}
-                            rowKey="id_operations"
+                            rowKey="id_vehicule"
                         />
                         <h3>Autres</h3>
                         <Table
@@ -304,7 +337,7 @@ const FactureEff = () => {
                             columns={columnsWithOperation}
                             dataSource={filteredAutre}
                             loading={loading}
-                            rowKey="id_operations"
+                            rowKey="id_vehicule"
                             title={() => `Les opérations qui ont lieu entre ${moment(dateStart).format('DD-MM-YYYY')} et ${moment(dateEnd).format('DD-MM-YYYY')}`}
                         />
                     </div>
@@ -334,11 +367,11 @@ const FactureEff = () => {
                     
                     <div className='facture_montant_rows'>
                         <span className="facture_desc">Montant à payer pour {dataAll.length} véhicule(s) : <span>*</span></span>
-                        <span>{montant * dataAll.length} $</span>
+                        <span>{calculateTotalAmountVehicule()} $</span>
                     </div>
                     <div className='facture_montant_rows'>
                         <span className="facture_desc">Montant total pour {monthsDifference} mois  <span>*</span> :</span>
-                        <span>{totalMontant} $</span>
+                        <span>{calculateTotalAmount()} $</span>
                     </div>
                     <div className='facture_montant_rows'>
                         <span className="facture_desc">Remise : <span>*</span> :</span>
