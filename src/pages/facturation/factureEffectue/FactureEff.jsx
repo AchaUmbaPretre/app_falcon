@@ -1,20 +1,23 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
+import { getColorForOperationType } from '../../../utils'
 import { BarcodeOutlined, ThunderboltOutlined, CalendarOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
-import { Button, DatePicker, Input, message, Modal, Select, Table, Tag } from 'antd';
+import { Button, DatePicker, Input, Select, Table, Tag } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 import { toast,ToastContainer } from 'react-toastify';
 const { Option } = Select;
 
-const FactureEffectue = () => {
+const FactureEff = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const query = useQuery();
     const dateStart = query.get('start_date');
     const dateEnd = query.get('end_date');
     const idClient = query.get('id_client');
+    const [searchValue, setSearchValue] = useState('');
+    const [date, setDate] = useState(null);
     const [data, setData] = useState({ actif: [], autres: [] });
     const [selectedRowKeys, setSelectedRowKeys] = useState({ actif: [], autres: [] });
     const [montant, setMontant] = useState(0);
@@ -24,20 +27,13 @@ const FactureEffectue = () => {
     const [tarifClient, setTarifClient] = useState([]);
     const [montantFilter, setMontantFilter] = useState('');
     const [showTarifClient, setShowTarifClient] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [vehicule, setVehicule] = useState([]);
-    const [searchValue, setSearchValue] = useState('');
-    const [date, setDate] = useState(null);
-    const [remise, setRemise] = useState(0); 
+    const [remise, setRemise] = useState(0);
+
     const monthsDifference = dateEnd && dateStart ? moment(dateEnd).diff(moment(dateStart), 'months') : 0;
     const totalMontantBeforeRemise = montant * dataAll.length * monthsDifference;
     const totalMontant = totalMontantBeforeRemise - remise;
-
-
-    const handleModalCancel = () => {
-        setModalVisible(false);
-    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,20 +61,25 @@ const FactureEffectue = () => {
             ...selectedRowKeys.actif,
             ...selectedRowKeys.autres
         ];
-        const filteredActif = data.actif
+        const combinedData = [
+            ...data.actif,
+            ...data.autres
+        ];
+        
+        const uniqueVehicules = Array.from(new Map(combinedData
             .filter(item => selectedIds.includes(item.id_operations))
-            .map(item => item.id_vehicule);
+            .map(item => [item.id_vehicule, item])) 
+            .values()
+        );
+
+        const updatedVehicules = uniqueVehicules.map(item => ({
+            id_vehicule: item.id_vehicule,
+            prix: item.prix || montant
+        }));
       
-        const filteredAutres = data.autres
-            .filter(item => selectedIds.includes(item.id_operations))
-            .map(item => item.id_vehicule);
-      
-        setVehicule([
-            ...filteredActif,
-            ...filteredAutres
-        ]);
+        setVehicule(updatedVehicules);
         setDataAll(selectedIds);
-    }, [selectedRowKeys, data]);
+    }, [selectedRowKeys, data, montant]);
 
     useEffect(() => {
         const fetchClientTarif = async () => {
@@ -103,7 +104,6 @@ const FactureEffectue = () => {
                 const { data } = await axios.get(`${DOMAIN}/facture/tarif`);
                 setTarif(data);
             
-                // Trouver la valeur par défaut pour le tarif
                 const defaultTarif = data.find(item => item.type === 'Abonnement mensuel');
                 if (defaultTarif) {
                     setMontantFilter(defaultTarif.prix);
@@ -115,21 +115,6 @@ const FactureEffectue = () => {
         };
         fetchTarif();
     }, [DOMAIN]);
-
-    const getColorForOperationType = (type) => {
-        switch (type) {
-            case 'Installation':
-                return 'blue';
-            case 'Démantèlement':
-                return 'red';
-            case 'Contrôle technique':
-                return 'green';
-            case 'Remplacement':
-                return 'orange';
-            default:
-                return 'default';
-        }
-    };
 
     const onSelectChange = (tableType, newSelectedRowKeys) => {
         setSelectedRowKeys(prev => ({
@@ -148,18 +133,13 @@ const FactureEffectue = () => {
         onChange: (newSelectedRowKeys) => onSelectChange('autres', newSelectedRowKeys),
     };
 
-    const handleChange = (id, days) => {
+    const handleChange = (id, prix) => {
         setVehicule((prevSelectedRows) =>
           prevSelectedRows.map((row) =>
-            row.id_vehicule === id ? { ...row, days } : row
+            row.id_vehicule === id ? { ...row, prix } : row
           )
         );
-        setData((prevData) =>
-          prevData.map((row) =>
-            row.id_vehicule === id ? { ...row, days } : row
-          )
-        );
-      };
+    };
 
     const columnsCommon = [
         { 
@@ -180,17 +160,6 @@ const FactureEffectue = () => {
                 </Tag>
             ),
         },
-/*         {
-            title: 'Traceur',
-            dataIndex: 'code',
-            key: 'code',
-            render: (text) => (
-                <Tag color='green'>
-                    <BarcodeOutlined style={{ marginRight: '5px' }} />
-                    {text}
-                </Tag>
-            )
-        }, */
         {
             title: "Date début",
             dataIndex: 'date_operation',
@@ -221,12 +190,12 @@ const FactureEffectue = () => {
                 <div>
                     <Input
                         type="number"
-                        min="1"
-                        onChange={(e)=> handleChange(record.id_vehicule, Number(e.target.value))}
-                        value={montant || ''}
+                        min="0"
+                        onChange={(e) => handleChange(record.id_vehicule, Number(e.target.value))}
+                        value={vehicule.find(v => v.id_vehicule === record.id_vehicule)?.prix || ''}
                         placeholder="Tarif..."
                         className='days-input'
-                        style={{ width: "100px" }}
+                        style={{ width: "90px" }}
                     />
                 </div>
             )
@@ -261,32 +230,37 @@ const FactureEffectue = () => {
         e.preventDefault();
 
         if (isSubmitting) return;
-        if (!date) {
-            toast.error('Veuillez remplir tous les champs requis');
-            return;
-          }
 
         setIsSubmitting(true);
         try {
-            await axios.post(`${DOMAIN}/facture`, { id_client: idClient, total: totalMontant, date_facture: date, details: vehicule});
-            message.success('Facture créee avec succès');
-            setModalVisible(true);
+            const response = await axios.post(`${DOMAIN}/facture/createFacture`, {
+                id_client: idClient,
+                vehicule: vehicule,
+                date_debut: dateStart,
+                date_fin: dateEnd,
+                montant: totalMontant,
+                remise: remise
+            });
+
+            if (response.status === 200) {
+                toast.success('Facture créée avec succès!');
+            } else {
+                toast.error('Erreur lors de la création de la facture.');
+            }
         } catch (error) {
             console.error('Erreur lors de la création de la facture:', error);
             toast.error('Erreur lors de la création de la facture.');
         } finally {
             setIsSubmitting(false);
         }
-    })
+    }, [vehicule, montant, dateStart, dateEnd, idClient, totalMontant, remise, isSubmitting]);
 
-    const dataActif = data.actif;
-    const dataAutres = data.autres
 
-    const filteredActif = dataActif?.filter((item) =>
+    const filteredActif = data.actif?.filter((item) =>
         item.nom_vehicule?.toLowerCase().includes(searchValue.toLowerCase())
       );
     
-      const filteredAutre = dataAutres?.filter((item) =>
+      const filteredAutre = data.autres?.filter((item) =>
         item.nom_vehicule?.toLowerCase().includes(searchValue.toLowerCase())
       );
 
@@ -304,36 +278,34 @@ const FactureEffectue = () => {
                     <div className='facture_rows_title'>
                         <div className="facture_row_title">
                             <h2 className="facture_h2">Liste des véhicules</h2>
-                            <span>Véhicule selectionné 5</span>
+                            <span>Véhicule selectionné {vehicule.length}</span>
                         </div>
                         <div className='row_inputs'>
                             <Input.Search 
                                 type="search"
                                 value={searchValue}
                                 onChange={(e) => setSearchValue(e.target.value)}
+                                placeholder='Recherche...'
                             />
                         </div>
                     </div>
                     <div className="facture_tab">
                         <h3>Etat actif</h3>
                         <Table
-                            dataSource={filteredActif}
-                            columns={columnsCommon}
                             rowSelection={rowSelectionActif}
+                            columns={columnsWithOperation}
+                            dataSource={filteredActif}
                             loading={loading}
                             rowKey="id_operations"
-                            className='table_client'
-                            scroll={{ x: 'max-content' }}
                         />
                         <h3>Autres</h3>
                         <Table
-                            dataSource={filteredAutre}
-                            columns={columnsWithOperation}
                             rowSelection={rowSelectionAutres}
+                            columns={columnsWithOperation}
+                            dataSource={filteredAutre}
                             loading={loading}
                             rowKey="id_operations"
-                            className='table_client'
-                            scroll={{ x: 'max-content' }}
+                            title={() => `Les opérations qui ont lieu entre ${moment(dateStart).format('DD-MM-YYYY')} et ${moment(dateEnd).format('DD-MM-YYYY')}`}
                         />
                     </div>
                 </div>
@@ -389,20 +361,8 @@ const FactureEffectue = () => {
                     <Button type="primary" onClick={createFacture} loading={isSubmitting}>Envoyer</Button>
                 </div>
             </div>
-            <Modal
-                title="Confirmation"
-                visible={modalVisible}handleModalOk
-                onOk={createFacture}
-                onCancel={handleModalCancel}
-            >
-                <p className="modal-text">Êtes-vous sûr de vouloir effectuer cette action ?</p>
-                <div className="modal-data">
-                    <p><strong>Montant:</strong> {montant * dataAll.length * monthsDifference} $</p>
-                    <p><strong>Date de paiement:</strong> {moment().format('DD-MM-YYYY')}</p>
-                </div>
-            </Modal>
         </div>
     );
 };
 
-export default FactureEffectue;
+export default FactureEff;

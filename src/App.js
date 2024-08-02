@@ -63,6 +63,7 @@ import FactureClient from './pages/facturation/factureClient/FactureClient';
 import FactureEffectue from './pages/facturation/factureEffectue/FactureEffectue';
 import RapportClient from './pages/rapportGeneral/RapportClient';
 import RapportVehicule from './pages/rapportGeneral/RapportVehicule';
+import FactureEff from './pages/facturation/factureEffectue/FactureEff';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -156,7 +157,7 @@ function App() {
         { path: '/personnel_edit', element: <PersonnelEdit /> },
         { path: '/paiement', element: <Paiement /> },
         { path: '/facturation', element: <Facturation /> },
-        { path: '/factureEffectue', element: <FactureEffectue/> },
+        { path: '/factureEffectue', element: <FactureEff/> },
         { path: '/facturation_form', element: <FactureClient/> },
         { path: '/rapport', element: <Rapport /> },
         { path: '/rapport_global', element: <RapportGlobal /> },

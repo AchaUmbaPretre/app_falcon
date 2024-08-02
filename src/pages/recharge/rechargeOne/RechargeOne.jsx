@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Table, Tag, message, Input, Button, Modal, Spin } from 'antd';
 import { PhoneOutlined, SisternodeOutlined, HourglassOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import config from '../../../config';
 import './rechargeOne.css';
@@ -18,7 +18,6 @@ const RechargeOne = () => {
   const [clientName, setClientName] = useState('');
   const [defaultDays, setDefaultDays] = useState(0);
 
-  const navigate = useNavigate();
   const location = useLocation();
   const userId = useSelector((state) => state.user.currentUser.id);
 
