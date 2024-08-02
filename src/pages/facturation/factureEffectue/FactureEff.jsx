@@ -171,6 +171,8 @@ const FactureEff = () => {
         calculateTotalAmountUse()
     })
 
+    console.log(date)
+
 
     const calculateTotalAmountVehicule = () => {
         const selectedVehicules = vehicule.filter(v => 
@@ -210,7 +212,7 @@ const FactureEff = () => {
             sortDirections: ['descend', 'ascend'],
             render: (text) => (
                 <Tag icon={<CalendarOutlined />} color="blue">
-                    {moment(dateStart).format('DD-MM-YYYY')}
+                    {moment(text).format('DD-MM-YYYY')}
                 </Tag>
             ),
         },
@@ -278,10 +280,11 @@ const FactureEff = () => {
             return;
           }
 
-          if (date === null) {
+          if (!date) {
             toast.error('Veuillez indiquer la date');
             return;
-          }
+        }
+        
 
         setIsSubmitting(true);
         try {
@@ -305,7 +308,7 @@ const FactureEff = () => {
         } finally {
             setIsSubmitting(false);
         }
-    }, [vehicule, montant, dateStart, dateEnd, idClient, totalMontant, remise, isSubmitting]);
+    }, [vehicule, montant, dateStart, dateEnd, idClient, totalMontant, remise, isSubmitting, date]);
 
 
     const filteredActif = data.actif?.filter((item) =>
