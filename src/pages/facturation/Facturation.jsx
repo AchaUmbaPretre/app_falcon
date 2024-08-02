@@ -124,18 +124,6 @@ const Facturation = () => {
         <Tag color={'green'}>{text}</Tag>
       )
     }, */
-/*     {
-      title: 'Prix unitaire',
-      dataIndex: 'prix_unitaire',
-      key: 'prix_unitaire',
-      sorter: (a, b) => a.prix_unitaire - b.prix_unitaire,
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => (
-        <Tag color={text !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
-          {text ? `${text} $` : '0'}
-        </Tag>
-      ),
-    }, */
     {
       title: 'Montant',
       dataIndex: 'total',
@@ -206,7 +194,10 @@ const Facturation = () => {
               <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={() => showDrawer(record.id_facture)} />
             </Link>
           </Popover>
-          <Popover title="Ajouter le paiement" trigger="hover">
+          <Popover title="Paiement" trigger="hover">
+            <Button icon={<DollarOutlined />} onClick={() => showModalPaiment(record.id_facture)} style={{ color: 'blue' }} />
+          </Popover>
+          <Popover title="Créer une facture" trigger="hover">
             <Button icon={<AuditOutlined />} onClick={() => showModalPaiment(record.id_facture)} style={{ color: 'blue' }} />
           </Popover>
           <Popover title="Supprimer" trigger="hover">
