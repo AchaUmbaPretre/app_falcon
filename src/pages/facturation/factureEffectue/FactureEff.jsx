@@ -198,7 +198,7 @@ const FactureEff = () => {
             dataIndex: 'nom_vehicule',
             key: 'nom_vehicule',
             render: (text) => (
-                <Tag color='volcano'>
+                <Tag color='green'>
                     <BarcodeOutlined style={{ marginRight: '5px' }} />
                     {text}
                 </Tag>
