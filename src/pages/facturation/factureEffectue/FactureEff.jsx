@@ -4,7 +4,7 @@ import useQuery from '../../../useQuery';
 import { getColorForOperationType } from '../../../utils'
 import { BarcodeOutlined, ThunderboltOutlined, CalendarOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
-import { Button, DatePicker, Input, Select, Table, Tag } from 'antd';
+import { Button, DatePicker, Input, Modal, Select, Spin, Table, Tag } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 import { toast,ToastContainer } from 'react-toastify';
@@ -32,10 +32,23 @@ const FactureEff = () => {
     const [remise, setRemise] = useState(0);
     const [totalVehicule, setTotalVehicule] = useState('');
     const [commentaire, setCommentaire] = useState('');
-
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const monthsDifference = dateEnd && dateStart ? moment(dateEnd).diff(moment(dateStart), 'months') : 0;
     const totalMontantBeforeRemise = montant * dataAll.length * monthsDifference;
     const totalMontant = totalMontantBeforeRemise - remise;
+
+    
+    const handleOpenModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCancelModal = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleConfirmModal = () => {
+        onFinish();
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -270,10 +283,9 @@ const FactureEff = () => {
         setRemise(parseFloat(e.target.value) || 0);
     };
 
-    const createFacture = useCallback(async (e) => {
-        e.preventDefault();
+    const onFinish = useCallback(async (e) => {
 
-        if (isSubmitting) return;
+        setIsSubmitting(true);
 
         if (vehicule.some(vehicle => !vehicle.id_vehicule )) {
             toast.error('Veuillez remplir tous les champs requis');
@@ -307,6 +319,7 @@ const FactureEff = () => {
             toast.error('Erreur lors de la création de la facture.');
         } finally {
             setIsSubmitting(false);
+            setIsModalVisible(false);
         }
     }, [vehicule, montant, dateStart, dateEnd, idClient, totalMontant, remise, isSubmitting, date]);
 
@@ -420,8 +433,27 @@ const FactureEff = () => {
                             onChange={(date) => setDate(date ? date.format('YYYY-MM-DD') : '')}
                         />
                     </div>
-                    <Button type="primary" onClick={createFacture} loading={isSubmitting}>Envoyer</Button>
+                    <Button type="primary" onClick={handleOpenModal} loading={isSubmitting}>Envoyer</Button>
+                    {loading && (
+                  <div className="loader-container loader-container-center">
+                    <Spin size="large" />
+                  </div>
+                )}
                 </div>
+                <Modal
+                    title="Confirmation de Soumission"
+                    visible={isModalVisible}
+                    onOk={handleConfirmModal}
+                    onCancel={handleCancelModal}
+                    okText="Confirmer"
+                    cancelText="Annuler"
+                    confirmLoading={isSubmitting}
+                >
+                    <p>Êtes-vous sûr de vouloir soumettre cette facture ?</p>
+                    <p><b>Date:</b> {date ? moment(date).format('DD-MM-YYYY') : 'Non définie'}</p>
+                    <p><b>Montant Total:</b> {totalVehicule} {showTarifClient ? '$' : '$'}</p>
+                    <p><b>Commentaire:</b> {commentaire || 'Aucun'}</p>
+                </Modal>
             </div>
         </div>
     );
