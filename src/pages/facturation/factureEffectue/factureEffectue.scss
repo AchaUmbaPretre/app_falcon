@@ -27,7 +27,9 @@
         justify-content: space-between;
         gap: 20px;
         .factureEffectue_left{
-            flex: 2;
+            flex: 4;
+            width: 100%;
+            overflow-x: scroll;
             padding: 20px;
             background: #fff;
             -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
