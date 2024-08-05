@@ -30,6 +30,7 @@ const FactureEff = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [vehicule, setVehicule] = useState([]);
     const [remise, setRemise] = useState(0);
+    const scroll = { x: 300 };
     const [totalVehicule, setTotalVehicule] = useState('');
     const [commentaire, setCommentaire] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -152,7 +153,7 @@ const FactureEff = () => {
     };
 
     const handleChange = (id, prix) => {
-        const price = parseFloat(prix) || 0; // Convertir en nombre, sinon utiliser 0
+        const price = parseFloat(prix) || 0; 
         setVehicule(prevSelectedRows =>
             prevSelectedRows.map(row =>
                 row.id_vehicule === id ? { ...row, prix: price } : row
@@ -295,7 +296,7 @@ const FactureEff = () => {
             render: (text, record) => {
                 // Trouver le véhicule et obtenir son prix
                 const vehicle = vehicule.find(v => v.id_vehicule === record.id_vehicule);
-                const price = vehicle ? vehicle.prix : 0; // Assurer que price est un nombre
+                const price = vehicle ? vehicle.prix : 0;
                 
                 // Calculer le montant
                 const amount = calculateAmountForVehicle(price, record.date_operation, dateStart, dateEnd);
@@ -415,6 +416,7 @@ const FactureEff = () => {
                             dataSource={filteredActif}
                             loading={loading}
                             rowKey="id_vehicule"
+                            scroll={scroll}
                         />
                         <h3>Autres</h3>
                         <Table
@@ -422,6 +424,7 @@ const FactureEff = () => {
                             columns={columnsWithOperation}
                             dataSource={filteredAutre}
                             loading={loading}
+                            scroll={scroll}
                             rowKey="id_vehicule"
                             title={() => `Les opérations qui ont lieu entre ${moment(dateStart).format('DD-MM-YYYY')} et ${moment(dateEnd).format('DD-MM-YYYY')}`}
                         />
