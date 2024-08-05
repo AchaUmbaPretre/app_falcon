@@ -79,7 +79,7 @@ const FactureEff = () => {
             ...selectedRowKeys.actif,
             ...selectedRowKeys.autres
         ];
-
+    
         const combinedData = [
             ...data.actif,
             ...data.autres
@@ -90,15 +90,22 @@ const FactureEff = () => {
             .map(item => [item.id_vehicule, item])) 
             .values()
         );
-
-        const updatedVehicules = uniqueVehicules.map(item => ({
-            id_vehicule: item.id_vehicule,
-            prix: item.prix || montant
-        }));
+    
+        const updatedVehicules = uniqueVehicules.map(item => {
+            const price = item.prix || montant;
+            const calculatedAmount = calculateAmountForVehicle(price, item.date_operation, dateStart, dateEnd);
+    
+            return {
+                id_vehicule: item.id_vehicule,
+                prix: price,
+                montant: calculatedAmount
+            };
+        });
       
         setVehicule(updatedVehicules);
         setDataAll(selectedIds);
     }, [selectedRowKeys, data, montant]);
+    
 
     useEffect(() => {
         const fetchClientTarif = async () => {
@@ -191,10 +198,11 @@ const FactureEff = () => {
             selectedRowKeys.actif.includes(v.id_vehicule) || selectedRowKeys.autres.includes(v.id_vehicule)
         );
         
-        const totalAmoutVehicule = selectedVehicules.reduce((acc, curr) => acc + curr.prix, 0);
+        const totalAmountVehicule = selectedVehicules.reduce((acc, curr) => acc + curr.montant, 0);
         
-        return totalAmoutVehicule;
+        return totalAmountVehicule;
     };
+    
     
     const calculateDaysInPeriod = (startDate, endDate) => {
         return moment(endDate).diff(moment(startDate), 'days') + 1; // Inclure le jour de fin
@@ -251,6 +259,18 @@ const FactureEff = () => {
             ),
         },
         {
+            title: "Date d'op",
+            dataIndex: 'date_operation',
+            key: 'date_operation',
+            sorter: (a, b) => moment(a.date_operation).unix() - moment(b.date_operation).unix(),
+            sortDirections: ['descend', 'ascend'],
+            render: (text) => (
+                <Tag icon={<CalendarOutlined />} color="blue">
+                    {moment(text).format('DD-MM-YYYY')}
+                </Tag>
+            ),
+        },
+        {
             title: "Date début",
             dataIndex: 'date_operation',
             key: 'date_operation',
@@ -291,16 +311,13 @@ const FactureEff = () => {
             )
         },
         {
-            title: 'Montant',
+            title: "Montant",
             key: 'montant',
             render: (text, record) => {
-                // Trouver le véhicule et obtenir son prix
+                // Trouver le véhicule et obtenir son montant
                 const vehicle = vehicule.find(v => v.id_vehicule === record.id_vehicule);
-                const price = vehicle ? vehicle.prix : 0;
+                const amount = vehicle ? vehicle.montant : 0;
                 
-                // Calculer le montant
-                const amount = calculateAmountForVehicle(price, record.date_operation, dateStart, dateEnd);
-        
                 return (
                     <Tag color={amount > 0 ? 'green' : 'red'}>
                         {amount.toFixed(2)} <DollarOutlined style={{ marginLeft: "5px" }} />
@@ -309,6 +326,8 @@ const FactureEff = () => {
             },
         }
     ];
+
+    console.log(vehicule)
 
     const columnsWithOperation = [
         ...columnsCommon,
