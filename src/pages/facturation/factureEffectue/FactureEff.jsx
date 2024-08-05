@@ -8,11 +8,13 @@ import { Button, DatePicker, Input, Modal, Select, Spin, Table, Tag } from 'antd
 import moment from 'moment';
 import axios from 'axios';
 import { toast,ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 
 const FactureEff = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const query = useQuery();
+    const navigate = useNavigate();
     const dateStart = query.get('start_date');
     const dateEnd = query.get('end_date');
     const idClient = query.get('id_client');
@@ -57,9 +59,25 @@ const FactureEff = () => {
                 const response = await axios.get(`${DOMAIN}/facture/factureOperation`, {
                     params: { start_date: dateStart, end_date: dateEnd, id_client: idClient }
                 });
-                setData(response.data);
-                const actifKeys = response.data.actif.map(item => item.id_vehicule);
-                console.log(actifKeys)
+                const defaultStartDate = moment(dateStart).format('YYYY-MM-DD');
+                const defaultEndDate = moment(dateEnd).format('YYYY-MM-DD');
+                const updatedActif = response.data.actif.map(item => ({
+                    ...item,
+                    dateStart: item.dateStart || defaultStartDate,
+                    dateEnd: item.dateEnd || defaultEndDate
+                }));
+        
+                const updatedAutres = response.data.autres.map(item => ({
+                    ...item,
+                    dateStart: item.dateStart || defaultStartDate,
+                    dateEnd: item.dateEnd || defaultEndDate
+                }));
+        
+                setData({
+                    actif: updatedActif,
+                    autres: updatedAutres
+                });
+                const actifKeys = updatedActif.map(item => item.id_vehicule);
                 setSelectedRowKeys({
                     actif: actifKeys,
                     autres: []
@@ -84,28 +102,30 @@ const FactureEff = () => {
             ...data.actif,
             ...data.autres
         ];
-        
+    
         const uniqueVehicules = Array.from(new Map(combinedData
             .filter(item => selectedIds.includes(item.id_vehicule))
-            .map(item => [item.id_vehicule, item])) 
+            .map(item => [item.id_vehicule, item]))
             .values()
         );
     
         const updatedVehicules = uniqueVehicules.map(item => {
             const price = item.prix || montant;
-            const calculatedAmount = calculateAmountForVehicle(price, item.date_operation, dateStart, dateEnd);
+            const calculatedAmount = calculateAmountForVehicle(price, item.date_operation, item.dateStart, item.dateEnd);
     
             return {
                 id_vehicule: item.id_vehicule,
                 prix: price,
-                montant: calculatedAmount
+                montant: calculatedAmount,
+                dateStart: dateStart,
+                dateEnd: dateEnd
             };
         });
-      
+    
         setVehicule(updatedVehicules);
         setDataAll(selectedIds);
     }, [selectedRowKeys, data, montant]);
-    
+
 
     useEffect(() => {
         const fetchClientTarif = async () => {
@@ -248,6 +268,30 @@ const FactureEff = () => {
 
     return amount;
     };
+
+    const handleDateChange = (id, date, type) => {
+        console.log("Handle date change:", { id, date, type });
+        
+        const updatedVehicules = vehicule.map(v => {
+            if (v.id_vehicule === id) {
+                const newDates = {
+                    ...v,
+                    [type === 'start' ? 'dateStart' : 'dateEnd']: date ? date.format('YYYY-MM-DD') : null
+                };
+    
+                // Recalculer le montant en fonction des nouvelles dates
+                newDates.montant = calculateAmountForVehicle(newDates.prix, newDates.date_operation, newDates.dateStart, newDates.dateEnd);
+    
+                return newDates;
+            }
+            return v;
+        });
+    
+        console.log("Updated vehicles:", updatedVehicules);
+        setVehicule(updatedVehicules);
+    };
+    
+    
     
 
     const columnsCommon = [
@@ -270,40 +314,34 @@ const FactureEff = () => {
             ),
         },
         {
-            title: "Date d'op",
-            dataIndex: 'date_operation',
-            key: 'date_operation',
-            sorter: (a, b) => moment(a.date_operation).unix() - moment(b.date_operation).unix(),
-            sortDirections: ['descend', 'ascend'],
-            render: (text) => (
-                <Tag icon={<CalendarOutlined />} color="blue">
-                    {moment(text).format('DD-MM-YYYY')}
-                </Tag>
-            ),
-        },
-        {
             title: "Date début",
-            dataIndex: 'date_operation',
-            key: 'date_operation',
-            sorter: (a, b) => moment(a.date_operation).unix() - moment(b.date_operation).unix(),
-            sortDirections: ['descend', 'ascend'],
-            render: (text) => (
-                <Tag icon={<CalendarOutlined />} color="blue">
-                    {moment(dateStart).format('DD-MM-YYYY')}
-                </Tag>
-            ),
+            dataIndex: "dateStart",
+            key: "dateStart",
+            render: (text, record) => {
+                console.log("Date début:", record.dateStart);
+                return (
+                    <input
+                        type="date"
+                        value={record.dateStart ? moment(record.dateStart).format('YYYY-MM-DD') : ''}
+                        onChange={(e) => handleDateChange(record.id_vehicule, moment(e.target.value, 'YYYY-MM-DD'), 'start')}
+                    />
+                );
+            }
         },
         {
             title: "Date fin",
-            dataIndex: 'date_operation',
-            key: 'date_operation',
-            sorter: (a, b) => moment(a.date_operation).unix() - moment(b.date_operation).unix(),
-            sortDirections: ['descend', 'ascend'],
-            render: (text) => (
-                <Tag icon={<CalendarOutlined />} color="blue">
-                    {moment(dateEnd).format('DD-MM-YYYY')}
-                </Tag>
-            ),
+            dataIndex: "dateEnd",
+            key: "dateEnd",
+            render: (text, record) => {
+                console.log("Date fin:", record.dateEnd);
+                return (
+                    <input
+                        type="date"
+                        value={record.dateEnd ? moment(record.dateEnd).format('YYYY-MM-DD') : ''}
+                        onChange={(e) => handleDateChange(record.id_vehicule, moment(e.target.value, 'YYYY-MM-DD'), 'end')}
+                    />
+                );
+            }
         },
         {
             title: "Tarif",
@@ -337,6 +375,8 @@ const FactureEff = () => {
             },
         }
     ];
+
+    console.log(vehicule)
 
     const columnsWithOperation = [
         ...columnsCommon,
@@ -390,6 +430,7 @@ const FactureEff = () => {
 
             if (response.status === 200) {
                 toast.success('Facture créée avec succès!');
+                navigate('/facturation');
                 window.location.reload();
             } else {
                 toast.error('Erreur lors de la création de la facture.');
@@ -445,6 +486,7 @@ const FactureEff = () => {
                             dataSource={filteredActif}
                             loading={loading}
                             rowKey="id_vehicule"
+                            key={Date.now()} 
                             scroll={scroll}
                         />
                         <h3>Autres</h3>

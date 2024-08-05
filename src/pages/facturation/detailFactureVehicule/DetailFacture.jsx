@@ -63,8 +63,8 @@ const DetailFacture = ({ id_facture }) => {
             )
         },
         {
-            title: 'Montant',
-            dataIndex: 'montant',
+            title: 'Prix',
+            dataIndex: 'prix_unitaire',
             key: 'montant',
             sorter: (a, b) => (a.montant) - moment(b.montant),
             sortDirections: ['descend', 'ascend'],
