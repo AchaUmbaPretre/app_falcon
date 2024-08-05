@@ -1,0 +1,151 @@
+.factureCreer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .facture_wrapper{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .facture_logo{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            .facture_img{
+                height: 80px;
+                width: 80px;
+                object-fit: cover;
+            }
+        }
+        .facture_title_rows{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            .facture_title_div{
+                width: 100%;
+                border: 1px solid #969696;
+                padding: 6px;
+                margin: 10px 0px;
+                .facture_h2{
+                    text-align: center;
+                    font-size: .8rem;
+                }
+            }
+            .facture_title_h2{
+                width: 100%;
+                text-align: center;
+                font-weight: 700;
+            }
+            .facture_client{
+                .facture_desc{
+                    font-size: .8rem;
+                    span{
+                        text-decoration: underline;
+                    }
+                }
+            }
+            .facture_h5{
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+            table{
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0; 
+                font-size: 16px; 
+                text-align: left;
+                thead{
+                    tr{
+                        th{
+                            border: 1px solid #dddddd; 
+                            padding: 8px; 
+                            font-size: .8rem;
+                        }
+                    }
+                }
+                tbody{
+                    tr{
+                        td{
+                            border: 1px solid #dddddd; 
+                            padding: 8px; 
+                            font-size: .8rem;
+                        }
+                    }
+                }
+                tfoot{
+                    tr{
+                        font-weight: bold;
+                        border: 1px solid #dddddd;
+                    }
+                    th{
+                        border: 1px solid #dddddd;
+                    }
+                    .total-row {
+                        background-color: #fff;
+                      }
+                }
+
+            }
+            .facture_signature{
+                width: 100%;
+                margin: 20px 0 40px 0;
+                h3{
+                    font-size: .8rem;
+                    display: block;
+                    width: 100%;
+                    text-align: right
+                }
+            }
+            .facture_footer{
+                hr{
+                    height: 2px;
+                }
+                .facture_footer_rows{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    align-items: center;
+                    justify-content: center;
+                    h2{
+                        font-size: .8rem;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    span{
+                        font-size: .6rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/* table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  table, th, td {
+    border: 1px solid black;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  tfoot tr {
+    font-weight: bold;
+  }
+  
+  .total-row {
+    background-color: #f2f2f2;
+  } */
+  

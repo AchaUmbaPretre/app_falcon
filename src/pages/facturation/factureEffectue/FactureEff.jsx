@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
 import { getColorForOperationType } from '../../../utils'
-import { BarcodeOutlined, ThunderboltOutlined, CalendarOutlined } from '@ant-design/icons';
+import { BarcodeOutlined, ThunderboltOutlined, DollarOutlined, CalendarOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
 import { Button, DatePicker, Input, Modal, Select, Spin, Table, Tag } from 'antd';
 import moment from 'moment';
@@ -152,10 +152,11 @@ const FactureEff = () => {
     };
 
     const handleChange = (id, prix) => {
-        setVehicule((prevSelectedRows) =>
-          prevSelectedRows.map((row) =>
-            row.id_vehicule === id ? { ...row, prix } : row
-          )
+        const price = parseFloat(prix) || 0; // Convertir en nombre, sinon utiliser 0
+        setVehicule(prevSelectedRows =>
+            prevSelectedRows.map(row =>
+                row.id_vehicule === id ? { ...row, prix: price } : row
+            )
         );
     };
 
@@ -184,9 +185,6 @@ const FactureEff = () => {
         calculateTotalAmountUse()
     })
 
-    console.log(date)
-
-
     const calculateTotalAmountVehicule = () => {
         const selectedVehicules = vehicule.filter(v => 
             selectedRowKeys.actif.includes(v.id_vehicule) || selectedRowKeys.autres.includes(v.id_vehicule)
@@ -195,6 +193,40 @@ const FactureEff = () => {
         const totalAmoutVehicule = selectedVehicules.reduce((acc, curr) => acc + curr.prix, 0);
         
         return totalAmoutVehicule;
+    };
+    
+    const calculateDaysInPeriod = (startDate, endDate) => {
+        return moment(endDate).diff(moment(startDate), 'days') + 1; // Inclure le jour de fin
+    };
+    
+    // Fonction pour calculer le nombre de jours actifs
+    const calculateDaysActive = (startDate, endDate, vehicleStartDate) => {
+        const periodStart = moment(startDate);
+        const periodEnd = moment(endDate);
+        const vehicleStart = moment(vehicleStartDate);
+    
+        if (vehicleStart.isBefore(periodStart)) {
+            console.log('Le véhicule était actif avant le début de la période.');
+            return calculateDaysInPeriod(periodStart, periodEnd);
+        } else {
+            console.log('Le véhicule était actif pendant la période.');
+            return calculateDaysInPeriod(vehicleStart, periodEnd);
+        }
+    };
+    
+    // Fonction pour calculer le montant
+    const calculateAmountForVehicle = (prix, dateOperation, startDate, endDate) => {
+        console.log(dateOperation)
+        const daysActive = calculateDaysActive(startDate, endDate, dateOperation);
+        console.log("Jours d'activité:", daysActive); 
+    
+        const totalDaysInMonth = moment(endDate).daysInMonth();
+        console.log('Nombre total de jours dans le mois :', totalDaysInMonth);
+    
+        const amount = (daysActive * prix) / totalDaysInMonth;
+        console.log('Calculated Amount:', amount);
+
+    return amount;
     };
     
 
@@ -225,7 +257,7 @@ const FactureEff = () => {
             sortDirections: ['descend', 'ascend'],
             render: (text) => (
                 <Tag icon={<CalendarOutlined />} color="blue">
-                    {moment(text).format('DD-MM-YYYY')}
+                    {moment(dateStart).format('DD-MM-YYYY')}
                 </Tag>
             ),
         },
@@ -256,6 +288,24 @@ const FactureEff = () => {
                     />
                 </div>
             )
+        },
+        {
+            title: 'Montant',
+            key: 'montant',
+            render: (text, record) => {
+                // Trouver le véhicule et obtenir son prix
+                const vehicle = vehicule.find(v => v.id_vehicule === record.id_vehicule);
+                const price = vehicle ? vehicle.prix : 0; // Assurer que price est un nombre
+                
+                // Calculer le montant
+                const amount = calculateAmountForVehicle(price, record.date_operation, dateStart, dateEnd);
+        
+                return (
+                    <Tag color={amount > 0 ? 'green' : 'red'}>
+                        {amount.toFixed(2)} <DollarOutlined style={{ marginLeft: "5px" }} />
+                    </Tag>
+                );
+            },
         }
     ];
 

@@ -12,6 +12,7 @@ import PaiementFacture from './factureForm/PaiementFacture';
 import FacturationRecu from './facturationRecu/FacturationRecu';
 import moment from 'moment';
 import DetailFacture from './detailFactureVehicule/DetailFacture';
+import FactureCreer from './factureCreer/FactureCreer';
 
 const Facturation = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -198,7 +199,7 @@ const Facturation = () => {
             <Button icon={<DollarOutlined />} onClick={() => showModalPaiment(record.id_facture)} style={{ color: 'blue' }} />
           </Popover>
           <Popover title="Créer une facture" trigger="hover">
-            <Button icon={<AuditOutlined />} onClick={() => showModalPaiment(record.id_facture)} style={{ color: 'blue' }} />
+            <Button icon={<AuditOutlined />} onClick={() => showModalRecu(record.id_facture)} style={{ color: 'blue' }} />
           </Popover>
           <Popover title="Supprimer" trigger="hover">
             <Popconfirm
@@ -312,7 +313,7 @@ const Facturation = () => {
                 width={800}
                 footer={null}
               >
-                <FacturationRecu />
+                <FactureCreer />
               </Modal>
 
               {loading ? (
