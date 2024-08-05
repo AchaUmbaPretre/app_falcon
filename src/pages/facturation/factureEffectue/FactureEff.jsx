@@ -169,19 +169,25 @@ const FactureEff = () => {
     };
 
     const calculateTotalAmount = () => {
-
         const selectedVehicules = vehicule.filter(v => 
             selectedRowKeys.actif.includes(v.id_vehicule) || selectedRowKeys.autres.includes(v.id_vehicule)
         );
+    
         const totalAmount = selectedVehicules.reduce((acc, curr) => {
-            const amountToAdd = monthsDifference !== undefined && monthsDifference !== 0 
-                ? curr.montant * monthsDifference 
-                : curr.montant;
+            const amountToAdd = monthsDifference !== undefined && monthsDifference !== 0
+                ? curr.prix * monthsDifference
+                : curr.prix;
+            
             return acc + amountToAdd;
         }, 0);
+        const validRemise = typeof remise === 'number' ? remise : 0;
         
-        return totalAmount - remise;
+        const finalAmount = totalAmount - validRemise;
+        const roundedAmount = finalAmount.toFixed(2);
+    
+        return `$${roundedAmount}`;
     };
+    
 
     useEffect(()=>{
         const calculateTotalAmountUse = () => {
@@ -203,7 +209,7 @@ const FactureEff = () => {
             selectedRowKeys.actif.includes(v.id_vehicule) || selectedRowKeys.autres.includes(v.id_vehicule)
         );
         
-        const totalAmountVehicule = selectedVehicules.reduce((acc, curr) => acc + curr.montant, 0);
+        const totalAmountVehicule = selectedVehicules.reduce((acc, curr) => acc + curr.prix, 0);
         
         return totalAmountVehicule;
     };
