@@ -168,26 +168,27 @@ const FactureEff = () => {
         );
     };
 
-    const calculateTotalAmount = () => {
-        const selectedVehicules = vehicule.filter(v => 
-            selectedRowKeys.actif.includes(v.id_vehicule) || selectedRowKeys.autres.includes(v.id_vehicule)
-        );
-    
-        const totalAmount = selectedVehicules.reduce((acc, curr) => {
-            const amountToAdd = monthsDifference !== undefined && monthsDifference !== 0
-                ? curr.prix * monthsDifference
-                : curr.prix;
-            
-            return acc + amountToAdd;
-        }, 0);
-        const validRemise = typeof remise === 'number' ? remise : 0;
+    useEffect(()=>{
+        const calculateTotalAmount = () => {
+            const selectedVehicules = vehicule.filter(v => 
+                selectedRowKeys.actif.includes(v.id_vehicule) || selectedRowKeys.autres.includes(v.id_vehicule)
+            );
         
-        const finalAmount = totalAmount - validRemise;
-        const roundedAmount = finalAmount.toFixed(2);
-    
-        return `$${roundedAmount}`;
-    };
-    
+            const totalAmount = selectedVehicules.reduce((acc, curr) => {
+                const amountToAdd = monthsDifference !== undefined && monthsDifference !== 0
+                    ? curr.prix * monthsDifference
+                    : curr.prix;
+                
+                return acc + amountToAdd;
+            }, 0);
+            const validRemise = typeof remise === 'number' ? remise : 0;
+            
+            const finalAmount = totalAmount - validRemise;
+            const roundedAmount = finalAmount.toFixed(2);
+            setTotalVehicule(roundedAmount)
+        };
+        calculateTotalAmount()
+    })
 
     useEffect(()=>{
         const calculateTotalAmountUse = () => {
@@ -197,7 +198,6 @@ const FactureEff = () => {
             );
             
             const totalAmount = selectedVehicules.reduce((acc, curr) => acc + (curr.prix * monthsDifference), 0);
-            setTotalVehicule(totalAmount)
             return totalAmount - remise;
         };
 
@@ -390,6 +390,7 @@ const FactureEff = () => {
 
             if (response.status === 200) {
                 toast.success('Facture créée avec succès!');
+                window.location.reload();
             } else {
                 toast.error('Erreur lors de la création de la facture.');
             }
@@ -487,7 +488,7 @@ const FactureEff = () => {
                     </div>
                     <div className='facture_montant_rows'>
                         <span className="facture_desc">Montant total pour {monthsDifference} mois  <span>*</span> :</span>
-                        <span>{calculateTotalAmount()} $</span>
+                        <span>{totalVehicule} $</span>
                     </div>
                     <div className='facture_montant_rows'>
                         <span className="facture_desc">Remise : <span>*</span> :</span>
