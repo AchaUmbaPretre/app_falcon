@@ -53,12 +53,13 @@ const Client = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${DOMAIN}/api/commande/commande/${id}`);
+      await axios.delete(`${DOMAIN}/client/${id}`);
       window.location.reload();
     } catch (err) {
       console.log(err);
     }
   };
+  
 useEffect(()=>{
   const fetchPermission = async () => {
     try {
