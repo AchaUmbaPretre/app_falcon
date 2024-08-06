@@ -39,8 +39,19 @@ const Sidebar = () => {
   const [data, setData] = useState([]);
 
   const onOpenChange = (keys) => {
-    setOpenKeys(keys);
+    // Si aucune clé n'est ouverte, on ne fait rien
+    if (keys.length === 0) {
+      setOpenKeys([]);
+      return;
+    }
+  
+    if (keys.length === 1 && keys[0] === openKeys[0]) {
+      return;
+    }
+  
+    setOpenKeys(keys.length ? [keys[keys.length - 1]] : []);
   };
+  
 
   const handleLinkClick = () => {
     dispatch(toggleSidebar());
