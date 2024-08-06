@@ -130,7 +130,7 @@ const Paiement = () => {
         </Tag>
       )
     },
-    {
+/*     {
       title: 'Montant (TVA)',
       dataIndex: 'montant_tva',
       key: 'montant_tva',
@@ -140,7 +140,7 @@ const Paiement = () => {
           {text} $
         </Tag>
       )
-    },
+    }, */
     {
       title: "Date",
       dataIndex: 'date_paiement',
