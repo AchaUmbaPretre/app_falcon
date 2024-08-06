@@ -141,10 +141,10 @@ const Traceur = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${DOMAIN}/commande/commande/${id}`);
-      fetchData();
+      await axios.delete(`${DOMAIN}/traceur/${id}`);
+      window.location.reload();
     } catch (err) {
-      console.error('Error deleting record:', err);
+      console.log(err);
     }
   };
 
