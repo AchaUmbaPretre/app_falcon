@@ -314,16 +314,34 @@ const FactureEff = () => {
             ),
         },
         {
+            title: "Date d'op",
+            dataIndex: 'date_operation',
+            key: 'date_operation',
+            sorter: (a, b) => moment(a.date_operation) - moment(b.date_operation),
+            sortDirections: ['descend', 'ascend'],
+            render: (text) => (
+              <Tag icon={<CalendarOutlined />} color="blue">
+                {moment(text).format('DD-MM-yyyy')}
+              </Tag>
+            )
+          },
+        {
             title: "Date début",
             dataIndex: "dateStart",
             key: "dateStart",
             render: (text, record) => {
-                console.log("Date début:", record.dateStart);
+                const vehicleFind = vehicule.find(v => v.id_vehicule === record.id_vehicule);
+        
+                if (!vehicleFind) {
+                    return <span>N/A</span>;
+                }
+        
                 return (
                     <input
+                        style={{border:"none", padding:'8px', color:'#555', fontSize:'12px'}}
                         type="date"
-                        value={record.dateStart ? moment(record.dateStart).format('YYYY-MM-DD') : ''}
-                        onChange={(e) => handleDateChange(record.id_vehicule, moment(e.target.value, 'YYYY-MM-DD'), 'start')}
+                        value={vehicleFind.dateStart ? moment(vehicleFind.dateStart).format('YYYY-MM-DD') : ''}
+                        onChange={(e) => handleDateChange(vehicleFind.id_vehicule, moment(e.target.value, 'YYYY-MM-DD'), 'start')}
                     />
                 );
             }
@@ -333,23 +351,32 @@ const FactureEff = () => {
             dataIndex: "dateEnd",
             key: "dateEnd",
             render: (text, record) => {
-                console.log("Date fin:", record.dateEnd);
+                const vehicleFind = vehicule.find(v => v.id_vehicule === record.id_vehicule);
+        
+                // Vérifiez si `vehicleFind` existe pour éviter les erreurs
+                if (!vehicleFind) {
+                    return <span>N/A</span>; // Affiche un texte alternatif si aucun véhicule n'est trouvé
+                }
+        
                 return (
                     <input
                         type="date"
-                        value={record.dateEnd ? moment(record.dateEnd).format('YYYY-MM-DD') : ''}
+                        style={{border:"none", padding:'8px', color:'#555', fontSize:'12px'}}
+                        value={vehicleFind.dateEnd ? moment(vehicleFind.dateEnd).format('YYYY-MM-DD') : ''}
                         onChange={(e) => handleDateChange(record.id_vehicule, moment(e.target.value, 'YYYY-MM-DD'), 'end')}
                     />
                 );
             }
-        },
+        },        
         {
             title: "Tarif",
+            
             render: (text, record) => (
                 <div>
                     <Input
                         type="number"
                         min="0"
+                        step="0.01"
                         onChange={(e) => handleChange(record.id_vehicule, Number(e.target.value))}
                         value={vehicule.find(v => v.id_vehicule === record.id_vehicule)?.prix || ''}
                         placeholder="Tarif..."
@@ -375,8 +402,6 @@ const FactureEff = () => {
             },
         }
     ];
-
-    console.log(vehicule)
 
     const columnsWithOperation = [
         ...columnsCommon,
