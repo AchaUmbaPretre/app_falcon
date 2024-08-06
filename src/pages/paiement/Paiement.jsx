@@ -122,10 +122,11 @@ const Paiement = () => {
       title: 'Montant',
       dataIndex: 'montant',
       key: 'montant',
+      sorter: (a, b) => a.montant - b.montant,
+      sortDirections: ['descend', 'ascend'],
       render: (text, record) => (
-        <Tag color='green'>
-          <DollarOutlined style={{ marginRight: '5px' }} />
-          {text} $
+        <Tag color={text !== null ? 'green' : 'red'} icon={<DollarOutlined />}>
+          {text ? `${text} $` : '0'}
         </Tag>
       )
     },

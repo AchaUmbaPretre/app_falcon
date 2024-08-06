@@ -21,7 +21,6 @@ const PaiementForm = () => {
   const navigate = useNavigate();
   const userId = useSelector((state) => state.user.currentUser.id);
 
-
   const handleInputChange = (e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
