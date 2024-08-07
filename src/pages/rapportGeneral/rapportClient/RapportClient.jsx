@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Drawer, Modal, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
-import { UserOutlined, CarryOutOutlined,CarOutlined, EyeOutlined, CalendarOutlined, DollarOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Drawer, Modal, Popover, Space, Table, Tag, Skeleton, Input, Menu, Dropdown } from 'antd';
+import { UserOutlined, CarryOutOutlined, CarOutlined, MenuOutlined, DownOutlined, EyeOutlined, CalendarOutlined, DollarOutlined, SisternodeOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import axios from 'axios';
-import * as XLSX from 'xlsx';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
 import { Link } from 'react-router-dom';
 import RapportClientDetail from './rapportClientDetail/RapportClientDetail';
 
@@ -24,6 +21,35 @@ const RapportClient = () => {
   });
   const [client, setClient] = useState([]);
   const scroll = { x: 400 };
+  const [columnsVisibility, setColumnsVisibility] = useState({
+    '#': true,
+    'Client': true,
+    '# vehicule': true,
+    "d'année": true,
+    "# facture": true,
+    'Montant total': true,
+    'Total payé': true
+  });
+
+
+  const toggleColumnVisibility = (columnName) => {
+    setColumnsVisibility(prev => ({
+      ...prev,
+      [columnName]: !prev[columnName]
+    }));
+  };
+  const menu = (
+    <Menu>
+      {Object.keys(columnsVisibility).map(columnName => (
+        <Menu.Item key={columnName}>
+          <span onClick={() => toggleColumnVisibility(columnName)}>
+            <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
+            <span style={{ marginLeft: 8 }}>{columnName}</span>
+          </span>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
 
   const showDrawer = (e) => {
     setOpenDetail(true);
@@ -65,42 +91,12 @@ const RapportClient = () => {
     setPagination(newPagination);
   };
 
-  const exportToPDF = () => {
-    const doc = new jsPDF();
-    doc.text("Rapport client", 14, 22);
-    const tableColumn = ["#", "nom_client", "poste", "telephone", "adresse", "email"];
-    const tableRows = [];
-
-    data.forEach((record, index) => {
-      const tableRow = [
-        index + 1,
-        record.nom_client,
-        record.poste,
-        record.telephone,
-        record.adresse,
-        record.email
-      ];
-      tableRows.push(tableRow);
-    });
-
-    doc.autoTable({
-      head: [tableColumn],
-      body: tableRows,
-      startY: 30,
-    });
-    doc.save('client.pdf');
-  };
-
-  const exportToExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "client");
-    XLSX.writeFile(wb, "client.xlsx");
-  };
-
-
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
+    { title: '#', dataIndex: 'id', key: 'id', 
+      render: (text, record, index) => 
+        index + 1, width: "3%",
+      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
+    },
     {
       title: 'Client',
       dataIndex: 'nom_client',
@@ -109,7 +105,8 @@ const RapportClient = () => {
         <div>
           <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
-      )
+      ),
+      ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' })
     },
     {
         title: "# vehicule",
@@ -121,7 +118,8 @@ const RapportClient = () => {
           <div>
             <Tag color={text > 0 ? 'green' : 'red'}><CarOutlined style={{ marginRight: "5px" }} />{text}</Tag>
           </div>
-        )
+        ),
+        ...(columnsVisibility['# vehicule'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "# d'année",
@@ -140,7 +138,9 @@ const RapportClient = () => {
             {text > 0 ? `${text} an(s)` : `${record.nbre_mois} mois`}
           </Tag>
         </div>
-      )
+      ),
+      ...(columnsVisibility["# d'année"] ? {} : { className: 'hidden-column' })
+
     },    
     {
       title: "# facture",
@@ -152,7 +152,9 @@ const RapportClient = () => {
         <div>
           <Tag color={text > 0 ? 'green' : 'red'} ><CarryOutOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
-      )
+      ),
+      ...(columnsVisibility['# facture'] ? {} : { className: 'hidden-column' })
+
     },
     {
         title: "Montant total",
@@ -164,7 +166,8 @@ const RapportClient = () => {
           <div>
             <Tag color={text > 0 ? 'green' : 'red'}>{text}<DollarOutlined style={{ marginLeft: "5px" }} /></Tag>
           </div>
-        )
+        ),
+        ...(columnsVisibility['Montant total'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Total payé",
@@ -176,8 +179,9 @@ const RapportClient = () => {
         <div>
           <Tag color={text > 0 ? 'green' : 'red'}>{text}<DollarOutlined style={{ marginLeft: "5px" }} /></Tag>
         </div>
-      )
-  },
+      ),
+      ...(columnsVisibility['Total payé'] ? {} : { className: 'hidden-column' })
+    },
     {
         title: 'Action',
         key: 'action',
@@ -193,20 +197,11 @@ const RapportClient = () => {
       }
   ];
 
-  const showModal = (e) => {
-    setOpen(true);
-  };
-
-  const showModalContact = (e) => {
-    setOpens(true);
-    setIdClient(e);
-  };
-
   const filteredData = data?.filter((item) =>
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.poste?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.telephone?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    item.adresse?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nbre_vehicule?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nbre_annee?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    item.nbre_facture?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -253,31 +248,13 @@ const RapportClient = () => {
                   </div>
                 </div>
                 <div className="product-bottom-right">
-                  <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
-                  <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
-                  <Button className="product-icon-printer" icon={<PrinterOutlined />} />
+                  <Dropdown overlay={menu} trigger={['click']}>
+                    <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                      Colonnes <DownOutlined />
+                    </Button>
+                  </Dropdown>
                 </div>
               </div>
-
-              <Modal
-                title=""
-                centered
-                open={open}
-                onCancel={() => setOpen(false)}
-                width={1000}
-                footer={[]}
-              >
-              </Modal>
-
-              <Modal
-                title=""
-                centered
-                open={opens}
-                onCancel={() => setOpens(false)}
-                width={1000}
-                footer={[]}
-              >
-              </Modal>
 
               <Drawer title="Détail" onClose={onClose} visible={openDetail} width={800}>
                 <RapportClientDetail id_client={idClient} />
