@@ -198,7 +198,7 @@ const RapportClientDetail = ({ id_client }) => {
           </div>
           <div className="operation_row">
             <span className="operation_span">Total payé :</span>
-            <span className="operation_desc">{data?.montant_total_facture} $</span>
+            <span className="operation_desc">{data?.montant_total_paiement} $</span>
           </div>
         </div>
         </Skeleton>
