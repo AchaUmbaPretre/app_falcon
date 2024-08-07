@@ -44,6 +44,11 @@ const Operations = () => {
     'Crée(e) par': true,
   });
 
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+  });
+
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
     setSelectedOperationIds(newSelectedRowKeys);
@@ -158,7 +163,8 @@ const Operations = () => {
     XLSX.writeFile(wb, "opérations.xlsx");
   };
 
-  const toggleColumnVisibility = (columnName) => {
+  const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation();
     setColumnsVisibility(prev => ({
       ...prev,
       [columnName]: !prev[columnName]
@@ -169,7 +175,7 @@ const Operations = () => {
     <Menu>
       {Object.keys(columnsVisibility).map(columnName => (
         <Menu.Item key={columnName}>
-          <span onClick={() => toggleColumnVisibility(columnName)}>
+          <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
             <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
             <span style={{ marginLeft: 8 }}>{columnName}</span>
           </span>
@@ -189,12 +195,16 @@ const Operations = () => {
   );
 
   const columns = [
-    { 
-      title: '#', 
-      dataIndex: 'id', 
-      key: 'id', 
-      render: (_, __, index) => index + 1, 
-      width: "3%", 
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "3%",
       ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
     },
     {

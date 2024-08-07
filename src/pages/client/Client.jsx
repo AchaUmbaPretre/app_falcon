@@ -59,7 +59,7 @@ const Client = () => {
       console.log(err);
     }
   };
-  
+
 useEffect(()=>{
   const fetchPermission = async () => {
     try {
@@ -144,7 +144,17 @@ useEffect(()=>{
   };
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "3%"
+    },
     {
       title: 'Nom',
       dataIndex: 'nom_client',
