@@ -46,7 +46,7 @@ const Operations = () => {
 
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 10,
+    pageSize: 15,
   });
 
   const onSelectChange = (newSelectedRowKeys) => {
@@ -124,6 +124,10 @@ const Operations = () => {
 
   const closeDrawer = () => {
     setOpenDetail(false);
+  };
+
+  const handleTableChange = (newPagination) => {
+    setPagination(newPagination);
   };
 
   const exportToPDF = () => {
@@ -379,15 +383,15 @@ const Operations = () => {
                   className="product-search"
                 />
               </div>
-              <div className="product-bottom-right">
+              <div className="product-bottom-rights">
                 <Dropdown overlay={menu} trigger={['click']}>
                   <Button icon={<MenuOutlined />} className="ant-dropdown-link">
                     Colonnes <DownOutlined />
                   </Button>
                 </Dropdown>
-                <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                {/* <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
                 <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
-                <Button className="product-icon-printer" icon={<PrinterOutlined />} />
+                <Button className="product-icon-printer" icon={<PrinterOutlined />} /> */}
               </div>
             </div>
             {openTrie && (
@@ -403,7 +407,9 @@ const Operations = () => {
                 loading={loading}
                 rowKey="id_operations"
                 className='table_client'
+                pagination={pagination}
                 scroll={scroll}
+                onChange={handleTableChange}
               />
             )}
 
