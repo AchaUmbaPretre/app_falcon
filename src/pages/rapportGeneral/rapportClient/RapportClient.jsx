@@ -279,7 +279,7 @@ const RapportClient = () => {
               >
               </Modal>
 
-              <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
+              <Drawer title="Détail" onClose={onClose} visible={openDetail} width={800}>
                 <RapportClientDetail id_client={idClient} />
               </Drawer>
               
