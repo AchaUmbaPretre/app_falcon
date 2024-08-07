@@ -41,8 +41,6 @@ const Vehicules = () => {
     }
   }, [DOMAIN,searchValue]);
 
-
-
   useEffect(() => {
     fetchData();
     fetchVehicule();
