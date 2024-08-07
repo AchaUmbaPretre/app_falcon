@@ -23,7 +23,7 @@ const RapportClient = () => {
     '#': true,
     'Client': true,
     '# vehicule': true,
-    "d'année": true,
+    "# d'année": true,
     "# facture": true,
     'Montant total': true,
     'Total payé': true
@@ -97,6 +97,10 @@ const RapportClient = () => {
 
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
+  };
+
+  const handleDateChange = (dates) => {
+    setDates(dates);
   };
 
   const columns = [
@@ -224,7 +228,12 @@ const RapportClient = () => {
               </div>
               
               <div className="client_row_number">
-                <span className="client_span_title">Total : {client}</span>
+              <div className="date-picker">
+                <RangePicker 
+                  onChange={handleDateChange}
+                  format="YYYY-MM-DD"
+                />
+              </div>
               </div>
             </div>
           </div>
