@@ -203,7 +203,7 @@ const RapportClientDetail = ({ id_client }) => {
         </div>
         </Skeleton>
         <div style={{width:'100%', overflowX:'scroll'}}>
-            <h1 style={{ padding: '20px 0px', fontSize: "20px" }}>Liste des véhicules :</h1>
+            <h1 style={{ padding: '20px 0px', fontSize: "18px" }}>Liste des véhicules :</h1>
             <Table 
               dataSource={dataVehicule} 
               columns={columns} 
@@ -215,7 +215,7 @@ const RapportClientDetail = ({ id_client }) => {
         </div>
 
         <div style={{width:'100%', overflowX:'scroll'}}>
-            <h1 style={{ padding: '20px 0px', fontSize: "20px" }}>Liste des factures :</h1>
+            <h1 style={{ padding: '20px 0px', fontSize: "18px" }}>Liste des factures :</h1>
             <Table 
               dataSource={dataFacture} 
               columns={columnsFacture} 
