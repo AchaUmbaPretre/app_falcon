@@ -61,7 +61,7 @@ import PersonnelEdit from './pages/personnel/form/PersonnelEdit';
 import FactureForm from './pages/facturation/factureForm/FactureForm';
 import FactureClient from './pages/facturation/factureClient/FactureClient';
 import FactureEffectue from './pages/facturation/factureEffectue/FactureEffectue';
-import RapportClient from './pages/rapportGeneral/RapportClient';
+import RapportClient from './pages/rapportGeneral/rapportClient/RapportClient';
 import RapportVehicule from './pages/rapportGeneral/RapportVehicule';
 import FactureEff from './pages/facturation/factureEffectue/FactureEff';
 

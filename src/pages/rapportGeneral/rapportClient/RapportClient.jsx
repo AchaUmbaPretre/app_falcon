@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumb, Button, Drawer, Modal, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
 import { UserOutlined, CarryOutOutlined,CarOutlined, EyeOutlined, CalendarOutlined, DollarOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
-import config from '../../config';
+import config from '../../../config';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { Link } from 'react-router-dom';
+import RapportClientDetail from './rapportClientDetail/RapportClientDetail';
 
 const RapportClient = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -126,14 +127,21 @@ const RapportClient = () => {
       title: "# d'année",
       dataIndex: 'nbre_annee',
       key: 'nbre_annee',
-      sorter: (a, b) => a.nbre_annee - b.nbre_annee,
-        sortDirections: ['descend', 'ascend'],
+      sorter: (a, b) => {
+        const nbreA = Number(a.nbre_annee);
+        const nbreB = Number(b.nbre_annee);
+        return nbreA - nbreB;
+      },
+      sortDirections: ['ascend', 'descend'],
       render: (text, record) => (
         <div>
-          <Tag color={'blue'}><CalendarOutlined style={{ marginRight: "5px" }} />{text > 0 ? `${text} an(s)` : `${record.nbre_mois} mois` }</Tag>
+          <Tag color={'blue'}>
+            <CalendarOutlined style={{ marginRight: "5px" }} />
+            {text > 0 ? `${text} an(s)` : `${record.nbre_mois} mois`}
+          </Tag>
         </div>
       )
-    },
+    },    
     {
       title: "# facture",
       dataIndex: 'nbre_facture',
@@ -260,7 +268,7 @@ const RapportClient = () => {
               </Modal>
 
               <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
-
+                <RapportClientDetail id_client={idClient} />
               </Drawer>
               
               {loading ? (
