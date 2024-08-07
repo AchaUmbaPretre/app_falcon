@@ -83,7 +83,7 @@ const RapportVehicule = () => {
         )
       },
       {
-        title: "Nbre facture",
+        title: "# facture",
         dataIndex: 'nbre_facture',
         key: 'nbre_facture',
         sorter: (a, b) => a.nbre_facture - b.nbre_facture,
@@ -107,7 +107,7 @@ const RapportVehicule = () => {
         )
       },
       {
-        title: "Nbre de jour",
+        title: "# jour",
         dataIndex: 'nbre_jour',
         key: 'nbre_jour',
         render: (text) => (
@@ -117,7 +117,7 @@ const RapportVehicule = () => {
         )
       },
       {
-        title: "Nbre d'année",
+        title: "# d'année",
         dataIndex: 'nbre_annee',
         key: 'nbre_annee',
         render: (text, record) => (
@@ -232,7 +232,7 @@ const RapportVehicule = () => {
                   )
                 },
                 {
-                  title: 'Nombre de véhicules',
+                  title: '# véhicules',
                   dataIndex: 'vehicles',
                   key: 'vehicles',
                   render: (text) => (

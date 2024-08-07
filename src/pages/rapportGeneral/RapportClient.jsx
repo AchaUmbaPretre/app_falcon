@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Drawer, Modal, Table, Tag, Skeleton, Input } from 'antd';
-import { UserOutlined, CarryOutOutlined,CarOutlined,CalendarOutlined, DollarOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Drawer, Modal, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
+import { UserOutlined, CarryOutOutlined,CarOutlined, EyeOutlined, CalendarOutlined, DollarOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import { Link } from 'react-router-dom';
 
 const RapportClient = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -53,7 +54,6 @@ const RapportClient = () => {
         console.log(error);
     }
 };
-
 
    useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
@@ -111,7 +111,7 @@ const RapportClient = () => {
       )
     },
     {
-        title: "Nbre vehicule",
+        title: "# vehicule",
         dataIndex: 'nbre_vehicule',
         key: 'nbre_vehicule',
         sorter: (a, b) => a.nbre_vehicule - b.nbre_vehicule,
@@ -123,7 +123,7 @@ const RapportClient = () => {
         )
     },
     {
-      title: "Nbre d'année",
+      title: "# d'année",
       dataIndex: 'nbre_annee',
       key: 'nbre_annee',
       sorter: (a, b) => a.nbre_annee - b.nbre_annee,
@@ -135,7 +135,7 @@ const RapportClient = () => {
       )
     },
     {
-      title: "Nbre facture",
+      title: "# facture",
       dataIndex: 'nbre_facture',
       key: 'nbre_facture',
       sorter: (a, b) => a.nbre_facture - b.nbre_facture,
@@ -147,7 +147,7 @@ const RapportClient = () => {
       )
     },
     {
-        title: "Montant tot",
+        title: "Total payé",
         dataIndex: 'montant_total_facture',
         key: 'montant_total_facture',
         sorter: (a, b) => a.montant_total_facture - b.montant_total_facture,
@@ -156,6 +156,19 @@ const RapportClient = () => {
           <div>
             <Tag color={text > 0 ? 'green' : 'red'}>{text}<DollarOutlined style={{ marginLeft: "5px" }} /></Tag>
           </div>
+        )
+    },
+    {
+        title: 'Action',
+        key: 'action',
+        render: (text, record) => (
+          <Space size="middle">
+            <Popover title="Voir les détails" trigger="hover">
+              <Link>
+                <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={() => showDrawer(record.id_facture)} />
+              </Link>
+            </Popover>
+          </Space>
         )
       }
   ];
