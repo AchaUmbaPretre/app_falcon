@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Drawer, Modal, Popover, Space, Table, Tag, Skeleton, Input, Menu, Dropdown } from 'antd';
+import { Breadcrumb, Button, Drawer, Popover, Space, Table, Tag, Skeleton, Input, Menu, Dropdown, DatePicker } from 'antd';
 import { UserOutlined, CarryOutOutlined, CarOutlined, MenuOutlined, DownOutlined, EyeOutlined, CalendarOutlined, DollarOutlined, SisternodeOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import RapportClientDetail from './rapportClientDetail/RapportClientDetail';
-
+const { RangePicker } = DatePicker;
 const RapportClient = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
-  const [open, setOpen] = useState(false);
-  const [opens, setOpens] = useState(false);
   const [idClient, setIdClient] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,6 +28,7 @@ const RapportClient = () => {
     'Montant total': true,
     'Total payé': true
   });
+  const [dates, setDates] = useState([null, null]); 
 
 
   const toggleColumnVisibility = (columnName, e) => {
@@ -62,18 +61,25 @@ const RapportClient = () => {
     setOpenDetail(false);
   };
 
-  const fetchData = async (page, pageSize) => {
+  const fetchData = async (page, pageSize, dateRange) => {
     try {
-      const { data } = await axios.get(`${DOMAIN}/client/client_gen`);
+      const { data } = await axios.get(`${DOMAIN}/client/client_gen`, {
+        params: {
+          page,
+          pageSize,
+          startDate: dateRange[0]?.format('YYYY-MM-DD'),
+          endDate: dateRange[1]?.format('YYYY-MM-DD')
+        }
+      });
       setData(data);
       setLoading(false);
-      setPagination((prevPagination) => ({
+      setPagination(prevPagination => ({
         ...prevPagination
       }));
     } catch (error) {
       console.log(error);
     }
-  }; 
+  };
 
   const fetchClient = async () => {
     try {
@@ -85,9 +91,9 @@ const RapportClient = () => {
 };
 
    useEffect(() => {
-    fetchData(pagination.current, pagination.pageSize);
+    fetchData(pagination.current, pagination.pageSize, dates);
     fetchClient()
-  }, [DOMAIN, pagination.current, pagination.pageSize, searchValue]);
+  }, [DOMAIN, pagination.current, pagination.pageSize, searchValue, dates]);
 
   const handleTableChange = (newPagination) => {
     setPagination(newPagination);
