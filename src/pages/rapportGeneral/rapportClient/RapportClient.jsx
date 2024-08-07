@@ -34,7 +34,7 @@ const RapportClient = () => {
     setOpenDetail(false);
   };
 
- const fetchData = async (page, pageSize) => {
+  const fetchData = async (page, pageSize) => {
     try {
       const { data } = await axios.get(`${DOMAIN}/client/client_gen`);
       setData(data);
@@ -185,7 +185,7 @@ const RapportClient = () => {
           <Space size="middle">
             <Popover title="Voir les détails" trigger="hover">
               <Link>
-                <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={() => showDrawer(record.id_facture)} />
+                <Button icon={<EyeOutlined />} style={{ color: 'green' }} onClick={() => showDrawer(record.id_client)} />
               </Link>
             </Popover>
           </Space>

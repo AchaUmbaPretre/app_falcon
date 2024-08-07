@@ -11,7 +11,7 @@ const RapportClientDetail = ({ id_client }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${DOMAIN}/client/client_contact?id_client=${id_client}`);
+        const { data } = await axios.get(`${DOMAIN}/client/client_gen?id_client=${id_client}`);
         setData(data[0]);
         setLoading(false);
       } catch (error) {
@@ -31,24 +31,28 @@ const RapportClientDetail = ({ id_client }) => {
             <span className="operation_desc">{data?.nom_client}</span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Nom principal :</span>
-            <span className="operation_desc">{data?.nom_principal}</span>
+            <span className="operation_span">Nbre véhicule :</span>
+            <span className="operation_desc">{data?.nbre_facture}</span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Poste :</span>
-            <span className="operation_desc">{data?.poste}</span>
+            <span className="operation_span">Nbre de mois :</span>
+            <span className="operation_desc">{data?.nbre_mois}</span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Telephone :</span>
+            <span className="operation_span">Nbre d'année :</span>
+            <span className="operation_desc">{data?.nbre_annee}</span>
+          </div>
+          <div className="operation_row">
+            <span className="operation_span">Nbre de facture :</span>
             <span className="operation_desc">{data?.telephone}</span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Adresse :</span>
-            <span className="operation_desc">{data?.adresse}</span>
+            <span className="operation_span">Facture total :</span>
+            <span className="operation_desc">{data?.montant_total_facture} $</span>
           </div>
           <div className="operation_row">
-            <span className="operation_span">Email :</span>
-            <span className="operation_desc">{data?.email}</span>
+            <span className="operation_span">Total payé :</span>
+            <span className="operation_desc">{data?.montant_total_facture} $</span>
           </div>
         </div>
       </Skeleton>
