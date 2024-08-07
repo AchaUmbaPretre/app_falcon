@@ -17,6 +17,10 @@ const Vehicules = () => {
   const [vehicule, setVehicule] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+  });
   const role = useSelector((state) => state.user.currentUser.role);
 
   const fetchData = useCallback(async () => {
@@ -66,7 +70,17 @@ const Vehicules = () => {
   };
 
   const columns = [
-    { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
+    {
+      title: '#',
+      dataIndex: 'id',
+      key: 'id',
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 10;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "3%"
+    },
     {
       title: 'Client',
       dataIndex: 'nom_client',
@@ -244,7 +258,10 @@ const Vehicules = () => {
               rowClassName={() => 'font-size-18'} 
               loading={loading} 
               className='table_client' 
-              pagination={{ pageSize: 15 }}
+              pagination={{
+                showSizeChanger: true,
+                pageSizeOptions: ['10', '20', '50', '100'],
+              }}
             />
             <Modal
               title=""

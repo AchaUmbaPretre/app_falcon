@@ -31,7 +31,7 @@ const Client = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 10,
+    pageSize: 25,
   });
   const scroll = { x: 400 };
   const [client, setClient] = useState([]);
