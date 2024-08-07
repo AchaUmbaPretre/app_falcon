@@ -67,7 +67,7 @@ const Traceur = () => {
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(15);
   const [totalItems, setTotalItems] = useState(0);
   const role = useSelector((state) => state.user.currentUser.role);
   const [columnsVisibility, setColumnsVisibility] = useState({
@@ -79,6 +79,11 @@ const Traceur = () => {
     'Client': true,
     "Date d\'entrée": true
   });
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+  });
+  
 
 
   const fetchData = useCallback(async () => {
@@ -119,6 +124,10 @@ const Traceur = () => {
   const handleTableChange = (pagination) => {
     setCurrentPage(pagination.current);
     setPageSize(pagination.pageSize);
+    setPagination({
+      current: pagination.current,
+      pageSize: pagination.pageSize,
+    });
     fetchData();
   };
   
@@ -210,9 +219,12 @@ const Traceur = () => {
       title: '#',
       dataIndex: 'id',
       key: 'id',
-      render: (text, record, index) => index + 1,
-      width: '3%',
-      ...(columnsVisibility['#'] ? {} : { className: 'hidden-column' })
+      render: (text, record, index) => {
+        const pageSize = pagination.pageSize || 15;
+        const pageIndex = pagination.current || 1;
+        return (pageIndex - 1) * pageSize + index + 1;
+      },
+      width: "3%"
     },
     {
       title: 'ID traceur',
