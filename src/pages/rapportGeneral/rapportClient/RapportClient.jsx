@@ -155,7 +155,7 @@ const RapportClient = () => {
       )
     },
     {
-        title: "Total payé",
+        title: "Montant total",
         dataIndex: 'montant_total_facture',
         key: 'montant_total_facture',
         sorter: (a, b) => a.montant_total_facture - b.montant_total_facture,
@@ -166,6 +166,18 @@ const RapportClient = () => {
           </div>
         )
     },
+    {
+      title: "Total payé",
+      dataIndex: 'montant_total_facture',
+      key: 'montant_total_facture',
+      sorter: (a, b) => a.montant_total_facture - b.montant_total_facture,
+      sortDirections: ['descend', 'ascend'],
+      render: (text, record) => (
+        <div>
+          <Tag color={text > 0 ? 'green' : 'red'}>{text}<DollarOutlined style={{ marginLeft: "5px" }} /></Tag>
+        </div>
+      )
+  },
     {
         title: 'Action',
         key: 'action',
