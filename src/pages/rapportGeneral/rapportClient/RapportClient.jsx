@@ -32,17 +32,19 @@ const RapportClient = () => {
   });
 
 
-  const toggleColumnVisibility = (columnName) => {
+  const toggleColumnVisibility = (columnName, e) => {
+    e.stopPropagation(); // Prevent dropdown from closing
     setColumnsVisibility(prev => ({
       ...prev,
       [columnName]: !prev[columnName]
     }));
   };
+
   const menu = (
     <Menu>
       {Object.keys(columnsVisibility).map(columnName => (
         <Menu.Item key={columnName}>
-          <span onClick={() => toggleColumnVisibility(columnName)}>
+          <span onClick={(e) => toggleColumnVisibility(columnName, e)}>
             <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
             <span style={{ marginLeft: 8 }}>{columnName}</span>
           </span>
@@ -247,7 +249,7 @@ const RapportClient = () => {
                     />
                   </div>
                 </div>
-                <div className="product-bottom-right">
+                <div className="product-bottom-rights">
                   <Dropdown overlay={menu} trigger={['click']}>
                     <Button icon={<MenuOutlined />} className="ant-dropdown-link">
                       Colonnes <DownOutlined />
