@@ -31,7 +31,7 @@ const Client = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 25,
+    pageSize: 10,
   });
   const scroll = { x: 400 };
   const [client, setClient] = useState([]);
@@ -98,18 +98,20 @@ useEffect(()=>{
 
 }, [DOMAIN,userId])
 
-  const fetchData = async (page, pageSize) => {
-    try {
-      const { data } = await axios.get(`${DOMAIN}/client`);
-      setData(data);
-      setLoading(false);
-      setPagination((prevPagination) => ({
-        ...prevPagination
-      }));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const fetchData = async (page, pageSize) => {
+  try {
+    const { data } = await axios.get(`${DOMAIN}/client`, {
+      params: {
+        page,
+        limit: pageSize,
+      },
+    });
+    setData(data);
+    setLoading(false);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
   const fetchClient = async () => {
@@ -373,8 +375,16 @@ useEffect(()=>{
                   columns={columns}
                   scroll={scroll}
                   className='table_client'
-                  pagination={pagination}
-                  onChange={handleTableChange}
+                  pagination={{
+                    current: pagination.current,
+                    pageSize: pagination.pageSize,
+                    total: client,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '50', '100', '200', '300', '400'],
+                    onChange: (page, pageSize) => {
+                      setPagination({ ...pagination, current: page, pageSize });
+                    },
+                  }}
                 />
               )}
             </div>
