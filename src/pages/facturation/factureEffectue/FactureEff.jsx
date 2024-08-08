@@ -110,11 +110,13 @@ const FactureEff = () => {
         );
     
         const updatedVehicules = uniqueVehicules.map(item => {
+            console.log(item)
             const price = item.prix || montant;
             const calculatedAmount = calculateAmountForVehicle(price, item.date_operation, item.dateStart, item.dateEnd);
     
             return {
                 id_vehicule: item.id_vehicule,
+                date_operation : item.date_operation,
                 prix: price,
                 montant: calculatedAmount,
                 dateStart: dateStart,
@@ -240,19 +242,30 @@ const FactureEff = () => {
     };
     
     // Fonction pour calculer le nombre de jours actifs
-    const calculateDaysActive = (startDate, endDate, vehicleStartDate) => {
-        const periodStart = moment(startDate);
-        const periodEnd = moment(endDate);
-        const vehicleStart = moment(vehicleStartDate);
+    const calculateDaysActive = (startDate, endDate, dateOperation) => {
+        // Convertir les dates en objets moment
+        const start = moment(startDate);
+        const end = moment(endDate);
+        const operationDate = moment(dateOperation);
     
-        if (vehicleStart.isBefore(periodStart)) {
-            console.log('Le véhicule était actif avant le début de la période.');
-            return calculateDaysInPeriod(periodStart, periodEnd);
-        } else {
-            console.log('Le véhicule était actif pendant la période.');
-            return calculateDaysInPeriod(vehicleStart, periodEnd);
+        // Vérifier si les dates sont valides
+        if (!start.isValid() || !end.isValid() || !operationDate.isValid()) {
+            return 0;
         }
+    
+        // Ajuster les dates si elles sont en dehors des limites de l'opération
+        const adjustedStart = start.isBefore(operationDate) ? operationDate : start;
+        const adjustedEnd = end.isAfter(operationDate) ? end : operationDate;
+    
+        const daysActiveS= end.diff(start, 'days') + 1; // +1 pour inclure le jour de fin
+        console.log('Active:', daysActiveS)
+        // Calculer la différence en jours
+        const daysActive = adjustedEnd.diff(adjustedStart, 'days') + 1; // +1 pour inclure le jour de fin
+    
+        // Retourner le nombre de jours actifs
+        return daysActive >= 0 ? daysActive : 0; // Assurer que le nombre de jours ne soit pas négatif
     };
+    
     
     // Fonction pour calculer le montant
     const calculateAmountForVehicle = (prix, dateOperation, startDate, endDate) => {
@@ -273,6 +286,7 @@ const FactureEff = () => {
         console.log("Handle date change:", { id, date, type });
         
         const updatedVehicules = vehicule.map(v => {
+            console.log(v)
             if (v.id_vehicule === id) {
                 const newDates = {
                     ...v,
@@ -290,6 +304,16 @@ const FactureEff = () => {
         console.log("Updated vehicles:", updatedVehicules);
         setVehicule(updatedVehicules);
     };
+    
+    const handleMontantChange = useCallback((id, montants) => {
+        const montantValue = parseFloat(montants) || 0;
+        setVehicule(prevVehicule => {
+            const updated = prevVehicule.map(v => 
+                v.id_vehicule === id ? { ...v, montant: montantValue } : v
+            );
+            return updated;
+        });
+    }, []);
     
     
     
@@ -395,9 +419,21 @@ const FactureEff = () => {
                 const amount = vehicle ? vehicle.montant : 0;
                 
                 return (
-                    <Tag color={amount > 0 ? 'green' : 'red'}>
+/*                     <Tag color={amount > 0 ? 'green' : 'red'}>
                         {amount.toFixed(2)} <DollarOutlined style={{ marginLeft: "5px" }} />
-                    </Tag>
+                    </Tag> */
+                <div>
+                    <Input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        onChange={(e) => handleMontantChange(record.id_vehicule, e.target.value)}
+                        value={vehicule.find(v => v.id_vehicule === record.id_vehicule)?.montant || ''}
+                        placeholder="Prix..."
+                        className='days-input'
+                        style={{ width: "80px" }}
+                    />
+                </div>
                 );
             },
         }
