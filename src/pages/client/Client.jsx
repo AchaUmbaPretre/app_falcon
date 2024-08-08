@@ -60,6 +60,30 @@ const Client = () => {
     }
   };
 
+  const getContent = (record) => (
+    <div className='popOverSous' style={{ padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+      <h4 style={{ margin: 0, marginBottom: '10px', color: '#333' }}>Détails</h4>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
+          <span style={{ fontWeight: 'bold', color: '#555' }}>Nombre de véhicules :</span>
+          <span style={{ color: '#333' }}>{record.nbre_vehicule || 0}</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
+          <span style={{ fontWeight: 'bold', color: '#555' }}>Nombre d'opérations :</span>
+          <span style={{ color: '#333' }}>{record.nbre_operation || 0}</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
+          <span style={{ fontWeight: 'bold', color: '#555' }}>Montant total de la facture :</span>
+          <span style={{ color: '#333' }}> {record.montant_total_facture || '0,00'} $</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
+          <span style={{ fontWeight: 'bold', color: '#555' }}>Montant total du paiement :</span>
+          <span style={{ color: '#333' }}> {record.montant_total_paiement || '0,00'} $</span>
+        </div>
+      </div>
+    </div>
+  );
+  
 useEffect(()=>{
   const fetchPermission = async () => {
     try {
@@ -161,7 +185,9 @@ useEffect(()=>{
       key: 'nom_client',
       render: (text, record) => (
         <div>
-          <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          <Popover content={getContent(record)}>
+            <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          </Popover>
         </div>
       )
     },
