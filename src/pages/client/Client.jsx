@@ -73,6 +73,14 @@ const Client = () => {
           <span style={{ color: '#333' }}>{record.nbre_operation || 0}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
+          <span style={{ fontWeight: 'bold', color: '#555' }}>Nbre actif :</span>
+          <span style={{ color: '#333' }}> {record.nbre_actif || '0'}</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
+          <span style={{ fontWeight: 'bold', color: '#555' }}>Suspendu :</span>
+          <span style={{ color: '#333' }}> {record.nbre_suspendu || '0'}</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
           <span style={{ fontWeight: 'bold', color: '#555' }}>Montant total de la facture :</span>
           <span style={{ color: '#333' }}> {record.montant_total_facture || '0,00'} $</span>
         </div>
