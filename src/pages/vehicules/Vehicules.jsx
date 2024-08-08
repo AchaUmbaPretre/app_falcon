@@ -19,7 +19,7 @@ const Vehicules = () => {
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 10,
+    pageSize: 20,
   });
   const role = useSelector((state) => state.user.currentUser.role);
 
@@ -200,6 +200,11 @@ const Vehicules = () => {
     XLSX.writeFile(wb, "vehicule.xlsx");
   };
 
+  const handleTableChange = (newPagination) => {
+    setPagination(newPagination);
+  };
+
+
   const filteredData = data?.filter((item) =>
     item.nom_client?.toLowerCase().includes(searchValue.toLowerCase()) ||
     item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -260,8 +265,9 @@ const Vehicules = () => {
               className='table_client' 
               pagination={{
                 showSizeChanger: true,
-                pageSizeOptions: ['10', '20', '50', '100'],
+                pageSizeOptions: ['10', '20', '50', '100','200','300','400'],
               }}
+              onChange={handleTableChange}
             />
             <Modal
               title=""

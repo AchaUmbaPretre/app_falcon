@@ -20,6 +20,7 @@ const FactureEff = () => {
     const idClient = query.get('id_client');
     const [searchValue, setSearchValue] = useState('');
     const [date, setDate] = useState(null);
+    const [clientNom, setClientNom] = useState('');
     const [data, setData] = useState({ actif: [], autres: [] });
     const [selectedRowKeys, setSelectedRowKeys] = useState({ actif: [], autres: [] });
     const [montant, setMontant] = useState(0);
@@ -39,7 +40,10 @@ const FactureEff = () => {
     const monthsDifference = dateEnd && dateStart ? moment(dateEnd).diff(moment(dateStart), 'months') : 0;
     const totalMontantBeforeRemise = montant * dataAll.length * monthsDifference;
     const totalMontant = totalMontantBeforeRemise - remise;
-
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 10,
+      });
     
     const handleOpenModal = () => {
         setIsModalVisible(true);
@@ -72,7 +76,7 @@ const FactureEff = () => {
                     dateStart: item.dateStart || defaultStartDate,
                     dateEnd: item.dateEnd || defaultEndDate
                 }));
-        
+                setClientNom(updatedActif[0]?.nom_client)
                 setData({
                     actif: updatedActif,
                     autres: updatedAutres
@@ -318,13 +322,17 @@ const FactureEff = () => {
     
 
     const columnsCommon = [
-        { 
-            title: '#', 
-            dataIndex: 'id', 
-            key: 'id', 
-            render: (_, __, index) => index + 1, 
+        {
+            title: '#',
+            dataIndex: 'id',
+            key: 'id',
+            render: (text, record, index) => {
+              const pageSize = pagination.pageSize || 10;
+              const pageIndex = pagination.current || 1;
+              return (pageIndex - 1) * pageSize + index + 1;
+            },
             width: "3%"
-        },
+          },
         {
             title: 'Véhicule',
             dataIndex: 'nom_vehicule',
@@ -504,6 +512,9 @@ const FactureEff = () => {
         }
     }, [vehicule, montant, dateStart, dateEnd, idClient, totalMontant, remise, isSubmitting, date]);
 
+    const handleTableChange = (newPagination) => {
+        setPagination(newPagination);
+      };
 
     const filteredActif = data.actif?.filter((item) =>
         item.nom_vehicule?.toLowerCase().includes(searchValue.toLowerCase())
@@ -517,6 +528,7 @@ const FactureEff = () => {
         <div className="factureEffectue">
             <ToastContainer />
             <div className="facture_title_date">
+                <h1 className="facture_h1">Client : {clientNom}</h1>
                 <h1 className="facture_h1">
                     Du {moment(dateStart).format('DD-MM-YYYY')} au {moment(dateEnd).format('DD-MM-YYYY')} 
                      ({monthsDifference} mois)
@@ -548,6 +560,8 @@ const FactureEff = () => {
                             rowKey="id_vehicule"
                             key={Date.now()} 
                             scroll={scroll}
+                            pagination={pagination}
+                            onChange={handleTableChange}
                         />
                         <h3>Autres</h3>
                         <Table
