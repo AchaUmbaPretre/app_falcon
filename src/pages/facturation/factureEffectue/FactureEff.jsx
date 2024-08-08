@@ -232,7 +232,7 @@ const FactureEff = () => {
         
         const totalAmountVehicule = selectedVehicules.reduce((acc, curr) => acc + curr.montant, 0);
         
-        return totalAmountVehicule;
+        return totalAmountVehicule.toFixed(2);
     };
     
     
@@ -427,7 +427,7 @@ const FactureEff = () => {
                         min="0"
                         step="0.01"
                         onChange={(e) => handleMontantChange(record.id_vehicule, e.target.value)}
-                        value={vehicule.find(v => v.id_vehicule === record.id_vehicule)?.montant || ''}
+                        value={vehicule.find(v => v.id_vehicule === record.id_vehicule)?.montant.toFixed(2) || ''}
                         placeholder="Prix..."
                         className='days-input'
                         style={{ width: "80px" }}
