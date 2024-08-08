@@ -417,18 +417,18 @@ const Traceur = () => {
                     <Skeleton active />
                   ) : (
                     <Table
-                    dataSource={filteredData}
-                    columns={columns}
-                    pagination={{
-                      current: currentPage,
-                      pageSize: pageSize,
-                      total: totalItems,
-                      showSizeChanger: true,
-                      pageSizeOptions: ['10', '20', '50', '100','200','300','400'],
-                    }}
-                    onChange={handleTableChange}
-                    className="table_client"
-                  />
+                      dataSource={filteredData}
+                      columns={columns}
+                      pagination={{
+                        current: currentPage,
+                        pageSize: pageSize,
+                        total: totalItems,
+                        showSizeChanger: true,
+                        pageSizeOptions: ['10', '20', '50', '100','200','300','400'],
+                      }}
+                      onChange={handleTableChange}
+                      className="table_client"
+                    />
                   )}
                 </div>
               </div>
