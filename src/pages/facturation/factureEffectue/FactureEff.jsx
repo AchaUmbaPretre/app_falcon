@@ -110,7 +110,6 @@ const FactureEff = () => {
         );
     
         const updatedVehicules = uniqueVehicules.map(item => {
-            console.log(item)
             const price = item.prix || montant;
             const calculatedAmount = calculateAmountForVehicle(price, item.date_operation, item.dateStart, item.dateEnd);
     
