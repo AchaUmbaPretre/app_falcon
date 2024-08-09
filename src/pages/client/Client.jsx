@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './client.scss';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input } from 'antd';
+import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input, message } from 'antd';
 import { PlusCircleOutlined, UserOutlined, FileOutlined, EyeOutlined,EditOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import ClientForm from './form/ClientForm';
 import config from '../../config';
@@ -177,6 +177,15 @@ const fetchData = async (page, pageSize) => {
     navigate(`/clientEdit?id_client=${id}`);
   };
 
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      message.success('Numéro copié dans le presse-papiers');
+    }).catch((err) => {
+      message.error('Échec de la copie');
+      console.error('Could not copy text: ', err);
+    });
+  };
+
   const columns = [
     {
       title: '#',
@@ -217,7 +226,7 @@ const fetchData = async (page, pageSize) => {
       key: 'telephone',
       render: (text, record) => (
         <div>
-          <Tag color={'green'}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          <Tag color={'green'} onClick={() => handleCopy(text)}><PhoneOutlined style={{ marginRight: "5px" }} />{text}</Tag>
         </div>
       )
     },
@@ -226,10 +235,14 @@ const fetchData = async (page, pageSize) => {
       dataIndex: 'email',
       key: 'email',
       render: (text, record) => (
-        <Tag color={'gold'}>
-          <MailOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Tag>
+        <Popover content="Cliquez pour ouvrir Gmail" trigger="hover">
+          <Tag color="yellow">
+            <a href={`mailto:${text}`} target="_blank" rel="noopener noreferrer">
+              <MailOutlined style={{ marginRight: '5px' }} />
+              {text}
+            </a>
+          </Tag>
+        </Popover>
       )
     },
     {
