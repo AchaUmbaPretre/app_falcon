@@ -63,30 +63,30 @@ const Client = () => {
   const getContent = (record) => (
     <div className='popOverSous' style={{ padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
       <h4 style={{ margin: 0, marginBottom: '10px', color: '#333' }}>Détails</h4>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
-          <span style={{ fontWeight: 'bold', color: '#555' }}>Nombre de véhicules :</span>
-          <span style={{ color: '#333' }}>{record.nbre_vehicule || 0}</span>
+          <span style={{ fontWeight: 'bold', color: '#555', fontSize:'11px' }}>Nombre de véhicules :</span>
+          <span style={{ color: '#333', fontSize:'11px' }}>{record.nbre_vehicule || 0}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
-          <span style={{ fontWeight: 'bold', color: '#555' }}>Nombre d'opérations :</span>
-          <span style={{ color: '#333' }}>{record.nbre_operation || 0}</span>
+          <span style={{ fontWeight: 'bold', color: '#555', fontSize:'11px' }}>Nombre d'opérations :</span>
+          <span style={{ color: '#333', fontSize:'11px' }}>{record.nbre_operation || 0}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
-          <span style={{ fontWeight: 'bold', color: '#555' }}>Nbre actif :</span>
-          <span style={{ color: '#333' }}> {record.nbre_actif || '0'}</span>
+          <span style={{ fontWeight: 'bold', color: '#555', fontSize:'11px' }}>Nbre actif :</span>
+          <span style={{ color: '#333', fontSize:'11px' }}> {record.nbre_actif || '0'}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
-          <span style={{ fontWeight: 'bold', color: '#555' }}>Suspendu :</span>
-          <span style={{ color: '#333' }}> {record.nbre_suspendu || '0'}</span>
+          <span style={{ fontWeight: 'bold', color: '#555', fontSize:'11px' }}>Suspendu :</span>
+          <span style={{ color: '#333', fontSize:'11px' }}> {record.nbre_suspendu || '0'}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
-          <span style={{ fontWeight: 'bold', color: '#555' }}>Montant total de la facture :</span>
-          <span style={{ color: '#333' }}> {record.montant_total_facture || '0,00'} $</span>
+          <span style={{ fontWeight: 'bold', color: '#555', fontSize:'11px' }}>Montant total de la facture :</span>
+          <span style={{ color: '#333', fontSize:'11px' }}> {record.montant_total_facture || '0,00'} $</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
-          <span style={{ fontWeight: 'bold', color: '#555' }}>Montant total du paiement :</span>
-          <span style={{ color: '#333' }}> {record.montant_total_paiement || '0,00'} $</span>
+          <span style={{ fontWeight: 'bold', color: '#555', fontSize:'11px' }}>Montant total du paiement :</span>
+          <span style={{ color: '#333', fontSize:'11px' }}> {record.montant_total_paiement || '0,00'} $</span>
         </div>
       </div>
     </div>
