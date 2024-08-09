@@ -8,8 +8,11 @@ import config from '../../../../config';
 const TarifForm = ({ id_client }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [fields, setFields] = useState([
-    { type: 'abonnement', tarif: '', prix: '' },
-    { type: 'installation', tarif: '', prix: '' }
+    { type: 'Abonnement', tarif: '', prix: '' },
+    { type: 'Installation', tarif: '', prix: '' },
+    { type: 'Démantèlement', tarif: '', prix: '' },
+    { type: 'Transfert', tarif: '', prix: '' },
+    { type: 'Controle technique', tarif: '', prix: '' }
   ]);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -36,8 +39,6 @@ const TarifForm = ({ id_client }) => {
     setModalVisible(true);
   }, [fields]);
 
-
-  console.log(fields)
 
   const handleConfirmSend = useCallback(async () => {
     try {
@@ -90,8 +91,11 @@ const TarifForm = ({ id_client }) => {
                     required
                   >
                     <option value="">Sélectionner un type</option>
-                    <option value="abonnement">Abonnement</option>
-                    <option value="installation">Installation</option>
+                    <option value="Abonnement">Abonnement</option>
+                    <option value="Installation">Installation</option>
+                    <option value="Démantèlement">Démantèlement</option>
+                    <option value="Transfert">Transfert</option>
+                    <option value="Controle technique">Controle technique</option>
                   </select>
                   <label htmlFor={`prix-${index}`}>
                     Prix <span style={{ color: 'red' }}>*</span>
