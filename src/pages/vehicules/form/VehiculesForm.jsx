@@ -39,7 +39,7 @@ const VehiculesForm = () => {
   const [modele, setModele] = useState([]);
   const [IdMarque, setIdMarque] = useState('');
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
-
+  const scroll = { x: 400 };
   const handleInputChange = (index, e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
@@ -256,6 +256,7 @@ const VehiculesForm = () => {
                 pagination={false}
                 rowKey={(record, index) => index}
                 className='tableau_add'
+                scroll={scroll}
               />
             </div>
             <div className="form-submit">

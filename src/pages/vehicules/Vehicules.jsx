@@ -17,6 +17,7 @@ const Vehicules = () => {
   const [vehicule, setVehicule] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const scroll = { x: 400 };
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 20,
@@ -263,6 +264,7 @@ const Vehicules = () => {
               rowClassName={() => 'font-size-18'} 
               loading={loading} 
               className='table_client' 
+              scroll={scroll}
               pagination={{
                 showSizeChanger: true,
                 pageSizeOptions: ['10', '20', '50', '100','200','300','400'],
