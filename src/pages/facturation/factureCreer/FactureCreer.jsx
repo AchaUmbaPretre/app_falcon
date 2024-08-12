@@ -1,9 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import config from '../../../config';
+import axios from 'axios';
 import './factureCreer.scss'
 import icon from './../../../assets/falcon.png'
 
-const FactureCreer = () => {
+const FactureCreer = ({ id_facture }) => {
 
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const { data } = await axios.get(`${DOMAIN}/facture/recu_facture?id_facture=${id_facture}`);
+          setData(data[0]);
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        }
+      };
+      fetchData();
+    }, [DOMAIN, id_facture]);
 
   return (
     <>
@@ -14,10 +33,14 @@ const FactureCreer = () => {
           </div>
           <div className="facture_title_rows">
             <div className="facture_title_div">
-              <h1 className="facture_h2">FACTURE N°328/08/23/KTZ</h1>
+              <h1 className="facture_h2">FACTURE N°{data.id_facture}/08/23/KTZ</h1>
             </div>
             <div className="facture_client">
-              <h3 className="facture_desc"><span>CLIENT</span>: <strong>CAR NAYO</strong></h3>
+              <h3 className="facture_desc">CLIENT : </h3>
+              <div className="facture_client_addr">
+                  <span>{data.nom_client}</span>
+                  <span>{data.adresse}</span>
+              </div>
             </div>
             <h5 className="facture_h5">DOIT POUR CE QUI SUIT : </h5>
             <table>
@@ -33,32 +56,32 @@ const FactureCreer = () => {
                 <tbody>
                     <tr>
                     <td>1</td>
-                    <td>5</td>
-                    <td>Paiement de la facture CARNAYO N°3065/05/24/LMDE</td>
-                    <td>SOLDE</td>
-                    <td>$2,168.00</td>
+                    <td>{data.nombre_vehicules}</td>
+                    <td>{data.commentaire}</td>
+                    <td>{data.prix_unitaire}</td>
+                    <td>{data.sous_total}</td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr className="total-row">
                       <td colSpan="4">SOUS-TOTAL USD HT</td>
-                      <td>2,168.00 fc</td>
+                      <td>{data.sous_total}</td>
                     </tr>
                     <tr className="total-row">
                       <td colSpan="4">TOTAL USD HT</td>
-                      <td>2,168.00 fc</td>
+                      <td>{data.sous_total}</td>
                     </tr>
                     <tr className="total-row">
                       <td colSpan="4">Taxes (16%)</td>
-                      <td>$216.80</td>
+                      <td>{data.taxe}</td>
                     </tr>
                     <tr className="total-row">
                       <td colSpan="4">Total (USD)</td>
-                      <td>$2,384.80</td>
+                      <td>{data.total_usd}</td>
                     </tr>
                     <tr className="total-row">
                       <td colSpan="4">Total (CDF)</td>
-                      <td>₲4,769,600.00</td>
+                      <td>{data.total_cdf}</td>
                     </tr>
                 </tfoot>
             </table>
@@ -69,8 +92,9 @@ const FactureCreer = () => {
             <div className="facture_footer">
               <hr />
               <div className="facture_footer_rows">
-                <h2>Cash to MADIEME ONEMA Nobel or +24382194092</h2>
+                <h2>Cash to MADIEME ONEMA Nobel or Payable via M-Pesa au +24382194092</h2>
                 <span>ID NAT 01-93-N26910E KNG/RCCM/17-A-04285</span>
+                <span>Email : info@falconeyesolutions.com</span>
               </div>
             </div>
           </div>

@@ -31,6 +31,7 @@ const Facturation = () => {
     total: 0
   });
   const [factureId, setFactureId] = useState('');
+  const scroll = { x: 400 };
 
   const showDrawer = (e) => {
     setOpenDetail(true);
@@ -227,7 +228,7 @@ const Facturation = () => {
 
   const showModalRecu = (idFacture) => {
     setOpenRecu(true);
-/*     setIdFacture(idFacture); */
+    setIdFacture(idFacture);
   };
 
   const filteredData = data.filter((item) =>
@@ -310,10 +311,10 @@ const Facturation = () => {
                 centered
                 open={openRecu}
                 onCancel={() => setOpenRecu(false)}
-                width={800}
+                width={600}
                 footer={null}
               >
-                <FactureCreer />
+                <FactureCreer id_facture ={idFacture} />
               </Modal>
 
               {loading ? (
@@ -322,6 +323,7 @@ const Facturation = () => {
                 <Table
                   dataSource={filteredData}
                   columns={columns}
+                  scroll={scroll}
                   pagination={{
                     current: pagination.current,
                     pageSize: pagination.pageSize,
