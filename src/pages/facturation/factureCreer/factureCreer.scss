@@ -86,7 +86,13 @@
                     }
                     .total-row {
                         background-color: #fff;
+                        border: 1px solid #dddddd;
                       }
+                      td{
+                        border: 1px solid #dddddd; 
+                        padding: 8px; 
+                        font-size: .8rem;
+                    }
                 }
 
             }

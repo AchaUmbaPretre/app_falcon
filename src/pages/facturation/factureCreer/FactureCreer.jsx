@@ -3,6 +3,8 @@ import './factureCreer.scss'
 import icon from './../../../assets/falcon.png'
 
 const FactureCreer = () => {
+
+
   return (
     <>
       <div className="factureCreer">
@@ -24,7 +26,7 @@ const FactureCreer = () => {
                     <th>Réf</th>
                     <th>Qté</th>
                     <th style={{ textAlign: 'center' }}>Description</th>
-                    <th>Status</th>
+                    <th>Prix USD</th>
                     <th>Sous-total (USD)</th>
                     </tr>
                 </thead>
@@ -39,20 +41,24 @@ const FactureCreer = () => {
                 </tbody>
                 <tfoot>
                     <tr className="total-row">
-                    <td colSpan="4">Sous-Total</td>
-                    <td>$2,168.00</td>
+                      <td colSpan="4">SOUS-TOTAL USD HT</td>
+                      <td>2,168.00 fc</td>
                     </tr>
                     <tr className="total-row">
-                    <td colSpan="4">Taxes (10%)</td>
-                    <td>$216.80</td>
+                      <td colSpan="4">TOTAL USD HT</td>
+                      <td>2,168.00 fc</td>
                     </tr>
                     <tr className="total-row">
-                    <td colSpan="4">Total (USD)</td>
-                    <td>$2,384.80</td>
+                      <td colSpan="4">Taxes (16%)</td>
+                      <td>$216.80</td>
                     </tr>
                     <tr className="total-row">
-                    <td colSpan="4">Total (CDF)</td>
-                    <td>₲4,769,600.00</td>
+                      <td colSpan="4">Total (USD)</td>
+                      <td>$2,384.80</td>
+                    </tr>
+                    <tr className="total-row">
+                      <td colSpan="4">Total (CDF)</td>
+                      <td>₲4,769,600.00</td>
                     </tr>
                 </tfoot>
             </table>
