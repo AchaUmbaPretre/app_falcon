@@ -40,8 +40,8 @@ const FactureCreer = ({ id_facture }) => {
 
   return (
     <>
-      <div className="factureCreer" ref={componentRef}>
-        <div className="facture_wrapper">
+      <div className="factureCreer" style={{width:"100%", display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}} ref={componentRef}>
+        <div className="facture_wrapper" style={{width:'100%', display:'flex', flexDirection:'column', justifyContent:'center'}}>
           <div className="facture_logo" style={{width:"100%", display:'flex', alignItems:'center', justifyContent:'flex-start'}}>
             <img src={icon} alt="" className="facture_img" style={{height:'80px', width:'80px', objectFit:'cover'}} />
           </div>
