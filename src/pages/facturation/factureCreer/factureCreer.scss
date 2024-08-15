@@ -1,6 +1,7 @@
 .factureCreer{
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     .facture_wrapper{
@@ -43,7 +44,8 @@
             .facture_client{
                 display: flex;
                 justify-content: space-between;
-                width: 230px;
+                width: 250px;
+                gap: 20px;
                 .facture_desc{
                     font-size: .7rem;
                     span{
@@ -55,7 +57,7 @@
                     flex-direction: column;
                     gap: 2px;
                     span{
-                        font-size: .7rem;
+                        font-size: .6rem;
                     }
                 }
             }
@@ -143,6 +145,11 @@
                 }
             }
         }
+    }
+    .facture_actions{
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
     }
 }
 
