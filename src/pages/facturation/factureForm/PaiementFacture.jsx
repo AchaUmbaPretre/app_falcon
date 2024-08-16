@@ -5,10 +5,12 @@ import config from '../../../config';
 import { Input, Modal, Button, DatePicker } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const PaiementFacture = ({ idFacture }) => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
     const [data, setData] = useState({});
+    const navigate = useNavigate();
     const [modalVisible, setModalVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -41,6 +43,8 @@ const PaiementFacture = ({ idFacture }) => {
         try {
             const response = await axios.post(`${DOMAIN}/facture/paiement`, { ...data, id_facture: idFacture });
             console.log('Paiement créé:', response.data);
+            toast.success('Véhicules créés avec succès!');
+            navigate('/vehicules');
             setModalVisible(true);
         } catch (error) {
             console.error('Erreur lors de la création de la facture:', error);
