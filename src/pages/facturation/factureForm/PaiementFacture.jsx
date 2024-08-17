@@ -31,7 +31,7 @@ const PaiementFacture = ({ idFacture }) => {
                 setMethode(methodeResponse.data);
 
                 const factureResponse = await axios.get(`${DOMAIN}/facture/OneMontant?id_facture=${idFacture}`);
-                const montant = factureResponse.data[0].montant;
+                const montant = factureResponse.data[0].total;
                 setMontantFacture(montant);
                 setData((prevData) => ({ ...prevData, montant: montant }));
             } catch (error) {
@@ -52,27 +52,14 @@ const PaiementFacture = ({ idFacture }) => {
         setData((prevData) => ({ ...prevData, date_paiement: dateString }));
     };
 
-    const handleModalOk = () => {
+    const handleModalOk = async () => {
         setModalVisible(false);
-        toast.success('Facture créée avec succès !');
-    };
-
-    const handleModalCancel = () => {
-        setModalVisible(false);
-    };
-
-    const createFacture = async (e) => {
-        e.preventDefault();
-
-        if (isSubmitting) return; // Eviter les doublons
-
         setIsSubmitting(true);
         try {
             const response = await axios.post(`${DOMAIN}/paiement/paiementOk`, { ...data, id_facture: idFacture });
             console.log('Paiement créé:', response.data);
             toast.success('Paiement créé avec succès!');
             navigate('/paiement');
-            setModalVisible(true);
         } catch (error) {
             console.error('Erreur lors de la création de la facture:', error);
             toast.error('Erreur lors de la création de la facture.');
@@ -81,7 +68,12 @@ const PaiementFacture = ({ idFacture }) => {
         }
     };
 
-    const showModal = () => {
+    const handleModalCancel = () => {
+        setModalVisible(false);
+    };
+
+    const showModal = (e) => {
+        e.preventDefault();
         setModalVisible(true);
     };
 
@@ -95,7 +87,7 @@ const PaiementFacture = ({ idFacture }) => {
                     <div className="product-wrapper">
                         <Tabs activeKey={activeTab} onChange={setActiveTab}>
                             <TabPane tab="Informations Client" key="1">
-                                <form className="product-container-bottom form_hand" onSubmit={createFacture}>
+                                <form className="product-container-bottom form_hand" onSubmit={showModal}>
                                     <div className="form-controle">
                                         <label htmlFor="id_client">
                                             Client <span style={{ color: 'red' }}>*</span>
@@ -151,7 +143,7 @@ const PaiementFacture = ({ idFacture }) => {
                             </TabPane>
 
                             <TabPane tab="Détails du Paiement" key="2">
-                                <form className="product-container-bottom form_hand" onSubmit={createFacture}>
+                                <form className="product-container-bottom form_hand" onSubmit={showModal}>
                                     <div className="form-controle">
                                         <label htmlFor="numero_paiement">
                                             Numéro de paiement <span style={{ color: 'red' }}>*</span>
@@ -192,7 +184,7 @@ const PaiementFacture = ({ idFacture }) => {
                                     </div>
                                     <div className="form-submit">
                                         <button type="submit" className="btn-submit" disabled={isSubmitting || isLoading}>
-                                            Envoyer
+                                            {isSubmitting ? 'En cours...' : 'Envoyer'}
                                         </button>
                                         {isLoading && (
                                             <div className="loader-container loader-container-center">

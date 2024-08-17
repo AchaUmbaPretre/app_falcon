@@ -223,7 +223,7 @@ const Facturation = () => {
 
   const showModalPaiment = (idFacture) => {
     setOpens(true);
-/*     setIdFacture(idFacture); */
+    setIdFacture(idFacture);
   };
 
   const showModalRecu = (idFacture) => {
