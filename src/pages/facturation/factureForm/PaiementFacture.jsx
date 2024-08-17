@@ -83,6 +83,7 @@ const PaiementFacture = ({ idFacture }) => {
     return (
         <>
             <div className="paiementForm">
+            <ToastContainer />
                 <div className="product-container">
                     <div className="product-container-top">
                         <h2 className="product-h2">Paiement</h2>
@@ -213,7 +214,6 @@ const PaiementFacture = ({ idFacture }) => {
                     <p><strong>Date de paiement:</strong> {data.date_paiement}</p>
                 </div>
             </Modal>
-            <ToastContainer />
         </>
     );
 };
