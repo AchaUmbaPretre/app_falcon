@@ -6,6 +6,7 @@ import { Input, Modal, Button, DatePicker, Spin, Tabs, Select } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const { TabPane } = Tabs;
 
@@ -20,6 +21,8 @@ const PaiementFacture = ({ idFacture }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
+    const userId = useSelector((state) => state.user.currentUser.id);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,7 +34,7 @@ const PaiementFacture = ({ idFacture }) => {
                 setMethode(methodeResponse.data);
 
                 const factureResponse = await axios.get(`${DOMAIN}/facture/OneMontant?id_facture=${idFacture}`);
-                const montant = factureResponse.data[0].total;
+                const montant = factureResponse.data[0]?.total;
                 setMontantFacture(montant);
                 setData((prevData) => ({ ...prevData, montant: montant }));
             } catch (error) {
@@ -56,7 +59,7 @@ const PaiementFacture = ({ idFacture }) => {
         setModalVisible(false);
         setIsSubmitting(true);
         try {
-            const response = await axios.post(`${DOMAIN}/paiement/paiementOk`, { ...data, id_facture: idFacture });
+            const response = await axios.post(`${DOMAIN}/paiement/paiementOk`, { ...data, id_facture: idFacture,user_paiement: userId });
             console.log('Paiement créé:', response.data);
             toast.success('Paiement créé avec succès!');
             navigate('/paiement');
