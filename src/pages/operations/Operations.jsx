@@ -2,8 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Drawer, Input, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag, Dropdown, Menu } from 'antd';
 import {
   PlusCircleOutlined, SisternodeOutlined,DownOutlined, UserOutlined, CloseOutlined,
-  ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined, CalendarOutlined, FilePdfOutlined, FileExcelOutlined,
-  PrinterOutlined, BarcodeOutlined, MenuOutlined
+  ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined, CalendarOutlined, BarcodeOutlined, MenuOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
