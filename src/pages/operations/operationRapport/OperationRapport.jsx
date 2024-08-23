@@ -62,7 +62,7 @@ const OperationRapport = () => {
   const fetchDataCount = useCallback(async (filter) => {
     try {
       const { data } = await axios.get(`${DOMAIN}/operation/operation_rapport_count`, { params: { filter } });
-      setDataCount(data);
+      setDataCount(data[0]);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -281,10 +281,30 @@ const OperationRapport = () => {
               <span className="client_span">Liste des opérations</span>
             </div>
             <div className="client_row_number">
-              <span className="client_span_title">Total : </span>
-              <span className="client_span_title">Installation : </span>
-              <span className="client_span_title">Démentalement : </span>
-              <span className="client_span_title">Rémplacement : </span>
+              <div className="client_row_span">
+                <span className="client_span_title">Total : </span>
+                <span className="client_span_title">{dataCount.nbre_operation}</span>
+              </div>
+              <div className="client_row_span">
+                <span className="client_span_title">Installation : </span>
+                <span className="client_span_title">{dataCount.nbre_installation}</span>
+              </div>
+              <div className="client_row_span">
+                <span className="client_span_title">Démentalement : </span>
+                <span className="client_span_title">{dataCount.nbre_dementelement}</span>
+              </div>
+              <div className="client_row_span">
+                <span className="client_span_title">Rémplacement : </span>
+                <span className="client_span_title">{dataCount.nbre_remplacement}</span>
+              </div>
+              <div className="client_row_span">
+                <span className="client_span_title">Controle technique : </span>
+                <span className="client_span_title">{dataCount.nbre_controle_technique}</span>
+              </div>
+              <div className="client_row_span">
+                <span className="client_span_title">Transfert : </span>
+                <span className="client_span_title">{dataCount.nbre_transfert}</span>
+              </div>
             </div>
             <div className="client_text_right">
               <Select value={dateFilter} onChange={handleDateFilterChange} style={{ width: 200 }}>
