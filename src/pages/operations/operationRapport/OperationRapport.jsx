@@ -18,6 +18,7 @@ const OperationRapport = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
+  const [dataCount, setDataCount] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedOperationIds, setSelectedOperationIds] = useState([]);
@@ -58,14 +59,27 @@ const OperationRapport = () => {
     }
   }, [DOMAIN]);
 
+  const fetchDataCount = useCallback(async (filter) => {
+    try {
+      const { data } = await axios.get(`${DOMAIN}/operation/operation_rapport_count`, { params: { filter } });
+      setDataCount(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false);
+    }
+  }, [DOMAIN]);
+
   const handleDateFilterChange = (value) => {
     setDateFilter(value);
     fetchData(value);
+    fetchDataCount(value)
   };
 
   useEffect(() => {
     fetchData(dateFilter);
-  }, [fetchData,dateFilter]);
+    fetchDataCount(dateFilter)
+  }, [fetchData, fetchDataCount, dateFilter]);
 
 
   const getColorForOperationType = (type) => {
