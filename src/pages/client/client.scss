@@ -70,6 +70,20 @@
                         justify-content: space-between;
                         gap: 20px;
                         border-bottom: 1px solid #f5f5f5;
+                        .client_span_title{
+                            font-size: .8rem;
+                            font-weight: 800;
+                            background: linear-gradient(90deg, #13add8bd, #000000ee);
+                            background-clip: text;
+                            color: transparent;
+                            text-transform: uppercase;
+                            @include miniTablette{
+                                font-size: .8rem;
+                            }
+                            @include mobileXR{
+                                font-size: .7rem;
+                            }
+                        }
                     }
                     .client_span_title{
                         font-size: .9rem;
