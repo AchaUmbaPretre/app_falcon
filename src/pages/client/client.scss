@@ -22,6 +22,11 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                @include mobileXR{
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 10px;
+                }
                 .client_text_left{
                     display: flex;
                     flex-direction: column;
@@ -34,7 +39,7 @@
                         color: transparent;
                         text-transform: uppercase;
                         @include miniTablette{
-                            font-size: 1rem;
+                            font-size: .9rem;
                         }
                     }
                     .client_span{
@@ -53,6 +58,13 @@
                     box-shadow: 0px 0px 15px -10px rgba(131, 129, 129, 0.75);
                     border: 1px solid rgba(3, 3, 109, 0.171);
                     border-radius: 5px;
+                    @include mobileXR{
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 10px;
+                        width: 100%;
+                    }
                     .client_span_title{
                         font-size: .9rem;
                         font-weight: 800;
@@ -62,6 +74,9 @@
                         text-transform: uppercase;
                         @include miniTablette{
                             font-size: .8rem;
+                        }
+                        @include mobileXR{
+                            font-size: .7rem;
                         }
                     }
                 }

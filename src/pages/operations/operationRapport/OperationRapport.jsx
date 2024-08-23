@@ -266,6 +266,12 @@ const OperationRapport = () => {
               <h2 className="client_h2">Rapport d'opérations</h2>
               <span className="client_span">Liste des opérations</span>
             </div>
+            <div className="client_row_number">
+              <span className="client_span_title">Total : </span>
+              <span className="client_span_title">Installation : </span>
+              <span className="client_span_title">Démentalement : </span>
+              <span className="client_span_title">Rémplacement : </span>
+            </div>
             <div className="client_text_right">
               <Select value={dateFilter} onChange={handleDateFilterChange} style={{ width: 200 }}>
                 <Option value="today">Aujourd'hui</Option>
