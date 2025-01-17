@@ -25,7 +25,6 @@ const PaiementForm = () => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
   
-    // Vérifier si le champ est un champ de fichier
     if (e.target.type === 'file') {
       const file = e.target.files[0];
 
@@ -39,7 +38,6 @@ const PaiementForm = () => {
         setData((prev) => ({ ...prev, [fieldName]: null }));
       }
     } else {
-      // Traitement pour les autres types de champs
       let updatedValue = fieldValue;
       if (fieldName === "contact_email") {
         updatedValue = fieldValue.toLowerCase();
@@ -75,11 +73,6 @@ const PaiementForm = () => {
     fetchMethode();
   }, [fetchClient, fetchMethode]);
 
-/*   useEffect(() => {
-    if (data.id_client && data.date_paiement && data.methode) {
-      setActiveTab("2");
-    }
-  }, [data]); */
 
   const handleSubmit = async () => {
     if (!data.id_client || !data.montant) {
