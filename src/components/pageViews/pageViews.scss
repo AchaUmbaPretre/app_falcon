@@ -29,13 +29,12 @@
             -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
             box-shadow: 0px 0px 15px -10px rgba(131, 129, 129, 0.75);
             border: 1px solid rgba(3, 3, 109, 0.171);
-            border-radius: 5px;
+            border-radius: 20px;
             padding: 20px;
             cursor: pointer;
             .pageViews_left{
                 display: flex;
                 flex-direction: column;
-                gap: 5px;
                 .pageViews_left_rond{
                     display: flex;
                     align-items: center;
@@ -89,7 +88,7 @@
                     .pageViews_h5{
                         margin: 0;
                         padding: 0;
-                        font-size: 1rem;
+                        font-size: .9rem;
                         color: rgba(3, 3, 31, 0.76);
                         font-weight: bolder;
                         @include miniTablette{
@@ -123,7 +122,7 @@
                 }
                 .pageViews_span{
                     color: rgb(158, 157, 157);
-                    font-size: .8rem;
+                    font-size: .7rem;
                     letter-spacing: 1px;
                     @include miniTablette{
                         font-size: .7rem;
@@ -137,8 +136,8 @@
             .pageViews_right{
                 position: relative;
                 .pageViews_right_img{
-                    height: 60px;
-                    width: 60px;
+                    height: 40px;
+                    width: 40px;
                     object-fit: cover;
                     @include miniTablette{
                         height: 40px;
