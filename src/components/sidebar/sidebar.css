@@ -26,12 +26,12 @@
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-    background: #254a72; /* Couleur du "thumb" (le bouton de défilement) */
-    border-radius: 5px; /* Bord arrondi du "thumb" */
+    background: #254a72;
+    border-radius: 5px;
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-    background: #162941; /* Couleur du "thumb" au survol */
+    background: #162941;
 }
 
 .sidebar_icons{
