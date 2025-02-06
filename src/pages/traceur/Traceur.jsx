@@ -299,6 +299,7 @@ const Traceur = () => {
     {
       title: 'Action',
       key: 'action',
+      width: "100px",
       render: (text, record) => (
         <Space size="middle">
           <Popover title="Voir les détails" trigger="hover">
@@ -422,7 +423,6 @@ const Traceur = () => {
                       dataSource={filteredData}
                       columns={columns}
                       size="small"
-                      bordered
                       pagination={{
                         current: currentPage,
                         pageSize: pageSize,

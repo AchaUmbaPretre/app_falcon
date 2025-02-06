@@ -396,7 +396,6 @@ const fetchData = async (page, pageSize) => {
                   columns={columns}
                   scroll={scroll}
                   size="small"
-                  bordered
                   className='table_client'
                   pagination={{
                     current: pagination.current,
