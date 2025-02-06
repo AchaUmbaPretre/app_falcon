@@ -165,7 +165,7 @@ const Traceur = () => {
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.text("Liste des traceurs", 14, 22);
-    const tableColumn = ["#", "nom_model", "numero_serie","nom_etat_traceur", "nom_client"];
+    const tableColumn = ["#", "nom_model", "numero_serie", "traceur_id", "code", "nom_etat_traceur", "nom_client"];
     const tableRows = [];
 
     data.forEach((record, index) => {
@@ -173,6 +173,8 @@ const Traceur = () => {
         index + 1,
         record.nom_model,
         record.numero_serie,
+        record.id_traceur,
+        record.code,
         record.nom_etat_traceur,
         record.nom_client
       ];

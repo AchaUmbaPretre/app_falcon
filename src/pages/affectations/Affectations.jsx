@@ -241,6 +241,8 @@ const Affectations = () => {
                 pagination={pagination}
                 onChange={handleTableChange}
                 rowKey="id"
+                size="small"
+                bordered
               />
             )}
           </div>
