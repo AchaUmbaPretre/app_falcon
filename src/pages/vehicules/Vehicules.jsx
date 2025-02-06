@@ -151,7 +151,7 @@ const Vehicules = () => {
     role === 'admin' &&{
       title: 'Action',
       key: 'action',
-      width: "160px",
+      width: "50px",
       render: (_, record) => (
         <Space size="middle">
           <Popover title="Supprimer" trigger="hover">
@@ -265,6 +265,8 @@ const Vehicules = () => {
               loading={loading} 
               className='table_client' 
               scroll={scroll}
+              size="small"
+              bordered
               pagination={{
                 showSizeChanger: true,
                 pageSizeOptions: ['10', '20', '50', '100','200','300','400'],

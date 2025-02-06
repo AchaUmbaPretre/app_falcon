@@ -52,7 +52,7 @@ const Marques = () => {
     {
       title: 'Action',
       key: 'action',
-      width: "160px",
+      width: "50px",
       render: (text, record) => (
         <Space size="middle">
           <Popover title="Supprimer" trigger="hover">
@@ -120,7 +120,13 @@ const Marques = () => {
                 <Button className="product-icon-printer" icon={<PrinterOutlined />} />
               </div>
             </div>
-            <Table dataSource={filteredData} columns={columns} loading={loading} />
+            <Table 
+              dataSource={filteredData} 
+              columns={columns} 
+              loading={loading} 
+              size="small"
+              bordered
+            />
 
             <Modal
               title=""
