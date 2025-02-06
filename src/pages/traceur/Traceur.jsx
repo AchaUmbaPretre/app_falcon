@@ -419,6 +419,8 @@ const Traceur = () => {
                     <Table
                       dataSource={filteredData}
                       columns={columns}
+                      size="small"
+                      bordered
                       pagination={{
                         current: currentPage,
                         pageSize: pageSize,
