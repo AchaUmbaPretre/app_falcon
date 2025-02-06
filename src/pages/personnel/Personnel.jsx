@@ -163,7 +163,14 @@ const Personnel = () => {
                 { loading ? (
                   <Skeleton active />
                 ) : (
-                  <Table dataSource={data} columns={columns} loading={loading} scroll={scroll} className='table_client' />
+                  <Table 
+                    dataSource={data} 
+                    columns={columns} 
+                    loading={loading} 
+                    scroll={scroll} 
+                    className='table_client' 
+                    size="small"
+                  />
                 )}
 
               <Modal

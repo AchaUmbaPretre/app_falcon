@@ -410,7 +410,6 @@ const Operations = () => {
                 scroll={scroll}
                 onChange={handleTableChange}
                 size="small"
-                bordered
               />
             )}
 

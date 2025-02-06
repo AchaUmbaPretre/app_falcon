@@ -242,7 +242,6 @@ const Affectations = () => {
                 onChange={handleTableChange}
                 rowKey="id"
                 size="small"
-                bordered
               />
             )}
           </div>
