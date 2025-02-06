@@ -243,7 +243,14 @@ const Paiement = () => {
               {isLoading ? (
                 <Skeleton active />
               ) : (
-                <Table dataSource={filteredData} columns={columns} loading={isLoading} scroll={scroll} className='table_client' />
+                <Table 
+                  dataSource={filteredData} 
+                  columns={columns} 
+                  loading={isLoading} 
+                  scroll={scroll} 
+                  className='table_client' 
+                  size="small"
+                />
               )}
               <Modal
                 title=""

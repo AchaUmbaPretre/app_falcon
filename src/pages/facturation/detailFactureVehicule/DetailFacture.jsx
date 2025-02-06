@@ -88,6 +88,8 @@ const DetailFacture = ({ id_facture }) => {
                     columns={columns}
                     rowKey={(record) => record.date_facture + record.nom_vehicule} 
                     pagination={{ pageSize: 10 }} 
+                    size="small"
+                    bordered
                 />
             </div>
         </div>

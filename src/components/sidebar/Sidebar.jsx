@@ -85,29 +85,29 @@ const Sidebar = () => {
   const getMenuIcon = (icon) => {
     switch (icon) {
       case 'UserOutlined':
-        return <UserOutlined style={{ fontSize: '17px' }} />;
+        return <UserOutlined style={{ fontSize: '16px' }} />;
       case 'ClusterOutlined':
-        return <ClusterOutlined style={{ fontSize: '17px' }} />;
+        return <ClusterOutlined style={{ fontSize: '16px' }} />;
       case 'CarOutlined':
-        return <CarOutlined style={{ fontSize: '17px' }} />;
+        return <CarOutlined style={{ fontSize: '16px' }} />;
       case 'FileTextOutlined':
-        return <FileTextOutlined style={{ fontSize: '17px' }} />;
+        return <FileTextOutlined style={{ fontSize: '16px' }} />;
       case 'HourglassOutlined':
-        return <HourglassOutlined style={{ fontSize: '17px' }} />;
+        return <HourglassOutlined style={{ fontSize: '16px' }} />;
       case 'UsergroupAddOutlined':
-        return <UsergroupAddOutlined style={{ fontSize: '17px' }} />;
+        return <UsergroupAddOutlined style={{ fontSize: '16px' }} />;
       case 'DollarOutlined':
-        return <DollarOutlined style={{ fontSize: '17px' }} />;
+        return <DollarOutlined style={{ fontSize: '16px' }} />;
       case 'FileOutlined':
-        return <FileOutlined style={{ fontSize: '17px' }} />;
+        return <FileOutlined style={{ fontSize: '16px' }} />;
       case 'HomeOutlined':
-        return <HomeOutlined style={{ fontSize: '17px' }} />;
+        return <HomeOutlined style={{ fontSize: '16px' }} />;
       case 'ToolOutlined':
-        return <ToolOutlined style={{ fontSize: '17px' }} />;
+        return <ToolOutlined style={{ fontSize: '16px' }} />;
       case 'SettingOutlined':
-        return <SettingOutlined style={{ fontSize: '17px' }} />;
+        return <SettingOutlined style={{ fontSize: '16px' }} />;
       case 'AuditOutlined':
-        return <AuditOutlined style={{ fontSize: '17px' }} />;
+        return <AuditOutlined style={{ fontSize: '16px' }} />;
       default:
         return null;
     }
@@ -123,16 +123,16 @@ const Sidebar = () => {
         openKeys={openKeys}
         onOpenChange={onOpenChange}
         className="menu-custom"
-        style={{ width: '100%', backgroundColor: 'linear-gradient(180deg, #0D1B2A, #13AED8)', color: '#13AED8' }}
+        style={{ width: '100%', backgroundColor: 'linear-gradient(180deg, #121212, #1C1C1C)', color: '#13AED8' }}
         theme="dark"
       >
-        <Item key="accueil" icon={<HomeOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '13px', letterSpacing: '1px' }}>
+        <Item key="accueil" icon={<HomeOutlined style={{ fontSize: '16px' }} />} style={{ fontSize: '12px', letterSpacing: '1px' }}>
           <Link to={'/'} onClick={handleLinkClick}>
             Accueil
           </Link>
         </Item>
         {data.map(menuItem => (
-          <SubMenu key={menuItem.menu_id} icon={getMenuIcon(menuItem.menu_icon)} title={menuItem.menu_title} style={{ fontSize: '13px', letterSpacing: '1px' }}>
+          <SubMenu key={menuItem.menu_id} icon={getMenuIcon(menuItem.menu_icon)} title={menuItem.menu_title} style={{ fontSize: '12px', letterSpacing: '1px' }}>
             {menuItem.subMenus && menuItem.subMenus.map(subMenu => (
               <Item key={subMenu.submenu_id} >
                 <Link to={subMenu.submenu_url} style={{ display: 'flex', alignItems: 'center' }} onClick={handleLinkClick}>
@@ -143,7 +143,7 @@ const Sidebar = () => {
             ))}
           </SubMenu>
         ))}
-        <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '17px' }} />} style={{ fontSize: '14px', letterSpacing: '1px' }} onClick={Logout}>
+        <Item key="deconnecter" icon={<LogoutOutlined style={{ fontSize: '16px' }} />} style={{ fontSize: '13px', letterSpacing: '1px' }} onClick={Logout}>
           Déconnecter
         </Item>
       </Menu>

@@ -215,11 +215,13 @@ const Depenses = () => {
                 <Skeleton active />
             ) : (
                 <Table
-                dataSource={depenses}
-                columns={columns}
-                loading={isLoading}
-                scroll={scroll}
-                className='table_client'
+                  dataSource={depenses}
+                  columns={columns}
+                  loading={isLoading}
+                  scroll={scroll}
+                  className='table_client'
+                  size="small"
+                  bordered
                 />
             )}
 

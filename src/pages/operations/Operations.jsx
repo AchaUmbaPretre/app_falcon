@@ -409,6 +409,8 @@ const Operations = () => {
                 pagination={pagination}
                 scroll={scroll}
                 onChange={handleTableChange}
+                size="small"
+                bordered
               />
             )}
 
