@@ -263,10 +263,10 @@ const FactureEff = () => {
         const daysActiveS= end.diff(start, 'days') + 1; // +1 pour inclure le jour de fin
         console.log('Active:', daysActiveS)
         // Calculer la différence en jours
-        const daysActive = adjustedEnd.diff(adjustedStart, 'days') + 1; // +1 pour inclure le jour de fin
+        const daysActive = adjustedEnd.diff(adjustedStart, 'days') + 1;
     
         // Retourner le nombre de jours actifs
-        return daysActive >= 0 ? daysActive : 0; // Assurer que le nombre de jours ne soit pas négatif
+        return daysActive >= 0 ? daysActive : 0;
     };
     
     
