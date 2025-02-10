@@ -433,6 +433,7 @@ const FactureEff = () => {
                     <Input
                         type="number"
                         min="0"
+                        key={record.id_vehicule} // Assure-toi que la clé est stable
                         step="0.01"
                         onChange={(e) => handleMontantChange(record.id_vehicule, e.target.value)}
                         value={vehicule.find(v => v.id_vehicule === record.id_vehicule)?.montant.toFixed(2) || ''}
