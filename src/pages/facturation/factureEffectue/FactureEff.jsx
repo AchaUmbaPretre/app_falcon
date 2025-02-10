@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
 import { getColorForOperationType } from '../../../utils'
-import { BarcodeOutlined, ThunderboltOutlined, DollarOutlined, CalendarOutlined } from '@ant-design/icons';
+import { BarcodeOutlined, ThunderboltOutlined, CalendarOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
 import { Button, DatePicker, Input, Modal, Select, Spin, Table, Tag } from 'antd';
 import moment from 'moment';
