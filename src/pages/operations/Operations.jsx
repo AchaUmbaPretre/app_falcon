@@ -41,6 +41,7 @@ const Operations = () => {
     'Technicien': true,
     "Date d'opération": true,
     'Crée(e) par': true,
+    'Nomenclature': false
   });
 
   const [pagination, setPagination] = useState({
@@ -256,7 +257,7 @@ const Operations = () => {
           {text}
         </Tag>
       ),
-      ...(columnsVisibility['Tag(Traceur)'] ? {} : { className: 'hidden-column' })
+      ...(columnsVisibility['Nomenclature'] ? {} : { className: 'hidden-column' })
     },
     {
       title: "Opération",
