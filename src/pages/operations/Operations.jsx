@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Breadcrumb, Button, Drawer, Input, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag, Dropdown, Menu } from 'antd';
 import {
   PlusCircleOutlined, SisternodeOutlined,DownOutlined, UserOutlined, CloseOutlined,
-  ThunderboltOutlined, ToolOutlined, DeleteOutlined, EyeOutlined, CalendarOutlined, BarcodeOutlined, MenuOutlined
+  ThunderboltOutlined, FilePdfOutlined,FileExcelOutlined,PrinterOutlined, ToolOutlined, DeleteOutlined, EyeOutlined, CalendarOutlined, BarcodeOutlined, MenuOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
@@ -383,15 +383,15 @@ const Operations = () => {
                   className="product-search"
                 />
               </div>
-              <div className="product-bottom-rights">
+              <div className="product-bottom-right">
                 <Dropdown overlay={menu} trigger={['click']}>
                   <Button icon={<MenuOutlined />} className="ant-dropdown-link">
                     Colonnes <DownOutlined />
                   </Button>
                 </Dropdown>
-                {/* <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
+                <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
                 <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
-                <Button className="product-icon-printer" icon={<PrinterOutlined />} /> */}
+                <Button className="product-icon-printer" icon={<PrinterOutlined />} />
               </div>
             </div>
             {openTrie && (
