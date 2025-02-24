@@ -40,7 +40,7 @@ const Operations = () => {
     'Superviseur': true,
     'Technicien': true,
     "Date d'opération": true,
-    'Crée(e) par': true,
+    'Crée(e) par': false,
     'Nomenclature': false
   });
 
@@ -236,7 +236,7 @@ const Operations = () => {
       ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' })
     },
     {
-      title: 'Tag(Traceur)',
+      title: 'Traceur',
       dataIndex: 'code',
       key: 'code',
       render: (text) => (
@@ -260,7 +260,7 @@ const Operations = () => {
       ...(columnsVisibility['Nomenclature'] ? {} : { className: 'hidden-column' })
     },
     {
-      title: "Opération",
+      title: "Type d'op",
       dataIndex: 'type_operations',
       key: 'type_operations',
       render: (text) => (
@@ -296,7 +296,7 @@ const Operations = () => {
       ...(columnsVisibility['Technicien'] ? {} : { className: 'hidden-column' })
     },
     {
-      title: "Date d'opération",
+      title: "Date d'op",
       dataIndex: 'date_operation',
       key: 'date_operation',
       sorter: (a, b) => moment(a.date_operation) - moment(b.date_operation),
@@ -411,6 +411,7 @@ const Operations = () => {
                 scroll={scroll}
                 onChange={handleTableChange}
                 size="small"
+                bordered
               />
             )}
 

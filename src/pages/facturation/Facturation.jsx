@@ -45,6 +45,7 @@ const Facturation = () => {
 
   const fetchData = async (page, pageSize) => {
     try {
+      setLoading(true); // Activer le chargement avant l’appel API
       const { data, headers } = await axios.get(`${DOMAIN}/facture`, {
         params: {
           page,
@@ -52,15 +53,19 @@ const Facturation = () => {
         },
       });
       setData(data);
-      setLoading(false);
-      setPagination({
-        ...pagination,
+      setPagination((prev) => ({
+        ...prev,
+        current: page,
+        pageSize: pageSize,
         total: parseInt(headers['x-total-count']),
-      });
+      }));
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // Désactiver le chargement après la requête
     }
   };
+  
 
   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
