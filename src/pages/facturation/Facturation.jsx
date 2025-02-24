@@ -27,8 +27,7 @@ const Facturation = () => {
   const [openDetail, setOpenDetail] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 9,
-    total: 0
+    pageSize: 9
   });
   const [factureId, setFactureId] = useState('');
   const scroll = { x: 400 };
@@ -329,14 +328,11 @@ const Facturation = () => {
                   dataSource={filteredData}
                   columns={columns}
                   scroll={scroll}
-                  pagination={{
-                    current: pagination.current,
-                    pageSize: pagination.pageSize,
-                    total: pagination.total,
-                    showSizeChanger: true,
-                    pageSizeOptions: ['10', '20', '50', '100'],
-                  }}
+                  pagination={pagination}
                   onChange={handleTableChange}
+                  size="small"
+                  loading={loading}
+                  bordered
                 />
               )}
 
