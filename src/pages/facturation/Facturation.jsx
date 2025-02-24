@@ -21,13 +21,12 @@ const Facturation = () => {
   const [opens, setOpens] = useState(false);
   const [idFacture, setIdFacture] = useState(null);
   const [data, setData] = useState([]);
-  const [idClient, setIdClient] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openRecu, setOpenRecu] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 9
+    pageSize: 15
   });
   const [factureId, setFactureId] = useState('');
   const scroll = { x: 400 };
