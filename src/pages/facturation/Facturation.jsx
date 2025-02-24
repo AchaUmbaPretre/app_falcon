@@ -44,7 +44,7 @@ const Facturation = () => {
 
   const fetchData = async (page, pageSize) => {
     try {
-      setLoading(true); // Activer le chargement avant l’appel API
+      setLoading(true);
       const { data, headers } = await axios.get(`${DOMAIN}/facture`, {
         params: {
           page,
@@ -61,7 +61,7 @@ const Facturation = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false); // Désactiver le chargement après la requête
+      setLoading(false);
     }
   };
   
