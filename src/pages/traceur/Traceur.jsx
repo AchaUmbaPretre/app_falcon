@@ -84,6 +84,9 @@ const Traceur = () => {
     pageSize: 10,
   });
   
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchValue, startDate, endDate]);
 
 
   const fetchData = useCallback(async () => {
