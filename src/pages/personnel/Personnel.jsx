@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Button, Input, Modal, Skeleton, Table, Tag } from 'antd'
+import { Breadcrumb, Button, Input, Typography, Modal, Skeleton, Table, Tag } from 'antd'
 import { PlusCircleOutlined, SisternodeOutlined,SettingOutlined,PhoneOutlined,MailOutlined,UserOutlined,FilePdfOutlined,FileExcelOutlined,PrinterOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PersonnelForm from './form/PersonnelForm';
+const { Text } = Typography;
 
 const Personnel = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -50,10 +51,10 @@ const Personnel = () => {
       dataIndex: 'username',
       key: 'username',
       render: (text, record) => (
-        <Tag color={'blue'}>
+        <Text type='secondary'>
           <UserOutlined style={{ marginRight: "5px" }} />
           {text}
-        </Tag>
+        </Text>
       ),
     },
     {
@@ -169,7 +170,6 @@ const Personnel = () => {
                     loading={loading} 
                     scroll={scroll} 
                     className='table_client' 
-                    size="small"
                   />
                 )}
 

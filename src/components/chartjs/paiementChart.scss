@@ -6,7 +6,7 @@
     background: #fff;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 15px -10px rgba(131, 129, 129, 0.75);
-    border: 1px solid rgba(3, 3, 109, 0.171);
+    border: 1px solid #e5e7eb;
     border-radius: 20px;
     padding: 20px;
     height: auto;
@@ -27,8 +27,15 @@
         color: transparent;
         font-weight: 700;
         font-size: 1.2rem;
+        letter-spacing: 1.5;
         @include mobileXR{
            font-size: .9rem;
        }
+    }
+    .paiement_hr{
+        border: none;
+        height: 1px;
+        background: #e5e7eb;
+        margin: 10px 0;
     }
 }

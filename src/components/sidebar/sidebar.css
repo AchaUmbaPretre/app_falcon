@@ -1,20 +1,20 @@
 .sidebar{
     overflow-y: auto;
     position: relative;
-    flex: 1.6;
+    flex: 1.2;
     height: 100vh;
     top: 0;
     position: sticky;
     box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
-    border-right: 1px solid #cfcfcf;
+    border-right: 1px solid #e5e7eb;
     color: #8b8b8b;
     padding: 10px;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background: #1C1C1C!important;
-}
+/*     background: #1C1C1C!important;
+ */}
 
 /* Personnalisation de la barre de défilement */
 .sidebar::-webkit-scrollbar {
@@ -31,23 +31,21 @@
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-    background: #162941;
-}
+/*     background: #162941;
+ */}
 
 .sidebar_icons{
     width: 100%;
-    height: 100px;
+    height: 110px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     padding: 5px 20px 10px 0;
-    border-bottom: 1px solid #13add859;
-    border-left: 1px solid #13add859;
 }
 
 .menu-custom {
-    background: #1C1C1C !important;
-    color: #13AED8 !important;
+/*     background: #1C1C1C !important;
+ */    color: #13AED8 !important;
 }
 
 .settings-submenu{

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input, Drawer } from 'antd';
+import { Breadcrumb, Button, Modal, Popconfirm, Typography, Popover, Space, Table, Tag, Skeleton, Input, Drawer } from 'antd';
 import { PlusCircleOutlined, DollarOutlined,CalendarOutlined, UserOutlined, EyeOutlined, DeleteOutlined, AuditOutlined, SearchOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import config from '../../config';
 import axios from 'axios';
@@ -13,6 +13,8 @@ import FacturationRecu from './facturationRecu/FacturationRecu';
 import moment from 'moment';
 import DetailFacture from './detailFactureVehicule/DetailFacture';
 import FactureCreer from './factureCreer/FactureCreer';
+
+const { Text } = Typography;
 
 const Facturation = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -118,7 +120,7 @@ const Facturation = () => {
       dataIndex: 'nom_client',
       key: 'nom_client',
       render: (text) => (
-        <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+        <Text type='secondary'><UserOutlined style={{ marginRight: "5px" }} />{text}</Text>
       )
     },
 /*     {
@@ -187,6 +189,7 @@ const Facturation = () => {
     {
       title: 'Action',
       key: 'action',
+      width: '120px',
       render: (text, record) => (
         <Space size="middle">
 {/*           <Popover title="Voir les détails" trigger="hover">

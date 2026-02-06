@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Input, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag, message } from 'antd';
+import { Breadcrumb, Button, Input, Modal, Typography, Popconfirm, Popover, Skeleton, Space, Table, Tag, message } from 'antd';
 import { PlusCircleOutlined, CarOutlined, UserOutlined,BarcodeOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
@@ -9,6 +9,8 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { useSelector } from 'react-redux';
+
+const { Text } = Typography;
 
 const Vehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -87,10 +89,10 @@ const Vehicules = () => {
       dataIndex: 'nom_client',
       key: 'nom_client',
       render: (text) => (
-        <Tag color='blue'>
+        <Text type="secondary">
           <UserOutlined style={{ marginRight: "5px" }} />
           {text}
-        </Tag>
+        </Text>
       )
     },
     {
@@ -98,10 +100,10 @@ const Vehicules = () => {
       dataIndex: 'nom_vehicule',
       key: 'nom_vehicule',
       render: (text) => (
-        <Tag color= { text ? 'blue' : 'red'}>
+        <Text type='secondary'>
           <CarOutlined style={{ marginRight: "5px" }} />
           {text || 'Aucun'}
-        </Tag>
+        </Text>
       )
     },
     {
@@ -109,10 +111,10 @@ const Vehicules = () => {
       dataIndex: 'nom_marque',
       key: 'nom_marque',
       render: (text) => (
-        <Tag color='blue'>
+        <Text type='secondary'>
           <CarOutlined style={{ marginRight: "5px" }} />
           {text}
-        </Tag>
+        </Text>
       )
     },
     {
@@ -120,10 +122,10 @@ const Vehicules = () => {
       dataIndex: 'modele',
       key: 'modele',
       render: (text) => (
-        <Tag color={text ? 'blue' : 'red'}>
+        <Text type='secondary'>
           <CarOutlined style={{ marginRight: "5px" }} />
           {text || 'Aucun'}
-        </Tag>
+        </Text>
       )
     },
     {

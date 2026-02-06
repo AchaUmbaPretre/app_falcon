@@ -28,13 +28,14 @@
             background: #fff;
             -webkit-box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
             box-shadow: 0px 0px 15px -10px rgba(131, 129, 129, 0.75);
-            border: 1px solid rgba(3, 3, 109, 0.171);
+            border: 1px solid #e5e7eb;
             border-radius: 20px;
             padding: 20px;
             cursor: pointer;
             .pageViews_left{
                 display: flex;
                 flex-direction: column;
+                gap: 10px;
                 .pageViews_left_rond{
                     display: flex;
                     align-items: center;
@@ -88,9 +89,10 @@
                     .pageViews_h5{
                         margin: 0;
                         padding: 0;
-                        font-size: .9rem;
+                        font-size: 1rem;
                         color: rgba(3, 3, 31, 0.76);
                         font-weight: bolder;
+                        letter-spacing: 1.5;
                         @include miniTablette{
                             font-size: .8rem;
                         }
@@ -102,22 +104,31 @@
                         }
                     }
                 }
-                .pageViews_h1{
-                    margin: 0;
-                    padding: 0;
-                    font-size: 1.5rem;
-                    font-weight: bold;
-                    letter-spacing: 2px;
-                    background: linear-gradient(90deg, #13add8bd, #000000c2);
-                    -webkit-background-clip: text;
-                    color: transparent;
-                    @include miniTablette{
-                        font-size: 1.9rem;
-                        letter-spacing: 1px;
-                   }
-                   @include mobileXR{
-                        font-size: 1.4rem;
-                        letter-spacing: 0px;
+                .pageViews_row_h1 {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 50px;
+                    width: 50px;
+                    border-radius: 50%;
+                    background: rgba(44, 143, 170, 0.11);
+                    .pageViews_h1{
+                        margin: 0;
+                        padding: 0;
+                        font-size: 2rem;
+                        font-weight: bold;
+                        letter-spacing: 2px;
+                        background: linear-gradient(90deg, #13add8bd, #000000c2);
+                        -webkit-background-clip: text;
+                        color: transparent;
+                        @include miniTablette{
+                                font-size: 1.9rem;
+                                letter-spacing: 1px;
+                        }
+                        @include mobileXR{
+                                font-size: 1.4rem;
+                                letter-spacing: 0px;
+                        }
                     }
                 }
                 .pageViews_span{
@@ -135,17 +146,25 @@
             }
             .pageViews_right{
                 position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(44, 143, 170, 0.11);
+                border-radius: 50%;
+                height: 50px;
+                width: 50px;
+                padding: 10px;
                 .pageViews_right_img{
-                    height: 40px;
-                    width: 40px;
+                    height: 30px;
+                    width: 30px;
                     object-fit: cover;
                     @include miniTablette{
-                        height: 40px;
-                        width: 40px;
+                        height: 30px;
+                        width: 30px;
                     }
                     @include mobile12pro{
-                        height: 45px;
-                        width: 45px;
+                        height: 35px;
+                        width: 35px;
                     }
                 }
             }

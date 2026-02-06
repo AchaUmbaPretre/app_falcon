@@ -1,9 +1,7 @@
-import React from 'react'
-import './rightbar.scss'
 import PageViews from '../../components/pageViews/PageViews'
 import PaiementChart from '../../components/chartjs/PaiementChart'
 import PieChart from '../../components/chartPie/ChartPie'
-import Traceur from '../traceur/Traceur'
+import './rightbar.scss'
 
 const Rightbar = () => {
 
@@ -16,7 +14,6 @@ const Rightbar = () => {
             <PaiementChart/>
             <PieChart/>
           </div>
-          <Traceur/>
         </div>
       </div>
     </>

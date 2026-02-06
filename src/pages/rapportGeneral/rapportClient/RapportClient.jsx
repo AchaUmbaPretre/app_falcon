@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumb, Button, Drawer, Popover, Space, Table, Tag, Skeleton, Input, Menu, Dropdown, DatePicker } from 'antd';
+import { Breadcrumb, Button, Drawer, Typography, Popover, Space, Table, Tag, Skeleton, Input, Menu, Dropdown, DatePicker } from 'antd';
 import { UserOutlined, CarryOutOutlined, CarOutlined, MenuOutlined, DownOutlined, EyeOutlined, CalendarOutlined, DollarOutlined, SisternodeOutlined } from '@ant-design/icons';
 import config from '../../../config';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import RapportClientDetail from './rapportClientDetail/RapportClientDetail';
 const { RangePicker } = DatePicker;
+const { Text } = Typography;
+
 const RapportClient = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
@@ -122,7 +124,7 @@ const RapportClient = () => {
       key: 'nom_client',
       render: (text, record) => (
         <div>
-          <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          <Text type='secondary' ><UserOutlined style={{ marginRight: "5px" }} />{text}</Text>
         </div>
       ),
       ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' })

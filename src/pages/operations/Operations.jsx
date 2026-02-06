@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Breadcrumb, Button, Drawer, Input, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag, Dropdown, Menu } from 'antd';
+import { Breadcrumb, Button, Drawer, Typography, Input, Modal, Popconfirm, Popover, Skeleton, Space, Table, Tag, Dropdown, Menu } from 'antd';
 import {
   PlusCircleOutlined, SisternodeOutlined,DownOutlined, UserOutlined, CloseOutlined,
   ThunderboltOutlined, FilePdfOutlined,FileExcelOutlined,PrinterOutlined, ToolOutlined, DeleteOutlined, EyeOutlined, CalendarOutlined, BarcodeOutlined, MenuOutlined
@@ -15,6 +15,8 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { useSelector } from 'react-redux';
+
+const { Text } = Typography;
 
 const Operations = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -216,10 +218,10 @@ const Operations = () => {
       dataIndex: 'nom_client',
       key: 'nom_client',
       render: (text) => (
-        <Tag color='blue'>
+        <Text type='secondary'>
           <UserOutlined style={{ marginRight: 5 }} />
           {text}
-        </Tag>
+        </Text>
       ),
       ...(columnsVisibility['Client'] ? {} : { className: 'hidden-column' })
     },
@@ -228,10 +230,10 @@ const Operations = () => {
       dataIndex: 'matricule',
       key: 'matricule',
       render: (text) => (
-        <Tag color='volcano'>
+        <Text type='secondary'>
           <BarcodeOutlined  style={{ marginRight: '5px' }} />
           {text}
-        </Tag>
+        </Text>
       ),
       ...(columnsVisibility['Matricule'] ? {} : { className: 'hidden-column' })
     },
@@ -276,10 +278,10 @@ const Operations = () => {
       dataIndex: 'superviseur',
       key: 'superviseur',
       render: (text) => (
-        <Tag color='blue'>
+        <Text type='secondary'>
           <UserOutlined style={{ marginRight: 5 }} />
           {text}
-        </Tag>
+        </Text>
       ),
       ...(columnsVisibility['Superviseur'] ? {} : { className: 'hidden-column' })
     },
@@ -288,10 +290,10 @@ const Operations = () => {
       dataIndex: 'technicien',
       key: 'technicien',
       render: (text) => (
-        <Tag color='blue'>
+        <Text type='secondary'>
           <ToolOutlined style={{ marginRight: 5 }} />
           {text}
-        </Tag>
+        </Text>
       ),
       ...(columnsVisibility['Technicien'] ? {} : { className: 'hidden-column' })
     },

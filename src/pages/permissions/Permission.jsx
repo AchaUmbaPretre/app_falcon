@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './permissions.css';
-import { Table, Button, Space, Popover, Tag, Skeleton } from 'antd';
+import { Table, Button, Space, Popover, Typography, Tag, Skeleton } from 'antd';
 import { EyeOutlined, UserOutlined, SolutionOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import { Link, useNavigate } from 'react-router-dom';
+const { Text } = Typography;
 
 const Permission = () => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -43,10 +44,10 @@ const Permission = () => {
             dataIndex: 'username',
             key: 'username',
             render: (text, record) => (
-                <Tag color='blue'>
+                <Text type='secondary'>
                     <UserOutlined style={{ marginRight: "5px" }} />
                     {text}
-                </Tag>
+                </Text>
             ),
         },
         {
@@ -54,15 +55,16 @@ const Permission = () => {
             dataIndex: 'role',
             key: 'role',
             render: (text) => (
-                <Tag color='geekblue'>
+                <Text type='secondary'>
                     <SolutionOutlined style={{ marginRight: "5px" }} />
                     {text}
-                </Tag>
+                </Text>
             ),
         },
         {
             title: <span><EyeOutlined /> Action</span>,
             key: 'action',
+            width: '120px',
             render: (text, record) => (
                 <Space size="middle">
                     <Popover title="Voir les permissions" trigger="hover">

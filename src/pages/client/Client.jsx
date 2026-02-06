@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './client.scss';
-import { Breadcrumb, Button, Drawer, Modal, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input, message } from 'antd';
-import { PlusCircleOutlined, UserOutlined, FileOutlined, EyeOutlined,EditOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, EnvironmentOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Drawer, Modal, Typography, Popconfirm, Popover, Space, Table, Tag, Skeleton, Input, message } from 'antd';
+import { PlusCircleOutlined, UserOutlined, FileOutlined, EyeOutlined,EditOutlined, DeleteOutlined, PhoneOutlined, MailOutlined, TeamOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import ClientForm from './form/ClientForm';
 import config from '../../config';
 import axios from 'axios';
@@ -15,6 +15,7 @@ import { getMenuPermissions } from '../../api/services/menuService';
 import { useSelector } from 'react-redux';
 import TarifForm from './form/tarifForm/TarifForm';
 
+const { Text } = Typography;
 
 const Client = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -33,7 +34,7 @@ const Client = () => {
     current: 1,
     pageSize: 10,
   });
-  const scroll = { x: 400 };
+  const scroll = { x: 500 };
   const [client, setClient] = useState([]);
   const navigate = useNavigate();
 
@@ -205,7 +206,7 @@ const fetchData = async (page, pageSize) => {
       render: (text, record) => (
         <div>
           <Popover content={getContent(record)}>
-            <Tag color={'blue'}><UserOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+            <Text type='secondary'><UserOutlined style={{ marginRight: "5px" }} />{text}</Text>
           </Popover>
         </div>
       )
@@ -216,7 +217,7 @@ const fetchData = async (page, pageSize) => {
       key: 'poste',
       render: (text, record) => (
         <div>
-          <Tag color={'blue'}><TeamOutlined style={{ marginRight: "5px" }} />{text}</Tag>
+          <Text type='secondary'><TeamOutlined style={{ marginRight: "5px" }} />{text}</Text>
         </div>
       )
     },
@@ -248,6 +249,7 @@ const fetchData = async (page, pageSize) => {
     {
       title: 'Action',
       key: 'action',
+      width: '120px',
       render: (text, record) => (
         <Space size="middle">
           <Popover title="Voir les détails" trigger="hover">
@@ -397,6 +399,7 @@ const fetchData = async (page, pageSize) => {
                   scroll={scroll}
                   size="small"
                   className='table_client'
+                  bordered
                   pagination={{
                     current: pagination.current,
                     pageSize: pagination.pageSize,

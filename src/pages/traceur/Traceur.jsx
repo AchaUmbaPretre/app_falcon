@@ -435,6 +435,7 @@ const Traceur = () => {
                       }}
                       onChange={handleTableChange}
                       className="table_client"
+                      bordered
                     />
                   )}
                 </div>

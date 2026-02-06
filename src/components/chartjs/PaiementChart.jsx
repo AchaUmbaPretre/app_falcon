@@ -105,6 +105,7 @@ const PaiementChart = () => {
   return (
     <div className='PaiementChart'>
       <h2 className='paiement_h2'>Paiement</h2>
+      <hr className='paiement_hr'/>
       {loading ? (
         <Skeleton active />
       ) : (
