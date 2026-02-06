@@ -126,13 +126,13 @@ const Sidebar = () => {
         style={{ width: '100%', color: '#13AED8' }}
         theme="light"
       >
-        <Item key="accueil" icon={<HomeOutlined style={{ fontSize: '16px', color:'#2c8faaff' }} />} style={{ fontSize: '13px', letterSpacing: '1px' }}>
+        <Item key="accueil" icon={<HomeOutlined style={{ fontSize: '16px', color:'#2c8faaff' }} />} style={{ fontSize: '12px', letterSpacing: '1px' }}>
           <Link to={'/'} onClick={handleLinkClick}>
             Accueil
           </Link>
         </Item>
         {data.map(menuItem => (
-          <SubMenu key={menuItem.menu_id} icon={getMenuIcon(menuItem.menu_icon)} title={menuItem.menu_title} style={{ fontSize: '13px', letterSpacing: '1px' }}>
+          <SubMenu key={menuItem.menu_id} icon={getMenuIcon(menuItem.menu_icon)} title={menuItem.menu_title} style={{ fontSize: '12px', letterSpacing: '1px' }}>
             {menuItem.subMenus && menuItem.subMenus.map(subMenu => (
               <Item key={subMenu.submenu_id} >
                 <Link to={subMenu.submenu_url} style={{ display: 'flex', alignItems: 'center' }} onClick={handleLinkClick}>
