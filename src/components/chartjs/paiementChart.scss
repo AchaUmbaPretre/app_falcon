@@ -21,16 +21,26 @@
     @include mobile12pro{
         height: auto;
     }
-    .paiement_h2{
-        background: linear-gradient(90deg, #13add8bd, #000000c2);
-        -webkit-background-clip: text;
-        color: transparent;
-        font-weight: 700;
-        font-size: 1.2rem;
-        letter-spacing: 1.5;
-        @include mobileXR{
-           font-size: .9rem;
-       }
+    .paiement-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        .paiement-icon {
+            font-size: 24px;
+            color: #10b981;
+        }
+        .paiement_h2{
+            background: linear-gradient(90deg, #13add8bd, #000000c2);
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 1.5;
+
+            @include mobileXR{
+            font-size: .9rem;
+            }
+        }
     }
     .paiement_hr{
         border: none;

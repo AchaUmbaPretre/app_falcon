@@ -89,7 +89,10 @@ const PieChart = () => {
 
   return (
     <div className='pieChart'>
-      <h2 className='depenses_h2'>Dépenses</h2>
+      <div className="depenses-header">
+        <h2 className='depenses_h2'>Dépenses</h2>
+      </div>
+      
       <hr className='depenses_hr'/>
       {loading ? (
         <Skeleton active />

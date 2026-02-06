@@ -13,7 +13,7 @@ import { Skeleton } from 'antd';
 import './paiementChart.scss';
 import config from '../../config';
 import axios from 'axios';
-
+import { DollarOutlined } from '@ant-design/icons';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -104,7 +104,10 @@ const PaiementChart = () => {
 
   return (
     <div className='PaiementChart'>
-      <h2 className='paiement_h2'>Paiement</h2>
+      <div className="paiement-header">
+        <DollarOutlined className='paiement-icon' />
+        <h2 className='paiement_h2'>Paiement</h2>
+      </div>
       <hr className='paiement_hr'/>
       {loading ? (
         <Skeleton active />
