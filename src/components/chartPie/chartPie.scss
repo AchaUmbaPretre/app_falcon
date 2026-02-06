@@ -13,17 +13,27 @@
     border: 1px solid #e5e7eb;
     border-radius: 20px;
     padding: 20px;
-    .depenses_h2{
-        width: 100%;
-        text-align: left;
-        background: linear-gradient(90deg, #13add8bd, #000000c2);
-        -webkit-background-clip: text;
-        color: transparent;
-        font-weight: 700;
-        padding-top: 5px;
-        font-size: 1.2rem;
-        @include mobileXR{
-            font-size: .9rem;
+
+    .depenses-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        .depenses-icon {
+            font-size: 24px;
+            color: #ef4444;
+        }
+        .depenses_h2{
+            width: 100%;
+            text-align: left;
+            background: linear-gradient(90deg, #13add8bd, #000000c2);
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            padding-top: 5px;
+            font-size: 1.2rem;
+            @include mobileXR{
+                font-size: .9rem;
+            }
         }
     }
     .depenses_hr {

@@ -5,6 +5,7 @@ import { Skeleton } from 'antd';
 import axios from 'axios';
 import './chartPie.scss';
 import config from '../../config';
+import { CreditCardOutlined } from '@ant-design/icons';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -90,6 +91,7 @@ const PieChart = () => {
   return (
     <div className='pieChart'>
       <div className="depenses-header">
+        <CreditCardOutlined className='depenses-icon' />
         <h2 className='depenses_h2'>Dépenses</h2>
       </div>
       
