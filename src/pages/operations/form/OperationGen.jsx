@@ -1,5 +1,4 @@
 import React, { useEffect,useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Select from 'react-select';
 import config from '../../../config';
@@ -9,6 +8,13 @@ import OperationControle from './OperationControle';
 import OperationDementeler from './OperationDementeler';
 import OperationTransfert from './OperationTransfert';
 import OperationRemplacement from './OperationRemplacement';
+import './operationGen.scss'
+import {
+  AppstoreAddOutlined,
+  PlusCircleOutlined
+} from '@ant-design/icons';
+import { getOperationIcon } from './utils/operationUtils';
+
 
 const OperationGen = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -51,35 +57,47 @@ const OperationGen = () => {
   
   return (
     <>
-        <div className="clientForm">
-          <div className="product-container">
-            <div className="product-container-top">
-              <div className="product-left">
-                <h2 className="product-h2">Une nouvelle opération</h2>
-                <span>Créer une nouvelle opération</span>
+        <div className="operationForm">
+          <div className="operation-container">
+            <div className="operation-container-top">
+              <div className="operation-left">
+                <div className="operation-title">
+                  <AppstoreAddOutlined className="operation-title-icon" />
+                  <h2 className="operation-h2">Nouvelle opération</h2>
+                </div>
+                <span>Créer et gérer une opération système</span>
               </div>
             </div>
-            <div className="product-wrapper">
-              <div className="product-container-bottom">
-                <div className="form-controle">
+
+            <div className="operation-wrapper" style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+              <div className="operation-container-bottom" style={{margin: 0, width:'100%'}}>
+                <div className="form-controle" style={{margin: 0, width:'100%'}}>
                   <label htmlFor="">Type d'opérations<span style={{color:'red'}}>*</span></label>
                   <Select
-                      name="id_type"
-                      options={type?.map((item) => ({
-                        value: item.id_type_operations,
-                        label: item.nom_type_operations,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_type', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez une opération..."
-                    />
+                    name="id_type"
+                    options={type?.map((item) => ({
+                      value: item.id_type_operations,
+                      label: (
+                        <div className="select-option">
+                          <span className="select-option-icon">
+                            {getOperationIcon(item.id_type_operations)}
+                          </span>
+                          <span>{item.nom_type_operations}</span>
+                        </div>
+                      ),
+                    }))}
+                    onChange={(selectedOption) =>
+                      handleInputChange({
+                        target: { name: 'id_type', value: selectedOption.value },
+                      })
+                    }
+                    placeholder="Sélectionnez une opération..."
+                  />
+
                 </div>
               </div>
               <div className="form-submit">
-                <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Ouvrir</button>
+                <button className="btn-submit" onClick={handleClick} disabled={isLoading}><PlusCircleOutlined /> Ouvrir</button>
                 {isLoading && (
                 <div className="loader-container loader-container-center">
                    <Spin size="large" />

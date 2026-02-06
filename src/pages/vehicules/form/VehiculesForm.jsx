@@ -149,16 +149,26 @@ const VehiculesForm = () => {
   const columns = [
     {
       title: 'Client',
-      dataIndex: 'id_client',
       render: (text, record, index) => (
         <Select
-          name="id_client"
-          options={client.map(item => ({ value: item.id_client, label: item.nom_client }))}
-          onChange={selectedOption => handleSelectChange(index, 'id_client', selectedOption)}
+          options={client.map(c => ({
+            value: c.id_client,
+            label: c.nom_client,
+          }))}
+          onChange={opt => handleSelectChange(index, 'id_client', opt)}
           placeholder="Sélectionnez..."
-          styles={customStyles}
           className="react-select-container"
           classNamePrefix="react-select"
+          menuPortalTarget={document.body}
+          menuPosition="fixed"
+          menuShouldBlockScroll
+          styles={{
+            ...customStyles,
+            menuPortal: (base) => ({
+              ...base,
+              zIndex: 9999,
+            }),
+          }}
         />
       ),
     },

@@ -1,181 +1,226 @@
+/* ================= ROOT ================= */
+.clientForm {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8fafc, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
 
-.confirmation-modal .ant-modal-content {
-    background-color: #f5f5f5;
-    border-radius: 8px;
+/* ================= CARD ================= */
+.product-container {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+/* ================= HEADER ================= */
+.product-container-top {
+  border-bottom: 1px solid #eef2f7;
+  padding-bottom: 16px;
+}
+
+.product-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.product-h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.product-left span {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* ================= BODY ================= */
+.product-wrappers {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ================= TABLE ================= */
+.tableau_add {
+  .ant-table {
+    border-radius: 12px;
+    overflow: hidden;
   }
-  
-  .confirmation-modal .ant-modal-header {
-    background-color: #007BFF;
-    color: white;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+
+  .ant-table-thead > tr > th {
+    background: #f1f5f9;
+    font-weight: 600;
+    font-size: 13px;
+    color: #334155;
   }
-  
-  .confirmation-modal .ant-modal-title {
-    color: white;
+
+  .ant-table-tbody > tr > td {
+    padding: 10px;
   }
-  
-  .confirmation-modal .ant-modal-footer {
+
+  .ant-table-row:hover td {
+    background: #f8fafc;
+  }
+}
+
+/* ================= INPUT ================= */
+.ant-input {
+  min-height: 40px;
+  border-radius: 8px;
+}
+
+/* ================= REACT SELECT ================= */
+.react-select-container {
+  width: 100%;
+}
+
+.react-select__control {
+  min-height: 40px !important;
+  border-radius: 8px !important;
+  border: 1px solid #d1d5db !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease;
+}
+
+.react-select__control:hover {
+  border-color: #2563eb !important;
+}
+
+.react-select__control--is-focused {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+}
+
+.react-select__menu {
+  border-radius: 10px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.react-select__option {
+  font-size: 13px;
+}
+
+.react-select__option--is-focused {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.react-select__option--is-selected {
+  background: #2563eb;
+}
+
+/* ================= ACTION BUTTONS ================= */
+.ant-btn {
+  border-radius: 8px;
+}
+
+.ant-btn-dashed {
+  color: #2563eb;
+  border-color: #2563eb;
+}
+
+/* ================= SUBMIT ================= */
+.form-submit {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-submit {
+  height: 46px;
+  padding: 0 32px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35);
+}
+
+.btn-submit:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ================= LOADER ================= */
+.loader-container-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================= CONFIRM MODAL ================= */
+.confirmation-modal {
+  .ant-modal-content {
+    border-radius: 16px;
+    padding: 24px;
+  }
+
+  .ant-modal-header {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    border-radius: 16px 16px 0 0;
+  }
+
+  .ant-modal-title {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .ant-modal-footer {
     display: flex;
-    justify-content: flex-end; 
-    gap: 10px; 
+    justify-content: flex-end;
+    gap: 10px;
   }
-  
-  .confirmation-modal .modal-text {
-    font-size: 16px; 
-    margin-bottom: 20px;
-    
-  }
-  
-  .confirmation-modal .modal-data p {
-    margin: 5px 0; 
-    font-size: 14px;
-  }
-  
 
-  .react-select-container {
+  .modal-text {
+    font-size: 15px;
+    margin-bottom: 16px;
+    color: #1f2937;
+  }
+
+  .modal-data p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #374151;
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .clientForm {
+    padding: 16px;
+  }
+
+  .product-container {
+    padding: 20px;
+  }
+
+  .form-submit {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-submit {
     width: 100%;
   }
-  
-  .react-select__control {
-    min-height: 40px;
-    height: 40px;
-  }
-  
-  .react-select__value-container {
-    height: 40px;
-    padding: 0 6px;
-  }
-  
-  .react-select__input {
-    margin: 0px;
-  }
-  
-  .react-select__indicators {
-    height: 40px;
-  }
-  
-  .tableau_add .ant-table {
-    overflow: auto;
-  }
-  
-  .ant-input {
-    min-height: 40px;
-  }
-  .react-select-container {
-    width: 100%;
-  }
-  
-  .react-select__control {
-    min-height: 40px;
-    height: 40px;
-  }
-  
-  .react-select__value-container {
-    height: 40px;
-    padding: 0 6px;
-  }
-  
-  .react-select__input {
-    margin: 0px;
-  }
-  
-  .react-select__indicators {
-    height: 40px;
-  }
-  
-  .tableau_add .ant-table {
-    overflow: auto;
-  }
-  
-  .ant-input {
-    min-height: 40px;
-  }
-  .react-select-container {
-    width: 100%;
-  }
-  
-  .react-select__control {
-    min-height: 40px;
-    height: 40px;
-  }
-  
-  .react-select__value-container {
-    height: 40px;
-    padding: 0 6px;
-  }
-  
-  .react-select__input {
-    margin: 0px;
-  }
-  
-  .react-select__indicators {
-    height: 40px;
-  }
-  
-  .tableau_add .ant-table {
-    overflow: auto;
-  }
-  
-  .ant-input {
-    min-height: 40px;
-  }
-  .react-select-container {
-    width: 100%;
-  }
-  
-  .react-select__control {
-    min-height: 40px;
-    height: 40px;
-  }
-  
-  .react-select__value-container {
-    height: 40px;
-    padding: 0 6px;
-  }
-  
-  .react-select__input {
-    margin: 0px;
-  }
-  
-  .react-select__indicators {
-    height: 40px;
-  }
-  
-  .tableau_add .ant-table {
-    overflow: auto;
-  }
-  
-  .ant-input {
-    min-height: 40px;
-  }
-  .react-select-container {
-    width: 100%;
-  }
-  
-  .react-select__control {
-    min-height: 40px;
-    height: 40px;
-  }
-  
-  .react-select__value-container {
-    height: 40px;
-    padding: 0 6px;
-  }
-  
-  .react-select__input {
-    margin: 0px;
-  }
-  
-  .react-select__indicators {
-    height: 40px;
-  }
-  
-  .tableau_add .ant-table {
-    overflow: auto;
-  }
-  
-  .ant-input {
-    min-height: 30px;
-  }
-        
+}

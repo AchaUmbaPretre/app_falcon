@@ -103,7 +103,7 @@ const PageViews = () => {
                         </div>
                         <div className="pageViews_row_h1">
                             <h1 className="pageViews_h1">
-                                {loading ? <Skeleton.Input active /> : <CountUp end={client} />}
+                                {loading ? <Skeleton.Input active /> : <CountUp end={operation} />}
                             </h1>
                         </div>
                         <span className='pageViews_span'>Nombre d'opération</span>
@@ -120,7 +120,7 @@ const PageViews = () => {
                         </div>
                         <div className="pageViews_row_h1">
                             <h1 className="pageViews_h1">
-                                {loading ? <Skeleton.Input active /> : <CountUp end={client} />}
+                                {loading ? <Skeleton.Input active /> : <CountUp end={traceur} />}
                             </h1>
                         </div>
                         <span className='pageViews_span'>Nombre de traceur</span>
@@ -137,7 +137,7 @@ const PageViews = () => {
                         </div>
                         <div className="pageViews_row_h1">
                             <h1 className="pageViews_h1">
-                                {loading ? <Skeleton.Input active /> : <CountUp end={client} />}
+                                {loading ? <Skeleton.Input active /> : <CountUp end={vehicule} />}
                             </h1>
                         </div>
                         <span className='pageViews_span'>Nombre de vehicule</span>

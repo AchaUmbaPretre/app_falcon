@@ -1,0 +1,213 @@
+.operationForm {
+  width: 100%;
+  padding: 32px;
+  background: linear-gradient(180deg, #f8fafc, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.operation-container {
+  width: 100%;
+  max-width: 800px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.05),
+    0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.operation-container-top {
+  border-bottom: 1px solid #eef2f7;
+  padding-bottom: 18px;
+}
+
+.operation-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.operation-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.operation-title-icon {
+  font-size: 28px;
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.1);
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.operation-h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+}
+
+.operation-left span {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.operation-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.form-controle {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-controle label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* ================= REACT SELECT ================= */
+.select-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.select-option-icon {
+  font-size: 16px;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+}
+
+/* react-select overrides */
+.react-select__control {
+  min-height: 46px;
+  border-radius: 10px !important;
+  border: 1px solid #d1d5db !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease;
+}
+
+.react-select__control:hover {
+  border-color: #2563eb !important;
+}
+
+.react-select__control--is-focused {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+}
+
+.react-select__menu {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+}
+
+.react-select__option {
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+.react-select__option--is-focused {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.react-select__option--is-selected {
+  background: #2563eb;
+}
+
+/* ================= BUTTON ================= */
+.form-submit {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-submit {
+  height: 46px;
+  padding: 0 28px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+}
+
+.btn-submit svg {
+  font-size: 18px;
+}
+
+.btn-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.35);
+}
+
+.btn-submit:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ================= LOADER ================= */
+.loader-container-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ant-modal-content {
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.ant-modal-header {
+  border-bottom: none;
+}
+
+.ant-modal-body {
+  padding-top: 10px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .operationForm {
+    padding: 16px;
+  }
+
+  .operation-container {
+    padding: 20px;
+  }
+
+  .operation-h2 {
+    font-size: 18px;
+  }
+
+  .form-submit {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-submit {
+    width: 100%;
+    justify-content: center;
+  }
+}
