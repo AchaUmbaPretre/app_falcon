@@ -1,55 +1,169 @@
-.topbar{
-    height: 60px;
-    width: 100%;
-    position: sticky;
-    padding: 30px;
-    background: #fff;
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 64px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+
+  &__container {
+    height: 100%;
+    padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 999;
-    top: 0;
-    box-shadow: 0px 0px 15px -10px rgba(0,0,0,0.75);
-    border-bottom: 1px solid #e5e7eb;
-    .topbar-wrapper{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .topbar_right{
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            .topbar_icons{
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                .topbar_icon{
-                    font-size: 1.1rem;
-                }
-                .topbar_user{
-                    height: 35px;
-                    width: 35px;
-                    border-radius: 50%;
-                    object-fit: cover;
-                }
-                .topbar_username{
-                    font-size: .9rem;
-                    color: #13AED8;
-                }
-            }
-            .topbarOne{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
-                cursor: pointer;
-                background:rgba(14, 193, 238, 0.068);
-                color: #4d4d4d;
-                height: 35px;
-                width: 35px;
-                border-radius: 50%;
-            }
-        }
+  }
+
+  /* LEFT */
+  &__menu-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #374151;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #2563eb;
     }
+  }
+
+  /* RIGHT */
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  /* Dropdown menu Ant Design custom */
+.topbar-dropdown-menu {
+  border-radius: 10px;
+  min-width: 160px;
+
+  .ant-dropdown-menu-item {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #f3f4f6;
+    }
+
+    &.ant-dropdown-menu-item-danger {
+      color: #ef4444;
+    }
+  }
+
+  .ant-dropdown-menu-item-divider {
+    margin: 4px 0;
+  }
+}
+
+/* Animation smooth pour le dropdown */
+.ant-dropdown {
+  .ant-dropdown-menu {
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+/* Badge notification */
+.topbar__icon-btn .badge {
+  animation: pop 0.3s ease-in-out;
+}
+
+@keyframes pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.topbar__user {
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+
+  &__icon-btn {
+    position: relative;
+    height: 38px;
+    width: 38px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    color: #4b5563;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #eef2ff;
+      color: #2563eb;
+      border-color: #c7d2fe;
+    }
+
+    .badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #ef4444;
+      color: white;
+      font-size: 10px;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  /* USER */
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 16px;
+    border-left: 1px solid #e5e7eb;
+
+    img {
+      height: 38px;
+      width: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #e5e7eb;
+    }
+  }
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+
+    .name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .role {
+      font-size: 12px;
+      color: #6b7280;
+    }
+  }
 }
