@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Breadcrumb, Button, Input, Modal, Typography, Popconfirm, Popover, Skeleton, Space, Table, Tag, message } from 'antd';
 import { PlusCircleOutlined, CarOutlined, UserOutlined,BarcodeOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { useSelector } from 'react-redux';
+import { useVehiculeData } from './hooks/useVehiculeData';
 
 const { Text } = Typography;
 
@@ -16,42 +17,13 @@ const Vehicules = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
   const [searchValue, setSearchValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [vehicule, setVehicule] = useState([]);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const scroll = { x: 400 };
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 20,
   });
   const role = useSelector((state) => state.user.currentUser.role);
-
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`${DOMAIN}/vehicule`);
-      setData(response.data);
-    } catch (error) {
-      console.error(error);
-      message.error('Failed to fetch data');
-    } finally {
-      setLoading(false);
-    }
-  }, [DOMAIN]);
-
-  const fetchVehicule = useCallback(async () => {
-    try {
-      const { data } = await axios.get(`${DOMAIN}/vehicule/count?searchValue=${searchValue}`);
-      setVehicule(data[0]?.nbre_vehicule);
-    } catch (error) {
-      console.log(error);
-    }
-  }, [DOMAIN,searchValue]);
-
-  useEffect(() => {
-    fetchData();
-    fetchVehicule();
-  }, [fetchData, fetchVehicule, searchValue]);
+  const { data, loading, fetchData, vehicule } = useVehiculeData({searchValue});
 
   const handleDelete = async (id) => {
     try {
