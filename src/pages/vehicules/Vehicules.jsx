@@ -5,11 +5,11 @@ import axios from 'axios';
 import config from '../../config';
 import VehiculesForm from './form/VehiculesForm';
 import CountUp from 'react-countup';
-import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
-import { useSelector } from 'react-redux';
 import { useVehiculeData } from './hooks/useVehiculeData';
+import { useVehiculeColumns } from './hooks/useVehiculeColumns';
+import { exportToExcel } from './utils/exportToExcel';
 
 const { Text } = Typography;
 
@@ -18,11 +18,11 @@ const Vehicules = () => {
   const [searchValue, setSearchValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const scroll = { x: 400 };
+  const [modal, setModal] = useState({ type: null, id: null });
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 20,
   });
-  const role = useSelector((state) => state.user.currentUser.role);
   const { data, loading, fetchData, vehicule } = useVehiculeData({searchValue});
 
   const handleDelete = async (id) => {
@@ -36,6 +36,9 @@ const Vehicules = () => {
     }
   };
 
+  const openModal = (type, id = null) => setModal({ type, id });
+  const closeAllModals = () => setModal({ type: null, id: null });
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -44,105 +47,12 @@ const Vehicules = () => {
     setIsModalOpen(false);
   };
 
-  const columns = [
-    {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => {
-        const pageSize = pagination.pageSize || 10;
-        const pageIndex = pagination.current || 1;
-        return (pageIndex - 1) * pageSize + index + 1;
-      },
-      width: "3%"
-    },
-    {
-      title: 'Client',
-      dataIndex: 'nom_client',
-      key: 'nom_client',
-      render: (text) => (
-        <Text type="secondary">
-          <UserOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Text>
-      )
-    },
-    {
-      title: 'Nom vehicule',
-      dataIndex: 'nom_vehicule',
-      key: 'nom_vehicule',
-      render: (text) => (
-        <Text type='secondary'>
-          <CarOutlined style={{ marginRight: "5px" }} />
-          {text || 'Aucun'}
-        </Text>
-      )
-    },
-    {
-      title: 'Marque',
-      dataIndex: 'nom_marque',
-      key: 'nom_marque',
-      render: (text) => (
-        <Text type='secondary'>
-          <CarOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Text>
-      )
-    },
-    {
-      title: 'Modéle',
-      dataIndex: 'modele',
-      key: 'modele',
-      render: (text) => (
-        <Text type='secondary'>
-          <CarOutlined style={{ marginRight: "5px" }} />
-          {text || 'Aucun'}
-        </Text>
-      )
-    },
-    {
-      title: 'Matricule',
-      dataIndex: 'matricule',
-      key: 'matricule',
-      render: (text) => (
-        <Tag color='blue'>
-          <CarOutlined style={{ marginRight: "5px" }} />
-          {text}
-        </Tag>
-      )
-    },
-    {
-      title: 'Tag(traceur)',
-      dataIndex: 'code',
-      key: 'code',
-      render: (text) => (
-        <Tag color={text ? 'blue' : 'red'}>
-          <BarcodeOutlined style={{ marginRight: '5px' }} />
-          {text || 'Aucun'}
-        </Tag>
-      )
-    },
-    role === 'admin' &&{
-      title: 'Action',
-      key: 'action',
-      width: "50px",
-      render: (_, record) => (
-        <Space size="middle">
-          <Popover title="Supprimer" trigger="hover">
-            <Popconfirm
-              title="Êtes-vous sûr de vouloir supprimer?"
-              onConfirm={() => handleDelete(record.id_vehicule)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button icon={<DeleteOutlined />} style={{ color: 'red' }} />
-            </Popconfirm>
-          </Popover>
-        </Space>
-      )
-    }
-  ].filter(Boolean);
-
+  const columns = useVehiculeColumns({
+    pagination,
+    onEdit: (id) => openModal("Modify", id),
+    onDetail: (id) => openModal("Detail", id),
+    onDelete: handleDelete,
+  });
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.text("Liste des vehicules", 14, 22);
@@ -166,13 +76,6 @@ const Vehicules = () => {
       startY: 30,
     });
     doc.save('vehicules.pdf');
-  };
-
-  const exportToExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Vehicule");
-    XLSX.writeFile(wb, "vehicule.xlsx");
   };
 
   const handleTableChange = (newPagination) => {
@@ -254,6 +157,16 @@ const Vehicules = () => {
               onCancel={handleCancel}
               width={1000}
               footer={null}
+            >
+              <VehiculesForm onClose={handleCancel} onSave={fetchData} />
+            </Modal>
+
+            <Modal
+              open={modal.type === "Modify"} 
+              onCancel={closeAllModals} 
+              footer={null} 
+              width={modal.id ? 800 : 1400} 
+              centered destroyOnClose
             >
               <VehiculesForm onClose={handleCancel} onSave={fetchData} />
             </Modal>
