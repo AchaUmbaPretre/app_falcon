@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Spin, Modal, Table, Button, Input, Space } from 'antd';
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import './vehiculesForm.scss';
+import { useVehiculeFormData } from './hooks/useVehiculeFormData';
 
 const customStyles = {
   control: (provided) => ({
@@ -34,12 +35,9 @@ const VehiculesForm = () => {
   const [vehicles, setVehicles] = useState([{}]);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [marque, setMarque] = useState([]);
-  const [client, setClient] = useState([]);
-  const [modele, setModele] = useState([]);
-  const [IdMarque, setIdMarque] = useState('');
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const scroll = { x: 400 };
+  const { marque, client, modele, setIdMarque } = useVehiculeFormData()
   const handleInputChange = (index, e) => {
     const fieldName = e.target.name;
     const fieldValue = e.target.value;
@@ -72,44 +70,6 @@ const VehiculesForm = () => {
     const updatedVehicles = vehicles.filter((_, idx) => idx !== index);
     setVehicles(updatedVehicles);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule/marque`);
-        setMarque(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/client`);
-        setClient(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [DOMAIN]);
-
-  useEffect(() => {
-    const fetchModele = async () => {
-      try {
-        const { data } = await axios.get(`${DOMAIN}/vehicule/modele?id_marque=${IdMarque}`);
-        setModele(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (IdMarque !== '') {
-      fetchModele();
-    }
-  }, [DOMAIN, IdMarque]);
 
   const handleClick = (e) => {
     e.preventDefault();
