@@ -10,6 +10,7 @@ import 'jspdf-autotable';
 import { useVehiculeData } from './hooks/useVehiculeData';
 import { useVehiculeColumns } from './hooks/useVehiculeColumns';
 import { exportToExcel } from './utils/exportToExcel';
+import VehiculesFormEdit from './form/VehiculesFormEdit';
 
 const { Text } = Typography;
 
@@ -168,7 +169,7 @@ const Vehicules = () => {
               width={modal.id ? 800 : 1400} 
               centered destroyOnClose
             >
-              <VehiculesForm onClose={handleCancel} onSave={fetchData} />
+              <VehiculesFormEdit id={modal.id} onClose={handleCancel} onSave={fetchData} />
             </Modal>
           </div>
         </div>
