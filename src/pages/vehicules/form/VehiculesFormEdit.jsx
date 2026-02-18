@@ -62,25 +62,13 @@ const VehiculesFormEdit = ({ id, onClose, onSave }) => {
   }, [fetchData]);
 
   /* ======================================================
-     🔹 Injecter les données SANS id_modele d'abord
-  ====================================================== */
-  useEffect(() => {
-    if (vehiculeData) {
-      form.setFieldsValue({
-        ...vehiculeData,
-        id_modele: undefined,
-      });
-    }
-  }, [vehiculeData, form]);
-
-  /* ======================================================
-     🔹 Injecter id_modele après chargement des modèles
+     🔹 Synchronisation Form après chargement modèle
   ====================================================== */
   useEffect(() => {
     if (vehiculeData && modele.length > 0) {
-      form.setFieldValue("id_modele", vehiculeData.id_modele);
+      form.setFieldsValue(vehiculeData);
     }
-  }, [modele, vehiculeData, form]);
+  }, [vehiculeData, modele, form]);
 
   /* ======================================================
      🔹 SUBMIT UPDATE
@@ -107,16 +95,13 @@ const VehiculesFormEdit = ({ id, onClose, onSave }) => {
   };
 
   /* ======================================================
-     🔹 Progress dynamique
+     🔹 Progress calcul (UI professionnel)
   ====================================================== */
-  const values = form.getFieldsValue();
-  const totalFields = 6;
-
-  const filledFields = Object.values(values).filter(
+  const filledFields = Object.values(form.getFieldsValue()).filter(
     (v) => v !== undefined && v !== null && v !== ""
   ).length;
 
-  const progressPercent = Math.round((filledFields / totalFields) * 100);
+  const progressPercent = Math.round((filledFields / 6) * 100);
 
   /* ======================================================
      🔹 RENDER
@@ -157,7 +142,10 @@ const VehiculesFormEdit = ({ id, onClose, onSave }) => {
             </Col>
 
             <Col xs={24} md={12}>
-              <Form.Item label="Matricule" name="matricule">
+              <Form.Item
+                label="Matricule"
+                name="matricule"
+              >
                 <Input size="large" />
               </Form.Item>
             </Col>
@@ -194,7 +182,7 @@ const VehiculesFormEdit = ({ id, onClose, onSave }) => {
                   placeholder="Sélectionner un modèle"
                   disabled={!form.getFieldValue("id_marque")}
                   options={modele.map((m) => ({
-                    label: m.nom_modele,
+                    label: m.modele,
                     value: m.id_modele,
                   }))}
                 />
@@ -202,7 +190,10 @@ const VehiculesFormEdit = ({ id, onClose, onSave }) => {
             </Col>
 
             <Col xs={24} md={12}>
-              <Form.Item label="Client" name="id_client">
+              <Form.Item
+                label="Client"
+                name="id_client"
+              >
                 <Select
                   size="large"
                   placeholder="Sélectionner un client"
@@ -216,7 +207,10 @@ const VehiculesFormEdit = ({ id, onClose, onSave }) => {
             </Col>
 
             <Col xs={24} md={12}>
-              <Form.Item label="Code" name="code">
+              <Form.Item
+                label="Code"
+                name="code"
+              >
                 <Input size="large" />
               </Form.Item>
             </Col>
