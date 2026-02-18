@@ -169,7 +169,7 @@ const Vehicules = () => {
               width={modal.id ? 800 : 1400} 
               centered destroyOnClose
             >
-              <VehiculesFormEdit id={modal.id} onClose={handleCancel} onSave={fetchData} />
+              <VehiculesFormEdit id={modal.id} onClose={closeAllModals} onSave={fetchData} />
             </Modal>
           </div>
         </div>

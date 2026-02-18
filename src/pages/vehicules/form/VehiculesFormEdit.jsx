@@ -77,7 +77,7 @@ const VehiculesFormEdit = ({ id, onClose, onSave }) => {
     try {
       setLoading(true);
 
-      await axios.put(`${DOMAIN}/vehicule/update`, {
+      await axios.put(`${DOMAIN}/vehicule/vehicule_update`, {
         id_vehicule: id,
         ...values,
       });
@@ -85,6 +85,7 @@ const VehiculesFormEdit = ({ id, onClose, onSave }) => {
       message.success("Véhicule modifié avec succès");
 
       if (onSave) onSave();
+       form.resetFields()
       if (onClose) onClose();
     } catch (error) {
       console.error(error);
