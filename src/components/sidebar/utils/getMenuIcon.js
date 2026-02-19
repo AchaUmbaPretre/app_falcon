@@ -10,7 +10,8 @@ import {
   HomeOutlined,
   ToolOutlined,
   SettingOutlined,
-  AuditOutlined
+  AuditOutlined,
+  AlertOutlined
 } from '@ant-design/icons';
 
  export const getMenuIcon = (icon) => {
@@ -39,6 +40,8 @@ import {
         return <SettingOutlined style={{ fontSize: '16px', color:'#2c8faaff' }} />;
       case 'AuditOutlined':
         return <AuditOutlined style={{ fontSize: '16px', color:'#2c8faaff' }} />;
+    case 'AlertOutlined':
+        return <AlertOutlined style={{ fontSize: '16px', color:'#2c8faaff' }} />;
       default:
         return null;
     }

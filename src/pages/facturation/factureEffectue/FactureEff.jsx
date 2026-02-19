@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import config from '../../../config';
 import useQuery from '../../../useQuery';
-import { getColorForOperationType } from '../../../utils'
 import { BarcodeOutlined, ThunderboltOutlined, CalendarOutlined } from '@ant-design/icons';
 import './factureEffectue.scss';
 import { Button, DatePicker, Input, Modal, Select, Spin, Table, Tag } from 'antd';
@@ -9,6 +8,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { toast,ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { getColorForOperationType } from '../../../utils/utils';
 const { Option } = Select;
 
 const FactureEff = () => {
