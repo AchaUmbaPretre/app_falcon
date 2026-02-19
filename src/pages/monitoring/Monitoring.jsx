@@ -1,9 +1,7 @@
 import React from 'react'
 
-const Monitoring = () => {
+export const Monitoring = () => {
   return (
     <div>Monitoring</div>
   )
 }
-
-export default Monitoring

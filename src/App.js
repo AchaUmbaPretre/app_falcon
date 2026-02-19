@@ -64,6 +64,8 @@ import FactureEffectue from './pages/facturation/factureEffectue/FactureEffectue
 import RapportClient from './pages/rapportGeneral/rapportClient/RapportClient';
 import RapportVehicule from './pages/rapportGeneral/RapportVehicule';
 import FactureEff from './pages/facturation/factureEffectue/FactureEff';
+import Position from './pages/monitoring/position/Position';
+import Signale from './pages/monitoring/signale/Signale';
 
 function App() {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -156,6 +158,8 @@ function App() {
         { path: '/personnel_form', element: <PersonnelForm /> },
         { path: '/personnel_edit', element: <PersonnelEdit /> },
         { path: '/paiement', element: <Paiement /> },
+        { path: '/position', element: <Position /> },
+        { path: '/signal', element: <Signale/> },
         { path: '/facturation', element: <Facturation /> },
         { path: '/factureEffectue', element: <FactureEff/> },
         { path: '/facturation_form', element: <FactureClient/> },
