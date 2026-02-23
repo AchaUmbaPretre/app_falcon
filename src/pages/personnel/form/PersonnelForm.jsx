@@ -11,6 +11,8 @@ import {
   Spin,
   notification,
   Typography,
+  Row,
+  Col
 } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined } from "@ant-design/icons";
 import config from "../../../config";
@@ -75,62 +77,77 @@ const PersonnelForm = ({fetchData, onClose}) => {
               onFinish={handleSubmit}
               autoComplete="off"
             >
-              <Form.Item
-                label="Nom complet"
-                name="username"
-                rules={[{ required: true, message: "Champ obligatoire" }]}
-              >
-                <Input size="large" placeholder="Entrez le nom complet" />
-              </Form.Item>
+              <Row gutter={16}>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Nom complet"
+                    name="username"
+                    rules={[{ required: true, message: "Champ obligatoire" }]}
+                  >
+                    <Input size="large" placeholder="Entrez le nom complet" />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Rôle"
+                    name="role"
+                    rules={[{ required: true, message: "Sélection obligatoire" }]}
+                  >
+                    <Select size="large" placeholder="Sélectionnez un rôle">
+                      {roles.map((role) => (
+                        <Option key={role} value={role}>
+                          {role}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
 
-              <Form.Item
-                label="Rôle"
-                name="role"
-                rules={[{ required: true, message: "Sélection obligatoire" }]}
-              >
-                <Select size="large" placeholder="Sélectionnez un rôle">
-                  {roles.map((role) => (
-                    <Option key={role} value={role}>
-                      {role}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
+              <Row gutter={16}>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Téléphone"
+                    name="telephone"
+                    rules={[{ required: true, message: "Champ obligatoire" }]}
+                  >
+                    <Input
+                      size="large"
+                      placeholder="Entrez le numéro de téléphone"
+                      prefix={<PhoneOutlined />}
+                    />
+                  </Form.Item>
+                </Col>
 
-              <Form.Item
-                label="Téléphone"
-                name="telephone"
-                rules={[{ required: true, message: "Champ obligatoire" }]}
-              >
-                <Input
-                  size="large"
-                  placeholder="Entrez le numéro de téléphone"
-                  prefix={<PhoneOutlined />}
-                />
-              </Form.Item>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                      { required: true, message: "Champ obligatoire" },
+                      { type: "email", message: "Email invalide" },
+                    ]}
+                  >
+                    <Input size="large" placeholder="Entrez l'email" prefix={<MailOutlined />} />
+                  </Form.Item>
+                </Col>
+              </Row>
 
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                  { required: true, message: "Champ obligatoire" },
-                  { type: "email", message: "Email invalide" },
-                ]}
-              >
-                <Input size="large" placeholder="Entrez l'email" prefix={<MailOutlined />} />
-              </Form.Item>
-
-              <Form.Item
-                label="Mot de passe"
-                name="password"
-                rules={[{ required: true, message: "Champ obligatoire" }]}
-              >
-                <Input.Password
-                  size="large"
-                  placeholder="Entrez un mot de passe"
-                  prefix={<LockOutlined />}
-                />
-              </Form.Item>
+              <Row gutter={16}>
+                <Col xs={24} sm={12}>
+                  <Form.Item
+                    label="Mot de passe"
+                    name="password"
+                    rules={[{ required: true, message: "Champ obligatoire" }]}
+                  >
+                    <Input.Password
+                      size="large"
+                      placeholder="Entrez un mot de passe"
+                      prefix={<LockOutlined />}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
 
               <Form.Item style={{ marginTop: 20 }}>
                 <Button
