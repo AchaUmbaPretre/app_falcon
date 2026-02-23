@@ -14,6 +14,7 @@ import 'jspdf-autotable';
 import { getMenuPermissions } from '../../api/services/menuService';
 import { useSelector } from 'react-redux';
 import TarifForm from './form/tarifForm/TarifForm';
+import UserAvatarProfile from './../../utils/UserAvatarProfile';
 
 const { Text } = Typography;
 
@@ -34,7 +35,7 @@ const Client = () => {
     current: 1,
     pageSize: 10,
   });
-  const scroll = { x: 500 };
+  const scroll = { x: 'max-content' };
   const [client, setClient] = useState([]);
   const navigate = useNavigate();
 
@@ -200,16 +201,15 @@ const fetchData = async (page, pageSize) => {
       width: "3%"
     },
     {
-      title: 'Nom',
-      dataIndex: 'nom_client',
-      key: 'nom_client',
-      render: (text, record) => (
-        <div>
-          <Popover content={getContent(record)}>
-            <Text type='secondary'><UserOutlined style={{ marginRight: "5px" }} />{text}</Text>
-          </Popover>
-        </div>
-      )
+        title: "Profil",
+        key: "profil",
+        render: (_, record) => (
+          <UserAvatarProfile
+            nom={record.nom_client}
+            prenom={record.nom_principal}
+            email={record.email}
+          />
+        ),
     },
     {
       title: 'Poste',
