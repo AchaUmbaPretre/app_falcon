@@ -157,6 +157,8 @@ const VehiculesForm = () => {
           styles={customStyles}
           className="react-select-container"
           classNamePrefix="react-select"
+          menuPosition="fixed"
+          menuShouldBlockScroll
         />
       ),
     },
@@ -172,6 +174,8 @@ const VehiculesForm = () => {
           styles={customStyles}
           className="react-select-container"
           classNamePrefix="react-select"
+          menuPosition="fixed"
+          menuShouldBlockScroll
         />
       ),
     },
