@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../../config';
-import { message, Spin, Modal } from 'antd';
+import { Spin, Modal } from 'antd';
 
 const PersonnelForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
