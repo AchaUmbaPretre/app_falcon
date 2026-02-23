@@ -12,7 +12,7 @@ const extractGroup = (name) => {
 export const useGroupedData = (data) => {
   return useMemo(() => {
     return data.reduce((acc, item) => {
-      const group = extractGroup(item?.name); // adapte ici si besoin
+      const group = extractGroup(item.name ?? item?.device_name);
 
       if (!group) return acc;
 

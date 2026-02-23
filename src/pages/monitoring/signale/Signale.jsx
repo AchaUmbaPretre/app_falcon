@@ -6,6 +6,8 @@ import { CarOutlined, DashboardOutlined, ThunderboltOutlined, SignalFilled, Numb
 import getColumnSearchProps from '../../../utils/columnSearchUtils';
 import { computeDowntimeMinutes, formatDurations } from '../../../utils/renderTooltip';
 import { getConnectivity } from '../../../services/eventService.service';
+import { useGroupedData } from '../../../utils/groupByPrefix';
+import RapportEventDetail from '../rapportEventDetail/RapportEventDetail';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -70,8 +72,11 @@ const Signale = () => {
   }, [searchText, reportData]);
 
     const closeAllModals = () => {
-    setModalType(null);
-  };
+        setModalType(null);
+    };
+
+    const groupedData = useGroupedData(filteredData);
+           
 
   const openModal = (type, idDevice = '') => {
     closeAllModals();
@@ -248,23 +253,36 @@ const columns = [
                     style={{ width: 300, marginBottom: 8 }}
                   />
                 </Space>
-
-                <Spin spinning={loading} tip="Chargement des données...">
-                  <Table
-                    columns={columns}
-                    dataSource={filteredData}
-                    rowKey="device_id"
-                    pagination={{ pageSize: pagination.pageSize, current: pagination.current, showSizeChanger: true }}
-                    onChange={pagination => setPagination(pagination)}
-                    bordered
-                    size="middle"
-                    scroll={{ x: 900 }}
-                  />
-                </Spin>
+                <Tabs
+                    type="card"
+                    items = {Object.keys(groupedData).map((prefix) => ({
+                        key: prefix,
+                        label: (
+                            <Space size={6}>
+                                <CarOutlined />
+                                {prefix}
+                            </Space>
+                        ),
+                        children : (
+                        <Spin spinning={loading} tip="Chargement des données...">
+                            <Table
+                                columns={columns}
+                                dataSource={groupedData[prefix]}
+                                rowKey="device_id"
+                                pagination={{ pageSize: pagination.pageSize, current: pagination.current, showSizeChanger: true }}
+                                onChange={pagination => setPagination(pagination)}
+                                bordered
+                                size="middle"
+                                scroll={{ x: 900 }}
+                            />
+                        </Spin>
+                        )
+                    }))}
+                 />
               </div>
             </Tabs.TabPane>
         </Tabs>
-{/*         <Modal
+        <Modal
           title=""
           visible={modalType === 'detail'}
           onCancel={closeAllModals}
@@ -273,7 +291,7 @@ const columns = [
           centered
         >
           <RapportEventDetail idDevice={idDevice} dateRange={dateRange} />
-      </Modal> */}
+      </Modal>
     </>
   );
 };
