@@ -1,171 +1,176 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import config from '../../../config';
-import { Spin, Modal } from 'antd';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import {
+  Form,
+  Input,
+  Button,
+  Card,
+  Select,
+  Modal,
+  Spin,
+  notification,
+  Typography,
+} from "antd";
+import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined } from "@ant-design/icons";
+import config from "../../../config";
 
-const PersonnelForm = () => {
+const { Title } = Typography;
+const { Option } = Select;
+
+const PersonnelForm = ({fetchData, onClose}) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
-  const [telephone, setTelephone] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
+  const [form] = Form.useForm();
 
-  const roles = ['admin', 'secretaire', 'superviseur', 'technicien'];
+  const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [formValues, setFormValues] = useState({});
 
-  const showConfirmationModal = () => {
-    setIsConfirmationModalVisible(true);
+  const roles = ["admin", "secretaire", "superviseur", "technicien"];
+
+  /* ===============================
+     SUBMIT
+  =============================== */
+  const handleSubmit = (values) => {
+    setFormValues(values);
+    setModalVisible(true);
   };
 
   const handleConfirm = async () => {
-    setIsConfirmationModalVisible(false);
-    setIsLoading(true);
-
+    setLoading(true);
     try {
-      const res = await axios.post(`${DOMAIN}/users/register`, { username, email, password, role, telephone });
-      if (res.data.success) {
-        setIsSuccess(true);
-        setModalMessage("Personnel enregistré avec succès");
-        setIsModalVisible(true);
-        setTimeout(() => navigate('/personnel'), 2000);
-      } else {
-        setIsSuccess(false);
-        setModalMessage(res.data.message);
-        setIsModalVisible(true);
-      }
-    } catch (error) {
-      setIsSuccess(false);
-      setModalMessage("Erreur lors de l'enregistrement.");
-      setIsModalVisible(true);
-      console.log(error);
+      await axios.post(`${DOMAIN}/users/register`, formValues);
+      notification.success({
+        message: "Succès",
+        description: "Personnel enregistré avec succès",
+      });
+      setModalVisible(false);
+      fetchData?.()
+      onClose?.()
+      navigate("/personnel");
+    } catch (err) {
+      notification.error({
+        message: "Erreur",
+        description:
+          err.response?.data?.message || "Erreur lors de l'enregistrement",
+      });
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-  const handleModalOk = () => {
-    setIsModalVisible(false);
-  };
-
-
   return (
-    <div className="clientForm">
-      <div className="product-container">
-        <div className="product-container-top">
-          <div className="product-left">
-            <h2 className="product-h2">Un nouveau personnel</h2>
-            <span>Créer un nouveau personnel</span>
-          </div>
-        </div>
-        <div className="product-wrapper">
-          <div className="product-container-bottom">
-            <div className="form-controle">
-              <label>Nom <span style={{ color: 'red' }}>*</span></label>
-              <input
-                type="text"
-                name="username"
-                className="form-input"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-controle">
-              <label>Role <span style={{ color: 'red' }}>*</span></label>
-              <select
-                name="role"
-                className="form-input"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                required
-              >
-                <option value="">Sélectionner un rôle</option>
-                {roles.map((role) => (
-                  <option key={role} value={role}>{role}</option>
-                ))}
-              </select>
-            </div>
-            <div className="form-controle">
-              <label>Téléphone <span style={{ color: 'red' }}>*</span></label>
-              <input
-                type="tel"
-                name="telephone"
-                className="form-input"
-                onChange={(e) => setTelephone(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-controle">
-              <label>Email <span style={{ color: 'red' }}>*</span></label>
-              <input
-                type="email"
-                name="email"
-                className="form-input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="form-controle">
-              <label>Mot de passe <span style={{ color: 'red' }}>*</span></label>
-              <input
-                type="password"
-                name="password"
-                className="form-input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-          <div className="form-submit">
-            <button
-              className="btn-submit"
-              onClick={showConfirmationModal}
-              disabled={isLoading}
+    <>
+      <Card bordered>
+        <Title level={4}>
+          <UserOutlined /> Nouveau Personnel
+        </Title>
+        <Card
+          type="inner"
+          title="Informations du personnel"
+          style={{ marginTop: 24 }}
+        >
+          <Spin spinning={loading}>
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleSubmit}
+              autoComplete="off"
             >
-              Envoyer
-            </button>
-            {isLoading && (
-              <div className="loader-container loader-container-center">
-                <Spin size="large" />
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+              <Form.Item
+                label="Nom complet"
+                name="username"
+                rules={[{ required: true, message: "Champ obligatoire" }]}
+              >
+                <Input size="large" placeholder="Entrez le nom complet" />
+              </Form.Item>
+
+              <Form.Item
+                label="Rôle"
+                name="role"
+                rules={[{ required: true, message: "Sélection obligatoire" }]}
+              >
+                <Select size="large" placeholder="Sélectionnez un rôle">
+                  {roles.map((role) => (
+                    <Option key={role} value={role}>
+                      {role}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+
+              <Form.Item
+                label="Téléphone"
+                name="telephone"
+                rules={[{ required: true, message: "Champ obligatoire" }]}
+              >
+                <Input
+                  size="large"
+                  placeholder="Entrez le numéro de téléphone"
+                  prefix={<PhoneOutlined />}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  { required: true, message: "Champ obligatoire" },
+                  { type: "email", message: "Email invalide" },
+                ]}
+              >
+                <Input size="large" placeholder="Entrez l'email" prefix={<MailOutlined />} />
+              </Form.Item>
+
+              <Form.Item
+                label="Mot de passe"
+                name="password"
+                rules={[{ required: true, message: "Champ obligatoire" }]}
+              >
+                <Input.Password
+                  size="large"
+                  placeholder="Entrez un mot de passe"
+                  prefix={<LockOutlined />}
+                />
+              </Form.Item>
+
+              <Form.Item style={{ marginTop: 20 }}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  loading={loading}
+                >
+                  Enregistrer
+                </Button>
+              </Form.Item>
+            </Form>
+          </Spin>
+        </Card>
+      </Card>
+
+      {/* ============================
+         MODAL DE CONFIRMATION
+      ============================ */}
       <Modal
-        title="Confirmation"
-        visible={isConfirmationModalVisible}
+        title="Confirmer l'enregistrement"
+        open={modalVisible}
+        onCancel={() => setModalVisible(false)}
         onOk={handleConfirm}
-        onCancel={() => setIsConfirmationModalVisible(false)}
+        confirmLoading={loading}
         okText="Confirmer"
         cancelText="Annuler"
       >
-        <p>Nom : {username}</p>
-        <p>Rôle : {role}</p>
-        <p>Téléphone : {telephone}</p>
-        <p>Email : {email}</p>
-        <p>Mot de passe : {password}</p>
-        <p>Êtes-vous sûr de vouloir enregistrer ces informations ?</p>
+        <p>Voulez-vous enregistrer ce personnel avec les informations suivantes ?</p>
+        <ul>
+          <li><strong>Nom :</strong> {formValues.username}</li>
+          <li><strong>Rôle :</strong> {formValues.role}</li>
+          <li><strong>Téléphone :</strong> {formValues.telephone}</li>
+          <li><strong>Email :</strong> {formValues.email}</li>
+        </ul>
       </Modal>
-      <Modal
-        title={isSuccess ? "Succès" : "Erreur"}
-        visible={isModalVisible}
-        onOk={handleModalOk}
-        onCancel={handleModalOk}
-        okText="OK"
-        cancelButtonProps={{ style: { display: 'none' } }}
-      >
-        <p>{modalMessage}</p>
-      </Modal>
-    </div>
+    </>
   );
 };
 

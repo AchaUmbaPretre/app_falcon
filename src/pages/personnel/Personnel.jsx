@@ -17,8 +17,6 @@ const Personnel = () => {
   const navigate = useNavigate();
 
 
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(`${DOMAIN}/users`);
@@ -28,6 +26,8 @@ const Personnel = () => {
         console.log(error);
       }
     };
+
+  useEffect(() => {
     fetchData();
   }, [DOMAIN]);
 
@@ -181,7 +181,7 @@ const Personnel = () => {
                 width={1000}
                 footer={null}
               >
-                <PersonnelForm />
+                <PersonnelForm  fetchData={fetchData} onClose={handleCancel} />
               </Modal>
             </div>
           </div>
