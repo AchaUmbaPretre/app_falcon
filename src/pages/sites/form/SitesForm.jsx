@@ -1,125 +1,185 @@
-import React, { useEffect,useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import Select from 'react-select';
-import config from '../../../config';
-import { ToastContainer, toast } from 'react-toastify';
-import { Spin } from 'antd';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import {
+  Form,
+  Input,
+  Button,
+  Card,
+  Modal,
+  Typography,
+  Select,
+  notification,
+  Spin,
+} from "antd";
+import { EnvironmentOutlined, UserOutlined } from "@ant-design/icons";
+import config from "../../../config";
 
-const SitesForm = () => {
+const { Title, Text } = Typography;
+const { Option } = Select;
+
+const SitesForm = ({ onClose, onRefresh }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState({})
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [client, setClient] = useState([]);
+  const [form] = Form.useForm();
 
-  const handleInputChange = (e) => {
-    const fieldName = e.target.name;
-    const fieldValue = e.target.value;
-  
-    let updatedValue = fieldValue;
-  
-    if (fieldName === "email") {
-      updatedValue = fieldValue.toLowerCase();
-    } else if (Number.isNaN(Number(fieldValue))) {
-      updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
-    }
-  
-  setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
-  };
+  const [loading, setLoading] = useState(false);
+  const [clients, setClients] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [formValues, setFormValues] = useState({});
+
+  /* ===============================
+     FETCH CLIENTS
+  =============================== */
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchClients = async () => {
       try {
         const { data } = await axios.get(`${DOMAIN}/client`);
-        setClient(data);
+        setClients(data);
       } catch (error) {
-        console.log(error);
+        notification.error({
+          message: "Erreur",
+          description: "Impossible de charger les clients",
+        });
       }
     };
-    fetchData();
+
+    fetchClients();
   }, [DOMAIN]);
 
-  console.log(data)
+  /* ===============================
+     SUBMIT
+  =============================== */
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-    
-     if (!data.nom_site || !data.id_client) {
-      toast.error('Veuillez remplir tous les champs requis');
-      return;
-    } 
+  const handleSubmit = (values) => {
+    setFormValues(values);
+    setModalVisible(true);
+  };
 
-    try{
-      setIsLoading(true);
-      await axios.post(`${DOMAIN}/operation/site`,{
-        ...data
-      })
+  const handleConfirm = async () => {
+    try {
+      setLoading(true);
 
-      toast.success('Site créé avec succès!');
-      navigate('/sites')
-      window.location.reload();
+      await axios.post(`${DOMAIN}/operation/site`, formValues);
 
-    }catch(err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `Le traceur ${data.nom} existe déjà avec ce numéro de téléphone`;
-        toast.error(errorMessage);
-      } else {
-        toast.error(err.message);
-      }
+      notification.success({
+        message: "Succès",
+        description: "Site créé avec succès",
+      });
+      onRefresh?.()
+      onClose?.()
+      navigate("/sites");
+    } catch (err) {
+      notification.error({
+        message: "Erreur",
+        description:
+          err.response?.data?.message ||
+          "Une erreur est survenue lors de la création",
+      });
+    } finally {
+      setLoading(false);
+      setModalVisible(false);
     }
-    finally {
-      setIsLoading(false);
-    }
-  }
-  
+  };
+
   return (
     <>
-        <div className="clientForm">
-        <ToastContainer />
-          <div className="product-container">
-            <div className="product-container-top">
-              <div className="product-left">
-                <h2 className="product-h2">Un nouveau site</h2>
-                <span>Enregistrer un nouveau site</span>
-              </div>
-            </div>
-            <div className="product-wrapper">
-              <div className="product-container-bottom">
-                <div className="form-controle">
-                  <label htmlFor="">Site <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='nom_site' className="form-input" onChange={handleInputChange}  required/>
-                </div>
-                <div className="form-controle">
-                  <label htmlFor="">Client ou société<span style={{color:'red'}}>*</span></label>
-                  <Select
-                      name="id_client"
-                      options={client?.map((item) => ({
-                        value: item.id_client,
-                        label: item.nom_client,
-                      }))}
-                      onChange={(selectedOption) =>
-                        handleInputChange({
-                          target: { name: 'id_client', value: selectedOption.value },
-                        })
-                      }
-                      placeholder="Sélectionnez un client..."
-                    />
-                </div>
-              </div>
-              <div className="form-submit">
-                <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
-                {isLoading && (
-                <div className="loader-container loader-container-center">
-                  <Spin size="large" />
-                </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-    </>
-  )
-}
+      <Card bordered>
+        <Title level={4}>
+          <EnvironmentOutlined /> Nouveau Site
+        </Title>
+        <Text type="secondary">
+          Enregistrer un nouveau site client
+        </Text>
 
-export default SitesForm
+        <Card
+          type="inner"
+          title={
+            <>
+              <UserOutlined /> Informations du site
+            </>
+          }
+          style={{ marginTop: 24 }}
+        >
+          <Spin spinning={loading}>
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleSubmit}
+              autoComplete="off"
+            >
+              {/* NOM SITE */}
+              <Form.Item
+                label="Nom du site"
+                name="nom_site"
+                rules={[
+                  { required: true, message: "Champ obligatoire" },
+                ]}
+              >
+                <Input size="large" placeholder="Entrez le nom du site..." />
+              </Form.Item>
+
+              {/* CLIENT */}
+              <Form.Item
+                label="Client ou société"
+                name="id_client"
+                rules={[
+                  { required: true, message: "Sélection obligatoire" },
+                ]}
+              >
+                <Select
+                  size="large"
+                  placeholder="Sélectionnez un client..."
+                  showSearch
+                  optionFilterProp="children"
+                >
+                  {clients.map((client) => (
+                    <Option
+                      key={client.id_client}
+                      value={client.id_client}
+                    >
+                      {client.nom_client}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+
+              <Form.Item style={{ marginTop: 20 }}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  loading={loading}
+                >
+                  Enregistrer
+                </Button>
+              </Form.Item>
+            </Form>
+          </Spin>
+        </Card>
+      </Card>
+
+      {/* ============================
+         MODAL CONFIRMATION
+      ============================ */}
+
+      <Modal
+        title="Confirmer l'enregistrement"
+        open={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        onOk={handleConfirm}
+        confirmLoading={loading}
+        okText="Confirmer"
+        cancelText="Annuler"
+      >
+        <p>Voulez-vous enregistrer ce site ?</p>
+        <p>
+          <strong>Nom :</strong> {formValues.nom_site}
+        </p>
+      </Modal>
+    </>
+  );
+};
+
+export default SitesForm;

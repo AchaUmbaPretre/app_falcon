@@ -67,6 +67,7 @@ const Sites = () => {
     {
       title: 'Action',
       key: 'action',
+      width:15,
       render: (_, record) => (
         <Space size="middle">
           <Popover title="Supprimer" trigger="hover">

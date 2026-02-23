@@ -1,127 +1,181 @@
-import React, { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import { Spin, Modal } from 'antd';
-import config from '../../../config';
-import './clientForms.scss';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import {
+  Form,
+  Input,
+  Button,
+  Card,
+  Row,
+  Col,
+  Modal,
+  Spin,
+  Typography,
+  notification,
+} from "antd";
+import {
+  UserOutlined,
+  PhoneOutlined,
+  MailOutlined,
+  HomeOutlined,
+  IdcardOutlined,
+} from "@ant-design/icons";
+import config from "../../../config";
+
+const { Title, Text } = Typography;
 
 const ClientForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState({});
+  const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalConfirmLoading, setModalConfirmLoading] = useState(false);
+  const [formValues, setFormValues] = useState({});
 
+  /* ==============================
+     SUBMIT
+  ============================== */
 
-  const handleInputChange = useCallback((e) => {
-    const { name, value } = e.target;
-    let updatedValue = value;
-    
-    if (name === "email") {
-      updatedValue = value.toLowerCase();
-    } else if (Number.isNaN(Number(value))) {
-      updatedValue = value.charAt(0).toUpperCase() + value.slice(1);
-    }
-    
-    setData((prev) => ({ ...prev, [name]: updatedValue }));
-  }, []);
-
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    
-    if (!data.nom_client || !data.telephone) {
-      toast.error('Veuillez remplir tous les champs requis');
-      return;
-    }
-    
+  const handleSubmit = async (values) => {
+    setFormValues(values);
     setModalVisible(true);
-  }, [data]);
+  };
 
-  const handleConfirmSend = useCallback(async () => {
+  const handleConfirm = async () => {
     try {
-      setModalConfirmLoading(true);
-      await axios.post(`${DOMAIN}/client/client`, data);
-      toast.success('Client créé avec succès!');
-      navigate('/client');
+      setLoading(true);
+      await axios.post(`${DOMAIN}/client/client`, formValues);
+
+      notification.success({
+        message: "Succès",
+        description: "Client créé avec succès",
+      });
+
+      navigate("/client");
       window.location.reload();
     } catch (err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.error) {
-        const errorMessage = err.response.data.error;
-        toast.error(errorMessage);
-      } else {
-        toast.error(err.message);
-      }
-    }
-    finally {
-      setModalConfirmLoading(false);
+      notification.error({
+        message: "Erreur",
+        description:
+          err.response?.data?.error || "Erreur lors de la création",
+      });
+    } finally {
+      setLoading(false);
       setModalVisible(false);
-      setIsLoading(false);
     }
-  }, [data, DOMAIN, navigate]);
+  };
 
   return (
-    <div className="clientForms">
-      <ToastContainer />
-      <div className="product-container">
-        <div className="product-container-top">
-          <div className="product-left">
-            <h2 className="product-h2">Un nouveau client</h2>
-            <span>Créer un nouveau client</span>
-          </div>
-        </div>
-        <div className="product-wrapper">
-          <div>
-            <form onSubmit={handleSubmit} className="product-container-bottom">
-              {['nom_client', 'nom_principal', 'poste', 'telephone', 'adresse', 'email'].map((field) => (
-                <div key={field} className="form-controle">
-                  <label htmlFor={field}>
-                    {field.replace('_', ' ')} <span style={{ color: 'red' }}>*</span>
-                  </label>
-                  <input
-                    type={field === 'email' ? 'email' : 'text'}
-                    name={field}
-                    className="form-input"
-                    onChange={handleInputChange}
-                    required={field !== 'poste' && field !== 'telephone' && field !== 'adresse' && field !== 'email'}
-                  />
-                </div>
-              ))}
-              <div className="form-submit">
-                <button type="submit" className="btn-submit" disabled={isLoading}>
-                  Envoyer
-                </button>
-                {isLoading && (
-                  <div className="loader-container loader-container-center">
-                    <Spin size="large" />
-                  </div>
-                )}
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+    <>
+      <Card bordered>
+        <Title level={4}>👤 Nouveau Client</Title>
+        <Text type="secondary">Créer un nouveau client</Text>
+
+        <Card style={{ marginTop: 24 }} type="inner" title="Informations générales">
+          <Form
+            layout="vertical"
+            form={form}
+            onFinish={handleSubmit}
+            autoComplete="off"
+          >
+            <Row gutter={16}>
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Nom du client"
+                  name="nom_client"
+                  rules={[{ required: true, message: "Champ obligatoire" }]}
+                >
+                  <Input prefix={<UserOutlined />} />
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Nom principal"
+                  name="nom_principal"
+                >
+                  <Input prefix={<IdcardOutlined />} />
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Poste"
+                  name="poste"
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Téléphone"
+                  name="telephone"
+                  rules={[{ required: true, message: "Champ obligatoire" }]}
+                >
+                  <Input prefix={<PhoneOutlined />} />
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Adresse"
+                  name="adresse"
+                >
+                  <Input prefix={<HomeOutlined />} />
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                    { type: "email", message: "Email invalide" },
+                  ]}
+                >
+                  <Input prefix={<MailOutlined />} />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Form.Item style={{ marginTop: 24 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+              >
+                Enregistrer
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Card>
+
+      {/* ==============================
+         MODAL CONFIRMATION
+      ============================== */}
 
       <Modal
-        title="Confirmer l'envoi"
-        visible={modalVisible}
-        confirmLoading={modalConfirmLoading}
+        title="Confirmer l'enregistrement"
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
-        onOk={handleConfirmSend}
-        className="confirmation-modal"
+        onOk={handleConfirm}
+        confirmLoading={loading}
+        okText="Confirmer"
+        cancelText="Annuler"
       >
-        <p className="modal-text">Voulez-vous envoyer les informations suivantes ?</p>
+        <p>Voulez-vous enregistrer ces informations ?</p>
         <ul>
-          <li><strong>Nom du client :</strong> {data.nom_client}</li>
-          <li><strong>Nom principal :</strong> {data.nom_principal}</li>
-          <li><strong>Poste :</strong> {data.poste}</li>
-          <li><strong>Téléphone :</strong> {data.telephone}</li>
-          <li><strong>Adresse :</strong> {data.adresse}</li>
-          <li><strong>Email :</strong> {data.email}</li>
+          <li><strong>Nom :</strong> {formValues.nom_client}</li>
+          <li><strong>Principal :</strong> {formValues.nom_principal}</li>
+          <li><strong>Poste :</strong> {formValues.poste}</li>
+          <li><strong>Téléphone :</strong> {formValues.telephone}</li>
+          <li><strong>Adresse :</strong> {formValues.adresse}</li>
+          <li><strong>Email :</strong> {formValues.email}</li>
         </ul>
       </Modal>
-    </div>
+    </>
   );
 };
 

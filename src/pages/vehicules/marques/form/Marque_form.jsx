@@ -1,92 +1,136 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { Spin } from 'antd';
-import config from '../../../../config';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import {
+  Form,
+  Input,
+  Button,
+  Card,
+  Modal,
+  Typography,
+  notification,
+} from "antd";
+import { CarOutlined, TagOutlined } from "@ant-design/icons";
+import config from "../../../../config";
 
-const Marque_form = () => {
+const { Title, Text } = Typography;
+
+const MarqueForm = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-  const [data, setData] = useState({})
+  const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleInputChange = (e) => {
-    const fieldName = e.target.name;
-    const fieldValue = e.target.value;
-  
-    let updatedValue = fieldValue;
-  
-    if (fieldName === "email") {
-      updatedValue = fieldValue.toLowerCase();
-    } else if (Number.isNaN(Number(fieldValue))) {
-      updatedValue = fieldValue.charAt(0).toUpperCase() + fieldValue.slice(1);
-    }
-  
-  setData((prev) => ({ ...prev, [fieldName]: updatedValue }));
+  const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [formValues, setFormValues] = useState({});
+
+  /* ===============================
+     SUBMIT
+  =============================== */
+
+  const handleSubmit = (values) => {
+    setFormValues(values);
+    setModalVisible(true);
   };
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-    
-     if (!data.nom_marque) {
-      toast.error('Veuillez remplir tous les champs requis');
-      return;
-    } 
+  const handleConfirm = async () => {
+    try {
+      setLoading(true);
 
-    try{
-      setIsLoading(true);
-      await axios.post(`${DOMAIN}/vehicule/marque`,{
-        ...data
-      })
+      await axios.post(`${DOMAIN}/vehicule/marque`, formValues);
 
-      toast.success('Marque créée avec succès!');
-      navigate('/marques')
+      notification.success({
+        message: "Succès",
+        description: "Marque créée avec succès",
+      });
+
+      navigate("/marques");
       window.location.reload();
+    } catch (err) {
+      notification.error({
+        message: "Erreur",
+        description:
+          err.response?.data?.message ||
+          `La marque ${formValues.nom_marque} existe déjà`,
+      });
+    } finally {
+      setLoading(false);
+      setModalVisible(false);
+    }
+  };
 
-    }catch(err) {
-      if (err.response && err.response.status === 400 && err.response.data && err.response.data.message) {
-        const errorMessage = `La marque ${data.nom} existe déjà`;
-        toast.error(errorMessage);
-      } else {
-        toast.error(err.message);
-      }
-    }
-    finally {
-      setIsLoading(false);
-    }
-  }
-  
   return (
     <>
-        <div className="clientForm">
-          <div className="product-container">
-            <div className="product-container-top">
-              <div className="product-left">
-                <h2 className="product-h2">Nouvelle marque</h2>
-                <span>Enregistrer une nouvelle marque</span>
-              </div>
-            </div>
-            <div className="product-wrapper">
-              <div className="product-container-bottom">
-                <div className="form-controle">
-                  <label htmlFor="">Marque <span style={{color:'red'}}>*</span></label>
-                  <input type="text" name='nom_marque' className="form-input" onChange={handleInputChange} placeholder='Entrez une nouvelle marque...'  required/>
-                </div>
-              </div>
-              <div className="form-submit">
-                <button className="btn-submit" onClick={handleClick} disabled={isLoading}>Envoyer</button>
-                {isLoading && (
-                <div className="loader-container loader-container-center">
-                  <Spin size="large" />
-                </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-    </>
-  )
-}
+      <Card bordered>
+        <Title level={4}>
+          <CarOutlined /> Nouvelle Marque
+        </Title>
+        <Text type="secondary">
+          Enregistrer une nouvelle marque véhicule
+        </Text>
 
-export default Marque_form
+        <Card
+          type="inner"
+          title={
+            <>
+              <TagOutlined /> Informations
+            </>
+          }
+          style={{ marginTop: 24 }}
+        >
+          <Form
+            layout="vertical"
+            form={form}
+            onFinish={handleSubmit}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="Nom de la marque"
+              name="nom_marque"
+              rules={[
+                { required: true, message: "Champ obligatoire" },
+              ]}
+            >
+              <Input
+                placeholder="Entrez une nouvelle marque..."
+                size="large"
+              />
+            </Form.Item>
+
+            <Form.Item style={{ marginTop: 20 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                size="large"
+              >
+                Enregistrer
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Card>
+
+      {/* ============================
+         MODAL CONFIRMATION
+      ============================ */}
+
+      <Modal
+        title="Confirmer l'enregistrement"
+        open={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        onOk={handleConfirm}
+        confirmLoading={loading}
+        okText="Confirmer"
+        cancelText="Annuler"
+      >
+        <p>Voulez-vous enregistrer cette marque ?</p>
+        <p>
+          <strong>Marque :</strong> {formValues.nom_marque}
+        </p>
+      </Modal>
+    </>
+  );
+};
+
+export default MarqueForm;
