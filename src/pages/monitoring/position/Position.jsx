@@ -1,24 +1,21 @@
 import {  useRef, useState } from "react";
-import { Empty, Typography, Card, Tooltip, Space, Tag, Input, Table, Button } from 'antd';
+import { Typography, Dropdown, Checkbox , Card,  Tabs, Space, Input, Table, Button } from 'antd';
 import {
   PrinterOutlined,
   CarOutlined,
-  ReloadOutlined
+  ReloadOutlined,
+   SettingOutlined 
 } from "@ant-design/icons";
+import './position.scss'
 import { usePositionData } from "./hooks/usePositionData";
 import { usePositionColumns } from "./hooks/usePositionColumns";
+import { useGroupedData } from "../../../utils/groupByPrefix";
 const { Search } = Input;
 const { Title } = Typography;
 
 const Position = () => {
-    const [falcon, setFalcon] = useState([]);
     const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
     const [searchValue, setSearchValue] = useState('');
-    const [modalType, setModalType] = useState(null);
-    const [id, setId] = useState(null);
-    const searchInput = useRef(null);
-    const [searchText, setSearchText] = useState('');
-    const closeAllModals = () => setModalType(null);
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
         'Immatriculation': true,
@@ -32,11 +29,32 @@ const Position = () => {
     });
 
     const { data, loading } = usePositionData({})
+    const groupedData = useGroupedData(data);
 
     const columns = usePositionColumns({
         columnsVisibility,
         pagination
     })
+
+    const columnMenu = (
+        <div style={{ padding: 12, background: '#fff' }}>
+            {Object.keys(columnsVisibility).map((col) => (
+            <div key={col}>
+                <Checkbox
+                checked={columnsVisibility[col]}
+                onChange={(e) =>
+                    setColumnsVisibility((prev) => ({
+                    ...prev,
+                    [col]: e.target.checked,
+                    }))
+                }
+                >
+                {col}
+                </Checkbox>
+            </div>
+            ))}
+        </div>
+    );
 
   return (
     <>
@@ -45,7 +63,7 @@ const Position = () => {
             <Space>
                 <CarOutlined />
                 <Title level={4} style={{ margin: 0 }}>
-                    Véhicules en Suivi
+                    Véhicules en suivi
                 </Title>
             </Space>
             }
@@ -62,31 +80,50 @@ const Position = () => {
                 <Button icon={<ReloadOutlined />} loading={loading}>
                 Actualiser
                 </Button>
+
+                <Dropdown
+                    trigger={["click"]}
+                    dropdownRender={() => columnMenu}
+                >
+                    <Button icon={<SettingOutlined />} size="small">
+                        Colonnes
+                    </Button>
+                </Dropdown>
                 
                 <Button icon={<PrinterOutlined />}>Imprimer</Button>
             </Space>
             }
         >
-        <Table
-          columns={columns}
-          dataSource={data}
-          rowKey={(record) => record.id_carburant}
-          size="middle"
-          loading={loading}
-          pagination={{
-            ...pagination,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total) => `${total} enregistrements`,
-          }}
-          onChange={(p) => setPagination(p)}
-          scroll={{ x: 1100 }}
-          rowClassName={(record, index) => (index % 2 === 0 ? "odd-row" : "even-row")}
-          locale={{
-            emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} />,
-          }}
-          bordered
-        />
+            <Tabs
+                type="card"
+                items={Object.keys(groupedData).map((prefix) => ({
+                    key: prefix,
+                    label: (
+                    <Space size={6}>
+                        <CarOutlined />
+                        {prefix}
+                    </Space>
+                    ),
+                    children: (
+                    <Table
+                        columns={columns}
+                        dataSource={groupedData[prefix]}
+                        rowKey={(record) => record.id_carburant}
+                        size="middle"
+                        loading={loading}
+                        pagination={{
+                        ...pagination,
+                        showSizeChanger: true,
+                        showQuickJumper: true,
+                        showTotal: (total) => `${total} enregistrements`,
+                        }}
+                        onChange={(p) => setPagination(p)}
+                        scroll={{ x: 1100 }}
+                        bordered
+                    />
+                    ),
+                }))}
+            />
         </Card>
     </>
   )

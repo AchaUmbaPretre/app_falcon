@@ -16,7 +16,7 @@ export const usePositionColumns = ({columnsVisibility, pagination}) => {
     const searchInput = useRef(null);
     const [searchText, setSearchText] = useState('');
 
-    return useMemo(() => 
+    const allColumns =
         [
             { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => {
             const pageSize = pagination.pageSize || 10;
@@ -137,5 +137,8 @@ export const usePositionColumns = ({columnsVisibility, pagination}) => {
             );
           },
         },
-        ], [columnsVisibility, pagination, searchText])
+        ]
+        return allColumns.filter(
+    (col) => columnsVisibility[col.title] !== false
+  );
 }

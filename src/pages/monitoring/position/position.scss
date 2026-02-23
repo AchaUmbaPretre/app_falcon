@@ -1,0 +1,51 @@
+.position-card {
+  border-radius: 16px;
+
+  .ant-card-head {
+    padding: 16px 24px;
+  }
+
+  .ant-card-body {
+    padding: 16px 24px;
+  }
+
+  .position-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .title-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .anticon {
+        font-size: 20px;
+        color: #1677ff;
+      }
+    }
+
+    .actions-section {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+  }
+
+  .ant-tabs-nav {
+    margin-bottom: 16px;
+  }
+
+  .ant-table {
+    font-size: 13px;
+
+    .odd-row {
+      background-color: #fafafa;
+    }
+
+    .even-row {
+      background-color: #ffffff;
+    }
+  }
+}
