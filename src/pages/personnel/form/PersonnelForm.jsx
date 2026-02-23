@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
@@ -29,9 +29,6 @@ const PersonnelForm = ({fetchData, onClose}) => {
 
   const roles = ["admin", "secretaire", "superviseur", "technicien"];
 
-  /* ===============================
-     SUBMIT
-  =============================== */
   const handleSubmit = (values) => {
     setFormValues(values);
     setModalVisible(true);
@@ -150,9 +147,6 @@ const PersonnelForm = ({fetchData, onClose}) => {
         </Card>
       </Card>
 
-      {/* ============================
-         MODAL DE CONFIRMATION
-      ============================ */}
       <Modal
         title="Confirmer l'enregistrement"
         open={modalVisible}
