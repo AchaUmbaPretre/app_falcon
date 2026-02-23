@@ -10,6 +10,7 @@ import './position.scss'
 import { usePositionData } from "./hooks/usePositionData";
 import { usePositionColumns } from "./hooks/usePositionColumns";
 import { useGroupedData } from "../../../utils/groupByPrefix";
+
 const { Search } = Input;
 const { Title } = Typography;
 
@@ -27,6 +28,9 @@ const Position = () => {
         'Durée arrêt': true,
         'Direction': true
     });
+    const [modalType, setModalType] = useState(null);
+    const scroll = { x: 'max-content' };
+
 
     const { data, loading } = usePositionData({})
     const groupedData = useGroupedData(data);
@@ -118,7 +122,7 @@ const Position = () => {
                         showTotal: (total) => `${total} enregistrements`,
                         }}
                         onChange={(p) => setPagination(p)}
-                        scroll={{ x: 1100 }}
+                        scroll={scroll}
                         bordered
                     />
                     ),
