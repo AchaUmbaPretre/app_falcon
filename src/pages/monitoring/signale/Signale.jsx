@@ -8,6 +8,7 @@ import { computeDowntimeMinutes, formatDurations } from '../../../utils/renderTo
 import { getConnectivity } from '../../../services/eventService.service';
 import { useGroupedData } from '../../../utils/groupByPrefix';
 import RapportEventDetail from '../rapportEventDetail/RapportEventDetail';
+import ConnectivityMonth from '../connectivityMonth/ConnectivityMonth';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -280,6 +281,18 @@ const columns = [
                     }))}
                  />
               </div>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane
+              tab={
+                    <span style={getTabStyle('2')}>
+                        <DashboardOutlined style={iconStyle('2')} />
+                        Rapport Month
+                    </span>
+              }
+              key="2"
+            >
+              <ConnectivityMonth/>
             </Tabs.TabPane>
         </Tabs>
         <Modal
