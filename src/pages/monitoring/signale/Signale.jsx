@@ -9,6 +9,7 @@ import { getConnectivity } from '../../../services/eventService.service';
 import { useGroupedData } from '../../../utils/groupByPrefix';
 import RapportEventDetail from '../rapportEventDetail/RapportEventDetail';
 import ConnectivityMonth from '../connectivityMonth/ConnectivityMonth';
+import { getDerniereOperation } from '../../../services/operation.service';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -23,6 +24,7 @@ const Signale = () => {
   const searchInput = useRef(null);
   const [modalType, setModalType] = useState(null);
   const [idDevice, setDevice] = useState('');
+  const [opera, setOpera] = useState([]);
 
   const handleTabChange = (key) => {
     setActiveKey(key);
@@ -64,6 +66,19 @@ const Signale = () => {
   };
 
   useEffect(() => { fetchData()}, [dateRange]);
+
+  const fetchDataDerniereOp = async () => {
+    try {
+      const { data } = await getDerniereOperation();
+      setOpera(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(()=> {
+    fetchDataDerniereOp()
+  }, [])
   
   const filteredData = useMemo(() => {
     if (!searchText) return reportData;
@@ -72,12 +87,20 @@ const Signale = () => {
     );
   }, [searchText, reportData]);
 
+    const mergedCourses = useMemo(() => {
+      return filteredData.map((c) => {
+        const capteur = opera.find((f) => f.id_falcon === c.device_id);
+        return { ...c, capteurInfo: capteur || null };
+      });
+    }, [filteredData, opera]);
+
     const closeAllModals = () => {
         setModalType(null);
     };
 
-    const groupedData = useGroupedData(filteredData);
-           
+    console.log(mergedCourses)
+
+    const groupedData = useGroupedData(mergedCourses);
 
   const openModal = (type, idDevice = '') => {
     closeAllModals();
@@ -88,7 +111,6 @@ const Signale = () => {
   const handDetails = (idDevice) => {
     openModal('detail', idDevice);
   };
-
 
 const columns = [
   {
@@ -205,6 +227,19 @@ const columns = [
       );
     },
   },
+  {
+      title: 'Dernière Opération',
+      dataIndex: 'operation',
+      key: 'operation',
+      render: (text, record) => {
+          const typeOperation = record.capteurInfo?.type_operations || 'Aucune opération';
+          return (
+              <Tag color="blue">
+                  {typeOperation}
+              </Tag>
+          );
+      }
+  }
 ];
 
   return (
