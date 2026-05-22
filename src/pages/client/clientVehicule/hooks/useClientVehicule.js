@@ -6,9 +6,10 @@ export const useClientVehicule = (id_client) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
+
     const fetchData = async () => {
         try {
-            const res = getVehiculeClientById(id_client)
+            const res = await getVehiculeClientById(id_client)
             setData(res.data)
         } catch (error) {
             console.error(error);
@@ -19,7 +20,7 @@ export const useClientVehicule = (id_client) => {
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [id_client])
 
     return {
         data, 
