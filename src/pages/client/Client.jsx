@@ -386,7 +386,7 @@ const fetchData = async (page, pageSize) => {
                 <TarifForm id_client={idClient} />
               </Modal>
 
-              <Drawer title="Détail" onClose={onClose} visible={openDetail} width={700}>
+              <Drawer title="Détail" onClose={onClose} visible={openDetail} width={900}>
                 <ClientDetail id_client={idClient} />
               </Drawer>
               
