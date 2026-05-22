@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { getFalcon } from "../../../../services/eventService.service";

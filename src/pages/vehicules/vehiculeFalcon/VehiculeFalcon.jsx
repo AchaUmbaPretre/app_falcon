@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
 import {
   Table,
   Button,
   Typography,
-  message,
   Card,
   Space,
   Input,
   Spin,
   Select,
-  Modal,
   Tag,
   Tooltip,
 } from "antd";
 import {
   CarOutlined,
-  ExclamationCircleOutlined,
   PlusOutlined,
   EditOutlined,
   CheckOutlined,
@@ -25,7 +21,6 @@ import "./vehiculeFalcon.scss";
 import { useVehiculeFalconData } from "./hooks/useVehiculeFalconData";
 
 const { Text } = Typography;
-const { confirm } = Modal;
 const { Option } = Select;
 
 const VehiculeFalcon = () => {
