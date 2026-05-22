@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import config from '../../../config';
 import axios from 'axios';
 import { Skeleton } from 'antd';
+import ClientVehicule from '../clientVehicule/ClientVehicule';
 
 const ClientDetail = ({ id_client }) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -76,6 +77,10 @@ const ClientDetail = ({ id_client }) => {
             </div>
           </div>
         )}
+
+        <div>
+          <ClientVehicule id_client={id_client} />
+        </div>
       </Skeleton>
     </div>
   );
