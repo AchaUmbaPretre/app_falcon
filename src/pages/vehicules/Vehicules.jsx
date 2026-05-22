@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Breadcrumb, Button, Input, Modal, Typography, Popconfirm, Popover, Skeleton, Space, Table, Tag, message } from 'antd';
-import { PlusCircleOutlined, CarOutlined, UserOutlined,BarcodeOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, RetweetOutlined, CarOutlined, UserOutlined,BarcodeOutlined, DeleteOutlined, SisternodeOutlined, FilePdfOutlined, FileExcelOutlined, PrinterOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import VehiculesForm from './form/VehiculesForm';
@@ -11,6 +11,7 @@ import { useVehiculeData } from './hooks/useVehiculeData';
 import { useVehiculeColumns } from './hooks/useVehiculeColumns';
 import { exportToExcel } from './utils/exportToExcel';
 import VehiculesFormEdit from './form/VehiculesFormEdit';
+import VehiculeFalcon from './vehiculeFalcon/VehiculeFalcon';
 
 const { Text } = Typography;
 
@@ -133,7 +134,7 @@ const Vehicules = () => {
               <div className="product-bottom-right">
                 <Button onClick={exportToPDF} className="product-icon-pdf" icon={<FilePdfOutlined />} />
                 <Button onClick={exportToExcel} className="product-icon-excel" icon={<FileExcelOutlined />} />
-                <Button className="product-icon-printer" icon={<PrinterOutlined />} />
+                <Button className="product-icon-printer" icon={<RetweetOutlined />} onClick={()=>openModal("Aff")} />
               </div>
             </div>
             <Table 
@@ -170,6 +171,16 @@ const Vehicules = () => {
               centered destroyOnClose
             >
               <VehiculesFormEdit id={modal.id} onClose={closeAllModals} onSave={fetchData} />
+            </Modal>
+
+            <Modal
+              open={modal.type === "Aff"} 
+              onCancel={closeAllModals} 
+              footer={null} 
+              width={1000} 
+              centered destroyOnClose
+            >
+              <VehiculeFalcon/>
             </Modal>
           </div>
         </div>
