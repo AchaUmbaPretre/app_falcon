@@ -25,17 +25,6 @@ const ClientVehicule = ({id_client}) => {
             width: "3%"
         },
         {
-            title: 'Client',
-            dataIndex: 'nom_client',
-            key: 'nom_client',
-            render: (text) => (
-                <Text type="secondary">
-                <UserOutlined style={{ marginRight: "5px" }} />
-                {text}
-                </Text>
-            )
-        },
-        {
             title: 'Nom vehicule',
             dataIndex: 'nom_vehicule',
             key: 'nom_vehicule',
@@ -82,7 +71,7 @@ const ClientVehicule = ({id_client}) => {
     ]
 
   return (
-    <div>
+    <div style={{marginTop: '10px'}}>
         <Table 
             dataSource={data} 
             columns={columns} 
