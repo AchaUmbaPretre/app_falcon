@@ -26,7 +26,6 @@ export const useVehiculeFalconData = () => {
       const vehiculeList = vehiculeRes.data.data || vehiculeRes.data || [];
 
       const merged = falconList.map((f) => {
-        // Chercher le véhicule qui est lié à ce capteur via id_falcon
         const linkedVehicule = vehiculeList.find(
           (v) => Number(v.id_falcon) === Number(f.id)
         );
