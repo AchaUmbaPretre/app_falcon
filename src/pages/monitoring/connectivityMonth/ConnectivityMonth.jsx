@@ -188,7 +188,7 @@ const ConnectivityMonth = () => {
       </Space>
 
       {loading ? (
-        <Spin size="large" />
+        <Spin size="large" style={{display:'flex', alignItems:'center', justifyContent:'center'}} />
       ) : (
 
         <Tabs
@@ -205,7 +205,7 @@ const ConnectivityMonth = () => {
       <Spin spinning={loading} tip="Chargement des données...">
         <div ref={tableRef}>
           <Table
-            rowKey="id" // ⚠️ recommandé pour éviter les warnings React
+            rowKey="device_id"
             dataSource={groupedData[prefix]}
             columns={columns}
             scroll={{ x: "max-content" }}
