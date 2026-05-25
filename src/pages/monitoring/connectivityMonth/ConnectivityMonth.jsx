@@ -192,32 +192,32 @@ const ConnectivityMonth = () => {
       ) : (
 
         <Tabs
-  type="card"
-  items={Object.keys(groupedData).map((prefix) => ({
-    key: prefix,
-    label: (
-      <Space size={6}>
-        <CarOutlined />
-        {prefix}
-      </Space>
-    ),
-    children: (
-      <Spin spinning={loading} tip="Chargement des données...">
-        <div ref={tableRef}>
-          <Table
-            rowKey="device_id"
-            dataSource={groupedData[prefix]}
-            columns={columns}
-            scroll={{ x: "max-content" }}
-            pagination={false}
-            bordered
-            size="middle"
-          />
-        </div>
-      </Spin>
-    ),
-  }))}
-/>
+          type="card"
+          items={Object.keys(groupedData).map((prefix) => ({
+            key: prefix,
+            label: (
+              <Space size={6}>
+                <CarOutlined />
+                {prefix}
+              </Space>
+            ),
+            children: (
+              <Spin spinning={loading} tip="Chargement des données...">
+                <div ref={tableRef}>
+                  <Table
+                    rowKey="device_id"
+                    dataSource={groupedData[prefix]}
+                    columns={columns}
+                    scroll={{ x: "max-content" }}
+                    pagination={false}
+                    bordered
+                    size="middle"
+                  />
+                </div>
+              </Spin>
+            ),
+          }))}
+        />
       )}
     </div>
   );
