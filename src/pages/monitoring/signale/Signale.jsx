@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useRef } from 'react';
 import { Typography, Input, Tabs, Modal, Space, DatePicker, Table, Tag, notification, Spin, Progress, Tooltip } from 'antd';
 import moment from 'moment';
 import './signale.scss';
-import { CarOutlined, DashboardOutlined, EyeOutlined, MinusCircleOutlined, InfoCircleOutlined, ToolOutlined, PlusCircleOutlined, ThunderboltOutlined, SignalFilled, NumberOutlined, CheckCircleOutlined, CloseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { CarOutlined, DashboardOutlined, DeleteOutlined, SwapOutlined, SyncOutlined, EyeOutlined, MinusCircleOutlined, InfoCircleOutlined, ToolOutlined, PlusCircleOutlined, ThunderboltOutlined, SignalFilled, NumberOutlined, CheckCircleOutlined, CloseCircleOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import getColumnSearchProps from '../../../utils/columnSearchUtils';
 import { computeDowntimeMinutes, formatDurations } from '../../../utils/renderTooltip';
 import { getConnectivity } from '../../../services/eventService.service';
@@ -98,9 +98,8 @@ const Signale = () => {
         setModalType(null);
     };
 
-    console.log(mergedCourses)
+  const groupedData = useGroupedData(mergedCourses);
 
-    const groupedData = useGroupedData(mergedCourses);
 
   const openModal = (type, idDevice = '') => {
     closeAllModals();
@@ -228,49 +227,59 @@ const columns = [
     },
   },
   {
-    title: 'Dernière Opération',
-    dataIndex: 'operation',
-    key: 'operation',
-    render: (_, record) => {
-        const operation = record.capteurInfo?.type_operations;
-        
-        // Définir l'icône et la couleur selon le type d'opération
-        const getOperationIcon = (type) => {
-            switch(type?.toLowerCase()) {
-                case 'installation':
-                    return { icon: <PlusCircleOutlined />, color: '#52c41a' };
-                case 'maintenance':
-                    return { icon: <ToolOutlined />, color: '#1890ff' };
-                case 'réparation':
-                case 'reparation':
-                    return { icon: <ToolOutlined />, color: '#fa8c16' };
-                case 'désinstallation':
-                case 'desinstallation':
-                    return { icon: <MinusCircleOutlined />, color: '#f5222d' };
-                case 'inspection':
-                    return { icon: <EyeOutlined />, color: '#722ed1' };
-                default:
-                    return { icon: <InfoCircleOutlined />, color: '#8c8c8c' };
-            }
-        };
-        
-        const { icon, color } = getOperationIcon(operation);
-        
-        if (!operation) {
-            return (
-                <Tag color="default" icon={<InfoCircleOutlined />}>
-                    Aucune opération
-                </Tag>
-            );
-        }
-        
-        return (
-            <Tag color={color} icon={icon} style={{ fontWeight: 500 }}>
-                {operation}
-            </Tag>
-        );
-    }
-}
+      title: 'Dernière Opération',
+      dataIndex: 'operation',
+      key: 'operation',
+      render: (_, record) => {
+          const operation = record.capteurInfo?.type_operations;
+          
+          // Définir l'icône et la couleur selon le type d'opération
+          const getOperationIcon = (type) => {
+              switch(type?.toLowerCase()) {
+                  case 'installation':
+                      return { icon: <PlusCircleOutlined />, color: '#52c41a' };
+                  case 'transfert':
+                      return { icon: <SwapOutlined />, color: '#13c2c2' };
+                  case 'démantèlement':
+                  case 'demantelement':
+                      return { icon: <DeleteOutlined />, color: '#f5222d' };
+                  case 'contrôle technique':
+                  case 'controle technique':
+                      return { icon: <CheckCircleOutlined />, color: '#1890ff' };
+                  case 'remplacement':
+                      return { icon: <SyncOutlined />, color: '#faad14' };
+                  case 'maintenance':
+                      return { icon: <ToolOutlined />, color: '#1890ff' };
+                  case 'réparation':
+                  case 'reparation':
+                      return { icon: <ToolOutlined />, color: '#fa8c16' };
+                  case 'désinstallation':
+                  case 'desinstallation':
+                      return { icon: <MinusCircleOutlined />, color: '#f5222d' };
+                  case 'inspection':
+                      return { icon: <EyeOutlined />, color: '#722ed1' };
+                  default:
+                      return { icon: <InfoCircleOutlined />, color: '#8c8c8c' };
+              }
+          };
+          
+          const { icon, color } = getOperationIcon(operation);
+          
+          if (!operation) {
+              return (
+                  <Tag color="default" icon={<InfoCircleOutlined />}>
+                      Aucune opération
+                  </Tag>
+              );
+          }
+          
+          return (
+              <Tag color={color} icon={icon} style={{ fontWeight: 500 }}>
+                  {operation}
+              </Tag>
+          );
+      }
+  }
 ];
 
   return (
