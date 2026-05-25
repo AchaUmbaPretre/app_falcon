@@ -39,6 +39,8 @@ const VehiculeFalcon = () => {
     handleSave,
   } = useVehiculeFalconData();
 
+  console.log(vehiculeAll)
+
   const columns = [
     {
       title: "#",
@@ -64,6 +66,7 @@ const VehiculeFalcon = () => {
       dataIndex: "linkedVehicule",
       key: "vehicule",
       render: (linkedVehicule, record) => {
+        console.log('data', linkedVehicule)
         if (editingRow === record.id) {
           return (
             <Select
@@ -99,7 +102,7 @@ const VehiculeFalcon = () => {
         if (linkedVehicule) {
           return (
             <Tag color="green" icon={<CheckOutlined />}>
-              {linkedVehicule.nom_marque} - {linkedVehicule.matricule}
+              {linkedVehicule.nom_marque} - {linkedVehicule.immatriculation}
             </Tag>
           );
         }
@@ -168,7 +171,6 @@ const VehiculeFalcon = () => {
     },
   ];
 
-  // Filtrer les données en fonction de la recherche
   const filteredFalcon = falcon.filter((item) =>
     item.name?.toLowerCase().includes(searchValue.toLowerCase())
   );
@@ -205,7 +207,7 @@ const VehiculeFalcon = () => {
               onChange: (page, pageSize) => setPagination({ current: page, pageSize }),
             }}
             rowClassName={(record) =>
-              editingRow === record.id ? "selected-row pro-row" : ""
+              editingRow === record.id_vehicule ? "selected-row pro-row" : ""
             }
           />
         </Space>

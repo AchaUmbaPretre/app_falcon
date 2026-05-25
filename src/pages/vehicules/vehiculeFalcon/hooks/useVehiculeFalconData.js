@@ -29,13 +29,14 @@ export const useVehiculeFalconData = () => {
         const linkedVehicule = vehiculeList.find(
           (v) => Number(v.id_falcon) === Number(f.id)
         );
+
         return {
           ...f,
           linkedVehicule: linkedVehicule
             ? {
                 id_vehicule: linkedVehicule.id_vehicule,
                 immatriculation: linkedVehicule.matricule,
-                nom_marque: linkedVehicule.nom_vehicule || linkedVehicule.nom_marque,
+                nom_marque: linkedVehicule.nom_marque,
               }
             : null,
         };

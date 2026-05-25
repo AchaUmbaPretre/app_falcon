@@ -320,9 +320,10 @@ const columns = [
                     style={{ width: 300, marginBottom: 8 }}
                   />
                 </Space>
-                <Tabs
+                <Spin spinning={loading} tip="Chargement des données...">
+                  <Tabs
                     type="card"
-                    items = {Object.keys(groupedData).map((prefix) => ({
+                    items={Object.keys(groupedData).map((prefix) => ({
                         key: prefix,
                         label: (
                             <Space size={6}>
@@ -330,22 +331,26 @@ const columns = [
                                 {prefix}
                             </Space>
                         ),
-                        children : (
-                        <Spin spinning={loading} tip="Chargement des données...">
-                            <Table
-                                columns={columns}
-                                dataSource={groupedData[prefix]}
-                                rowKey="device_id"
-                                pagination={{ pageSize: pagination.pageSize, current: pagination.current, showSizeChanger: true }}
-                                onChange={pagination => setPagination(pagination)}
-                                bordered
-                                size="middle"
-                                scroll={{ x: 900 }}
-                            />
-                        </Spin>
+                        children: (
+                          <Table
+                            columns={columns}
+                            dataSource={groupedData[prefix]}
+                            rowKey="device_id"
+                            pagination={{ 
+                              pageSize: pagination.pageSize, 
+                              current: pagination.current, 
+                              showSizeChanger: true 
+                            }}
+                            onChange={pagination => setPagination(pagination)}
+                            bordered
+                            size="middle"
+                            scroll={{ x: 900 }}
+                            loading={loading}
+                          />
                         )
                     }))}
-                 />
+                  />
+                </Spin>
               </div>
             </Tabs.TabPane>
 
