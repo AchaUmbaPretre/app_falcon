@@ -73,13 +73,23 @@ const VehiculeFalcon = () => {
               optionFilterProp="children"
               onChange={handleChangeVehicule}
               defaultValue={linkedVehicule?.id_vehicule || undefined}
-              filterOption={(input, option) =>
-                option.children.toLowerCase().includes(input.toLowerCase())
+              filterOption={(input, option) => {
+              if (option && option.children) {
+                    // Si option.children est un string
+                    if (typeof option.children === 'string') {
+                    return option.children.toLowerCase().includes(input.toLowerCase());
+                    }
+                    // Si option.children est un tableau ou un élément React
+                    // Essayez d'extraire le texte
+                    const childrenText = String(option.props?.children || option.children);
+                    return childrenText.toLowerCase().includes(input.toLowerCase());
               }
+              return false;
+              }}
             >
               {vehiculeAll.map((v) => (
                 <Option key={v.id_vehicule} value={v.id_vehicule}>
-                   {v.nom_vehicule}
+                   {v.nom_vehicule} - {v.matricule}
                 </Option>
               ))}
             </Select>
@@ -89,7 +99,7 @@ const VehiculeFalcon = () => {
         if (linkedVehicule) {
           return (
             <Tag color="green" icon={<CheckOutlined />}>
-              {linkedVehicule.nom_marque} - {linkedVehicule.immatriculation}
+              {linkedVehicule.nom_marque} - {linkedVehicule.matricule}
             </Tag>
           );
         }
