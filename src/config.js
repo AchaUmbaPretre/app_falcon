@@ -10,6 +10,8 @@ const TOKEN = currentUser?.accessToken;
 export default {
   REACT_APP_SERVER_DOMAIN : 'https://apifalcon.loginsmart-cd.com',
 
+  REACT_APP_FDLOG : 'https://dlog.loginsmart-cd.net',
+
   api_hash : '$2y$10$FbpbQMzKNaJVnv0H2RbAfel1NMjXRUoCy8pZUogiA/bvNNj1kdcY.'
 };
 
