@@ -7,7 +7,7 @@ const initialState = {
     error: null
 };
 
-export const usePermVehiculeData = () => {
+export const usePermissionData = () => {
     const [state, setState] = useState(initialState);
     
     const loadUsers = useCallback(async () => {

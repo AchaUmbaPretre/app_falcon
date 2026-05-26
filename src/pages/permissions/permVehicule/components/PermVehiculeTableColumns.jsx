@@ -1,13 +1,15 @@
 // PermVehiculeTableColumns.jsx
 import React from 'react';
-import { Text, Tag, Popover, Button, Space } from 'antd';
+import { Typography, Tag, Popover, Button, Space } from 'antd';
 import { 
   TeamOutlined, 
   PhoneOutlined, 
   MailOutlined, 
   FileDoneOutlined 
 } from '@ant-design/icons';
-import UserAvatarProfile from './UserAvatarProfile'; // Ajustez le chemin
+import UserAvatarProfile from '../../../../utils/UserAvatarProfile';
+
+const { Text } = Typography;
 
 export const getPermVehiculeTableColumns = ({ onViewUser, handleCopy, pagination }) => [
   {
@@ -77,7 +79,7 @@ export const getPermVehiculeTableColumns = ({ onViewUser, handleCopy, pagination
     width: '100px',
     render: (_text, record) => (
       <Space size="middle">
-        <Popover content="Donner les permissions à ce client" trigger="hover">
+        <Popover content={`Donner les permissions à ${record.nom_client}`} trigger="hover">
           <Button 
             icon={<FileDoneOutlined />} 
             onClick={() => onViewUser?.(record.id)}

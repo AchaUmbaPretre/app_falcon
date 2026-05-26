@@ -1,13 +1,14 @@
 import React, { useCallback } from 'react';
 import './permissions.css';
 import { useNavigate } from 'react-router-dom';
-import { usePermVehiculeData } from './hooks/usePermissionData';
 import { usePermVehiculeTab } from './hooks/usePermissionTab';
+import { usePermissionData } from './hooks/usePermissionData';
+
 import { PermissionTabs } from './components/PermissionTabs';
 
 const Permission = () => {
     const navigate = useNavigate();
-    const { users, loading, error, refetch } = usePermVehiculeData()
+    const { users, loading, error, refetch } = usePermissionData()
     const { activeKey, handleTabChange } = usePermVehiculeTab('1');
     
     const handleViewUser = useCallback((userId) => {

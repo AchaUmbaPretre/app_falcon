@@ -3,7 +3,7 @@ import { Table, Skeleton, Empty } from "antd";
 import { getPermVehiculeTableColumns } from "./PermVehiculeTableColumns";
 
 export const PermVehiculeTable = ({ 
-  users, 
+  clients, 
   loading, 
   onViewUser, 
   handleCopy,
@@ -25,9 +25,10 @@ export const PermVehiculeTable = ({
 
   return (
     <Table 
-      dataSource={users}
+      dataSource={clients}
       columns={columns}
       rowKey="id"
+      bordered
       pagination={{ 
         pageSize: 10,
         current: pagination?.current || 1,
