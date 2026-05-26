@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import './permissions.css';
-import { Table, Button, Space, Popover, Typography, Tag, Skeleton } from 'antd';
-import { EyeOutlined, UserOutlined, SolutionOutlined } from '@ant-design/icons';
+import { Table, Button, Space, Popover, Tabs, Typography, Tag, Skeleton } from 'antd';
+import { 
+  EyeOutlined, 
+  UserOutlined, 
+  SolutionOutlined, 
+  AppstoreOutlined, 
+  CarOutlined,
+  NumberOutlined,
+  SettingOutlined,
+  ExportOutlined
+} from '@ant-design/icons';
 import axios from 'axios';
 import config from '../../config';
 import { Link, useNavigate } from 'react-router-dom';
+import PermVehicule from './permVehicule/PermVehicule';
+
 const { Text } = Typography;
 
 const Permission = () => {
@@ -12,6 +23,11 @@ const Permission = () => {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    const [activeKey, setActiveKey] = useState("1");
+    
+    const handleTabChange = (key) => {
+        setActiveKey(key);
+    };
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -19,7 +35,7 @@ const Permission = () => {
                 const { data } = await axios.get(`${DOMAIN}/users`);
                 setUsers(data);
             } catch (error) {
-                console.error('Failed to fetch users:', error);
+                console.error('Erreur lors du chargement des utilisateurs:', error);
             } finally {
                 setLoading(false);
             }
@@ -33,14 +49,14 @@ const Permission = () => {
 
     const columns = [
         { 
-            title: <span>#</span>, 
+            title: <span><NumberOutlined /></span>, 
             dataIndex: 'id', 
             key: 'id', 
             render: (text, record, index) => index + 1, 
             width: "3%" 
         },
         {
-            title: <span><UserOutlined /> Utilisateur</span>,
+            title: <span><UserOutlined /> Permission d'options</span>,
             dataIndex: 'username',
             key: 'username',
             render: (text, record) => (
@@ -51,7 +67,7 @@ const Permission = () => {
             ),
         },
         {
-            title: <span><SolutionOutlined /> Rôle</span>,
+            title: <span><SettingOutlined /> Rôle</span>,
             dataIndex: 'role',
             key: 'role',
             render: (text) => (
@@ -69,7 +85,7 @@ const Permission = () => {
                 <Space size="middle">
                     <Popover title="Voir les permissions" trigger="hover">
                         <Link onClick={() => showDrawer(record.id)}>
-                            <Button icon={<EyeOutlined />} style={{ color: 'green' }} />
+                            <Button icon={<EyeOutlined />} style={{ color: '#52c41a' }} />
                         </Link>
                     </Popover>
                 </Space>
@@ -77,16 +93,52 @@ const Permission = () => {
         },
     ];
 
+    const tabItems = [
+        {
+            key: "1",
+            label: (
+                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <AppstoreOutlined style={{ color: "#faad14" }} />
+                    Gestion des permissions
+                </span>
+            ),
+            children: (
+                <div className="permission-page">
+                    <h1><ExportOutlined /> Gestion des permissions</h1>
+                    <div className="permission-wrapper">
+                        {loading ? (
+                            <Skeleton active />
+                        ) : (
+                            <Table 
+                                dataSource={users} 
+                                columns={columns} 
+                                rowKey="id" 
+                                pagination={{ pageSize: 10 }}
+                            />
+                        )}
+                    </div>
+                </div>
+            ),
+        },
+        {
+            key: "2",
+            label: (
+                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <CarOutlined style={{ color: "#1890ff" }} />
+                    Permission véhicule
+                </span>
+            ),
+            children: <PermVehicule />,
+        },
+    ];
+
     return (
-        <div className="permission-page">
-            <h1>Gestion des permissions</h1>
-            <div className="permission-wrapper">
-                {loading ? (
-                    <Skeleton active />
-                ) : (
-                    <Table dataSource={users} columns={columns} rowKey="id" />
-                )}
-            </div>
+        <div className="permission-container">
+            <Tabs 
+                activeKey={activeKey} 
+                onChange={handleTabChange} 
+                items={tabItems} 
+            />
         </div>
     );
 };
