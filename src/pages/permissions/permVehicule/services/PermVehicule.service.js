@@ -22,3 +22,8 @@ class PermVehiculeService {
         }
     }
 }
+
+const instance = new PermVehiculeService();
+Object.freeze(instance);
+
+export default instance;
