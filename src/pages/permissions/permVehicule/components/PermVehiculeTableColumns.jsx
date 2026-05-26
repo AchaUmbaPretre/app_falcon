@@ -59,21 +59,6 @@ export const getPermVehiculeTableColumns = ({ onViewUser, handleCopy, pagination
     )
   },
   {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-    render: (text, record) => (
-      <Popover content="Cliquez pour ouvrir Gmail" trigger="hover">
-        <Tag color="yellow">
-          <a href={`mailto:${text}`} target="_blank" rel="noopener noreferrer">
-            <MailOutlined style={{ marginRight: '5px' }} />
-            {text}
-          </a>
-        </Tag>
-      </Popover>
-    )
-  },
-  {
     title: 'Actions',
     key: 'action',
     width: '100px',

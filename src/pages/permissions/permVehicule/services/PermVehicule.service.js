@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from '../../../../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-const DOMAINDLOG = config.DOMAINDLOG;
+const DOMAINDLOG = config.REACT_APP_FDLOG;
 
 class PermVehiculeService {
     constructor() {
@@ -14,7 +14,7 @@ class PermVehiculeService {
 
     async fetchVehiculeDlog() {
         try {
-            const { data } = await axios.get(`${DOMAINDLOG}/charroi/vehicule`)
+            const { data } = await axios.get(`${DOMAINDLOG}/api/charroi/vehicule`)
             return data
         } catch (error) {
             console.error('❌ Failed to fetch users:', error);

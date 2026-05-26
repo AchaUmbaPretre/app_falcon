@@ -5,9 +5,9 @@ import { getPermVehiculeTableColumns } from "./PermVehiculeTableColumns";
 export const PermVehiculeTable = ({ 
   clients, 
   loading, 
-  onViewUser, 
-  handleCopy,
-  pagination,
+  onViewUser,
+  handleCopy = (text) => navigator.clipboard.writeText(text), // Valeur par défaut
+  pagination = { current: 1, pageSize: 10 },
   onChange 
 }) => {
   const columns = useMemo(

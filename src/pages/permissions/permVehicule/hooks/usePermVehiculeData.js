@@ -1,38 +1,75 @@
-import { useCallback, useState } from "react";
-import PermVehiculeService from '../services/PermVehicule.service'
-import { useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
+import PermVehiculeService from '../services/PermVehicule.service';
 
 const initialState = {
     clients: [],
+    vehicules: [],
     loading: true,
     error: null
 };
 
 export const usePermVehiculeData = () => {
-    const [state, setState] = useState({});
+    const [state, setState] = useState(initialState);
     
     const loadClients = useCallback(async () => {
         setState(prev => ({ ...prev, loading: true, error: null }));
         try {
             const clients = await PermVehiculeService.fetchClient();
-            setState({ clients, loading: false, error: null });
+            setState(prev => ({ ...prev, clients, loading: false, error: null }));
         } catch (error) {
-            setState({ 
+            setState(prev => ({ 
+                ...prev,
                 clients: [], 
                 loading: false, 
                 error: error.message || 'Erreur inconnue' 
-            });
+            }));
+        }
+    }, []);
+
+    const loadVehicules = useCallback(async () => {
+        setState(prev => ({ ...prev, loading: true, error: null }));
+        try {
+            const vehicules = await PermVehiculeService.fetchVehiculeDlog();
+            setState(prev => ({ ...prev, vehicules, loading: false, error: null }));
+        } catch (error) {
+            setState(prev => ({ 
+                ...prev,
+                vehicules: [], 
+                loading: false, 
+                error: error.message || 'Erreur inconnue' 
+            }));
         }
     }, []);
     
     useEffect(() => {
-        loadClients();
-    }, [loadClients]);
+        const loadData = async () => {
+            await Promise.all([loadClients(), loadVehicules()]);
+        };
+        loadData();
+    }, [loadClients, loadVehicules]);
 
     const refetch = useCallback(() => {
+        const loadData = async () => {
+            await Promise.all([loadClients(), loadVehicules()]);
+        };
+        loadData();
+    }, [loadClients, loadVehicules]);
+    
+    const refetchClients = useCallback(() => {
         loadClients();
     }, [loadClients]);
-    
-    return { ...state, refetch };
 
-}
+    const refetchVehicules = useCallback(() => {
+        loadVehicules();
+    }, [loadVehicules]);
+    
+    return { 
+        clients: state.clients,
+        vehicules: state.vehicules,
+        loading: state.loading, 
+        error: state.error,
+        refetch,
+        refetchClients,
+        refetchVehicules
+    };
+};
