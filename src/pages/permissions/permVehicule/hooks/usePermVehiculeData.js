@@ -1,3 +1,4 @@
+// hooks/usePermVehiculeData.js
 import { useCallback, useState, useEffect } from "react";
 import PermVehiculeService from '../services/PermVehicule.service';
 
@@ -16,6 +17,7 @@ export const usePermVehiculeData = () => {
         try {
             const clients = await PermVehiculeService.fetchClient();
             setState(prev => ({ ...prev, clients, loading: false, error: null }));
+            return clients;
         } catch (error) {
             setState(prev => ({ 
                 ...prev,
@@ -23,53 +25,49 @@ export const usePermVehiculeData = () => {
                 loading: false, 
                 error: error.message || 'Erreur inconnue' 
             }));
+            throw error;
         }
     }, []);
 
-    const loadVehicules = useCallback(async () => {
-        setState(prev => ({ ...prev, loading: true, error: null }));
+    const loadVehiculesByClient = useCallback(async (id_client) => {
+        
+        if (!id_client) {
+            console.warn('⚠️ Pas d\'ID client');
+            return [];
+        }
+        
         try {
-            const vehicules = await PermVehiculeService.fetchVehiculeDlog();
-            setState(prev => ({ ...prev, vehicules, loading: false, error: null }));
+            console.log('📡 Appel API pour le client:', id_client);
+            const response = await PermVehiculeService.fetchVehiculeById(id_client);
+            console.log('📦 Réponse brute de l\'API:', response);
+            
+            // Gère différents formats de réponse
+            const vehiculesData = response?.data || response || [];
+            console.log('✅ Véhicules extraits:', vehiculesData);
+            console.log('📊 Nombre de véhicules:', vehiculesData.length);
+            
+            return vehiculesData;
         } catch (error) {
-            setState(prev => ({ 
-                ...prev,
-                vehicules: [], 
-                loading: false, 
-                error: error.message || 'Erreur inconnue' 
-            }));
+            console.error('❌ Erreur chargement véhicules:', error);
+            return [];
         }
     }, []);
     
     useEffect(() => {
-        const loadData = async () => {
-            await Promise.all([loadClients(), loadVehicules()]);
-        };
-        loadData();
-    }, [loadClients, loadVehicules]);
-
-    const refetch = useCallback(() => {
-        const loadData = async () => {
-            await Promise.all([loadClients(), loadVehicules()]);
-        };
-        loadData();
-    }, [loadClients, loadVehicules]);
-    
-    const refetchClients = useCallback(() => {
         loadClients();
     }, [loadClients]);
 
-    const refetchVehicules = useCallback(() => {
-        loadVehicules();
-    }, [loadVehicules]);
+    const refetch = useCallback(() => {
+        loadClients();
+    }, [loadClients]);
     
     return { 
         clients: state.clients,
         vehicules: state.vehicules,
-        loading: state.loading, 
+        loading: state.loading,
+        loadingVehicules: state.loadingVehicules,
         error: state.error,
         refetch,
-        refetchClients,
-        refetchVehicules
+        loadVehiculesByClient
     };
 };

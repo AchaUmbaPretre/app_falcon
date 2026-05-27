@@ -5,23 +5,38 @@ import { PermVehiculeTable } from './components/PermVehiculeTable';
 import PermVehiculeForm from './permVehiculeForm/PermVehiculeForm';
 
 const PermVehicule = () => {
-    const { clients, vehicules, loading, error, refetch } = usePermVehiculeData();
+    const { clients, loading, error, refetch, loadVehiculesByClient } = usePermVehiculeData();
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
+    const [clientVehicules, setClientVehicules] = useState([]);
+    const [loadingVehicules, setLoadingVehicules] = useState(false);
 
-    const handleViewUser = (userId) => {
+    const handleViewUser = async (userId) => {
         const client = clients.find(c => c.id === userId);
+        if (!client) return;
+        
         setSelectedClient(client);
         setModalVisible(true);
+        setLoadingVehicules(true);
+
+        
+        try {
+            const vehicules = await loadVehiculesByClient(client.id_client);
+            setClientVehicules(vehicules);
+        } catch (error) {
+            console.error('Erreur:', error);
+        } finally {
+            setLoadingVehicules(false);
+        }
     };
 
     const handleCloseModal = () => {
         setModalVisible(false);
         setSelectedClient(null);
+        setClientVehicules([]);
     };
 
     const handleSuccess = () => {
-        // Rafraîchir les données après une mise à jour réussie
         refetch();
         handleCloseModal();
     };
@@ -45,19 +60,20 @@ const PermVehicule = () => {
             />
             
             <Modal
-                title=""
+                title={`Permissions - ${selectedClient?.nom_client || selectedClient?.email}`}
                 open={modalVisible}
                 onCancel={handleCloseModal}
                 footer={null}
-                width={900}
+                width={800}
                 destroyOnClose
             >
                 {selectedClient && (
                     <PermVehiculeForm
-                        vehicules={vehicules}
                         client={selectedClient}
+                        vehicules={clientVehicules}
                         onSuccess={handleSuccess}
                         onCancel={handleCloseModal}
+                        loading={loadingVehicules}
                     />
                 )}
             </Modal>

@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
-import { Table, Input, Space, Button, Card, message, Checkbox } from 'antd';
-import { SearchOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
+// permVehiculeForm/PermVehiculeForm.jsx
+import React, { useState, useEffect } from 'react';
+import { Table, Input, Space, Button, message, Checkbox, Spin, Modal } from 'antd';
+import { SearchOutlined, SaveOutlined, CloseOutlined, WarningOutlined } from '@ant-design/icons';
+import PermVehiculeService from '../services/PermVehicule.service';
 
-const PermVehiculeForm = ({ vehicules, client, onSuccess, onCancel }) => {
+const PermVehiculeForm = ({ client, vehicules = [], onSuccess, onCancel, loading: initialLoading = false }) => {
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [searchText, setSearchText] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
 
     const vehiculesData = vehicules?.data || vehicules || [];
+
+    useEffect(() => {
+        console.log('Véhicules reçus:', vehiculesData);
+    }, [vehiculesData]);
 
     const filteredVehicules = vehiculesData.filter(vehicule => {
         const searchLower = searchText.toLowerCase();
         return (
-            vehicule.immatriculation?.toLowerCase().includes(searchLower) ||
-            vehicule.nom_marque?.toLowerCase().includes(searchLower) ||
-            vehicule.modele?.toLowerCase().includes(searchLower)
+            vehicule.matricule?.toLowerCase().includes(searchLower) ||
+            vehicule.nom_vehicule?.toLowerCase().includes(searchLower) ||
+            vehicule.immatriculation?.toLowerCase().includes(searchLower)
         );
     });
 
@@ -22,7 +28,7 @@ const PermVehiculeForm = ({ vehicules, client, onSuccess, onCancel }) => {
         {
             title: () => (
                 <Checkbox
-                    checked={selectedRowKeys.length === filteredVehicules.length && filteredVehicules.length > 0}
+                    checked={filteredVehicules.length > 0 && selectedRowKeys.length === filteredVehicules.length}
                     indeterminate={selectedRowKeys.length > 0 && selectedRowKeys.length < filteredVehicules.length}
                     onChange={() => {
                         if (selectedRowKeys.length === filteredVehicules.length) {
@@ -33,12 +39,12 @@ const PermVehiculeForm = ({ vehicules, client, onSuccess, onCancel }) => {
                     }}
                 />
             ),
-            key: 'selection',
+            key: 'select',
             width: 48,
             render: (_, record) => (
                 <Checkbox
                     checked={selectedRowKeys.includes(record.id_vehicule)}
-                    onChange={(e) => {
+                    onChange={e => {
                         if (e.target.checked) {
                             setSelectedRowKeys([...selectedRowKeys, record.id_vehicule]);
                         } else {
@@ -49,34 +55,64 @@ const PermVehiculeForm = ({ vehicules, client, onSuccess, onCancel }) => {
             )
         },
         {
-            title: 'Immatriculation',
-            dataIndex: 'immatriculation',
-            key: 'immatriculation',
+            title: 'Matricule / Immatriculation',
+            dataIndex: 'matricule',
+            key: 'matricule',
             width: 180,
-            sorter: (a, b) => (a.immatriculation || '').localeCompare(b.immatriculation || '')
+            render: (text, record) => text || record.immatriculation || '-',
+            sorter: (a, b) => (a.matricule || a.immatriculation || '').localeCompare(b.matricule || b.immatriculation || '')
         },
         {
-            title: 'Marque',
-            dataIndex: 'nom_marque',
-            key: 'nom_marque',
-            width: 150,
-            sorter: (a, b) => (a.nom_marque || '').localeCompare(b.nom_marque || '')
-        },
-        {
-            title: 'Modèle',
-            dataIndex: 'modele',
-            key: 'modele',
-            width: 150,
-            sorter: (a, b) => (a.modele || '').localeCompare(b.modele || '')
-        },
-        {
-            title: 'Catégorie',
-            dataIndex: 'nom_cat',
-            key: 'nom_cat',
-            width: 120,
-            render: (text) => text || '-'
+            title: 'Nom du véhicule',
+            dataIndex: 'nom_vehicule',
+            key: 'nom_vehicule',
+            render: (text) => text || '-',
+            sorter: (a, b) => (a.nom_vehicule || '').localeCompare(b.nom_vehicule || '')
         }
     ];
+
+    // 🔥 Préparer les données pour l'API utilisateur (adapté aux tables existantes)
+    const preparePermissionsData = () => {
+        const selectedVehicules = vehiculesData.filter(v => selectedRowKeys.includes(v.id_vehicule));
+        
+        return {
+            // Données utilisateur (table utilisateur)
+            utilisateur: {
+                id_admin: client.id, // ID dans l'admin
+                nom: client.nom_client || client.nom,
+                prenom: client.nom_principal || client.prenom,
+                email: client.email,
+                role: 'Owner', // Rôle par défaut
+                matricule: client.matricule,
+                is_active: 1,
+                // Informations supplémentaires
+                id_societe: client.id_societe,
+                id_departement: client.id_departement,
+                id_ville: client.id_ville
+            },
+            // Véhicules sélectionnés avec leurs détails
+            vehicules: selectedVehicules.map(v => ({
+                id_admin: v.id_vehicule,
+                immatriculation: v.immatriculation || v.matricule,
+                numero_ordre: v.numero_ordre,
+                id_marque: v.id_marque,
+                id_modele: v.id_modele,
+                variante: v.variante,
+                annee_fabrication: v.annee_fabrication,
+                annee_circulation: v.annee_circulation,
+                id_cat_vehicule: v.id_cat_vehicule,
+                // Autres champs du véhicule
+                nom_marque: v.nom_marque,
+                modele: v.modele,
+                nom_cat: v.nom_cat
+            })),
+            // Métadonnées
+            meta: {
+                date_attribution: new Date().toISOString(),
+                source: 'admin_app'
+            }
+        };
+    };
 
     const handleSave = async () => {
         if (selectedRowKeys.length === 0) {
@@ -84,87 +120,105 @@ const PermVehiculeForm = ({ vehicules, client, onSuccess, onCancel }) => {
             return;
         }
 
-        setLoading(true);
-        try {
-            // Appel API ici
-            console.log('Client:', client?.id, 'Véhicules:', selectedRowKeys);
-            message.success(`${selectedRowKeys.length} véhicule(s) autorisé(s)`);
-            onSuccess?.(selectedRowKeys);
-        } catch (error) {
-            message.error('Erreur lors de l\'enregistrement');
-        } finally {
-            setLoading(false);
-        }
+        Modal.confirm({
+            title: 'Confirmation des permissions',
+            icon: <WarningOutlined />,
+            content: (
+                <div>
+                    <p>Vous allez autoriser <strong>{selectedRowKeys.length} véhicule(s)</strong> pour :</p>
+                    <p><strong>{client?.nom_client || client?.email}</strong></p>
+                    <p>Ces données seront synchronisées avec l'application utilisateur.</p>
+                </div>
+            ),
+            okText: 'Confirmer',
+            cancelText: 'Annuler',
+            onOk: async () => {
+                setSaving(true);
+                try {
+                    const permissionsData = preparePermissionsData();
+                    console.log('📦 Envoi des données:', permissionsData);
+                    
+                    const result = await PermVehiculeService.syncPermissionsToUserApp(permissionsData);
+                    
+                    message.success(`${selectedRowKeys.length} véhicule(s) autorisé(s) avec succès`);
+                    onSuccess?.({
+                        client: client,
+                        vehicules_autorises: selectedRowKeys,
+                        result: result
+                    });
+                } catch (error) {
+                    console.error('❌ Erreur:', error);
+                    message.error(error.message || 'Erreur lors de la synchronisation');
+                } finally {
+                    setSaving(false);
+                }
+            }
+        });
     };
 
+    if (initialLoading) {
+        return (
+            <div style={{ textAlign: 'center', padding: 50 }}>
+                <Spin tip="Chargement des véhicules..." />
+            </div>
+        );
+    }
+
     return (
-        <div style={{ padding: '16px 0' }}>
+        <div>
             {/* Header */}
             <div style={{ 
+                marginBottom: 16, 
                 display: 'flex', 
                 justifyContent: 'space-between', 
                 alignItems: 'center',
-                marginBottom: 16,
-                paddingBottom: 12,
-                borderBottom: '1px solid #e8e8e8'
+                padding: 12,
+                background: '#f5f5f5',
+                borderRadius: 8
             }}>
                 <div>
-                    <span style={{ fontWeight: 500, color: '#333' }}>Client :</span>
-                    <span style={{ marginLeft: 8, color: '#666' }}>
-                        {client?.nom_client || client?.email || 'Non spécifié'}
-                    </span>
+                    <strong>👤 Client:</strong> {client?.nom_client || client?.email}
+                    {client?.email && <span style={{ marginLeft: 16 }}><strong>📧 Email:</strong> {client.email}</span>}
                 </div>
                 <div>
-                    <span style={{ fontWeight: 500, color: '#333' }}>Sélection :</span>
-                    <span style={{ marginLeft: 8, color: '#1890ff', fontWeight: 500 }}>
-                        {selectedRowKeys.length}
-                    </span>
+                    <strong>✅ Sélectionnés:</strong> <span style={{ color: '#1890ff', fontWeight: 'bold' }}>{selectedRowKeys.length}</span>
                 </div>
             </div>
 
-            {/* Toolbar */}
-            <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center',
-                marginBottom: 16
-            }}>
-                <Input
-                    placeholder="Rechercher..."
-                    prefix={<SearchOutlined style={{ color: '#999' }} />}
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    style={{ width: 260 }}
+            {/* Barre de recherche */}
+            <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+                <Input.Search 
+                    placeholder="Rechercher par matricule ou nom..."
+                    value={searchText} 
+                    onChange={e => setSearchText(e.target.value)} 
+                    style={{ width: 280 }}
                     allowClear
                 />
-                <Space size={8}>
-                    <Button onClick={onCancel} icon={<CloseOutlined />}>
-                        Annuler
-                    </Button>
+                <Space>
+                    <Button onClick={onCancel}>Annuler</Button>
                     <Button 
                         type="primary" 
-                        onClick={handleSave}
-                        loading={loading}
+                        onClick={handleSave} 
+                        loading={saving}
                         icon={<SaveOutlined />}
                     >
-                        Enregistrer
+                        Enregistrer les permissions
                     </Button>
                 </Space>
             </div>
 
-            {/* Table */}
+            {/* Tableau */}
             <Table
-                columns={columns}
                 dataSource={filteredVehicules}
+                columns={columns}
                 rowKey="id_vehicule"
-                size="middle"
-                bordered={false}
-                pagination={{
-                    pageSize: 10,
-                    showSizeChanger: true,
-                    showTotal: (total) => `${total} véhicules`,
-                    pageSizeOptions: ['10', '20', '50']
+                pagination={{ 
+                    pageSize: 10, 
+                    showTotal: total => `${total} véhicules`,
+                    showSizeChanger: true
                 }}
+                size="middle"
+                bordered
                 rowClassName={(record) => 
                     selectedRowKeys.includes(record.id_vehicule) ? 'ant-table-row-selected-custom' : ''
                 }
@@ -172,10 +226,7 @@ const PermVehiculeForm = ({ vehicules, client, onSuccess, onCancel }) => {
 
             <style>{`
                 .ant-table-row-selected-custom {
-                    background-color: #fafafa;
-                }
-                .ant-table-row-selected-custom:hover td {
-                    background-color: #f5f5f5 !important;
+                    background-color: #e6f7ff;
                 }
             `}</style>
         </div>
