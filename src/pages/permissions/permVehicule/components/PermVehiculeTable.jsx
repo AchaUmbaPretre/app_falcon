@@ -6,7 +6,7 @@ export const PermVehiculeTable = ({
   clients, 
   loading, 
   onViewUser,
-  handleCopy = (text) => navigator.clipboard.writeText(text), // Valeur par défaut
+  handleCopy = (text) => navigator.clipboard.writeText(text),
   pagination = { current: 1, pageSize: 10 },
   onChange 
 }) => {
