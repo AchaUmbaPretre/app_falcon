@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Switch, message, Tag, Input, Typography } from 'antd';
-import { EyeOutlined, EditOutlined, PlusCircleOutlined, UnlockOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Switch, message, Typography } from 'antd';
+import { EyeOutlined, EditOutlined, PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getMenus, getMenusOne } from '../../../../services/menus.service';
 import { putPermission } from '../../../../services/permission.service';
 

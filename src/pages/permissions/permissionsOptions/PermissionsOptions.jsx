@@ -2,23 +2,19 @@ import React, { useEffect, useState } from 'react';
 import {
   Table,
   Button,
-  Input,
   notification,
   Space,
   Tooltip,
   Tag,
   Modal,
-  Tabs,
   Empty 
 } from 'antd';
 import {
   SolutionOutlined,
   UserOutlined,
-  EyeOutlined,
   UnlockOutlined,
   KeyOutlined,
-  SafetyOutlined,
-  ProfileOutlined
+  SafetyOutlined
 } from '@ant-design/icons';
 import { getUsers } from '../../../services/user.service';
 import PermissionOptionsForm from './permissionOptionsForm/PermissionOptionsForm';

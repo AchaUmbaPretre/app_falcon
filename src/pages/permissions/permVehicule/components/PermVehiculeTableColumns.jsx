@@ -4,7 +4,6 @@ import { Typography, Tag, Popover, Button, Space } from 'antd';
 import { 
   TeamOutlined, 
   PhoneOutlined, 
-  MailOutlined, 
   FileDoneOutlined 
 } from '@ant-design/icons';
 import UserAvatarProfile from '../../../../utils/UserAvatarProfile';
