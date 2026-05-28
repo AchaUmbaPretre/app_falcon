@@ -12,7 +12,7 @@ const PermVehicule = () => {
     const [loadingVehicules, setLoadingVehicules] = useState(false);
 
     const handleViewUser = async (userId) => {
-        const client = clients.find(c => c.id === userId);
+        const client = clients.find(c => c.id_client === userId);
         if (!client) return;
         
         setSelectedClient(client);

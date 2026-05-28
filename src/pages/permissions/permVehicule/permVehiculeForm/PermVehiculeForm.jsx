@@ -177,11 +177,11 @@ const PermVehiculeForm = ({ client, vehicules = [], onSuccess, onCancel, loading
                 borderRadius: 8
             }}>
                 <div>
-                    <strong>👤 Client:</strong> {client?.nom_client || client?.email}
-                    {client?.email && <span style={{ marginLeft: 16 }}><strong>📧 Email:</strong> {client.email}</span>}
+                    <strong>Client:</strong> {client?.nom_client || client?.email}
+                    {client?.email && <span style={{ marginLeft: 16 }}><strong>Email:</strong> {client.email}</span>}
                 </div>
                 <div>
-                    <strong>✅ Sélectionnés:</strong> <span style={{ color: '#1890ff', fontWeight: 'bold' }}>{selectedRowKeys.length}</span>
+                    <strong>Sélectionnés:</strong> <span style={{ color: '#1890ff', fontWeight: 'bold' }}>{selectedRowKeys.length}</span>
                 </div>
             </div>
 

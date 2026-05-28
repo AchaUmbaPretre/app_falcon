@@ -27,7 +27,7 @@ export const PermVehiculeTable = ({
     <Table 
       dataSource={clients}
       columns={columns}
-      rowKey="id"
+      rowKey="id_client"
       bordered
       pagination={{ 
         pageSize: 10,

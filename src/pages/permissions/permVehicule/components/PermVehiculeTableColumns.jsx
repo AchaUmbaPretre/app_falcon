@@ -67,7 +67,7 @@ export const getPermVehiculeTableColumns = ({ onViewUser, handleCopy, pagination
         <Popover content={`Donner les permissions à ${record.nom_client}`} trigger="hover">
           <Button 
             icon={<FileDoneOutlined />} 
-            onClick={() => onViewUser?.(record.id)}
+            onClick={() => onViewUser?.(record.id_client)}
             style={{ color: '#52c41a' }}
             type="text"
           />
