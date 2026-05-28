@@ -112,24 +112,7 @@ const PermissionsOptions = () => {
             </Tooltip>
           </Space>
         ),
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        width: '10%',
-        render: (_, record) => (
-          <Space size="middle">
-            <Tooltip title="Voir les détails">
-              <Button
-                icon={<EyeOutlined />}
-                style={{ color: '#1890ff' }}
-                onClick={() => handleEdit(record.id_utilisateur || record.id)}
-                aria-label="voir"
-              />
-            </Tooltip>
-          </Space>
-        ),
-      },
+      }
     ];
 
     return (
@@ -173,7 +156,7 @@ const PermissionsOptions = () => {
               Enregistrer
             </Button>,
           ]}
-          width={600}
+          width={900}
         >
           <PermissionOptionsForm/>
         </Modal>
