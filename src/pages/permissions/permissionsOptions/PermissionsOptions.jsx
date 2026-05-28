@@ -21,6 +21,7 @@ import {
   ProfileOutlined
 } from '@ant-design/icons';
 import { getUsers } from '../../../services/user.service';
+import PermissionOptionsForm from './permissionOptionsForm/PermissionOptionsForm';
 
 const PermissionsOptions = () => {
     const [loading, setLoading] = useState(true);
@@ -174,10 +175,10 @@ const PermissionsOptions = () => {
           ]}
           width={600}
         >
-          
+          <PermissionOptionsForm/>
         </Modal>
       </>
-    );
+    ); 
 };
 
 export default PermissionsOptions;
