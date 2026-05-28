@@ -17,9 +17,7 @@ export const getPermVehiculeTableColumns = ({ onViewUser, handleCopy, pagination
     dataIndex: 'id',
     key: 'id',
     render: (text, record, index) => {
-      const pageSize = pagination?.pageSize || 10;
-      const pageIndex = pagination?.current || 1;
-      return (pageIndex - 1) * pageSize + index + 1;
+      return index + 1;
     },
     width: "3%"
   },

@@ -7,16 +7,18 @@ export const PermVehiculeTable = ({
   loading, 
   onViewUser,
   handleCopy = (text) => navigator.clipboard.writeText(text),
-  pagination = { current: 1, pageSize: 10 },
-  onChange 
+  currentPage = 1,
+  pageSize = 10,
+  total = 0,
+  onPageChange,
+  onShowSizeChange
 }) => {
   const columns = useMemo(
     () => getPermVehiculeTableColumns({ 
       onViewUser, 
-      handleCopy, 
-      pagination 
+      handleCopy
     }),
-    [onViewUser, handleCopy, pagination]
+    [onViewUser, handleCopy]
   );
 
   if (loading) {
@@ -29,13 +31,6 @@ export const PermVehiculeTable = ({
       columns={columns}
       rowKey="id_client"
       bordered
-      pagination={{ 
-        pageSize: 10,
-        current: pagination?.current || 1,
-        showSizeChanger: true,
-        showTotal: (total) => `Total ${total} utilisateurs`,
-        onChange: onChange
-      }}
       locale={{ emptyText: <Empty description="Aucun utilisateur trouvé" /> }}
     />
   );
