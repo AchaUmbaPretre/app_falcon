@@ -1,7 +1,7 @@
 // permVehiculeForm/PermVehiculeForm.jsx
 import React, { useState, useEffect } from 'react';
 import { Table, Input, Space, Button, message, Checkbox, Spin, Modal } from 'antd';
-import { SearchOutlined, SaveOutlined, CloseOutlined, WarningOutlined } from '@ant-design/icons';
+import { SaveOutlined, WarningOutlined } from '@ant-design/icons';
 import PermVehiculeService from '../services/PermVehicule.service';
 
 const PermVehiculeForm = ({ client, vehicules = [], onSuccess, onCancel, loading: initialLoading = false }) => {
@@ -10,7 +10,6 @@ const PermVehiculeForm = ({ client, vehicules = [], onSuccess, onCancel, loading
     const [saving, setSaving] = useState(false);
 
     const vehiculesData = vehicules?.data || vehicules || [];
-
     useEffect(() => {
         console.log('Véhicules reçus:', vehiculesData);
     }, [vehiculesData]);
@@ -74,7 +73,7 @@ const PermVehiculeForm = ({ client, vehicules = [], onSuccess, onCancel, loading
 
     const preparePermissionsData = () => {
         const selectedVehicules = vehiculesData.filter(v => selectedRowKeys.includes(v.id_vehicule));
-        
+        console.log('res', selectedVehicules)
         return {
             utilisateur: {
                 id_admin: client.id,
