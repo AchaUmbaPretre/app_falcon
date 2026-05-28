@@ -31,6 +31,8 @@ const PermissionsOptions = () => {
       setIsModalVisible(true);
     };
 
+    console.log(idUser)
+
     const handleModalClose = () => {
       setIsModalVisible(false);
       setIdUser('');
@@ -100,7 +102,7 @@ const PermissionsOptions = () => {
               <Button
                 type="primary"
                 icon={<KeyOutlined />}
-                onClick={() => handleEdit(record.id_utilisateur || record.id)}
+                onClick={() => handleEdit(record.id_utilisateur)}
                 size="small"
               >
                 Permissions
@@ -154,7 +156,7 @@ const PermissionsOptions = () => {
           ]}
           width={900}
         >
-          <PermissionOptionsForm/>
+          <PermissionOptionsForm userId={idUser} />
         </Modal>
       </>
     ); 

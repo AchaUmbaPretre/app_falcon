@@ -71,26 +71,19 @@ const PermVehiculeForm = ({ client, vehicules = [], onSuccess, onCancel, loading
         }
     ];
 
-    // 🔥 Préparer les données pour l'API utilisateur (adapté aux tables existantes)
+
     const preparePermissionsData = () => {
         const selectedVehicules = vehiculesData.filter(v => selectedRowKeys.includes(v.id_vehicule));
         
         return {
-            // Données utilisateur (table utilisateur)
             utilisateur: {
-                id_admin: client.id, // ID dans l'admin
+                id_admin: client.id,
                 nom: client.nom_client || client.nom,
                 prenom: client.nom_principal || client.prenom,
                 email: client.email,
-                role: 'Owner', // Rôle par défaut
-                matricule: client.matricule,
-                is_active: 1,
-                // Informations supplémentaires
-                id_societe: client.id_societe,
-                id_departement: client.id_departement,
-                id_ville: client.id_ville
+                role: 'Admin',
+                is_active: 1
             },
-            // Véhicules sélectionnés avec leurs détails
             vehicules: selectedVehicules.map(v => ({
                 id_admin: v.id_vehicule,
                 immatriculation: v.immatriculation || v.matricule,
@@ -101,12 +94,10 @@ const PermVehiculeForm = ({ client, vehicules = [], onSuccess, onCancel, loading
                 annee_fabrication: v.annee_fabrication,
                 annee_circulation: v.annee_circulation,
                 id_cat_vehicule: v.id_cat_vehicule,
-                // Autres champs du véhicule
                 nom_marque: v.nom_marque,
                 modele: v.modele,
                 nom_cat: v.nom_cat
             })),
-            // Métadonnées
             meta: {
                 date_attribution: new Date().toISOString(),
                 source: 'admin_app'
