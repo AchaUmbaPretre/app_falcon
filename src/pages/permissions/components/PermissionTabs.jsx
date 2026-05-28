@@ -53,7 +53,7 @@ export const PermissionTabs = ({
             label: (
                 <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <SettingOutlined style={{ color: "#52c41a" }} />
-                    Permissions options
+                    Permissions menus
                 </span>
             ),
             children: <PermissionsOptions />,
