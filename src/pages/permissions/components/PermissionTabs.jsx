@@ -1,8 +1,13 @@
 import React from 'react';
 import { Tabs } from 'antd';
-import { AppstoreOutlined, CarOutlined } from '@ant-design/icons';
+import { 
+    CarOutlined, 
+    SettingOutlined,
+    SafetyOutlined
+} from '@ant-design/icons';
 import { UserTable } from './UserTable';
 import PermVehicule from '../permVehicule/PermVehicule';
+import PermissionsOptions from '../permissionsOptions/PermissionsOptions';
 
 export const PermissionTabs = ({
     activeKey,
@@ -16,7 +21,7 @@ export const PermissionTabs = ({
             key: "1",
             label: (
                 <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <AppstoreOutlined style={{ color: "#faad14" }} />
+                    <SafetyOutlined style={{ color: "#faad14" }} />
                     Permissions
                 </span>
             ),
@@ -42,6 +47,16 @@ export const PermissionTabs = ({
                 </span>
             ),
             children: <PermVehicule />,
+        },
+        {
+            key: "3",
+            label: (
+                <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <SettingOutlined style={{ color: "#52c41a" }} />
+                    Permissions options
+                </span>
+            ),
+            children: <PermissionsOptions />,
         },
     ];
     
