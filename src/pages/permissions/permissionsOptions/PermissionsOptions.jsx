@@ -174,12 +174,7 @@ const PermissionsOptions = () => {
           ]}
           width={600}
         >
-          <div style={{ padding: '20px 0' }}>
-            <p>
-              <ProfileOutlined /> Gestion des permissions pour l'utilisateur ID: {idUser}
-            </p>
-            {/* Ajoutez ici le contenu de gestion des permissions */}
-          </div>
+          
         </Modal>
       </>
     );
